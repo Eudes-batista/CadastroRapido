@@ -1,0 +1,1049 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007f09764c59a8, pid=2648, tid=0x00007f0926aa4700
+#
+# JRE version: Java(TM) SE Runtime Environment (8.0_171-b11) (build 1.8.0_171-b11)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.171-b11 mixed mode linux-amd64 compressed oops)
+# Problematic frame:
+# V  [libjvm.so+0x6d79a8]  jni_invoke_nonstatic(JNIEnv_*, JavaValue*, _jobject*, JNICallType, _jmethodID*, JNI_ArgumentPusher*, Thread*)+0x38
+#
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00007f0970292800):  JavaThread "JavaFX Application Thread" [_thread_in_vm, id=2666, stack(0x00007f09269a4000,0x00007f0926aa5000)]
+
+siginfo: si_signo: 11 (SIGSEGV), si_code: 128 (SI_KERNEL), si_addr: 0x0000000000000000
+
+Registers:
+RAX=0x00007f0926aa1160, RBX=0x00007f0926aa1070, RCX=0x0000000000000001, RDX=0x75732f6d6f634c28
+RSP=0x00007f0926aa0ec0, RBP=0x00007f0926aa1040, RSI=0x00007f0926aa10d0, RDI=0x00007f09702929f8
+R8 =0x00007f097025cdd8, R9 =0x00007f0926aa1070, R10=0x00007f0918008838, R11=0x00007f0961595b00
+R12=0x00007f0970292800, R13=0x00007f097025cdd8, R14=0x0000000000000001, R15=0x00007f09702929f8
+RIP=0x00007f09764c59a8, EFLAGS=0x0000000000010206, CSGSFS=0x002b000000000033, ERR=0x0000000000000000
+  TRAPNO=0x000000000000000d
+
+Top of Stack: (sp=0x00007f0926aa0ec0)
+0x00007f0926aa0ec0:   00007f0926aa1570 00007f0926aa11e0
+0x00007f0926aa0ed0:   00007f0926aa0f20 00007f0926aa0fa0
+0x00007f0926aa0ee0:   00007f0926aa1070 00007f0926aa10d0
+0x00007f0926aa0ef0:   00007f09702929f8 00007f09764e54b0
+0x00007f0926aa0f00:   00007f0938000a30 00007f0938000a40
+0x00007f0926aa0f10:   00007f0938000e18 00000000000003d8
+0x00007f0926aa0f20:   00007f0970291ed8 00000000ec34ed60
+0x00007f0926aa0f30:   00007f090000006f 00007f090000000a
+0x00007f0926aa0f40:   00000000ecce1848 00007f0900000000
+0x00007f0926aa0f50:   00007f091821dcf0 00007f0900000003
+0x00007f0926aa0f60:   00007f095ed17c30 0000000100000100
+0x00007f0926aa0f70:   00007f095ed9f748 00007f0926aa0f28
+0x00007f0926aa0f80:   00007f0926aa0f69 0000000800000005
+0x00007f0926aa0f90:   00007f095edbe300 00007f0970291ee0
+0x00007f0926aa0fa0:   00007f0976d597b0 00007f097786b7a0
+0x00007f0926aa0fb0:   0000000070291d70 00007f0970292800
+0x00007f0926aa0fc0:   0000000000000000 00007f09764c5d7b
+0x00007f0926aa0fd0:   00007f095ed21d78 00007f0970292800
+0x00007f0926aa0fe0:   00007f095ed21d78 00007f0970292800
+0x00007f0926aa0ff0:   00007f0926aa1180 00007f095ed21d78
+0x00007f0926aa1000:   00007f095ed21d78 00007f095ed21d78
+0x00007f0926aa1010:   00007f0938000a30 00007f0926aa1070
+0x00007f0926aa1020:   00007f0970292800 00007f0926aa10b0
+0x00007f0926aa1030:   00007f097025cdd8 00007f09702929f8
+0x00007f0926aa1040:   00007f0926aa1130 00007f09764ca14f
+0x00007f0926aa1050:   00007f0970292800 0000000000000069
+0x00007f0926aa1060:   00007f0926aa1148 75732f6d6f634c28
+0x00007f0926aa1070:   00007f0976d5a430 00007f097786b7a0
+0x00007f0926aa1080:   0000000000000000 00007f0900000063
+0x00007f0926aa1090:   0000000000000000 0000003000000018
+0x00007f0926aa10a0:   00007f0926aa1220 00007f0926aa1160
+0x00007f0926aa10b0:   00007f0970292800 0000000000000000 
+
+Instructions: (pc=0x00007f09764c59a8)
+0x00007f09764c5988:   00 00 48 85 d2 48 89 bd b0 fe ff ff 48 89 b5 a8
+0x00007f09764c5998:   fe ff ff 4c 89 8d a0 fe ff ff 0f 84 78 09 00 00
+0x00007f09764c59a8:   4c 8b 22 4d 85 e4 0f 84 6c 09 00 00 48 8b 45 10
+0x00007f09764c59b8:   48 8b 98 38 01 00 00 48 83 7b 18 f7 0f 87 16 07 
+
+Register to memory mapping:
+
+RAX=0x00007f0926aa1160 is pointing into the stack for thread: 0x00007f0970292800
+RBX=0x00007f0926aa1070 is pointing into the stack for thread: 0x00007f0970292800
+RCX=0x0000000000000001 is an unknown value
+RDX=0x75732f6d6f634c28 is an unknown value
+RSP=0x00007f0926aa0ec0 is pointing into the stack for thread: 0x00007f0970292800
+RBP=0x00007f0926aa1040 is pointing into the stack for thread: 0x00007f0970292800
+RSI=0x00007f0926aa10d0 is pointing into the stack for thread: 0x00007f0970292800
+RDI=0x00007f09702929f8 is an unknown value
+R8 =0x00007f097025cdd8 is an unknown value
+R9 =0x00007f0926aa1070 is pointing into the stack for thread: 0x00007f0970292800
+R10=0x00007f0918008838 is an unknown value
+R11=0x00007f0961595b00 is at entry_point+32 in (nmethod*)0x00007f0961595990
+R12=0x00007f0970292800 is a thread
+R13=0x00007f097025cdd8 is an unknown value
+R14=0x0000000000000001 is an unknown value
+R15=0x00007f09702929f8 is an unknown value
+
+
+Stack: [0x00007f09269a4000,0x00007f0926aa5000],  sp=0x00007f0926aa0ec0,  free space=1011k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [libjvm.so+0x6d79a8]  jni_invoke_nonstatic(JNIEnv_*, JavaValue*, _jobject*, JNICallType, _jmethodID*, JNI_ArgumentPusher*, Thread*)+0x38
+V  [libjvm.so+0x6dc14f]  jni_CallVoidMethodV+0x10f
+C  [libglass.so+0x18641]  JNIEnv_::CallVoidMethod(_jobject*, _jmethodID*, ...)+0x81
+C  [libglass.so+0x14f0f]  WindowContextBase::process_key(_GdkEventKey*)+0x20f
+C  [libglass.so+0x19f60]  WindowContextBase::im_filter_keypress(_GdkEventKey*)+0x1c0
+C  [libglass.so+0x1a91c]  process_events(_GdkEvent*, void*)+0x22c
+C  [libgdk-x11-2.0.so.0+0x58fec]
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+j  com.sun.glass.ui.gtk.GtkApplication.enterNestedEventLoopImpl()V+0
+j  com.sun.glass.ui.gtk.GtkApplication._enterNestedEventLoop()Ljava/lang/Object;+15
+j  com.sun.glass.ui.Application.enterNestedEventLoop()Ljava/lang/Object;+14
+j  com.sun.glass.ui.EventLoop.enter()Ljava/lang/Object;+42
+j  com.sun.javafx.tk.quantum.QuantumToolkit.enterNestedEventLoop(Ljava/lang/Object;)Ljava/lang/Object;+107
+j  javafx.stage.Stage.showAndWait()V+93
+j  controle.FrmAlteracaoPrecoController.abrirPesquisa()V+78
+j  controle.FrmAlteracaoPrecoController.lambda$initialize$1(Ljavafx/scene/input/KeyEvent;)V+31
+j  controle.FrmAlteracaoPrecoController$$Lambda$226.handle(Ljavafx/event/Event;)V+8
+J 2101 C1 com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(Ljavafx/event/Event;)V (57 bytes) @ 0x00007f0961625b04 [0x00007f0961625740+0x3c4]
+J 2737 C1 com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(Ljavafx/event/Event;)Ljavafx/event/Event; (23 bytes) @ 0x00007f0961815fa4 [0x00007f0961815900+0x6a4]
+J 1766 C1 com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(Ljavafx/event/Event;)Ljavafx/event/Event; (35 bytes) @ 0x00007f0961518e5c [0x00007f0961518ca0+0x1bc]
+J 1284 C1 com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(Ljavafx/event/Event;Ljavafx/event/EventDispatchChain;)Ljavafx/event/Event; (44 bytes) @ 0x00007f0961434ffc [0x00007f0961434cc0+0x33c]
+J 1201 C1 com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(Ljavafx/event/Event;)Ljavafx/event/Event; (101 bytes) @ 0x00007f0961412f04 [0x00007f0961412d60+0x1a4]
+J 1284 C1 com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(Ljavafx/event/Event;Ljavafx/event/EventDispatchChain;)Ljavafx/event/Event; (44 bytes) @ 0x00007f0961434f14 [0x00007f0961434cc0+0x254]
+J 1201 C1 com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(Ljavafx/event/Event;)Ljavafx/event/Event; (101 bytes) @ 0x00007f0961412f04 [0x00007f0961412d60+0x1a4]
+J 1284 C1 com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(Ljavafx/event/Event;Ljavafx/event/EventDispatchChain;)Ljavafx/event/Event; (44 bytes) @ 0x00007f0961434f14 [0x00007f0961434cc0+0x254]
+J 1201 C1 com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(Ljavafx/event/Event;)Ljavafx/event/Event; (101 bytes) @ 0x00007f0961412f04 [0x00007f0961412d60+0x1a4]
+J 1284 C1 com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(Ljavafx/event/Event;Ljavafx/event/EventDispatchChain;)Ljavafx/event/Event; (44 bytes) @ 0x00007f0961434f14 [0x00007f0961434cc0+0x254]
+J 1201 C1 com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(Ljavafx/event/Event;)Ljavafx/event/Event; (101 bytes) @ 0x00007f0961412f04 [0x00007f0961412d60+0x1a4]
+J 2749 C1 com.sun.javafx.event.EventUtil.fireEvent(Ljavafx/event/EventTarget;Ljavafx/event/Event;)Ljavafx/event/Event; (81 bytes) @ 0x00007f096181f8a4 [0x00007f096181f180+0x724]
+J 2019 C1 javafx.event.Event.fireEvent(Ljavafx/event/EventTarget;Ljavafx/event/Event;)V (35 bytes) @ 0x00007f09615e2f2c [0x00007f09615e2e60+0xcc]
+j  javafx.scene.Scene$KeyHandler.process(Ljavafx/scene/input/KeyEvent;)V+23
+j  javafx.scene.Scene$KeyHandler.access$1800(Ljavafx/scene/Scene$KeyHandler;Ljavafx/scene/input/KeyEvent;)V+2
+j  javafx.scene.Scene.impl_processKeyEvent(Ljavafx/scene/input/KeyEvent;)V+28
+j  javafx.scene.Scene$ScenePeerListener.keyEvent(Ljavafx/scene/input/KeyEvent;)V+5
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$KeyEventNotification.run()Ljava/lang/Void;+357
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$KeyEventNotification.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J 1391  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object; (0 bytes) @ 0x00007f0961457763 [0x00007f0961457700+0x63]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleKeyEvent$352()Ljava/lang/Void;+11
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler$$Lambda$214.get()Ljava/lang/Object;+4
+J 2125 C1 com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(Ljava/util/function/Supplier;)Ljava/lang/Object; (49 bytes) @ 0x00007f0961631eac [0x00007f0961631980+0x52c]
+j  com.sun.javafx.tk.quantum.GlassViewEventHandler.handleKeyEvent(Lcom/sun/glass/ui/View;JII[CI)V+58
+j  com.sun.glass.ui.View.handleKeyEvent(JII[CI)V+20
+j  com.sun.glass.ui.View.notifyKey(II[CI)V+9
+v  ~StubRoutines::call_stub
+j  com.sun.glass.ui.gtk.GtkApplication._runLoop(Ljava/lang/Runnable;Z)V+0
+j  com.sun.glass.ui.gtk.GtkApplication.lambda$null$48(Ljava/lang/Runnable;Z)V+7
+j  com.sun.glass.ui.gtk.GtkApplication$$Lambda$41.run()V+12
+j  java.lang.Thread.run()V+11
+v  ~StubRoutines::call_stub
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x00007f09182f3800 JavaThread "Prism Font Disposer" daemon [_thread_blocked, id=2668, stack(0x00007f0925000000,0x00007f0925101000)]
+  0x00007f0970296000 JavaThread "JavaFX-Launcher" [_thread_blocked, id=2667, stack(0x00007f0926893000,0x00007f0926994000)]
+=>0x00007f0970292800 JavaThread "JavaFX Application Thread" [_thread_in_vm, id=2666, stack(0x00007f09269a4000,0x00007f0926aa5000)]
+  0x00007f097028e000 JavaThread "Thread-1" daemon [_thread_blocked, id=2665, stack(0x00007f0926aa5000,0x00007f0926ba6000)]
+  0x00007f097024b800 JavaThread "QuantumRenderer-0" daemon [_thread_blocked, id=2664, stack(0x00007f095d316000,0x00007f095d417000)]
+  0x00007f0970142000 JavaThread "Service Thread" daemon [_thread_blocked, id=2662, stack(0x00007f095d5ad000,0x00007f095d6ae000)]
+  0x00007f097013f000 JavaThread "C1 CompilerThread1" daemon [_thread_blocked, id=2660, stack(0x00007f095d6ae000,0x00007f095d7af000)]
+  0x00007f097013c000 JavaThread "C2 CompilerThread0" daemon [_thread_blocked, id=2659, stack(0x00007f095d7af000,0x00007f095d8b0000)]
+  0x00007f097013b000 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=2658, stack(0x00007f095d8b0000,0x00007f095d9b1000)]
+  0x00007f0970108000 JavaThread "Finalizer" daemon [_thread_blocked, id=2657, stack(0x00007f095db4c000,0x00007f095dc4d000)]
+  0x00007f0970103000 JavaThread "Reference Handler" daemon [_thread_blocked, id=2656, stack(0x00007f095dc4d000,0x00007f095dd4e000)]
+  0x00007f097000a800 JavaThread "main" [_thread_blocked, id=2652, stack(0x00007f09778c0000,0x00007f09779c1000)]
+
+Other Threads:
+  0x00007f09700fb800 VMThread [stack: 0x00007f095dd4e000,0x00007f095de4f000] [id=2655]
+  0x00007f0970146800 WatcherThread [stack: 0x00007f095d4ac000,0x00007f095d5ad000] [id=2663]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap:
+ PSYoungGen      total 17920K, used 13905K [0x00000000ec100000, 0x00000000ed500000, 0x0000000100000000)
+  eden space 15360K, 90% used [0x00000000ec100000,0x00000000ece94450,0x00000000ed000000)
+  from space 2560K, 0% used [0x00000000ed280000,0x00000000ed280000,0x00000000ed500000)
+  to   space 2560K, 0% used [0x00000000ed000000,0x00000000ed000000,0x00000000ed280000)
+ ParOldGen       total 28160K, used 8285K [0x00000000c4200000, 0x00000000c5d80000, 0x00000000ec100000)
+  object space 28160K, 29% used [0x00000000c4200000,0x00000000c4a17788,0x00000000c5d80000)
+ Metaspace       used 21845K, capacity 23352K, committed 23552K, reserved 1069056K
+  class space    used 3012K, capacity 3327K, committed 3328K, reserved 1048576K
+
+Card table byte_map: [0x00007f09744ad000,0x00007f097468d000] byte_map_base: 0x00007f0973e8c000
+
+Marking Bits: (ParMarkBitMap*) 0x00007f0976dbe280
+ Begin Bits: [0x00007f095f210000, 0x00007f0960108000)
+ End Bits:   [0x00007f0960108000, 0x00007f0961000000)
+
+Polling page: 0x00007f09779e0000
+
+CodeCache: size=245760Kb used=10526Kb max_used=10699Kb free=235233Kb
+ bounds [0x00007f0961000000, 0x00007f0961a90000, 0x00007f0970000000]
+ total_blobs=4026 nmethods=3364 adapters=576
+ compilation: enabled
+
+Compilation events (10 events):
+Event: 70,203 Thread 0x00007f097013f000 nmethod 3475 0x00007f0961124050 code [0x00007f09611241a0, 0x00007f09611242b0]
+Event: 70,203 Thread 0x00007f097013f000 3476       1       com.sun.javafx.tk.quantum.SceneState::getCurrentPaint (5 bytes)
+Event: 70,203 Thread 0x00007f097013f000 nmethod 3476 0x00007f096115f7d0 code [0x00007f096115f920, 0x00007f096115fa30]
+Event: 70,215 Thread 0x00007f097013c000 3477       4       com.sun.javafx.geom.RectBounds::deriveWithNewBounds (80 bytes)
+Event: 70,219 Thread 0x00007f097013c000 nmethod 3477 0x00007f096137e550 code [0x00007f096137e6c0, 0x00007f096137e8d8]
+Event: 70,711 Thread 0x00007f097013f000 3478       3       com.sun.javafx.PlatformUtil::useEGL (4 bytes)
+Event: 70,713 Thread 0x00007f097013f000 nmethod 3478 0x00007f09611d1250 code [0x00007f09611d13a0, 0x00007f09611d14d0]
+Event: 70,807 Thread 0x00007f097013f000 3479       3       com.sun.javafx.scene.EnteredExitedHandler::dispatchBubblingEvent (204 bytes)
+Event: 70,810 Thread 0x00007f097013f000 nmethod 3479 0x00007f0961190050 code [0x00007f09611903e0, 0x00007f0961192a98]
+Event: 70,814 Thread 0x00007f097013f000 3480       3       javafx.collections.ListChangeBuilder::nextRemove (303 bytes)
+
+GC Heap History (10 events):
+Event: 2,657 GC heap before
+{Heap before GC invocations=1 (full 0):
+ PSYoungGen      total 17920K, used 15360K [0x00000000ec100000, 0x00000000ed500000, 0x0000000100000000)
+  eden space 15360K, 100% used [0x00000000ec100000,0x00000000ed000000,0x00000000ed000000)
+  from space 2560K, 0% used [0x00000000ed280000,0x00000000ed280000,0x00000000ed500000)
+  to   space 2560K, 0% used [0x00000000ed000000,0x00000000ed000000,0x00000000ed280000)
+ ParOldGen       total 40960K, used 0K [0x00000000c4200000, 0x00000000c6a00000, 0x00000000ec100000)
+  object space 40960K, 0% used [0x00000000c4200000,0x00000000c4200000,0x00000000c6a00000)
+ Metaspace       used 9470K, capacity 9832K, committed 10112K, reserved 1058816K
+  class space    used 1183K, capacity 1308K, committed 1408K, reserved 1048576K
+Event: 2,669 GC heap after
+Heap after GC invocations=1 (full 0):
+ PSYoungGen      total 17920K, used 2528K [0x00000000ec100000, 0x00000000ed500000, 0x0000000100000000)
+  eden space 15360K, 0% used [0x00000000ec100000,0x00000000ec100000,0x00000000ed000000)
+  from space 2560K, 98% used [0x00000000ed000000,0x00000000ed278050,0x00000000ed280000)
+  to   space 2560K, 0% used [0x00000000ed280000,0x00000000ed280000,0x00000000ed500000)
+ ParOldGen       total 40960K, used 255K [0x00000000c4200000, 0x00000000c6a00000, 0x00000000ec100000)
+  object space 40960K, 0% used [0x00000000c4200000,0x00000000c423fc00,0x00000000c6a00000)
+ Metaspace       used 9470K, capacity 9832K, committed 10112K, reserved 1058816K
+  class space    used 1183K, capacity 1308K, committed 1408K, reserved 1048576K
+}
+Event: 5,196 GC heap before
+{Heap before GC invocations=2 (full 0):
+ PSYoungGen      total 17920K, used 16867K [0x00000000ec100000, 0x00000000ed500000, 0x0000000100000000)
+  eden space 15360K, 93% used [0x00000000ec100000,0x00000000ecf00e80,0x00000000ed000000)
+  from space 2560K, 98% used [0x00000000ed000000,0x00000000ed278050,0x00000000ed280000)
+  to   space 2560K, 0% used [0x00000000ed280000,0x00000000ed280000,0x00000000ed500000)
+ ParOldGen       total 40960K, used 255K [0x00000000c4200000, 0x00000000c6a00000, 0x00000000ec100000)
+  object space 40960K, 0% used [0x00000000c4200000,0x00000000c423fc00,0x00000000c6a00000)
+ Metaspace       used 15488K, capacity 16160K, committed 16256K, reserved 1062912K
+  class space    used 2226K, capacity 2402K, committed 2432K, reserved 1048576K
+Event: 5,232 GC heap after
+Heap after GC invocations=2 (full 0):
+ PSYoungGen      total 17920K, used 2528K [0x00000000ec100000, 0x00000000ed500000, 0x0000000100000000)
+  eden space 15360K, 0% used [0x00000000ec100000,0x00000000ec100000,0x00000000ed000000)
+  from space 2560K, 98% used [0x00000000ed280000,0x00000000ed4f8020,0x00000000ed500000)
+  to   space 2560K, 0% used [0x00000000ed000000,0x00000000ed000000,0x00000000ed280000)
+ ParOldGen       total 40960K, used 2433K [0x00000000c4200000, 0x00000000c6a00000, 0x00000000ec100000)
+  object space 40960K, 5% used [0x00000000c4200000,0x00000000c4460598,0x00000000c6a00000)
+ Metaspace       used 15488K, capacity 16160K, committed 16256K, reserved 1062912K
+  class space    used 2226K, capacity 2402K, committed 2432K, reserved 1048576K
+}
+Event: 47,845 GC heap before
+{Heap before GC invocations=3 (full 0):
+ PSYoungGen      total 17920K, used 17888K [0x00000000ec100000, 0x00000000ed500000, 0x0000000100000000)
+  eden space 15360K, 100% used [0x00000000ec100000,0x00000000ed000000,0x00000000ed000000)
+  from space 2560K, 98% used [0x00000000ed280000,0x00000000ed4f8020,0x00000000ed500000)
+  to   space 2560K, 0% used [0x00000000ed000000,0x00000000ed000000,0x00000000ed280000)
+ ParOldGen       total 40960K, used 2433K [0x00000000c4200000, 0x00000000c6a00000, 0x00000000ec100000)
+  object space 40960K, 5% used [0x00000000c4200000,0x00000000c4460598,0x00000000c6a00000)
+ Metaspace       used 19247K, capacity 20170K, committed 20352K, reserved 1067008K
+  class space    used 2664K, capacity 2914K, committed 2944K, reserved 1048576K
+Event: 47,872 GC heap after
+Heap after GC invocations=3 (full 0):
+ PSYoungGen      total 17920K, used 2528K [0x00000000ec100000, 0x00000000ed500000, 0x0000000100000000)
+  eden space 15360K, 0% used [0x00000000ec100000,0x00000000ec100000,0x00000000ed000000)
+  from space 2560K, 98% used [0x00000000ed000000,0x00000000ed278040,0x00000000ed280000)
+  to   space 2560K, 0% used [0x00000000ed280000,0x00000000ed280000,0x00000000ed500000)
+ ParOldGen       total 40960K, used 6121K [0x00000000c4200000, 0x00000000c6a00000, 0x00000000ec100000)
+  object space 40960K, 14% used [0x00000000c4200000,0x00000000c47fa5b8,0x00000000c6a00000)
+ Metaspace       used 19247K, capacity 20170K, committed 20352K, reserved 1067008K
+  class space    used 2664K, capacity 2914K, committed 2944K, reserved 1048576K
+}
+Event: 63,745 GC heap before
+{Heap before GC invocations=4 (full 0):
+ PSYoungGen      total 17920K, used 8003K [0x00000000ec100000, 0x00000000ed500000, 0x0000000100000000)
+  eden space 15360K, 35% used [0x00000000ec100000,0x00000000ec658ee8,0x00000000ed000000)
+  from space 2560K, 98% used [0x00000000ed000000,0x00000000ed278040,0x00000000ed280000)
+  to   space 2560K, 0% used [0x00000000ed280000,0x00000000ed280000,0x00000000ed500000)
+ ParOldGen       total 40960K, used 6121K [0x00000000c4200000, 0x00000000c6a00000, 0x00000000ec100000)
+  object space 40960K, 14% used [0x00000000c4200000,0x00000000c47fa5b8,0x00000000c6a00000)
+ Metaspace       used 20083K, capacity 21140K, committed 21248K, reserved 1067008K
+  class space    used 2760K, capacity 3023K, committed 3072K, reserved 1048576K
+Event: 63,765 GC heap after
+Heap after GC invocations=4 (full 0):
+ PSYoungGen      total 17920K, used 2556K [0x00000000ec100000, 0x00000000ed500000, 0x0000000100000000)
+  eden space 15360K, 0% used [0x00000000ec100000,0x00000000ec100000,0x00000000ed000000)
+  from space 2560K, 99% used [0x00000000ed280000,0x00000000ed4ff048,0x00000000ed500000)
+  to   space 2560K, 0% used [0x00000000ed000000,0x00000000ed000000,0x00000000ed280000)
+ ParOldGen       total 40960K, used 6962K [0x00000000c4200000, 0x00000000c6a00000, 0x00000000ec100000)
+  object space 40960K, 16% used [0x00000000c4200000,0x00000000c48ccb68,0x00000000c6a00000)
+ Metaspace       used 20083K, capacity 21140K, committed 21248K, reserved 1067008K
+  class space    used 2760K, capacity 3023K, committed 3072K, reserved 1048576K
+}
+Event: 63,765 GC heap before
+{Heap before GC invocations=5 (full 1):
+ PSYoungGen      total 17920K, used 2556K [0x00000000ec100000, 0x00000000ed500000, 0x0000000100000000)
+  eden space 15360K, 0% used [0x00000000ec100000,0x00000000ec100000,0x00000000ed000000)
+  from space 2560K, 99% used [0x00000000ed280000,0x00000000ed4ff048,0x00000000ed500000)
+  to   space 2560K, 0% used [0x00000000ed000000,0x00000000ed000000,0x00000000ed280000)
+ ParOldGen       total 40960K, used 6962K [0x00000000c4200000, 0x00000000c6a00000, 0x00000000ec100000)
+  object space 40960K, 16% used [0x00000000c4200000,0x00000000c48ccb68,0x00000000c6a00000)
+ Metaspace       used 20083K, capacity 21140K, committed 21248K, reserved 1067008K
+  class space    used 2760K, capacity 3023K, committed 3072K, reserved 1048576K
+Event: 63,925 GC heap after
+Heap after GC invocations=5 (full 1):
+ PSYoungGen      total 17920K, used 0K [0x00000000ec100000, 0x00000000ed500000, 0x0000000100000000)
+  eden space 15360K, 0% used [0x00000000ec100000,0x00000000ec100000,0x00000000ed000000)
+  from space 2560K, 0% used [0x00000000ed280000,0x00000000ed280000,0x00000000ed500000)
+  to   space 2560K, 0% used [0x00000000ed000000,0x00000000ed000000,0x00000000ed280000)
+ ParOldGen       total 28160K, used 8285K [0x00000000c4200000, 0x00000000c5d80000, 0x00000000ec100000)
+  object space 28160K, 29% used [0x00000000c4200000,0x00000000c4a17788,0x00000000c5d80000)
+ Metaspace       used 20083K, capacity 21140K, committed 21248K, reserved 1067008K
+  class space    used 2760K, capacity 3023K, committed 3072K, reserved 1048576K
+}
+
+Deoptimization events (10 events):
+Event: 48,219 Thread 0x00007f0970292800 Uncommon trap: reason=array_check action=maybe_recompile pc=0x00007f096178adb0 method=com.sun.javafx.css.SimpleSelector.applies(Ljavafx/css/Styleable;[Ljava/util/Set;I)Z @ 37
+Event: 48,219 Thread 0x00007f0970292800 Uncommon trap: reason=array_check action=maybe_recompile pc=0x00007f096178adb0 method=com.sun.javafx.css.SimpleSelector.applies(Ljavafx/css/Styleable;[Ljava/util/Set;I)Z @ 37
+Event: 48,219 Thread 0x00007f0970292800 Uncommon trap: reason=array_check action=maybe_recompile pc=0x00007f096178adb0 method=com.sun.javafx.css.SimpleSelector.applies(Ljavafx/css/Styleable;[Ljava/util/Set;I)Z @ 37
+Event: 48,219 Thread 0x00007f0970292800 Uncommon trap: reason=array_check action=maybe_recompile pc=0x00007f096178adb0 method=com.sun.javafx.css.SimpleSelector.applies(Ljavafx/css/Styleable;[Ljava/util/Set;I)Z @ 37
+Event: 64,074 Thread 0x00007f0970292800 Uncommon trap: reason=range_check action=make_not_entrant pc=0x00007f0961660340 method=sun.reflect.generics.parser.SignatureParser.current()C @ 34
+Event: 64,116 Thread 0x00007f0970292800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007f09614c7424 method=java.util.WeakHashMap.expungeStaleEntries()V @ 9
+Event: 64,616 Thread 0x00007f0970292800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007f0961152158 method=com.sun.javafx.geom.Path2D.needRoom(ZI)V @ 93
+Event: 65,743 Thread 0x00007f0970292800 Uncommon trap: reason=class_check action=maybe_recompile pc=0x00007f09614e28c4 method=java.util.HashMap.putVal(ILjava/lang/Object;Ljava/lang/Object;ZZ)Ljava/lang/Object; @ 253
+Event: 67,398 Thread 0x00007f0970292800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007f09617bd670 method=com.sun.javafx.css.SimpleSelector.stateMatches(Ljavafx/css/Styleable;Ljava/util/Set;)Z @ 1
+Event: 67,853 Thread 0x00007f0970292800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007f096189730c method=javafx.scene.Node.updateBounds()V @ 47
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (10 events):
+Event: 2,985 Thread 0x00007f0970292800 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'> (0x00000000ec2b6b68) thrown at [/HUDSON/workspace/8-2-build-linux-amd64/jdk8u171/10807/hotspot/src/share/vm/runtime/sharedRuntime.cpp, line 605]
+Event: 2,986 Thread 0x00007f0970292800 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'> (0x00000000ec2b7f10) thrown at [/HUDSON/workspace/8-2-build-linux-amd64/jdk8u171/10807/hotspot/src/share/vm/runtime/sharedRuntime.cpp, line 605]
+Event: 2,992 Thread 0x00007f0970292800 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'> (0x00000000ec2ba3f8) thrown at [/HUDSON/workspace/8-2-build-linux-amd64/jdk8u171/10807/hotspot/src/share/vm/runtime/sharedRuntime.cpp, line 605]
+Event: 3,218 Thread 0x00007f0970292800 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'> (0x00000000ec400eb0) thrown at [/HUDSON/workspace/8-2-build-linux-amd64/jdk8u171/10807/hotspot/src/share/vm/runtime/sharedRuntime.cpp, line 605]
+Event: 4,289 Thread 0x00007f0970292800 Implicit null exception at 0x00007f0961265035 to 0x00007f0961265219
+Event: 4,295 Thread 0x00007f0970292800 Implicit null exception at 0x00007f0961324f6f to 0x00007f0961324fd9
+Event: 45,381 Thread 0x00007f0970292800 Implicit null exception at 0x00007f0961283635 to 0x00007f09612839e9
+Event: 64,074 Thread 0x00007f0970292800 Exception <a 'java/lang/ArrayIndexOutOfBoundsException': 79> (0x00000000ec26fbf8) thrown at [/HUDSON/workspace/8-2-build-linux-amd64/jdk8u171/10807/hotspot/src/share/vm/interpreter/interpreterRuntime.cpp, line 366]
+Event: 64,076 Thread 0x00007f0970292800 Exception <a 'java/lang/ArrayIndexOutOfBoundsException': 52> (0x00000000ec270bf8) thrown at [/HUDSON/workspace/8-2-build-linux-amd64/jdk8u171/10807/hotspot/src/share/vm/interpreter/interpreterRuntime.cpp, line 366]
+Event: 67,398 Thread 0x00007f0970292800 Implicit null exception at 0x00007f09617bceab to 0x00007f09617bd645
+
+Events (10 events):
+Event: 69,766 Thread 0x00007f097013f000 flushing nmethod 0x00007f0961380dd0
+Event: 69,771 Thread 0x00007f097013f000 flushing nmethod 0x00007f09613ced10
+Event: 70,811 loading class javafx/scene/input/KeyEvent$2
+Event: 70,811 loading class javafx/scene/input/KeyEvent$2 done
+Event: 70,813 loading class com/sun/javafx/collections/MappingChange$2
+Event: 70,813 loading class com/sun/javafx/collections/MappingChange$2 done
+Event: 70,814 loading class com/sun/javafx/scene/control/ReadOnlyUnbackedObservableList$1
+Event: 70,814 loading class com/sun/javafx/scene/control/ReadOnlyUnbackedObservableList$1 done
+Event: 70,815 loading class com/sun/javafx/scene/control/ReadOnlyUnbackedObservableList$SelectionListIterator
+Event: 70,815 loading class com/sun/javafx/scene/control/ReadOnlyUnbackedObservableList$SelectionListIterator done
+
+
+Dynamic libraries:
+00400000-00401000 r-xp 00000000 08:01 1207411                            /home/administrador/Downloads/jdk1.8.0_171/bin/java
+00600000-00601000 rw-p 00000000 08:01 1207411                            /home/administrador/Downloads/jdk1.8.0_171/bin/java
+007f2000-00813000 rw-p 00000000 00:00 0                                  [heap]
+c4200000-c5d80000 rw-p 00000000 00:00 0 
+c5d80000-ec100000 ---p 00000000 00:00 0 
+ec100000-ed500000 rw-p 00000000 00:00 0 
+ed500000-100000000 ---p 00000000 00:00 0 
+100000000-100340000 rw-p 00000000 00:00 0 
+100340000-140000000 ---p 00000000 00:00 0 
+7f0914fff000-7f0918000000 rw-p 00000000 00:00 0 
+7f0918000000-7f0918836000 rw-p 00000000 00:00 0 
+7f0918836000-7f091c000000 ---p 00000000 00:00 0 
+7f091c000000-7f091c021000 rw-p 00000000 00:00 0 
+7f091c021000-7f0920000000 ---p 00000000 00:00 0 
+7f0920000000-7f0920021000 rw-p 00000000 00:00 0 
+7f0920021000-7f0924000000 ---p 00000000 00:00 0 
+7f0924025000-7f09241e5000 rw-s 110174000 00:06 370                       /dev/dri/card0
+7f09241e5000-7f09243a5000 rw-s 00000000 00:18 208                        /i915 (deleted)
+7f09243a5000-7f0924565000 rw-p 00000000 00:00 0 
+7f0924565000-7f09245a5000 ---p 00000000 00:00 0 
+7f09245a5000-7f09245af000 r--s 00116000 08:01 1640582                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/ext/localedata.jar
+7f09245af000-7f09245cb000 r--s 00393000 08:01 1640575                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/ext/cldrdata.jar
+7f09245df000-7f09245ef000 rw-s 00000000 00:18 469                        /i915 (deleted)
+7f09245ef000-7f092464f000 rw-s 00000000 00:18 377                        /i915 (deleted)
+7f092464f000-7f092465b000 rw-s 00000000 00:18 375                        /i915 (deleted)
+7f092465b000-7f092485b000 rw-p 00000000 00:00 0 
+7f0924865000-7f092486d000 rw-s 00000000 00:18 509                        /i915 (deleted)
+7f092486d000-7f092487d000 rw-s 00000000 00:18 467                        /i915 (deleted)
+7f092487d000-7f0924a7d000 rw-p 00000000 00:00 0 
+7f0924a7d000-7f0924bfd000 rw-s 00000000 00:18 425                        /i915 (deleted)
+7f0924bfe000-7f0924c04000 r--p 00000000 08:01 1179525                    /usr/share/locale/pt_BR/LC_MESSAGES/gdk-pixbuf.mo
+7f0924c04000-7f0924c05000 rw-s 00000000 00:18 497                        /i915 (deleted)
+7f0924c05000-7f0924d85000 rw-s 10fff4000 00:06 370                       /dev/dri/card0
+7f0924d85000-7f0924d86000 rw-s 00000000 00:18 237                        /i915 (deleted)
+7f0924d86000-7f0924d87000 rw-s 00000000 00:18 319                        /i915 (deleted)
+7f0924d87000-7f0924d88000 rw-s 00000000 00:18 314                        /i915 (deleted)
+7f0924d89000-7f0924d8d000 rw-s 10f98e000 00:06 370                       /dev/dri/card0
+7f0924d8d000-7f0924d95000 rw-s 00000000 00:18 342                        /i915 (deleted)
+7f0924d95000-7f0924da1000 rw-s 00000000 00:18 465                        /i915 (deleted)
+7f0924da1000-7f0924ded000 r--p 00000000 08:01 788608                     /usr/share/fonts/truetype/noto/NotoSans-Bold.ttf
+7f0924ded000-7f0924e00000 r--s 00345000 08:01 1326972                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/resources.jar
+7f0924e00000-7f0925000000 rw-p 00000000 00:00 0 
+7f0925000000-7f0925003000 ---p 00000000 00:00 0 
+7f0925003000-7f0925101000 rw-p 00000000 00:00 0 
+7f0925101000-7f092514c000 r--p 00000000 08:01 788611                     /usr/share/fonts/truetype/noto/NotoSans-Regular.ttf
+7f092514c000-7f092515f000 r--p 00000000 08:01 1478626                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/fonts/LucidaBrightDemiBold.ttf
+7f092515f000-7f092520a000 r--p 00000000 08:01 1478619                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/fonts/LucidaSansRegular.ttf
+7f092520a000-7f0925246000 r--p 00000000 08:01 1478624                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/fonts/LucidaTypewriterRegular.ttf
+7f0925246000-7f0925259000 r--p 00000000 08:01 1478623                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/fonts/LucidaBrightDemiItalic.ttf
+7f0925259000-7f092526d000 r--p 00000000 08:01 1478618                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/fonts/LucidaBrightItalic.ttf
+7f092526d000-7f09252a7000 r--p 00000000 08:01 1478625                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/fonts/LucidaTypewriterBold.ttf
+7f09252a7000-7f09252f5000 r--p 00000000 08:01 1478621                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/fonts/LucidaSansDemiBold.ttf
+7f09252f5000-7f092534a000 r--p 00000000 08:01 1478620                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/fonts/LucidaBrightRegular.ttf
+7f092534a000-7f092534e000 r-xp 00000000 08:01 1326984                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libjavafx_font_pango.so
+7f092534e000-7f092554d000 ---p 00004000 08:01 1326984                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libjavafx_font_pango.so
+7f092554d000-7f092554e000 rw-p 00003000 08:01 1326984                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libjavafx_font_pango.so
+7f092554e000-7f0925553000 r--s 00084000 08:01 1326934                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/jfr.jar
+7f0925553000-7f0925583000 r-xp 00000000 08:01 267656                     /usr/lib/x86_64-linux-gnu/gtk-2.0/2.10.0/engines/libmurrine.so
+7f0925583000-7f0925783000 ---p 00030000 08:01 267656                     /usr/lib/x86_64-linux-gnu/gtk-2.0/2.10.0/engines/libmurrine.so
+7f0925783000-7f0925784000 r--p 00030000 08:01 267656                     /usr/lib/x86_64-linux-gnu/gtk-2.0/2.10.0/engines/libmurrine.so
+7f0925784000-7f0925785000 rw-p 00031000 08:01 267656                     /usr/lib/x86_64-linux-gnu/gtk-2.0/2.10.0/engines/libmurrine.so
+7f0925785000-7f0925787000 r-xp 00000000 08:01 267649                     /usr/lib/x86_64-linux-gnu/gtk-2.0/2.10.0/engines/libadwaita.so
+7f0925787000-7f0925987000 ---p 00002000 08:01 267649                     /usr/lib/x86_64-linux-gnu/gtk-2.0/2.10.0/engines/libadwaita.so
+7f0925987000-7f0925988000 r--p 00002000 08:01 267649                     /usr/lib/x86_64-linux-gnu/gtk-2.0/2.10.0/engines/libadwaita.so
+7f0925988000-7f0925989000 rw-p 00003000 08:01 267649                     /usr/lib/x86_64-linux-gnu/gtk-2.0/2.10.0/engines/libadwaita.so
+7f0925989000-7f0925993000 r-xp 00000000 08:01 266647                     /usr/lib/x86_64-linux-gnu/gtk-2.0/2.10.0/engines/libpixmap.so
+7f0925993000-7f0925b92000 ---p 0000a000 08:01 266647                     /usr/lib/x86_64-linux-gnu/gtk-2.0/2.10.0/engines/libpixmap.so
+7f0925b92000-7f0925b93000 r--p 00009000 08:01 266647                     /usr/lib/x86_64-linux-gnu/gtk-2.0/2.10.0/engines/libpixmap.so
+7f0925b93000-7f0925b94000 rw-p 0000a000 08:01 266647                     /usr/lib/x86_64-linux-gnu/gtk-2.0/2.10.0/engines/libpixmap.so
+7f0925b94000-7f0925bbd000 r--p 00000000 08:01 1180903                    /usr/share/locale/pt/LC_MESSAGES/gtk20-properties.mo
+7f0925bbd000-7f0925dbd000 rw-p 00000000 00:00 0 
+7f0925dbd000-7f0925dd3000 r-xp 00000000 08:01 1327034                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libnet.so
+7f0925dd3000-7f0925fd3000 ---p 00016000 08:01 1327034                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libnet.so
+7f0925fd3000-7f0925fd4000 rw-p 00016000 08:01 1327034                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libnet.so
+7f0925fd4000-7f0925fe5000 r-xp 00000000 08:01 1327037                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libnio.so
+7f0925fe5000-7f09261e4000 ---p 00011000 08:01 1327037                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libnio.so
+7f09261e4000-7f09261e5000 rw-p 00010000 08:01 1327037                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libnio.so
+7f09261e5000-7f09261f0000 r--s 00000000 08:01 1839081                    /var/cache/fontconfig/945677eb7aeaf62f1d50efc3fb3ec7d8-le64.cache-4
+7f09261f0000-7f09261f5000 r--s 00000000 08:01 1840107                    /var/cache/fontconfig/99e8ed0e538f840c565b6ed5dad60d56-le64.cache-4
+7f09261f5000-7f0926237000 r--s 00000000 08:01 1831482                    /var/cache/fontconfig/0bd3dc0958fa2205aaaa8ebb13e2872b-le64.cache-4
+7f0926237000-7f092623d000 r--s 00000000 08:01 1831469                    /var/cache/fontconfig/8801497958630a81b71ace7c5f9b32a8-le64.cache-4
+7f092623d000-7f0926243000 r--s 00000000 08:01 1831484                    /var/cache/fontconfig/3047814df9a2f067bd2d96a2b9c36e5a-le64.cache-4
+7f0926243000-7f0926248000 r--s 00000000 08:01 1831474                    /var/cache/fontconfig/9923581aef9bb9211ee5bcd557562ee7-le64.cache-4
+7f0926248000-7f0926252000 r--s 00000000 08:01 1831490                    /var/cache/fontconfig/3f7329c5293ffd510edef78f73874cfd-le64.cache-4
+7f0926252000-7f092625e000 r--s 00000000 08:01 1865266                    /var/cache/fontconfig/d589a48862398ed80a3d6066f4f56f4c-le64.cache-4
+7f092625e000-7f092627d000 r--s 00000000 08:01 1831470                    /var/cache/fontconfig/9b89f8e3dae116d678bbf48e5f21f69b-le64.cache-4
+7f092627d000-7f0926282000 r-xp 00000000 08:01 1326987                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libjavafx_font_freetype.so
+7f0926282000-7f0926481000 ---p 00005000 08:01 1326987                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libjavafx_font_freetype.so
+7f0926481000-7f0926482000 rw-p 00004000 08:01 1326987                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libjavafx_font_freetype.so
+7f0926482000-7f0926485000 r-xp 00000000 08:01 1327035                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libjavafx_font.so
+7f0926485000-7f0926684000 ---p 00003000 08:01 1327035                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libjavafx_font.so
+7f0926684000-7f0926685000 rw-p 00002000 08:01 1327035                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libjavafx_font.so
+7f0926685000-7f0926885000 rw-p 00000000 00:00 0 
+7f0926885000-7f0926893000 r--s 000c5000 08:13 69218                      /media/administrador/backup/ProjetosJava/CadastroOMega/CadastroOmegaFX/dist/run1633318266/lib/jaybird-full-2.2.7.jar
+7f0926893000-7f0926896000 ---p 00000000 00:00 0 
+7f0926896000-7f0926994000 rw-p 00000000 00:00 0 
+7f0926994000-7f092699c000 rw-s 00000000 00:18 464                        /i915 (deleted)
+7f092699c000-7f09269a4000 rw-s 00000000 00:18 456                        /i915 (deleted)
+7f09269a4000-7f09269a7000 ---p 00000000 00:00 0 
+7f09269a7000-7f0926aa5000 rw-p 00000000 00:00 0 
+7f0926aa5000-7f0926aa8000 ---p 00000000 00:00 0 
+7f0926aa8000-7f0926ba6000 rw-p 00000000 00:00 0 
+7f0926ba6000-7f0926bcf000 r-xp 00000000 08:01 1327009                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libglass.so
+7f0926bcf000-7f0926dce000 ---p 00029000 08:01 1327009                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libglass.so
+7f0926dce000-7f0926dd1000 rw-p 00028000 08:01 1327009                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libglass.so
+7f0926dd1000-7f0926e08000 r-xp 00000000 08:01 145907                     /usr/lib/x86_64-linux-gnu/libtxc_dxtn_s2tc.so.0.0.0
+7f0926e08000-7f0927007000 ---p 00037000 08:01 145907                     /usr/lib/x86_64-linux-gnu/libtxc_dxtn_s2tc.so.0.0.0
+7f0927007000-7f0927008000 r--p 00036000 08:01 145907                     /usr/lib/x86_64-linux-gnu/libtxc_dxtn_s2tc.so.0.0.0
+7f0927008000-7f0927009000 rw-p 00037000 08:01 145907                     /usr/lib/x86_64-linux-gnu/libtxc_dxtn_s2tc.so.0.0.0
+7f0927009000-7f0927011000 r-xp 00000000 08:01 145643                     /usr/lib/x86_64-linux-gnu/libpciaccess.so.0.11.1
+7f0927011000-7f0927211000 ---p 00008000 08:01 145643                     /usr/lib/x86_64-linux-gnu/libpciaccess.so.0.11.1
+7f0927211000-7f0927212000 r--p 00008000 08:01 145643                     /usr/lib/x86_64-linux-gnu/libpciaccess.so.0.11.1
+7f0927212000-7f0927213000 rw-p 00009000 08:01 145643                     /usr/lib/x86_64-linux-gnu/libpciaccess.so.0.11.1
+7f0927213000-7f0927227000 r-xp 00000000 08:01 393782                     /lib/x86_64-linux-gnu/libgpg-error.so.0.22.0
+7f0927227000-7f0927426000 ---p 00014000 08:01 393782                     /lib/x86_64-linux-gnu/libgpg-error.so.0.22.0
+7f0927426000-7f0927427000 r--p 00013000 08:01 393782                     /lib/x86_64-linux-gnu/libgpg-error.so.0.22.0
+7f0927427000-7f0927428000 rw-p 00014000 08:01 393782                     /lib/x86_64-linux-gnu/libgpg-error.so.0.22.0
+7f0927428000-7f0927433000 r-xp 00000000 08:01 144910                     /usr/lib/x86_64-linux-gnu/libdrm_radeon.so.1.0.1
+7f0927433000-7f0927632000 ---p 0000b000 08:01 144910                     /usr/lib/x86_64-linux-gnu/libdrm_radeon.so.1.0.1
+7f0927632000-7f0927633000 r--p 0000a000 08:01 144910                     /usr/lib/x86_64-linux-gnu/libdrm_radeon.so.1.0.1
+7f0927633000-7f0927634000 rw-p 0000b000 08:01 144910                     /usr/lib/x86_64-linux-gnu/libdrm_radeon.so.1.0.1
+7f0927634000-7f092763b000 r-xp 00000000 08:01 144908                     /usr/lib/x86_64-linux-gnu/libdrm_nouveau.so.2.0.0
+7f092763b000-7f092783a000 ---p 00007000 08:01 144908                     /usr/lib/x86_64-linux-gnu/libdrm_nouveau.so.2.0.0
+7f092783a000-7f092783b000 r--p 00006000 08:01 144908                     /usr/lib/x86_64-linux-gnu/libdrm_nouveau.so.2.0.0
+7f092783b000-7f092783c000 rw-p 00007000 08:01 144908                     /usr/lib/x86_64-linux-gnu/libdrm_nouveau.so.2.0.0
+7f092783c000-7f092785e000 r-xp 00000000 08:01 144906                     /usr/lib/x86_64-linux-gnu/libdrm_intel.so.1.0.0
+7f092785e000-7f0927a5e000 ---p 00022000 08:01 144906                     /usr/lib/x86_64-linux-gnu/libdrm_intel.so.1.0.0
+7f0927a5e000-7f0927a5f000 r--p 00022000 08:01 144906                     /usr/lib/x86_64-linux-gnu/libdrm_intel.so.1.0.0
+7f0927a5f000-7f0927a60000 rw-p 00023000 08:01 144906                     /usr/lib/x86_64-linux-gnu/libdrm_intel.so.1.0.0
+7f0927a60000-7f0927b67000 r-xp 00000000 08:01 393778                     /lib/x86_64-linux-gnu/libgcrypt.so.20.1.8
+7f0927b67000-7f0927d66000 ---p 00107000 08:01 393778                     /lib/x86_64-linux-gnu/libgcrypt.so.20.1.8
+7f0927d66000-7f0927d68000 r--p 00106000 08:01 393778                     /lib/x86_64-linux-gnu/libgcrypt.so.20.1.8
+7f0927d68000-7f0927d6f000 rw-p 00108000 08:01 393778                     /lib/x86_64-linux-gnu/libgcrypt.so.20.1.8
+7f0927d6f000-7f0928416000 r-xp 00000000 08:01 266656                     /usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+7f0928416000-7f0928615000 ---p 006a7000 08:01 266656                     /usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+7f0928615000-7f0928657000 r--p 006a6000 08:01 266656                     /usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+7f0928657000-7f092865f000 rw-p 006e8000 08:01 266656                     /usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+7f092865f000-7f0928667000 rw-p 00000000 00:00 0 
+7f0928667000-7f092867a000 r-xp 00000000 08:01 393735                     /lib/x86_64-linux-gnu/libbsd.so.0.8.6
+7f092867a000-7f0928879000 ---p 00013000 08:01 393735                     /lib/x86_64-linux-gnu/libbsd.so.0.8.6
+7f0928879000-7f092887a000 r--p 00012000 08:01 393735                     /lib/x86_64-linux-gnu/libbsd.so.0.8.6
+7f092887a000-7f092887b000 rw-p 00013000 08:01 393735                     /lib/x86_64-linux-gnu/libbsd.so.0.8.6
+7f092887b000-7f092887c000 rw-p 00000000 00:00 0 
+7f092887c000-7f0928880000 r-xp 00000000 08:01 393911                     /lib/x86_64-linux-gnu/libuuid.so.1.3.0
+7f0928880000-7f0928a7f000 ---p 00004000 08:01 393911                     /lib/x86_64-linux-gnu/libuuid.so.1.3.0
+7f0928a7f000-7f0928a80000 r--p 00003000 08:01 393911                     /lib/x86_64-linux-gnu/libuuid.so.1.3.0
+7f0928a80000-7f0928a81000 rw-p 00004000 08:01 393911                     /lib/x86_64-linux-gnu/libuuid.so.1.3.0
+7f0928a81000-7f0928a88000 r-xp 00000000 08:01 144847                     /usr/lib/x86_64-linux-gnu/libdatrie.so.1.3.3
+7f0928a88000-7f0928c87000 ---p 00007000 08:01 144847                     /usr/lib/x86_64-linux-gnu/libdatrie.so.1.3.3
+7f0928c87000-7f0928c88000 r--p 00006000 08:01 144847                     /usr/lib/x86_64-linux-gnu/libdatrie.so.1.3.3
+7f0928c88000-7f0928c89000 rw-p 00007000 08:01 144847                     /usr/lib/x86_64-linux-gnu/libdatrie.so.1.3.3
+7f0928c89000-7f0928c8e000 r-xp 00000000 08:01 144628                     /usr/lib/x86_64-linux-gnu/libXdmcp.so.6.0.0
+7f0928c8e000-7f0928e8d000 ---p 00005000 08:01 144628                     /usr/lib/x86_64-linux-gnu/libXdmcp.so.6.0.0
+7f0928e8d000-7f0928e8e000 r--p 00004000 08:01 144628                     /usr/lib/x86_64-linux-gnu/libXdmcp.so.6.0.0
+7f0928e8e000-7f0928e8f000 rw-p 00005000 08:01 144628                     /usr/lib/x86_64-linux-gnu/libXdmcp.so.6.0.0
+7f0928e8f000-7f0928e92000 r-xp 00000000 08:01 144617                     /usr/lib/x86_64-linux-gnu/libXau.so.6.0.0
+7f0928e92000-7f0929091000 ---p 00003000 08:01 144617                     /usr/lib/x86_64-linux-gnu/libXau.so.6.0.0
+7f0929091000-7f0929092000 r--p 00002000 08:01 144617                     /usr/lib/x86_64-linux-gnu/libXau.so.6.0.0
+7f0929092000-7f0929093000 rw-p 00003000 08:01 144617                     /usr/lib/x86_64-linux-gnu/libXau.so.6.0.0
+7f0929093000-7f09290be000 r-xp 00000000 08:01 145179                     /usr/lib/x86_64-linux-gnu/libgraphite2.so.3.0.1
+7f09290be000-7f09292bd000 ---p 0002b000 08:01 145179                     /usr/lib/x86_64-linux-gnu/libgraphite2.so.3.0.1
+7f09292bd000-7f09292bf000 r--p 0002a000 08:01 145179                     /usr/lib/x86_64-linux-gnu/libgraphite2.so.3.0.1
+7f09292bf000-7f09292c0000 rw-p 0002c000 08:01 145179                     /usr/lib/x86_64-linux-gnu/libgraphite2.so.3.0.1
+7f09292c0000-7f0929301000 r-xp 00000000 08:01 393733                     /lib/x86_64-linux-gnu/libblkid.so.1.1.0
+7f0929301000-7f0929500000 ---p 00041000 08:01 393733                     /lib/x86_64-linux-gnu/libblkid.so.1.1.0
+7f0929500000-7f0929504000 r--p 00040000 08:01 393733                     /lib/x86_64-linux-gnu/libblkid.so.1.1.0
+7f0929504000-7f0929505000 rw-p 00044000 08:01 393733                     /lib/x86_64-linux-gnu/libblkid.so.1.1.0
+7f0929505000-7f0929506000 rw-p 00000000 00:00 0 
+7f0929506000-7f0929516000 r-xp 00000000 08:01 144902                     /usr/lib/x86_64-linux-gnu/libdrm.so.2.4.0
+7f0929516000-7f0929715000 ---p 00010000 08:01 144902                     /usr/lib/x86_64-linux-gnu/libdrm.so.2.4.0
+7f0929715000-7f0929716000 r--p 0000f000 08:01 144902                     /usr/lib/x86_64-linux-gnu/libdrm.so.2.4.0
+7f0929716000-7f0929717000 rw-p 00010000 08:01 144902                     /usr/lib/x86_64-linux-gnu/libdrm.so.2.4.0
+7f0929717000-7f092971b000 r-xp 00000000 08:01 146028                     /usr/lib/x86_64-linux-gnu/libxcb-dri2.so.0.0.0
+7f092971b000-7f092991a000 ---p 00004000 08:01 146028                     /usr/lib/x86_64-linux-gnu/libxcb-dri2.so.0.0.0
+7f092991a000-7f092991b000 r--p 00003000 08:01 146028                     /usr/lib/x86_64-linux-gnu/libxcb-dri2.so.0.0.0
+7f092991b000-7f092991c000 rw-p 00004000 08:01 146028                     /usr/lib/x86_64-linux-gnu/libxcb-dri2.so.0.0.0
+7f092991c000-7f0929934000 r-xp 00000000 08:01 146034                     /usr/lib/x86_64-linux-gnu/libxcb-glx.so.0.0.0
+7f0929934000-7f0929b34000 ---p 00018000 08:01 146034                     /usr/lib/x86_64-linux-gnu/libxcb-glx.so.0.0.0
+7f0929b34000-7f0929b36000 r--p 00018000 08:01 146034                     /usr/lib/x86_64-linux-gnu/libxcb-glx.so.0.0.0
+7f0929b36000-7f0929b37000 rw-p 0001a000 08:01 146034                     /usr/lib/x86_64-linux-gnu/libxcb-glx.so.0.0.0
+7f0929b37000-7f0929b38000 r-xp 00000000 08:01 144611                     /usr/lib/x86_64-linux-gnu/libX11-xcb.so.1.0.0
+7f0929b38000-7f0929d37000 ---p 00001000 08:01 144611                     /usr/lib/x86_64-linux-gnu/libX11-xcb.so.1.0.0
+7f0929d37000-7f0929d38000 r--p 00000000 08:01 144611                     /usr/lib/x86_64-linux-gnu/libX11-xcb.so.1.0.0
+7f0929d38000-7f0929d39000 rw-p 00001000 08:01 144611                     /usr/lib/x86_64-linux-gnu/libX11-xcb.so.1.0.0
+7f0929d39000-7f0929d63000 r-xp 00000000 08:01 145105                     /usr/lib/x86_64-linux-gnu/libglapi.so.0.0.0
+7f0929d63000-7f0929f62000 ---p 0002a000 08:01 145105                     /usr/lib/x86_64-linux-gnu/libglapi.so.0.0.0
+7f0929f62000-7f0929f66000 r--p 00029000 08:01 145105                     /usr/lib/x86_64-linux-gnu/libglapi.so.0.0.0
+7f0929f66000-7f0929f67000 rw-p 0002d000 08:01 145105                     /usr/lib/x86_64-linux-gnu/libglapi.so.0.0.0
+7f0929f67000-7f0929f68000 rw-p 00000000 00:00 0 
+7f0929f68000-7f0929f69000 r-xp 00000000 08:01 146082                     /usr/lib/x86_64-linux-gnu/libxshmfence.so.1.0.0
+7f0929f69000-7f092a168000 ---p 00001000 08:01 146082                     /usr/lib/x86_64-linux-gnu/libxshmfence.so.1.0.0
+7f092a168000-7f092a169000 r--p 00000000 08:01 146082                     /usr/lib/x86_64-linux-gnu/libxshmfence.so.1.0.0
+7f092a169000-7f092a16a000 rw-p 00001000 08:01 146082                     /usr/lib/x86_64-linux-gnu/libxshmfence.so.1.0.0
+7f092a16a000-7f092a170000 r-xp 00000000 08:01 146054                     /usr/lib/x86_64-linux-gnu/libxcb-sync.so.1.0.0
+7f092a170000-7f092a36f000 ---p 00006000 08:01 146054                     /usr/lib/x86_64-linux-gnu/libxcb-sync.so.1.0.0
+7f092a36f000-7f092a370000 r--p 00005000 08:01 146054                     /usr/lib/x86_64-linux-gnu/libxcb-sync.so.1.0.0
+7f092a370000-7f092a371000 rw-p 00006000 08:01 146054                     /usr/lib/x86_64-linux-gnu/libxcb-sync.so.1.0.0
+7f092a371000-7f092a373000 r-xp 00000000 08:01 146042                     /usr/lib/x86_64-linux-gnu/libxcb-present.so.0.0.0
+7f092a373000-7f092a572000 ---p 00002000 08:01 146042                     /usr/lib/x86_64-linux-gnu/libxcb-present.so.0.0.0
+7f092a572000-7f092a573000 r--p 00001000 08:01 146042                     /usr/lib/x86_64-linux-gnu/libxcb-present.so.0.0.0
+7f092a573000-7f092a574000 rw-p 00002000 08:01 146042                     /usr/lib/x86_64-linux-gnu/libxcb-present.so.0.0.0
+7f092a574000-7f092a576000 r-xp 00000000 08:01 146030                     /usr/lib/x86_64-linux-gnu/libxcb-dri3.so.0.0.0
+7f092a576000-7f092a775000 ---p 00002000 08:01 146030                     /usr/lib/x86_64-linux-gnu/libxcb-dri3.so.0.0.0
+7f092a775000-7f092a776000 r--p 00001000 08:01 146030                     /usr/lib/x86_64-linux-gnu/libxcb-dri3.so.0.0.0
+7f092a776000-7f092a777000 rw-p 00002000 08:01 146030                     /usr/lib/x86_64-linux-gnu/libxcb-dri3.so.0.0.0
+7f092a777000-7f092a7e9000 r-xp 00000000 08:01 393855                     /lib/x86_64-linux-gnu/libpcre.so.3.13.3
+7f092a7e9000-7f092a9e8000 ---p 00072000 08:01 393855                     /lib/x86_64-linux-gnu/libpcre.so.3.13.3
+7f092a9e8000-7f092a9e9000 r--p 00071000 08:01 393855                     /lib/x86_64-linux-gnu/libpcre.so.3.13.3
+7f092a9e9000-7f092a9ea000 rw-p 00072000 08:01 393855                     /lib/x86_64-linux-gnu/libpcre.so.3.13.3
+7f092a9ea000-7f092a9f1000 r-xp 00000000 08:01 144974                     /usr/lib/x86_64-linux-gnu/libffi.so.6.0.4
+7f092a9f1000-7f092abf1000 ---p 00007000 08:01 144974                     /usr/lib/x86_64-linux-gnu/libffi.so.6.0.4
+7f092abf1000-7f092abf2000 r--p 00007000 08:01 144974                     /usr/lib/x86_64-linux-gnu/libffi.so.6.0.4
+7f092abf2000-7f092abf3000 rw-p 00008000 08:01 144974                     /usr/lib/x86_64-linux-gnu/libffi.so.6.0.4
+7f092abf3000-7f092ac1b000 r-xp 00000000 08:01 393769                     /lib/x86_64-linux-gnu/libexpat.so.1.6.4
+7f092ac1b000-7f092ae1b000 ---p 00028000 08:01 393769                     /lib/x86_64-linux-gnu/libexpat.so.1.6.4
+7f092ae1b000-7f092ae1d000 r--p 00028000 08:01 393769                     /lib/x86_64-linux-gnu/libexpat.so.1.6.4
+7f092ae1d000-7f092ae1e000 rw-p 0002a000 08:01 393769                     /lib/x86_64-linux-gnu/libexpat.so.1.6.4
+7f092ae1e000-7f092ae26000 r-xp 00000000 08:01 145884                     /usr/lib/x86_64-linux-gnu/libthai.so.0.3.0
+7f092ae26000-7f092b026000 ---p 00008000 08:01 145884                     /usr/lib/x86_64-linux-gnu/libthai.so.0.3.0
+7f092b026000-7f092b027000 r--p 00008000 08:01 145884                     /usr/lib/x86_64-linux-gnu/libthai.so.0.3.0
+7f092b027000-7f092b028000 rw-p 00009000 08:01 145884                     /usr/lib/x86_64-linux-gnu/libthai.so.0.3.0
+7f092b028000-7f092b034000 r-xp 00000000 08:01 146048                     /usr/lib/x86_64-linux-gnu/libxcb-render.so.0.0.0
+7f092b034000-7f092b234000 ---p 0000c000 08:01 146048                     /usr/lib/x86_64-linux-gnu/libxcb-render.so.0.0.0
+7f092b234000-7f092b235000 r--p 0000c000 08:01 146048                     /usr/lib/x86_64-linux-gnu/libxcb-render.so.0.0.0
+7f092b235000-7f092b236000 rw-p 0000d000 08:01 146048                     /usr/lib/x86_64-linux-gnu/libxcb-render.so.0.0.0
+7f092b236000-7f092b25d000 r-xp 00000000 08:01 146064                     /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
+7f092b25d000-7f092b45c000 ---p 00027000 08:01 146064                     /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
+7f092b45c000-7f092b45d000 r--p 00026000 08:01 146064                     /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
+7f092b45d000-7f092b45e000 rw-p 00027000 08:01 146064                     /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
+7f092b45e000-7f092b460000 r-xp 00000000 08:01 146052                     /usr/lib/x86_64-linux-gnu/libxcb-shm.so.0.0.0
+7f092b460000-7f092b660000 ---p 00002000 08:01 146052                     /usr/lib/x86_64-linux-gnu/libxcb-shm.so.0.0.0
+7f092b660000-7f092b661000 r--p 00002000 08:01 146052                     /usr/lib/x86_64-linux-gnu/libxcb-shm.so.0.0.0
+7f092b661000-7f092b662000 rw-p 00003000 08:01 146052                     /usr/lib/x86_64-linux-gnu/libxcb-shm.so.0.0.0
+7f092b662000-7f092b700000 r-xp 00000000 08:01 145677                     /usr/lib/x86_64-linux-gnu/libpixman-1.so.0.34.0
+7f092b700000-7f092b900000 ---p 0009e000 08:01 145677                     /usr/lib/x86_64-linux-gnu/libpixman-1.so.0.34.0
+7f092b900000-7f092b908000 r--p 0009e000 08:01 145677                     /usr/lib/x86_64-linux-gnu/libpixman-1.so.0.34.0
+7f092b908000-7f092b909000 rw-p 000a6000 08:01 145677                     /usr/lib/x86_64-linux-gnu/libpixman-1.so.0.34.0
+7f092b909000-7f092b93a000 r-xp 00000000 08:01 145686                     /usr/lib/x86_64-linux-gnu/libpng16.so.16.30.0
+7f092b93a000-7f092bb3a000 ---p 00031000 08:01 145686                     /usr/lib/x86_64-linux-gnu/libpng16.so.16.30.0
+7f092bb3a000-7f092bb3b000 r--p 00031000 08:01 145686                     /usr/lib/x86_64-linux-gnu/libpng16.so.16.30.0
+7f092bb3b000-7f092bb3c000 rw-p 00032000 08:01 145686                     /usr/lib/x86_64-linux-gnu/libpng16.so.16.30.0
+7f092bb3c000-7f092bbcf000 r-xp 00000000 08:01 145278                     /usr/lib/x86_64-linux-gnu/libharfbuzz.so.0.10400.2
+7f092bbcf000-7f092bdce000 ---p 00093000 08:01 145278                     /usr/lib/x86_64-linux-gnu/libharfbuzz.so.0.10400.2
+7f092bdce000-7f092bdd0000 r--p 00092000 08:01 145278                     /usr/lib/x86_64-linux-gnu/libharfbuzz.so.0.10400.2
+7f092bdd0000-7f092bdd1000 rw-p 00094000 08:01 145278                     /usr/lib/x86_64-linux-gnu/libharfbuzz.so.0.10400.2
+7f092bdd1000-7f092be1b000 r-xp 00000000 08:01 393814                     /lib/x86_64-linux-gnu/libmount.so.1.1.0
+7f092be1b000-7f092c01b000 ---p 0004a000 08:01 393814                     /lib/x86_64-linux-gnu/libmount.so.1.1.0
+7f092c01b000-7f092c01c000 r--p 0004a000 08:01 393814                     /lib/x86_64-linux-gnu/libmount.so.1.1.0
+7f092c01c000-7f092c01d000 rw-p 0004b000 08:01 393814                     /lib/x86_64-linux-gnu/libmount.so.1.1.0
+7f092c01d000-7f092c01f000 rw-p 00000000 00:00 0 
+7f092c01f000-7f092c033000 r-xp 00000000 08:01 393882                     /lib/x86_64-linux-gnu/libresolv-2.24.so
+7f092c033000-7f092c232000 ---p 00014000 08:01 393882                     /lib/x86_64-linux-gnu/libresolv-2.24.so
+7f092c232000-7f092c233000 r--p 00013000 08:01 393882                     /lib/x86_64-linux-gnu/libresolv-2.24.so
+7f092c233000-7f092c234000 rw-p 00014000 08:01 393882                     /lib/x86_64-linux-gnu/libresolv-2.24.so
+7f092c234000-7f092c236000 rw-p 00000000 00:00 0 
+7f092c236000-7f092c25b000 r-xp 00000000 08:01 393888                     /lib/x86_64-linux-gnu/libselinux.so.1
+7f092c25b000-7f092c45a000 ---p 00025000 08:01 393888                     /lib/x86_64-linux-gnu/libselinux.so.1
+7f092c45a000-7f092c45b000 r--p 00024000 08:01 393888                     /lib/x86_64-linux-gnu/libselinux.so.1
+7f092c45b000-7f092c45c000 rw-p 00025000 08:01 393888                     /lib/x86_64-linux-gnu/libselinux.so.1
+7f092c45c000-7f092c45e000 rw-p 00000000 00:00 0 
+7f092c45e000-7f092c477000 r-xp 00000000 08:01 393915                     /lib/x86_64-linux-gnu/libz.so.1.2.8
+7f092c477000-7f092c676000 ---p 00019000 08:01 393915                     /lib/x86_64-linux-gnu/libz.so.1.2.8
+7f092c676000-7f092c677000 r--p 00018000 08:01 393915                     /lib/x86_64-linux-gnu/libz.so.1.2.8
+7f092c677000-7f092c678000 rw-p 00019000 08:01 393915                     /lib/x86_64-linux-gnu/libz.so.1.2.8
+7f092c678000-7f092c689000 r-xp 00000000 08:01 144630                     /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0
+7f092c689000-7f092c888000 ---p 00011000 08:01 144630                     /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0
+7f092c888000-7f092c889000 r--p 00010000 08:01 144630                     /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0
+7f092c889000-7f092c88a000 rw-p 00011000 08:01 144630                     /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0
+7f092c88a000-7f092c894000 r-xp 00000000 08:01 144624                     /usr/lib/x86_64-linux-gnu/libXcursor.so.1.0.2
+7f092c894000-7f092ca93000 ---p 0000a000 08:01 144624                     /usr/lib/x86_64-linux-gnu/libXcursor.so.1.0.2
+7f092ca93000-7f092ca94000 r--p 00009000 08:01 144624                     /usr/lib/x86_64-linux-gnu/libXcursor.so.1.0.2
+7f092ca94000-7f092ca95000 rw-p 0000a000 08:01 144624                     /usr/lib/x86_64-linux-gnu/libXcursor.so.1.0.2
+7f092ca95000-7f092ca9f000 r-xp 00000000 08:01 144650                     /usr/lib/x86_64-linux-gnu/libXrandr.so.2.2.0
+7f092ca9f000-7f092cc9e000 ---p 0000a000 08:01 144650                     /usr/lib/x86_64-linux-gnu/libXrandr.so.2.2.0
+7f092cc9e000-7f092cc9f000 r--p 00009000 08:01 144650                     /usr/lib/x86_64-linux-gnu/libXrandr.so.2.2.0
+7f092cc9f000-7f092cca0000 rw-p 0000a000 08:01 144650                     /usr/lib/x86_64-linux-gnu/libXrandr.so.2.2.0
+7f092cca0000-7f092ccaf000 r-xp 00000000 08:01 144640                     /usr/lib/x86_64-linux-gnu/libXi.so.6.1.0
+7f092ccaf000-7f092ceae000 ---p 0000f000 08:01 144640                     /usr/lib/x86_64-linux-gnu/libXi.so.6.1.0
+7f092ceae000-7f092ceaf000 r--p 0000e000 08:01 144640                     /usr/lib/x86_64-linux-gnu/libXi.so.6.1.0
+7f092ceaf000-7f092ceb0000 rw-p 0000f000 08:01 144640                     /usr/lib/x86_64-linux-gnu/libXi.so.6.1.0
+7f092ceb0000-7f092ceb2000 r-xp 00000000 08:01 144642                     /usr/lib/x86_64-linux-gnu/libXinerama.so.1.0.0
+7f092ceb2000-7f092d0b1000 ---p 00002000 08:01 144642                     /usr/lib/x86_64-linux-gnu/libXinerama.so.1.0.0
+7f092d0b1000-7f092d0b2000 r--p 00001000 08:01 144642                     /usr/lib/x86_64-linux-gnu/libXinerama.so.1.0.0
+7f092d0b2000-7f092d0b3000 rw-p 00002000 08:01 144642                     /usr/lib/x86_64-linux-gnu/libXinerama.so.1.0.0
+7f092d0b3000-7f092d0bc000 r-xp 00000000 08:01 144652                     /usr/lib/x86_64-linux-gnu/libXrender.so.1.3.0
+7f092d0bc000-7f092d2bb000 ---p 00009000 08:01 144652                     /usr/lib/x86_64-linux-gnu/libXrender.so.1.3.0
+7f092d2bb000-7f092d2bc000 r--p 00008000 08:01 144652                     /usr/lib/x86_64-linux-gnu/libXrender.so.1.3.0
+7f092d2bc000-7f092d2bd000 rw-p 00009000 08:01 144652                     /usr/lib/x86_64-linux-gnu/libXrender.so.1.3.0
+7f092d2bd000-7f092d2c2000 r-xp 00000000 08:01 144632                     /usr/lib/x86_64-linux-gnu/libXfixes.so.3.1.0
+7f092d2c2000-7f092d4c1000 ---p 00005000 08:01 144632                     /usr/lib/x86_64-linux-gnu/libXfixes.so.3.1.0
+7f092d4c1000-7f092d4c2000 r--p 00004000 08:01 144632                     /usr/lib/x86_64-linux-gnu/libXfixes.so.3.1.0
+7f092d4c2000-7f092d4c3000 rw-p 00005000 08:01 144632                     /usr/lib/x86_64-linux-gnu/libXfixes.so.3.1.0
+7f092d4c3000-7f092d4c5000 r-xp 00000000 08:01 144626                     /usr/lib/x86_64-linux-gnu/libXdamage.so.1.1.0
+7f092d4c5000-7f092d6c4000 ---p 00002000 08:01 144626                     /usr/lib/x86_64-linux-gnu/libXdamage.so.1.1.0
+7f092d6c4000-7f092d6c5000 r--p 00001000 08:01 144626                     /usr/lib/x86_64-linux-gnu/libXdamage.so.1.1.0
+7f092d6c5000-7f092d6c6000 rw-p 00002000 08:01 144626                     /usr/lib/x86_64-linux-gnu/libXdamage.so.1.1.0
+7f092d6c6000-7f092d6c8000 r-xp 00000000 08:01 144622                     /usr/lib/x86_64-linux-gnu/libXcomposite.so.1.0.0
+7f092d6c8000-7f092d8c7000 ---p 00002000 08:01 144622                     /usr/lib/x86_64-linux-gnu/libXcomposite.so.1.0.0
+7f092d8c7000-7f092d8c8000 r--p 00001000 08:01 144622                     /usr/lib/x86_64-linux-gnu/libXcomposite.so.1.0.0
+7f092d8c8000-7f092d8c9000 rw-p 00002000 08:01 144622                     /usr/lib/x86_64-linux-gnu/libXcomposite.so.1.0.0
+7f092d8c9000-7f092d8df000 r-xp 00000000 08:01 398018                     /lib/x86_64-linux-gnu/libgcc_s.so.1
+7f092d8df000-7f092dade000 ---p 00016000 08:01 398018                     /lib/x86_64-linux-gnu/libgcc_s.so.1
+7f092dade000-7f092dadf000 r--p 00015000 08:01 398018                     /lib/x86_64-linux-gnu/libgcc_s.so.1
+7f092dadf000-7f092dae0000 rw-p 00016000 08:01 398018                     /lib/x86_64-linux-gnu/libgcc_s.so.1
+7f092dae0000-7f092dc50000 r-xp 00000000 08:01 131009                     /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24
+7f092dc50000-7f092de50000 ---p 00170000 08:01 131009                     /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24
+7f092de50000-7f092de5a000 r--p 00170000 08:01 131009                     /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24
+7f092de5a000-7f092de5c000 rw-p 0017a000 08:01 131009                     /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24
+7f092de5c000-7f092de5f000 rw-p 00000000 00:00 0 
+7f092de5f000-7f092decd000 r-xp 00000000 08:01 144469                     /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0
+7f092decd000-7f092e0cc000 ---p 0006e000 08:01 144469                     /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0
+7f092e0cc000-7f092e0cf000 r--p 0006d000 08:01 144469                     /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0
+7f092e0cf000-7f092e0d0000 rw-p 00070000 08:01 144469                     /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0
+7f092e0d0000-7f092e0d1000 rw-p 00000000 00:00 0 
+7f092e0d1000-7f092e0d6000 r-xp 00000000 08:01 144668                     /usr/lib/x86_64-linux-gnu/libXxf86vm.so.1.0.0
+7f092e0d6000-7f092e2d5000 ---p 00005000 08:01 144668                     /usr/lib/x86_64-linux-gnu/libXxf86vm.so.1.0.0
+7f092e2d5000-7f092e2d6000 r--p 00004000 08:01 144668                     /usr/lib/x86_64-linux-gnu/libXxf86vm.so.1.0.0
+7f092e2d6000-7f092e2d7000 rw-p 00005000 08:01 144668                     /usr/lib/x86_64-linux-gnu/libXxf86vm.so.1.0.0
+7f092e2d7000-7f092e411000 r-xp 00000000 08:01 144613                     /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+7f092e411000-7f092e611000 ---p 0013a000 08:01 144613                     /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+7f092e611000-7f092e612000 r--p 0013a000 08:01 144613                     /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+7f092e612000-7f092e617000 rw-p 0013b000 08:01 144613                     /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+7f092e617000-7f092e61c000 r-xp 00000000 08:01 144658                     /usr/lib/x86_64-linux-gnu/libXtst.so.6.1.0
+7f092e61c000-7f092e81b000 ---p 00005000 08:01 144658                     /usr/lib/x86_64-linux-gnu/libXtst.so.6.1.0
+7f092e81b000-7f092e81c000 r--p 00004000 08:01 144658                     /usr/lib/x86_64-linux-gnu/libXtst.so.6.1.0
+7f092e81c000-7f092e81d000 rw-p 00005000 08:01 144658                     /usr/lib/x86_64-linux-gnu/libXtst.so.6.1.0
+7f092e81d000-7f092e92d000 r-xp 00000000 08:01 395398                     /lib/x86_64-linux-gnu/libglib-2.0.so.0.5304.0
+7f092e92d000-7f092eb2c000 ---p 00110000 08:01 395398                     /lib/x86_64-linux-gnu/libglib-2.0.so.0.5304.0
+7f092eb2c000-7f092eb2d000 r--p 0010f000 08:01 395398                     /lib/x86_64-linux-gnu/libglib-2.0.so.0.5304.0
+7f092eb2d000-7f092eb2e000 rw-p 00110000 08:01 395398                     /lib/x86_64-linux-gnu/libglib-2.0.so.0.5304.0
+7f092eb2e000-7f092eb2f000 rw-p 00000000 00:00 0 
+7f092eb2f000-7f092eb30000 r-xp 00000000 08:01 131275                     /usr/lib/x86_64-linux-gnu/libgthread-2.0.so.0.5304.0
+7f092eb30000-7f092ed2f000 ---p 00001000 08:01 131275                     /usr/lib/x86_64-linux-gnu/libgthread-2.0.so.0.5304.0
+7f092ed2f000-7f092ed30000 r--p 00000000 08:01 131275                     /usr/lib/x86_64-linux-gnu/libgthread-2.0.so.0.5304.0
+7f092ed30000-7f092ed31000 rw-p 00001000 08:01 131275                     /usr/lib/x86_64-linux-gnu/libgthread-2.0.so.0.5304.0
+7f092ed31000-7f092ed34000 r-xp 00000000 08:01 131253                     /usr/lib/x86_64-linux-gnu/libgmodule-2.0.so.0.5304.0
+7f092ed34000-7f092ef33000 ---p 00003000 08:01 131253                     /usr/lib/x86_64-linux-gnu/libgmodule-2.0.so.0.5304.0
+7f092ef33000-7f092ef34000 r--p 00002000 08:01 131253                     /usr/lib/x86_64-linux-gnu/libgmodule-2.0.so.0.5304.0
+7f092ef34000-7f092ef35000 rw-p 00003000 08:01 131253                     /usr/lib/x86_64-linux-gnu/libgmodule-2.0.so.0.5304.0
+7f092ef35000-7f092ef86000 r-xp 00000000 08:01 131274                     /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.5304.0
+7f092ef86000-7f092f185000 ---p 00051000 08:01 131274                     /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.5304.0
+7f092f185000-7f092f186000 r--p 00050000 08:01 131274                     /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.5304.0
+7f092f186000-7f092f187000 rw-p 00051000 08:01 131274                     /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.5304.0
+7f092f187000-7f092f1c3000 r-xp 00000000 08:01 145018                     /usr/lib/x86_64-linux-gnu/libfontconfig.so.1.8.0
+7f092f1c3000-7f092f3c2000 ---p 0003c000 08:01 145018                     /usr/lib/x86_64-linux-gnu/libfontconfig.so.1.8.0
+7f092f3c2000-7f092f3c4000 r--p 0003b000 08:01 145018                     /usr/lib/x86_64-linux-gnu/libfontconfig.so.1.8.0
+7f092f3c4000-7f092f3c5000 rw-p 0003d000 08:01 145018                     /usr/lib/x86_64-linux-gnu/libfontconfig.so.1.8.0
+7f092f3c5000-7f092f469000 r-xp 00000000 08:01 145030                     /usr/lib/x86_64-linux-gnu/libfreetype.so.6.12.5
+7f092f469000-7f092f669000 ---p 000a4000 08:01 145030                     /usr/lib/x86_64-linux-gnu/libfreetype.so.6.12.5
+7f092f669000-7f092f66f000 r--p 000a4000 08:01 145030                     /usr/lib/x86_64-linux-gnu/libfreetype.so.6.12.5
+7f092f66f000-7f092f670000 rw-p 000aa000 08:01 145030                     /usr/lib/x86_64-linux-gnu/libfreetype.so.6.12.5
+7f092f670000-7f092f6b9000 r-xp 00000000 08:01 145627                     /usr/lib/x86_64-linux-gnu/libpango-1.0.so.0.4000.4
+7f092f6b9000-7f092f8b8000 ---p 00049000 08:01 145627                     /usr/lib/x86_64-linux-gnu/libpango-1.0.so.0.4000.4
+7f092f8b8000-7f092f8bb000 r--p 00048000 08:01 145627                     /usr/lib/x86_64-linux-gnu/libpango-1.0.so.0.4000.4
+7f092f8bb000-7f092f8bc000 rw-p 0004b000 08:01 145627                     /usr/lib/x86_64-linux-gnu/libpango-1.0.so.0.4000.4
+7f092f8bc000-7f092f9ca000 r-xp 00000000 08:01 144777                     /usr/lib/x86_64-linux-gnu/libcairo.so.2.11400.10
+7f092f9ca000-7f092fbca000 ---p 0010e000 08:01 144777                     /usr/lib/x86_64-linux-gnu/libcairo.so.2.11400.10
+7f092fbca000-7f092fbcd000 r--p 0010e000 08:01 144777                     /usr/lib/x86_64-linux-gnu/libcairo.so.2.11400.10
+7f092fbcd000-7f092fbce000 rw-p 00111000 08:01 144777                     /usr/lib/x86_64-linux-gnu/libcairo.so.2.11400.10
+7f092fbce000-7f092fbd0000 rw-p 00000000 00:00 0 
+7f092fbd0000-7f092fbdc000 r-xp 00000000 08:01 145629                     /usr/lib/x86_64-linux-gnu/libpangocairo-1.0.so.0.4000.4
+7f092fbdc000-7f092fddb000 ---p 0000c000 08:01 145629                     /usr/lib/x86_64-linux-gnu/libpangocairo-1.0.so.0.4000.4
+7f092fddb000-7f092fddc000 r--p 0000b000 08:01 145629                     /usr/lib/x86_64-linux-gnu/libpangocairo-1.0.so.0.4000.4
+7f092fddc000-7f092fddd000 rw-p 0000c000 08:01 145629                     /usr/lib/x86_64-linux-gnu/libpangocairo-1.0.so.0.4000.4
+7f092fddd000-7f092fdff000 r-xp 00000000 08:01 145063                     /usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so.0.3600.5
+7f092fdff000-7f092fffe000 ---p 00022000 08:01 145063                     /usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so.0.3600.5
+7f092fffe000-7f092ffff000 r--p 00021000 08:01 145063                     /usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so.0.3600.5
+7f092ffff000-7f0930000000 rw-p 00022000 08:01 145063                     /usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so.0.3600.5
+7f0930000000-7f0930021000 rw-p 00000000 00:00 0 
+7f0930021000-7f0934000000 ---p 00000000 00:00 0 
+7f0934000000-7f093633f000 rw-p 00000000 00:00 0 
+7f093633f000-7f0938000000 ---p 00000000 00:00 0 
+7f0938000000-7f09385f4000 rw-p 00000000 00:00 0 
+7f09385f4000-7f093c000000 ---p 00000000 00:00 0 
+7f093c000000-7f093c021000 rw-p 00000000 00:00 0 
+7f093c021000-7f0940000000 ---p 00000000 00:00 0 
+7f0940000000-7f0940021000 rw-p 00000000 00:00 0 
+7f0940021000-7f0944000000 ---p 00000000 00:00 0 
+7f0944000000-7f094451a000 rw-p 00000000 00:00 0 
+7f094451a000-7f0948000000 ---p 00000000 00:00 0 
+7f0948000000-7f0948021000 rw-p 00000000 00:00 0 
+7f0948021000-7f094c000000 ---p 00000000 00:00 0 
+7f094c000000-7f094c021000 rw-p 00000000 00:00 0 
+7f094c021000-7f0950000000 ---p 00000000 00:00 0 
+7f0950000000-7f0950021000 rw-p 00000000 00:00 0 
+7f0950021000-7f0954000000 ---p 00000000 00:00 0 
+7f0954000000-7f0954021000 rw-p 00000000 00:00 0 
+7f0954021000-7f0958000000 ---p 00000000 00:00 0 
+7f0958000000-7f0958022000 rw-p 00000000 00:00 0 
+7f0958022000-7f095c000000 ---p 00000000 00:00 0 
+7f095c001000-7f095c002000 rw-s 00000000 00:18 387                        /i915 (deleted)
+7f095c002000-7f095c003000 rw-s 00000000 00:18 251                        /i915 (deleted)
+7f095c003000-7f095c004000 rw-s 00000000 00:18 414                        /i915 (deleted)
+7f095c004000-7f095c02d000 r--p 00000000 08:01 1180961                    /usr/share/locale/pt_BR/LC_MESSAGES/gtk20-properties.mo
+7f095c02d000-7f095c041000 r-xp 00000000 08:01 145631                     /usr/lib/x86_64-linux-gnu/libpangoft2-1.0.so.0.4000.4
+7f095c041000-7f095c241000 ---p 00014000 08:01 145631                     /usr/lib/x86_64-linux-gnu/libpangoft2-1.0.so.0.4000.4
+7f095c241000-7f095c242000 r--p 00014000 08:01 145631                     /usr/lib/x86_64-linux-gnu/libpangoft2-1.0.so.0.4000.4
+7f095c242000-7f095c243000 rw-p 00015000 08:01 145631                     /usr/lib/x86_64-linux-gnu/libpangoft2-1.0.so.0.4000.4
+7f095c243000-7f095c3ce000 r-xp 00000000 08:01 131231                     /usr/lib/x86_64-linux-gnu/libgio-2.0.so.0.5304.0
+7f095c3ce000-7f095c5ce000 ---p 0018b000 08:01 131231                     /usr/lib/x86_64-linux-gnu/libgio-2.0.so.0.5304.0
+7f095c5ce000-7f095c5d3000 r--p 0018b000 08:01 131231                     /usr/lib/x86_64-linux-gnu/libgio-2.0.so.0.5304.0
+7f095c5d3000-7f095c5d5000 rw-p 00190000 08:01 131231                     /usr/lib/x86_64-linux-gnu/libgio-2.0.so.0.5304.0
+7f095c5d5000-7f095c5d7000 rw-p 00000000 00:00 0 
+7f095c5d7000-7f095c5fa000 r-xp 00000000 08:01 144707                     /usr/lib/x86_64-linux-gnu/libatk-1.0.so.0.22409.1
+7f095c5fa000-7f095c7f9000 ---p 00023000 08:01 144707                     /usr/lib/x86_64-linux-gnu/libatk-1.0.so.0.22409.1
+7f095c7f9000-7f095c7fc000 r--p 00022000 08:01 144707                     /usr/lib/x86_64-linux-gnu/libatk-1.0.so.0.22409.1
+7f095c7fc000-7f095c7fd000 rw-p 00025000 08:01 144707                     /usr/lib/x86_64-linux-gnu/libatk-1.0.so.0.22409.1
+7f095c7fd000-7f095c8aa000 r-xp 00000000 08:01 131016                     /usr/lib/x86_64-linux-gnu/libgdk-x11-2.0.so.0.2400.31
+7f095c8aa000-7f095caa9000 ---p 000ad000 08:01 131016                     /usr/lib/x86_64-linux-gnu/libgdk-x11-2.0.so.0.2400.31
+7f095caa9000-7f095caad000 r--p 000ac000 08:01 131016                     /usr/lib/x86_64-linux-gnu/libgdk-x11-2.0.so.0.2400.31
+7f095caad000-7f095caaf000 rw-p 000b0000 08:01 131016                     /usr/lib/x86_64-linux-gnu/libgdk-x11-2.0.so.0.2400.31
+7f095caaf000-7f095cedf000 r-xp 00000000 08:01 132064                     /usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0.2400.31
+7f095cedf000-7f095d0de000 ---p 00430000 08:01 132064                     /usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0.2400.31
+7f095d0de000-7f095d0e5000 r--p 0042f000 08:01 132064                     /usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0.2400.31
+7f095d0e5000-7f095d0e9000 rw-p 00436000 08:01 132064                     /usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0.2400.31
+7f095d0e9000-7f095d0ec000 rw-p 00000000 00:00 0 
+7f095d0ec000-7f095d0ed000 r--s 00000000 08:01 1831471                    /var/cache/fontconfig/16c2fda60d1b4b719f4b3d06fd951d25-le64.cache-4
+7f095d0ed000-7f095d0f0000 r--s 00000000 08:01 1831472                    /var/cache/fontconfig/47e67d79d01846c7b6efd6b4f03a6092-le64.cache-4
+7f095d0f0000-7f095d0f3000 r--s 00000000 08:01 1831493                    /var/cache/fontconfig/e13b20fdb08344e0e664864cc2ede53d-le64.cache-4
+7f095d0f3000-7f095d102000 r--p 00000000 08:01 1180962                    /usr/share/locale/pt_BR/LC_MESSAGES/gtk20.mo
+7f095d102000-7f095d10a000 rw-s 00000000 00:18 457                        /i915 (deleted)
+7f095d10a000-7f095d116000 r-xp 00000000 08:01 1327038                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libprism_es2.so
+7f095d116000-7f095d315000 ---p 0000c000 08:01 1327038                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libprism_es2.so
+7f095d315000-7f095d316000 rw-p 0000b000 08:01 1327038                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libprism_es2.so
+7f095d316000-7f095d319000 ---p 00000000 00:00 0 
+7f095d319000-7f095d417000 rw-p 00000000 00:00 0 
+7f095d417000-7f095d4ac000 r--s 0110b000 08:01 1640576                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/ext/jfxrt.jar
+7f095d4ac000-7f095d4ad000 ---p 00000000 00:00 0 
+7f095d4ad000-7f095d5ad000 rw-p 00000000 00:00 0 
+7f095d5ad000-7f095d5b0000 ---p 00000000 00:00 0 
+7f095d5b0000-7f095d6ae000 rw-p 00000000 00:00 0 
+7f095d6ae000-7f095d6b1000 ---p 00000000 00:00 0 
+7f095d6b1000-7f095d7af000 rw-p 00000000 00:00 0 
+7f095d7af000-7f095d7b2000 ---p 00000000 00:00 0 
+7f095d7b2000-7f095d8b0000 rw-p 00000000 00:00 0 
+7f095d8b0000-7f095d8b3000 ---p 00000000 00:00 0 
+7f095d8b3000-7f095d9b1000 rw-p 00000000 00:00 0 
+7f095d9b1000-7f095db4c000 r--p 00000000 08:01 136683                     /usr/lib/locale/locale-archive
+7f095db4c000-7f095db4f000 ---p 00000000 00:00 0 
+7f095db4f000-7f095dc4d000 rw-p 00000000 00:00 0 
+7f095dc4d000-7f095dc50000 ---p 00000000 00:00 0 
+7f095dc50000-7f095dd4e000 rw-p 00000000 00:00 0 
+7f095dd4e000-7f095dd4f000 ---p 00000000 00:00 0 
+7f095dd4f000-7f095e657000 rw-p 00000000 00:00 0 
+7f095e657000-7f095e831000 r--s 03d68000 08:01 1326963                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/rt.jar
+7f095e831000-7f0961000000 rw-p 00000000 00:00 0 
+7f0961000000-7f0961a90000 rwxp 00000000 00:00 0 
+7f0961a90000-7f0970000000 ---p 00000000 00:00 0 
+7f0970000000-7f0970497000 rw-p 00000000 00:00 0 
+7f0970497000-7f0974000000 ---p 00000000 00:00 0 
+7f0974000000-7f0974004000 r--s 00000000 08:01 1839074                    /var/cache/fontconfig/7ef2298fde41cc6eeb7af42e48b7d293-le64.cache-4
+7f0974004000-7f097400c000 rw-s 00000000 00:18 453                        /i915 (deleted)
+7f097400c000-7f097401b000 r--p 00000000 08:01 1179575                    /usr/share/locale/pt_BR/LC_MESSAGES/libc.mo
+7f097401b000-7f097416b000 rw-p 00000000 00:00 0 
+7f097416b000-7f097416c000 ---p 00000000 00:00 0 
+7f097416c000-7f097426c000 rw-p 00000000 00:00 0 
+7f097426c000-7f097426d000 ---p 00000000 00:00 0 
+7f097426d000-7f097437b000 rw-p 00000000 00:00 0 
+7f097437b000-7f09744ad000 ---p 00000000 00:00 0 
+7f09744ad000-7f09744bb000 rw-p 00000000 00:00 0 
+7f09744bb000-7f09745ec000 ---p 00000000 00:00 0 
+7f09745ec000-7f09745f7000 rw-p 00000000 00:00 0 
+7f09745f7000-7f097468c000 ---p 00000000 00:00 0 
+7f097468c000-7f09746b8000 rw-p 00000000 00:00 0 
+7f09746b8000-7f0974a4d000 ---p 00000000 00:00 0 
+7f0974a4d000-7f0974a68000 r-xp 00000000 08:01 1327030                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libzip.so
+7f0974a68000-7f0974c68000 ---p 0001b000 08:01 1327030                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libzip.so
+7f0974c68000-7f0974c69000 rw-p 0001b000 08:01 1327030                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libzip.so
+7f0974c69000-7f0974c73000 r-xp 00000000 08:01 393831                     /lib/x86_64-linux-gnu/libnss_files-2.24.so
+7f0974c73000-7f0974e73000 ---p 0000a000 08:01 393831                     /lib/x86_64-linux-gnu/libnss_files-2.24.so
+7f0974e73000-7f0974e74000 r--p 0000a000 08:01 393831                     /lib/x86_64-linux-gnu/libnss_files-2.24.so
+7f0974e74000-7f0974e75000 rw-p 0000b000 08:01 393831                     /lib/x86_64-linux-gnu/libnss_files-2.24.so
+7f0974e75000-7f0974e7b000 rw-p 00000000 00:00 0 
+7f0974e7b000-7f0974e86000 r-xp 00000000 08:01 393835                     /lib/x86_64-linux-gnu/libnss_nis-2.24.so
+7f0974e86000-7f0975085000 ---p 0000b000 08:01 393835                     /lib/x86_64-linux-gnu/libnss_nis-2.24.so
+7f0975085000-7f0975086000 r--p 0000a000 08:01 393835                     /lib/x86_64-linux-gnu/libnss_nis-2.24.so
+7f0975086000-7f0975087000 rw-p 0000b000 08:01 393835                     /lib/x86_64-linux-gnu/libnss_nis-2.24.so
+7f0975087000-7f097509b000 r-xp 00000000 08:01 393825                     /lib/x86_64-linux-gnu/libnsl-2.24.so
+7f097509b000-7f097529b000 ---p 00014000 08:01 393825                     /lib/x86_64-linux-gnu/libnsl-2.24.so
+7f097529b000-7f097529c000 r--p 00014000 08:01 393825                     /lib/x86_64-linux-gnu/libnsl-2.24.so
+7f097529c000-7f097529d000 rw-p 00015000 08:01 393825                     /lib/x86_64-linux-gnu/libnsl-2.24.so
+7f097529d000-7f097529f000 rw-p 00000000 00:00 0 
+7f097529f000-7f09752a6000 r-xp 00000000 08:01 393827                     /lib/x86_64-linux-gnu/libnss_compat-2.24.so
+7f09752a6000-7f09754a5000 ---p 00007000 08:01 393827                     /lib/x86_64-linux-gnu/libnss_compat-2.24.so
+7f09754a5000-7f09754a6000 r--p 00006000 08:01 393827                     /lib/x86_64-linux-gnu/libnss_compat-2.24.so
+7f09754a6000-7f09754a7000 rw-p 00007000 08:01 393827                     /lib/x86_64-linux-gnu/libnss_compat-2.24.so
+7f09754a7000-7f09754d2000 r-xp 00000000 08:01 1327024                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libjava.so
+7f09754d2000-7f09756d1000 ---p 0002b000 08:01 1327024                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libjava.so
+7f09756d1000-7f09756d3000 rw-p 0002a000 08:01 1327024                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libjava.so
+7f09756d3000-7f09756e0000 r-xp 00000000 08:01 1327029                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libverify.so
+7f09756e0000-7f09758e0000 ---p 0000d000 08:01 1327029                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libverify.so
+7f09758e0000-7f09758e2000 rw-p 0000d000 08:01 1327029                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/libverify.so
+7f09758e2000-7f09758e9000 r-xp 00000000 08:01 393884                     /lib/x86_64-linux-gnu/librt-2.24.so
+7f09758e9000-7f0975ae8000 ---p 00007000 08:01 393884                     /lib/x86_64-linux-gnu/librt-2.24.so
+7f0975ae8000-7f0975ae9000 r--p 00006000 08:01 393884                     /lib/x86_64-linux-gnu/librt-2.24.so
+7f0975ae9000-7f0975aea000 rw-p 00007000 08:01 393884                     /lib/x86_64-linux-gnu/librt-2.24.so
+7f0975aea000-7f0975bed000 r-xp 00000000 08:01 393808                     /lib/x86_64-linux-gnu/libm-2.24.so
+7f0975bed000-7f0975dec000 ---p 00103000 08:01 393808                     /lib/x86_64-linux-gnu/libm-2.24.so
+7f0975dec000-7f0975ded000 r--p 00102000 08:01 393808                     /lib/x86_64-linux-gnu/libm-2.24.so
+7f0975ded000-7f0975dee000 rw-p 00103000 08:01 393808                     /lib/x86_64-linux-gnu/libm-2.24.so
+7f0975dee000-7f0976ac7000 r-xp 00000000 08:01 1327006                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/server/libjvm.so
+7f0976ac7000-7f0976cc6000 ---p 00cd9000 08:01 1327006                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/server/libjvm.so
+7f0976cc6000-7f0976da0000 rw-p 00cd8000 08:01 1327006                    /home/administrador/Downloads/jdk1.8.0_171/jre/lib/amd64/server/libjvm.so
+7f0976da0000-7f0976deb000 rw-p 00000000 00:00 0 
+7f0976deb000-7f0976f80000 r-xp 00000000 08:01 393739                     /lib/x86_64-linux-gnu/libc-2.24.so
+7f0976f80000-7f0977180000 ---p 00195000 08:01 393739                     /lib/x86_64-linux-gnu/libc-2.24.so
+7f0977180000-7f0977184000 r--p 00195000 08:01 393739                     /lib/x86_64-linux-gnu/libc-2.24.so
+7f0977184000-7f0977186000 rw-p 00199000 08:01 393739                     /lib/x86_64-linux-gnu/libc-2.24.so
+7f0977186000-7f097718a000 rw-p 00000000 00:00 0 
+7f097718a000-7f097718d000 r-xp 00000000 08:01 393762                     /lib/x86_64-linux-gnu/libdl-2.24.so
+7f097718d000-7f097738c000 ---p 00003000 08:01 393762                     /lib/x86_64-linux-gnu/libdl-2.24.so
+7f097738c000-7f097738d000 r--p 00002000 08:01 393762                     /lib/x86_64-linux-gnu/libdl-2.24.so
+7f097738d000-7f097738e000 rw-p 00003000 08:01 393762                     /lib/x86_64-linux-gnu/libdl-2.24.so
+7f097738e000-7f09773a4000 r-xp 00000000 08:01 1207801                    /home/administrador/Downloads/jdk1.8.0_171/lib/amd64/jli/libjli.so
+7f09773a4000-7f09775a3000 ---p 00016000 08:01 1207801                    /home/administrador/Downloads/jdk1.8.0_171/lib/amd64/jli/libjli.so
+7f09775a3000-7f09775a4000 rw-p 00015000 08:01 1207801                    /home/administrador/Downloads/jdk1.8.0_171/lib/amd64/jli/libjli.so
+7f09775a4000-7f09775bc000 r-xp 00000000 08:01 393874                     /lib/x86_64-linux-gnu/libpthread-2.24.so
+7f09775bc000-7f09777bb000 ---p 00018000 08:01 393874                     /lib/x86_64-linux-gnu/libpthread-2.24.so
+7f09777bb000-7f09777bc000 r--p 00017000 08:01 393874                     /lib/x86_64-linux-gnu/libpthread-2.24.so
+7f09777bc000-7f09777bd000 rw-p 00018000 08:01 393874                     /lib/x86_64-linux-gnu/libpthread-2.24.so
+7f09777bd000-7f09777c1000 rw-p 00000000 00:00 0 
+7f09777c1000-7f09777e4000 r-xp 00000000 08:01 393709                     /lib/x86_64-linux-gnu/ld-2.24.so
+7f09777e4000-7f09777e5000 r--s 00000000 08:01 1831485                    /var/cache/fontconfig/30829fa25452a46451e813d634d7f916-le64.cache-4
+7f09777e5000-7f09777e6000 rw-s 00000000 00:18 454                        /i915 (deleted)
+7f09777e6000-7f09777ed000 r--s 00000000 08:01 267008                     /usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache
+7f09777ed000-7f09777ef000 r--s 00007000 08:13 69213                      /media/administrador/backup/ProjetosJava/CadastroOMega/CadastroOmegaFX/dist/run1633318266/CadastroOmegaFX.jar
+7f09777ef000-7f09778c0000 rw-p 00000000 00:00 0 
+7f09778c0000-7f09778c3000 ---p 00000000 00:00 0 
+7f09778c3000-7f09779c3000 rw-p 00000000 00:00 0 
+7f09779c4000-7f09779d7000 rw-p 00000000 00:00 0 
+7f09779d7000-7f09779df000 rw-s 00000000 08:01 808687                     /tmp/hsperfdata_administrador/2648
+7f09779df000-7f09779e0000 rw-p 00000000 00:00 0 
+7f09779e0000-7f09779e1000 r--p 00000000 00:00 0 
+7f09779e1000-7f09779e4000 rw-p 00000000 00:00 0 
+7f09779e4000-7f09779e5000 r--p 00023000 08:01 393709                     /lib/x86_64-linux-gnu/ld-2.24.so
+7f09779e5000-7f09779e6000 rw-p 00024000 08:01 393709                     /lib/x86_64-linux-gnu/ld-2.24.so
+7f09779e6000-7f09779e7000 rw-p 00000000 00:00 0 
+7ffccc751000-7ffccc772000 rw-p 00000000 00:00 0                          [stack]
+7ffccc7f2000-7ffccc7f5000 r--p 00000000 00:00 0                          [vvar]
+7ffccc7f5000-7ffccc7f7000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
+
+VM Arguments:
+jvm_args: -Dfile.encoding=UTF-8 -Dawt.useSystemAAFontSettings=gasp 
+java_command: /media/administrador/backup/ProjetosJava/CadastroOMega/CadastroOmegaFX/dist/run1633318266/CadastroOmegaFX.jar
+java_class_path (initial): /media/administrador/backup/ProjetosJava/CadastroOMega/CadastroOmegaFX/dist/run1633318266/CadastroOmegaFX.jar
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+_JAVA_OPTIONS=  -Dawt.useSystemAAFontSettings=gasp
+PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/sbin:/usr/sbin
+LD_LIBRARY_PATH=/usr/lib/jvm/default-java/jre/lib/amd64:/usr/lib/jvm/default-java/jre/lib/i386:
+SHELL=/bin/bash
+DISPLAY=:0
+
+Signal Handlers:
+SIGSEGV: [libjvm.so+0xad0890], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGBUS: [libjvm.so+0xad0890], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGFPE: [libjvm.so+0x928640], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGPIPE: SIG_IGN, sa_mask[0]=00000000000010000000000000000000, sa_flags=SA_RESTART
+SIGXFSZ: [libjvm.so+0x928640], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGILL: [libjvm.so+0x928640], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGUSR1: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGUSR2: [libjvm.so+0x929ea0], sa_mask[0]=00100000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
+SIGHUP: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGINT: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGTERM: [libjvm.so+0x92b2a0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGQUIT: [libjvm.so+0x92b2a0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+
+
+---------------  S Y S T E M  ---------------
+
+OS:DISTRIB_ID=Deepin
+DISTRIB_RELEASE="15.6"
+DISTRIB_DESCRIPTION="Deepin 15.6 "
+DISTRIB_CODENAME=unstable
+
+uname:Linux 4.15.0-21deepin-generic #21 SMP Mon May 21 05:20:09 UTC 2018 x86_64
+libc:glibc 2.24 NPTL 2.24 
+rlimit: STACK 8192k, CORE 0k, NPROC 15112, NOFILE 1048576, AS infinity
+load average:1,31 1,17 0,76
+
+/proc/meminfo:
+MemTotal:        3921620 kB
+MemFree:          122464 kB
+MemAvailable:     739948 kB
+Buffers:          306468 kB
+Cached:           968896 kB
+SwapCached:            0 kB
+Active:          1413308 kB
+Inactive:        1106052 kB
+Active(anon):    1245084 kB
+Inactive(anon):   485352 kB
+Active(file):     168224 kB
+Inactive(file):   620700 kB
+Unevictable:          64 kB
+Mlocked:              64 kB
+SwapTotal:             0 kB
+SwapFree:              0 kB
+Dirty:             13896 kB
+Writeback:             0 kB
+AnonPages:       1244144 kB
+Mapped:          1305884 kB
+Shmem:            486356 kB
+Slab:             111788 kB
+SReclaimable:      62192 kB
+SUnreclaim:        49596 kB
+KernelStack:        8128 kB
+PageTables:        35040 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     1960808 kB
+Committed_AS:    5820672 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:           0 kB
+VmallocChunk:          0 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+DirectMap4k:      115484 kB
+DirectMap2M:     3960832 kB
+
+
+CPU:total 2 (initial active 2) (2 cores per cpu, 1 threads per core) family 6 model 42 stepping 7, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, clmul, tsc, tscinvbit
+
+/proc/cpuinfo:
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 42
+model name	: Intel(R) Celeron(R) CPU 847 @ 1.10GHz
+stepping	: 7
+microcode	: 0x28
+cpu MHz		: 1097.612
+cache size	: 2048 KB
+physical id	: 0
+siblings	: 2
+core id		: 0
+cpu cores	: 2
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer xsave lahf_lm epb pti tpr_shadow vnmi flexpriority ept vpid xsaveopt dtherm arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2
+bogomips	: 2195.22
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 36 bits physical, 48 bits virtual
+power management:
+
+processor	: 1
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 42
+model name	: Intel(R) Celeron(R) CPU 847 @ 1.10GHz
+stepping	: 7
+microcode	: 0x28
+cpu MHz		: 1097.612
+cache size	: 2048 KB
+physical id	: 0
+siblings	: 2
+core id		: 1
+cpu cores	: 2
+apicid		: 2
+initial apicid	: 2
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer xsave lahf_lm epb pti tpr_shadow vnmi flexpriority ept vpid xsaveopt dtherm arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2
+bogomips	: 2195.22
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 36 bits physical, 48 bits virtual
+power management:
+
+
+
+Memory: 4k page, physical 3921620k(122464k free), swap 0k(0k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (25.171-b11) for linux-amd64 JRE (1.8.0_171-b11), built on Mar 28 2018 17:07:08 by "java_re" with gcc 4.3.0 20080428 (Red Hat 4.3.0-8)
+
+time: Thu Jul 19 08:04:57 2018
+elapsed time: 71 seconds (0d 0h 1m 11s)
+

@@ -1,0 +1,2 @@
+localhost
+C:\omega\DBA\zoom.GDB
