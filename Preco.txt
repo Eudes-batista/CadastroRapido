@@ -1,2 +1,2 @@
 localhost
-C:\omega\DBA\zoom.GDB
+E:\omega\DBA\pitanga.GDB

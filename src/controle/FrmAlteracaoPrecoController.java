@@ -59,6 +59,8 @@ public class FrmAlteracaoPrecoController implements Initializable {
     private Label labelNcm;
     @FXML
     private Label labelCest;
+    @FXML
+    private Label labelMinimizar;
 
     @FXML
     private TextField editReferencia;
@@ -600,6 +602,9 @@ public class FrmAlteracaoPrecoController implements Initializable {
             } else if (e.getCode().equals(KeyCode.ESCAPE)) {
                 sair();
             }
+        });
+        labelMinimizar.setOnMouseClicked(e ->{
+            ((Stage)ancoraPrincipal.getScene().getWindow()).setIconified(true);
         });
         tributacao.getSelectionModel().select(0);
         grupo.getSelectionModel().select(0);
