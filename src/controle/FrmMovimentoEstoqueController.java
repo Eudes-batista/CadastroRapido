@@ -58,6 +58,9 @@ public class FrmMovimentoEstoqueController implements Initializable {
 
     @FXML
     private Label labelDescricao;
+    
+    @FXML
+    private Label labelMinimizar;
 
     @FXML
     private TextField documento;
@@ -326,6 +329,9 @@ public class FrmMovimentoEstoqueController implements Initializable {
                     tabelaMovimento.requestFocus();
                 }
             }
+        });
+        this.labelMinimizar.setOnMouseClicked(e ->{
+            ((Stage) this.ancoraPrincipal.getScene().getWindow()).setIconified(true);
         });
     }
 
