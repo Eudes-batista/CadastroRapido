@@ -235,22 +235,19 @@ public class ProdutoServico {
         String sql;
         if (!referencia.trim().isEmpty()) {
             if (conecta.conexao(host, caminho)) {
-                sql = "select PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,PRPOSTRI,PRSPOTRI,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,EEESTATU from scea01 left outer join scea07 on(eerefere=prrefere) "
-                        + "where prrefere ='" + referencia + "' or PRCODBAR='" + referencia + "' \n"
-                        + "group by PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,prpostri,prspotri,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,EEESTATU";
+                sql = "select first 1 PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,PRPOSTRI,PRSPOTRI,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,EEESTATU from scea01 left outer join scea07 on(eerefere=prrefere) "
+                        + " where prrefere ='" + referencia + "' or PRCODBAR='" + referencia + "' ";
                 if (conecta.executaSQL(sql)) {
                     try {
                         if (conecta.getRs().first()) {
                             return buscarProdutoScea01();
                         } else {
-                            sql = "select PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,prpostri,prspotri,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,EEESTATU  from SCEA07 "
+                            sql = "select first 1 PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,prpostri,prspotri,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,EEESTATU  from SCEA07 "
                                     + "left outer join  SCEA09 on(RAREFERE=EEREFERE) "
                                     + "left outer join SCEA01 on(PRREFERE=EEREFERE) "
                                     + "where RAREFERE='" + referencia + "' "
                                     + "or    RAREFAUX='" + referencia + "' "
-                                    + "or    RAREFLIM='" + referencia + "' "
-                                    + "group by "
-                                    + "  PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,prpostri,prspotri,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,EEESTATU";
+                                    + "or    RAREFLIM='" + referencia + "' ";
                             if (conecta.executaSQL(sql)) {
                                 if (conecta.getRs().first()) {
                                     return buscarProdutoScea01();

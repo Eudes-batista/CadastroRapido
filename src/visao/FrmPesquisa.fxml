@@ -2,6 +2,7 @@
 
 <?import java.lang.String?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -48,10 +49,11 @@
             <Font size="13.0" />
          </font>
       </Button>
-      <ImageView fx:id="carregando" fitHeight="65.0" fitWidth="108.0" layoutX="685.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="carregando" fitHeight="65.0" fitWidth="108.0" layoutX="838.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../imagem/carregando.gif" />
          </image>
       </ImageView>
+      <CheckBox fx:id="chekcCancelados" alignment="CENTER" contentDisplay="CENTER" layoutX="679.0" layoutY="20.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="125.0" text="Cancelados" />
    </children>
 </AnchorPane>

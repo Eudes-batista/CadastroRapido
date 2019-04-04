@@ -67,6 +67,9 @@ public class FrmPesquisaController implements Initializable {
 
     @FXML
     protected TextField editPesquisa;
+    
+    @FXML
+    private CheckBox chekcCancelados;
 
     @FXML
     private Button button;
@@ -96,9 +99,10 @@ public class FrmPesquisaController implements Initializable {
     public void pesquisarProduto() {
         produtos.clear();
         if (conectaBanco.conexao(getHost(), getCaminho())) {
+            String cancelados = chekcCancelados.isSelected() ?  "PRDATCAN IS NOT NULL" : "PRDATCAN is null";
             String sql = "select first 30 PRREFERE,PRCODBAR,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA from scea01 left outer join scea07 on(eerefere=prrefere) "
-                    + "where PRDESCRI like '" + editPesquisa.getText().trim().toUpperCase() + "%' AND PRDATCAN is null "
-                    + "group by PRREFERE,PRCODBAR,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA";
+                    + "where PRDESCRI like '" + editPesquisa.getText().trim().toUpperCase() + "%' AND  "+cancelados
+                    + " group by PRREFERE,PRCODBAR,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA";
             if (conectaBanco.executaSQL(sql)) {
                 try {
                     if (conectaBanco.getRs().first()) {
