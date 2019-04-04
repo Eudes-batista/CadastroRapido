@@ -263,6 +263,7 @@ public class FrmMovimentoEstoqueController implements Initializable {
                         tipo.getSelectionModel().select(new TipoMovimento(movimentoSelecionado.getTipo()));
                         documento.setText(movimentoSelecionado.getDocumento());
                         buscarMovimento();
+                        salvou=true;
                         return;
                     }
                     movimento = movimentoSelecionado;
