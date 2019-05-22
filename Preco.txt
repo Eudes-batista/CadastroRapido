@@ -1,2 +1,2 @@
 localhost
-E:\omega\DBA\pitanga.GDB
+E:\omega\DBA\Pan-Golden.GDB

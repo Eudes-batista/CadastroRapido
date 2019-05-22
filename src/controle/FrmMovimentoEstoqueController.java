@@ -58,7 +58,7 @@ public class FrmMovimentoEstoqueController implements Initializable {
 
     @FXML
     private Label labelDescricao;
-    
+
     @FXML
     private Label labelMinimizar;
 
@@ -255,22 +255,24 @@ public class FrmMovimentoEstoqueController implements Initializable {
             stage.setScene(scene);
             stage.initStyle(StageStyle.UNDECORATED);
             stage.showAndWait();
-            if (pesquisaMovimentosController.getTabela().getSelectionModel().getSelectedItem() != null) {
-                if (pesquisaMovimentosController.isSelecionouRegistro()) {
-                    Movimento movimentoSelecionado = pesquisaMovimentosController.getTabela().getSelectionModel().getSelectedItem();
-                    if (movimento.getDocumento().isEmpty()) {
-                        empresa.getSelectionModel().select(movimentoSelecionado.getEmpresa());
-                        tipo.getSelectionModel().select(new TipoMovimento(movimentoSelecionado.getTipo()));
-                        documento.setText(movimentoSelecionado.getDocumento());
-                        buscarMovimento();
-                        salvou=true;
-                        return;
-                    }
-                    movimento = movimentoSelecionado;
-                    listarItemMovimento();
-                    this.salvarItemNoMovimentoAtual();
-                }
+            if (pesquisaMovimentosController.getTabela().getSelectionModel().getSelectedItem() == null) {
+                return;
             }
+            if (!pesquisaMovimentosController.isSelecionouRegistro()) {
+                return;
+            }
+            Movimento movimentoSelecionado = pesquisaMovimentosController.getTabela().getSelectionModel().getSelectedItem();
+            if (movimento.getDocumento().isEmpty()) {
+                empresa.getSelectionModel().select(movimentoSelecionado.getEmpresa());
+                tipo.getSelectionModel().select(new TipoMovimento(movimentoSelecionado.getTipo()));
+                documento.setText(movimentoSelecionado.getDocumento());
+                buscarMovimento();
+                salvou = true;
+                return;
+            }
+            movimento = movimentoSelecionado;
+            listarItemMovimento();
+            this.salvarItemNoMovimentoAtual();
         } catch (IOException ex) {
         }
     }
@@ -331,7 +333,7 @@ public class FrmMovimentoEstoqueController implements Initializable {
                 }
             }
         });
-        this.labelMinimizar.setOnMouseClicked(e ->{
+        this.labelMinimizar.setOnMouseClicked(e -> {
             ((Stage) this.ancoraPrincipal.getScene().getWindow()).setIconified(true);
         });
     }
@@ -460,16 +462,18 @@ public class FrmMovimentoEstoqueController implements Initializable {
                 "EDS", new Date(), new Date());
         try {
             movimento = this.movimentoService.verificarMovimento(m);
-            if (movimento != null) {
-                listarItemMovimento();
-                desabilitarCampos(true);
-                item.requestFocus();
-                quantidadeItens.setText(String.valueOf(itemMovimentos.size()));
+            if (movimento == null) {
+                salvou = false;
+                movimento = null;
+                movimento = new Movimento();
+                this.observacao.requestFocus();
                 return;
             }
-            movimento=null;
-            movimento = new Movimento();
-            this.observacao.requestFocus();
+            listarItemMovimento();
+            desabilitarCampos(true);
+            item.requestFocus();
+            quantidadeItens.setText(String.valueOf(itemMovimentos.size()));
+            salvou = true;
         } catch (SQLException ex) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("AVISO");

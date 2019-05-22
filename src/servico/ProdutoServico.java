@@ -88,8 +88,9 @@ public class ProdutoServico {
                                 new SimpleDateFormat("ddMMyyyy").format(new Date()),
                                 "Estoque Inicial", "ADM", new Date(), new Date());
                         Movimento m = movimentoService.verificarMovimento(movimento);
-                        if(m == null)
-                           movimentoService.salvar(movimento);
+                        if (m == null) {
+                            movimentoService.salvar(movimento);
+                        }
                         itemMovimentoService.salvar(new ItemMovimento(movimento, "01", produto.getReferencia(), produto.getQuantidade(), produto.getPreco()));
                     }
                 }
@@ -131,7 +132,7 @@ public class ProdutoServico {
                 pst.setDouble(5, produto.getPrecoAtacado());
                 pst.setString(6, produto.getReferencia());
                 pst.execute();
-                pst = conecta.getConn().prepareStatement("update scea01 set PRQTDATA=?,PRCLASSI=?,PRCDCEST=?,prpostri=?,prspotri=?,prdescri=?,PRUNDCPR=?,PRUNIDAD=?,prcodbar=?,PRCGRUPO=?,PRSUBGRP=? where prrefere=?");
+                pst = conecta.getConn().prepareStatement("update scea01 set PRQTDATA=?,PRCLASSI=?,PRCDCEST=?,prpostri=?,prspotri=?,prdescri=?,PRUNDCPR=?,PRUNIDAD=?,prcodbar=?,PRCGRUPO=?,PRSUBGRP=?,PRULTALT=? where prrefere=?");
                 pst.setDouble(1, produto.getQtdAtacado());
                 pst.setString(2, produto.getNcm());
                 pst.setString(3, produto.getCest());
@@ -143,7 +144,8 @@ public class ProdutoServico {
                 pst.setString(9, produto.getCodigoBarra());
                 pst.setString(10, produto.getGrupo());
                 pst.setString(11, produto.getSubgrupo());
-                pst.setString(12, produto.getReferencia());
+                pst.setDate(12, new java.sql.Date(new Date().getTime()));
+                pst.setString(13, produto.getReferencia());
                 pst.execute();
                 conecta.getConn().commit();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
