@@ -467,6 +467,7 @@ public class FrmMovimentoEstoqueController implements Initializable {
                 quantidadeItens.setText(String.valueOf(itemMovimentos.size()));
                 return;
             }
+            movimento=null;
             movimento = new Movimento();
             this.observacao.requestFocus();
         } catch (SQLException ex) {
