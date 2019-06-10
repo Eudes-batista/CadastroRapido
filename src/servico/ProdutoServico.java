@@ -134,7 +134,7 @@ public class ProdutoServico {
                 pst.setDouble(5, produto.getPrecoAtacado());
                 pst.setString(6, produto.getReferencia());
                 pst.execute();
-                pst = conecta.getConn().prepareStatement("update scea01 set PRQTDATA=?,PRCLASSI=?,PRCDCEST=?,prpostri=?,prspotri=?,prdescri=?,PRUNDCPR=?,PRUNIDAD=?,prcodbar=?,PRCGRUPO=?,PRSUBGRP=?,PRULTALT=?,PRCONFPR=?,PRDATCAN=? where prrefere=?");
+                pst = conecta.getConn().prepareStatement("update scea01 set PRQTDATA=?,PRCLASSI=?,PRCDCEST=?,prpostri=?,prspotri=?,prdescri=?,PRUNDCPR=?,PRUNIDAD=?,prcodbar=?,PRCGRUPO=?,PRSUBGRP=?,PRULTALT=?,PRDATCAN=?,PRCONFPR=? where prrefere=?");
                 pst.setDouble(1, produto.getQtdAtacado());
                 pst.setString(2, produto.getNcm());
                 pst.setString(3, produto.getCest());
@@ -147,7 +147,9 @@ public class ProdutoServico {
                 pst.setString(10, produto.getGrupo());
                 pst.setString(11, produto.getSubgrupo());
                 pst.setDate(12, new java.sql.Date(new Date().getTime()));
-                pst.setDate(13, new java.sql.Date(new SimpleDateFormat("yyyy-MM-dd").parse(produto.getDataCancelamento()).getTime()));
+                pst.setDate(13, null);
+                if(produto.getDataCancelamento() != null)
+                    pst.setDate(13, new java.sql.Date(new SimpleDateFormat("yyyy-MM-dd").parse(produto.getDataCancelamento()).getTime()));                    
                 pst.setString(14, produto.getConfirmaPreco());
                 pst.setString(15, produto.getReferencia());
                 pst.execute();
