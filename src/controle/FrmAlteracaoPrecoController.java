@@ -1,5 +1,6 @@
 package controle;
 
+import com.jfoenix.controls.JFXToggleButton;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -92,6 +93,12 @@ public class FrmAlteracaoPrecoController implements Initializable {
     @FXML
     private Button btSair;
 
+    @FXML
+    private JFXToggleButton inativar;
+
+    @FXML
+    private JFXToggleButton confirmaPreco;
+
     private String referencia, codigoBarra;
     private final ObservableList<String> tributacoes = FXCollections.observableArrayList("0001 TRIBUTADO", "0400 ISENTO", "0600 TRIBUTADO ST");
     private ObservableList<Grupo> grupos = FXCollections.observableArrayList();
@@ -148,8 +155,6 @@ public class FrmAlteracaoPrecoController implements Initializable {
             codigoBarra = "";
             editEstoqueInicial.setDisable(false);
         }
-        this.grupo.getSelectionModel().select(0);
-        this.subGrupo.getSelectionModel().select(0);
     }
 
     @FXML
@@ -462,6 +467,16 @@ public class FrmAlteracaoPrecoController implements Initializable {
             produto.setSubgrupo(this.subGrupo.getSelectionModel().getSelectedItem().getCodigo());
             String estoque = editEstoqueInicial.getText().replace(",", ".");
             produto.setQuantidade(Double.parseDouble(estoque));
+            String dataCancelamento = null;
+            if (inativar.isSelected()) {
+                dataCancelamento = LocalDate.now().toString();
+            }
+            produto.setDataCancelamento(dataCancelamento);
+            String confirmaPreco = "N";
+            if (this.confirmaPreco.isSelected()) {
+                confirmaPreco = "S";
+            }
+            produto.setConfirmaPreco(confirmaPreco);
             produtoServico.salvar(produto);
             editReferencia.requestFocus();
             editReferencia.selectAll();
@@ -605,8 +620,8 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 sair();
             }
         });
-        labelMinimizar.setOnMouseClicked(e ->{
-            ((Stage)ancoraPrincipal.getScene().getWindow()).setIconified(true);
+        labelMinimizar.setOnMouseClicked(e -> {
+            ((Stage) ancoraPrincipal.getScene().getWindow()).setIconified(true);
         });
         tributacao.getSelectionModel().select(0);
         grupo.getSelectionModel().select(0);
@@ -650,9 +665,14 @@ public class FrmAlteracaoPrecoController implements Initializable {
         }
         editCest.setText(produto.getCest());
         unidade.getSelectionModel().select(produto.getUnidade());
-        grupo.getSelectionModel().select(new Grupo(produto.getGrupo()));
-        subGrupo.getSelectionModel().select(new SubGrupo(produto.getSubgrupo()));
-        editEstoqueInicial.setText(String.valueOf(produto.getQuantidade().intValue()));
+        grupo.getSelectionModel().select(0);
+        subGrupo.getSelectionModel().select(0);
+        if (produto.getGrupo() != null) {
+            grupo.getSelectionModel().select(new Grupo(produto.getGrupo()));
+            subGrupo.getSelectionModel().select(new SubGrupo(produto.getSubgrupo()));
+        }
+        editEstoqueInicial.setText(produto.getQuantidade() != null ? String.valueOf(produto.getQuantidade().intValue()) : "0");
+        inativar.setSelected(produto.getDataCancelamento() != null);
         editPreco.requestFocus();
         editPreco.selectAll();
         this.produto = produto;
