@@ -148,6 +148,8 @@ public class FrmAlteracaoPrecoController implements Initializable {
             codigoBarra = "";
             editEstoqueInicial.setDisable(false);
         }
+        this.grupo.getSelectionModel().select(0);
+        this.subGrupo.getSelectionModel().select(0);
     }
 
     @FXML
