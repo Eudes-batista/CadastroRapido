@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class ProdutoServico {
     private void persistir(Produto produto) {
         if (conecta.conexao(host, caminho)) {
             try {
-                String sql = "INSERT INTO SCEA01 (PRREFERE,PRDESCRI,PRCODBAR,PRREFLIM,PRCGRUPO,PRSUBGRP,PRUNDCPR,PRUNIDAD,PRPOSTRI,PRSPOTRI,PRCLASSI,PRCDCEST,PRIDENTI,PRIVESEF,PRQTDATA,PRULTALT)";
+                String sql = "INSERT INTO SCEA01 (PRREFERE,PRDESCRI,PRCODBAR,PRREFLIM,PRCGRUPO,PRSUBGRP,PRUNDCPR,PRUNIDAD,PRPOSTRI,PRSPOTRI,PRCLASSI,PRCDCEST,PRIDENTI,PRIVESEF,PRQTDATA,PRULTALT,PRCONFPR)";
                 sql += " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 PreparedStatement pst = conecta.getConn().prepareStatement(sql);
                 pst.setString(1, produto.getReferencia());
@@ -67,6 +68,7 @@ public class ProdutoServico {
                 pst.setString(14, "1");
                 pst.setDouble(15, produto.getQtdAtacado());
                 pst.setString(16, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+                pst.setString(17, produto.getConfirmaPreco());
                 pst.execute();
                 conecta.getConn().commit();
                 String data = LocalDate.now().toString();
@@ -132,7 +134,7 @@ public class ProdutoServico {
                 pst.setDouble(5, produto.getPrecoAtacado());
                 pst.setString(6, produto.getReferencia());
                 pst.execute();
-                pst = conecta.getConn().prepareStatement("update scea01 set PRQTDATA=?,PRCLASSI=?,PRCDCEST=?,prpostri=?,prspotri=?,prdescri=?,PRUNDCPR=?,PRUNIDAD=?,prcodbar=?,PRCGRUPO=?,PRSUBGRP=?,PRULTALT=? where prrefere=?");
+                pst = conecta.getConn().prepareStatement("update scea01 set PRQTDATA=?,PRCLASSI=?,PRCDCEST=?,prpostri=?,prspotri=?,prdescri=?,PRUNDCPR=?,PRUNIDAD=?,prcodbar=?,PRCGRUPO=?,PRSUBGRP=?,PRULTALT=?,PRCONFPR=?,PRDATCAN=? where prrefere=?");
                 pst.setDouble(1, produto.getQtdAtacado());
                 pst.setString(2, produto.getNcm());
                 pst.setString(3, produto.getCest());
@@ -145,7 +147,9 @@ public class ProdutoServico {
                 pst.setString(10, produto.getGrupo());
                 pst.setString(11, produto.getSubgrupo());
                 pst.setDate(12, new java.sql.Date(new Date().getTime()));
-                pst.setString(13, produto.getReferencia());
+                pst.setDate(13, new java.sql.Date(new SimpleDateFormat("yyyy-MM-dd").parse(produto.getDataCancelamento()).getTime()));
+                pst.setString(14, produto.getConfirmaPreco());
+                pst.setString(15, produto.getReferencia());
                 pst.execute();
                 conecta.getConn().commit();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -163,6 +167,11 @@ public class ProdutoServico {
                 }
                 alert.setTitle("Erro");
                 alert.setContentText("Erro ao Alterar o preço\n detalhe do erro: " + ex.getMessage());
+                alert.show();
+            } catch (ParseException ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erro");
+                alert.setContentText("Na conversão da Data de Cancelamento");
                 alert.show();
             }
             conecta.desconecta();
@@ -237,14 +246,14 @@ public class ProdutoServico {
         String sql;
         if (!referencia.trim().isEmpty()) {
             if (conecta.conexao(host, caminho)) {
-                sql = "select first 1 PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,PRPOSTRI,PRSPOTRI,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,EEESTATU from scea01 left outer join scea07 on(eerefere=prrefere) "
+                sql = "select first 1 PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,PRPOSTRI,PRSPOTRI,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,EEESTATU,PRCONFPR from scea01 left outer join scea07 on(eerefere=prrefere) "
                         + " where prrefere ='" + referencia + "' or PRCODBAR='" + referencia + "' ";
                 if (conecta.executaSQL(sql)) {
                     try {
                         if (conecta.getRs().first()) {
                             return buscarProdutoScea01();
                         } else {
-                            sql = "select first 1 PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,prpostri,prspotri,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,EEESTATU  from SCEA07 "
+                            sql = "select first 1 PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,prpostri,prspotri,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,EEESTATU,PRCONFPR  from SCEA07 "
                                     + "left outer join  SCEA09 on(RAREFERE=EEREFERE) "
                                     + "left outer join SCEA01 on(PRREFERE=EEREFERE) "
                                     + "where RAREFERE='" + referencia + "' "
@@ -325,6 +334,7 @@ public class ProdutoServico {
         produto.setDataCancelamento(conecta.getRs().getString("PRDATCAN"));
         produto.setGrupo(conecta.getRs().getString("PRCGRUPO"));
         produto.setSubgrupo(conecta.getRs().getString("PRSUBGRP"));
+        produto.setConfirmaPreco(conecta.getRs().getString("PRCONFPR"));
         produto.setQuantidade(conecta.getRs().getDouble("EEESTATU"));
         return produto;
     }

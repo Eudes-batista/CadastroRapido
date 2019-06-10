@@ -673,6 +673,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         }
         editEstoqueInicial.setText(produto.getQuantidade() != null ? String.valueOf(produto.getQuantidade().intValue()) : "0");
         inativar.setSelected(produto.getDataCancelamento() != null);
+        confirmaPreco.setSelected("S".equals(produto.getConfirmaPreco()));
         editPreco.requestFocus();
         editPreco.selectAll();
         this.produto = produto;
