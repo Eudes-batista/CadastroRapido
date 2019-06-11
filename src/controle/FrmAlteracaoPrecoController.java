@@ -485,7 +485,8 @@ public class FrmAlteracaoPrecoController implements Initializable {
         }
     }
     private String cest = "";
-
+    private double x,y;
+            
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         listarGrupos();
@@ -631,6 +632,16 @@ public class FrmAlteracaoPrecoController implements Initializable {
         editPreco.setText("0,00");
         editPrecoAtacado.setText("0,00");
         editQtdAtacado.setText("0,00");
+        
+        ancoraPrincipal.setOnMousePressed(evt ->{
+             x = evt.getSceneX();
+             y = evt.getSceneY();
+        });
+        
+        ancoraPrincipal.setOnMouseDragged(evt ->{
+            FrmBancoController.stageFrmAlteracao.setX(evt.getScreenX() -x);
+            FrmBancoController.stageFrmAlteracao.setY(evt.getScreenY() -y);
+        });
     }
 
     private boolean opcoes() {

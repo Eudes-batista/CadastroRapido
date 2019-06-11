@@ -1,7 +1,5 @@
 package controle;
 
-import controle.ConectaBanco;
-import controle.CriarArquivo;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -72,7 +70,7 @@ public class FrmBancoController implements Initializable {
             editCaminho.setText(caminho);
         }
     }
-
+    static Stage stageFrmAlteracao;
     @FXML
     public void Iniciar() {
 
@@ -86,6 +84,7 @@ public class FrmBancoController implements Initializable {
                 preco.setScene(scene);
                 preco.toFront();
                 preco.initStyle(StageStyle.UNDECORATED);
+                stageFrmAlteracao = preco;
                 preco.show();
                 Stage stage = (Stage) btIniciar.getScene().getWindow();
                 stage.close();
