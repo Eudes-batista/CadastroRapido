@@ -75,7 +75,7 @@ public class MovimentoService {
 
     public List<TipoMovimento> listarTipos() throws SQLException {
         if (conecta.conexao(host, caminho)) {
-            String sql = "select T62TPMOV,T62DESCR from LAPT62 order by T62DESCR";
+            String sql = "select T62TPMOV,T62DESCR from LAPT62 order by T62TPMOV";
             if (conecta.executaSQL(sql)) {
                 List<TipoMovimento> tipoMovimentos = new ArrayList<>();
                 if (conecta.getRs().first()) {

@@ -8,9 +8,11 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="562.0" prefWidth="610.0" stylesheets="@css.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controle.FrmAlteracaoPrecoController">
@@ -257,6 +259,11 @@
                   </Tooltip>
                </tooltip>
             </Label>
+            <Pane fx:id="paneModal" layoutX="4.0" layoutY="54.0" prefHeight="501.0" prefWidth="610.0" styleClass="modal" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <ProgressIndicator layoutX="232.0" layoutY="180.0" prefHeight="137.0" prefWidth="136.0" />
+               </children>
+            </Pane>
          </children>
          <styleClass>
             <String fx:value="fundo-form" />

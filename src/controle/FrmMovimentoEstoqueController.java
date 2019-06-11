@@ -143,7 +143,7 @@ public class FrmMovimentoEstoqueController implements Initializable {
         try {
             this.tipoMovimentos.clear();
             this.tipoMovimentos.addAll(this.movimentoService.listarTipos());
-            this.tipo.setItems(tipoMovimentos);
+            this.tipo.setItems(this.tipoMovimentos);
             this.tipo.getSelectionModel().select(0);
         } catch (SQLException ex) {
         }
@@ -239,6 +239,7 @@ public class FrmMovimentoEstoqueController implements Initializable {
         new TableColumnUtil<ItemMovimento>().alinharConteudo(columnQuantidade, Pos.CENTER_RIGHT);
         this.movimento = new Movimento();
         eventos();
+
     }
 
     private void carregarMovimento() {
@@ -347,12 +348,12 @@ public class FrmMovimentoEstoqueController implements Initializable {
         this.tipo.setConverter(new StringConverter<TipoMovimento>() {
             @Override
             public String toString(TipoMovimento object) {
-                return object.getCodigo() + " - " + object.getDescricao();
+                return object.getDescricao();
             }
 
             @Override
             public TipoMovimento fromString(String string) {
-                return new TipoMovimento(string.split("-")[0].trim());
+                return new TipoMovimento(string.trim());
             }
         });
     }
@@ -518,5 +519,4 @@ public class FrmMovimentoEstoqueController implements Initializable {
 
         return false;
     }
-
 }

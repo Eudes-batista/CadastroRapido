@@ -46,7 +46,7 @@ public class ProdutoServico {
         if (conecta.conexao(host, caminho)) {
             try {
                 String sql = "INSERT INTO SCEA01 (PRREFERE,PRDESCRI,PRCODBAR,PRREFLIM,PRCGRUPO,PRSUBGRP,PRUNDCPR,PRUNIDAD,PRPOSTRI,PRSPOTRI,PRCLASSI,PRCDCEST,PRIDENTI,PRIVESEF,PRQTDATA,PRULTALT,PRCONFPR)";
-                sql += " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                sql += " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 PreparedStatement pst = conecta.getConn().prepareStatement(sql);
                 pst.setString(1, produto.getReferencia());
                 if (produto.getDescricao().length() >= 36) {

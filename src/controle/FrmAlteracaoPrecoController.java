@@ -33,6 +33,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -49,6 +50,8 @@ public class FrmAlteracaoPrecoController implements Initializable {
     private AnchorPane ancoraPrincipal;
     @FXML
     private AnchorPane ancoraAjuda;
+    @FXML
+    private Pane paneModal;
 
     @FXML
     private Label labelReferencia;
@@ -107,6 +110,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
     private Produto produto = new Produto();
     private final ProdutoServico produtoServico = new ProdutoServico();
     private final DecimalFormat df = new DecimalFormat("#,###0.00");
+    private Thread thread;
 
     public void sair() {
         Platform.exit();
@@ -123,37 +127,51 @@ public class FrmAlteracaoPrecoController implements Initializable {
             p.setNcm(p2.getNcm() == null || p2.getNcm().isEmpty() ? p.getNcm() : p2.getNcm());
             p.setCest(p2.getCest() == null || p2.getCest().isEmpty() ? p.getCest() : p2.getCest());
             p.setTributacao(p2.getTributacao() == null || p2.getTributacao().isEmpty() ? p.getTributacao() : p2.getTributacao());
-            pesquisarProduto(p);
             referencia = p.getReferencia();
             codigoBarra = p.getCodigoBarra();
-            labelReferencia.setText(p.getDataCancelamento() == null ? "Referencia" : "Referencia - Cancelada");
-            editReferencia.setStyle(p.getDataCancelamento() == null ? "-fx-text-fill:#757575" : "-fx-text-fill:red");
-            editEstoqueInicial.setDisable(true);
+            Platform.runLater(() -> {
+                pesquisarProduto(p);
+                labelReferencia.setText(p.getDataCancelamento() == null ? "Referencia" : "Referencia - Cancelada");
+                editReferencia.setStyle(p.getDataCancelamento() == null ? "-fx-text-fill:#757575" : "-fx-text-fill:red");
+                editEstoqueInicial.setDisable(true);
+            });
         } else if (p == null && p2 != null) {
             referencia = p2.getReferencia();
             codigoBarra = p2.getReferencia();
-            pesquisarProduto(p2);
-            editEstoqueInicial.setDisable(true);
+            Platform.runLater(() -> {
+                pesquisarProduto(p2);
+                editEstoqueInicial.setDisable(true);
+            });
         } else if (p2 == null && p != null) {
             referencia = p.getReferencia();
             codigoBarra = p.getCodigoBarra();
-            pesquisarProduto(p);
-            labelReferencia.setText(p.getDataCancelamento() == null ? "Referencia" : "Referencia - Cancelada");
-            editReferencia.setStyle(p.getDataCancelamento() == null ? "-fx-text-fill:#757575" : "-fx-text-fill:red");
-            editEstoqueInicial.setDisable(true);
+            Platform.runLater(() -> {
+                pesquisarProduto(p);
+                labelReferencia.setText(p.getDataCancelamento() == null ? "Referencia" : "Referencia - Cancelada");
+                editReferencia.setStyle(p.getDataCancelamento() == null ? "-fx-text-fill:#757575" : "-fx-text-fill:red");
+                editEstoqueInicial.setDisable(true);
+            });
         } else {
-            if (editReferencia.getText().isEmpty()) {
-                long gerarReferencia = produtoServico.gerarReferencia();
-                editReferencia.setText(String.valueOf(gerarReferencia));
-            }
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("AVISO");
-            alert.setContentText("Produto não Cadastrado no omega. \n Produto não encontrado no Cosmos.");
-            alert.showAndWait();
-            editDescricao.requestFocus();
-            unidade.getSelectionModel().select(0);
-            codigoBarra = "";
-            editEstoqueInicial.setDisable(false);
+            Platform.runLater(() -> {
+                if (editReferencia.getText().isEmpty()) {
+                    long gerarReferencia = produtoServico.gerarReferencia();
+                    editReferencia.setText(String.valueOf(gerarReferencia));
+                }
+                paneModal.setVisible(false);
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("AVISO");
+                alert.setContentText("Produto não Cadastrado no omega. \n Produto não encontrado no Cosmos.");
+                alert.showAndWait();
+                editDescricao.requestFocus();
+                unidade.getSelectionModel().select(0);
+                codigoBarra = "";
+                editEstoqueInicial.setText("1");
+                editEstoqueInicial.setDisable(false);
+            });
+        }
+        paneModal.setVisible(false);
+        if (thread != null) {
+            thread.stop();
         }
     }
 
@@ -485,8 +503,8 @@ public class FrmAlteracaoPrecoController implements Initializable {
         }
     }
     private String cest = "";
-    private double x,y;
-            
+    private double x, y;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         listarGrupos();
@@ -572,7 +590,11 @@ public class FrmAlteracaoPrecoController implements Initializable {
         editCest.setOnAction(e -> tributacao.requestFocus());
         tributacao.setOnAction(e -> unidade.requestFocus());
         labelNcm.setOnMouseClicked(e -> abrirCosmos());
-        labelCest.setOnMouseClicked(e -> abrirCest());
+        labelCest.setOnMouseClicked(e -> {
+            if (this.tributacao.getSelectionModel().getSelectedIndex() == 2) {
+                abrirCest();
+            }
+        });
         labelReferencia.setOnMouseClicked(e -> {
             try {
                 ativarProduto();
@@ -593,7 +615,14 @@ public class FrmAlteracaoPrecoController implements Initializable {
         });
         editReferencia.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
             if (!newValue) {
-                referencia();
+                thread = new Thread() {
+                    @Override
+                    public void run() {
+                        paneModal.setVisible(true);
+                        referencia();
+                    }
+                };
+                thread.start();
             }
         });
         editReferencia.setOnAction(e -> editDescricao.requestFocus());
@@ -632,15 +661,15 @@ public class FrmAlteracaoPrecoController implements Initializable {
         editPreco.setText("0,00");
         editPrecoAtacado.setText("0,00");
         editQtdAtacado.setText("0,00");
-        
-        ancoraPrincipal.setOnMousePressed(evt ->{
-             x = evt.getSceneX();
-             y = evt.getSceneY();
+
+        ancoraPrincipal.setOnMousePressed(evt -> {
+            x = evt.getSceneX();
+            y = evt.getSceneY();
         });
-        
-        ancoraPrincipal.setOnMouseDragged(evt ->{
-            FrmBancoController.stageFrmAlteracao.setX(evt.getScreenX() -x);
-            FrmBancoController.stageFrmAlteracao.setY(evt.getScreenY() -y);
+
+        ancoraPrincipal.setOnMouseDragged(evt -> {
+            FrmBancoController.stageFrmAlteracao.setX(evt.getScreenX() - x);
+            FrmBancoController.stageFrmAlteracao.setY(evt.getScreenY() - y);
         });
     }
 
@@ -762,6 +791,8 @@ public class FrmAlteracaoPrecoController implements Initializable {
                     grupo.getSelectionModel().select(new Grupo(buscarProduto.getGrupo()));
                     subGrupo.getSelectionModel().select(new SubGrupo(buscarProduto.getSubgrupo()));
                     unidade.getSelectionModel().select(buscarProduto.getUnidade());
+                    inativar.setSelected(buscarProduto.getDataCancelamento() != null);
+                    confirmaPreco.setSelected("S".equals(buscarProduto.getConfirmaPreco()));
                     editPreco.requestFocus();
                     editPreco.selectAll();
                     editEstoqueInicial.setDisable(true);

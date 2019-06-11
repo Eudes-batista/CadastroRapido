@@ -11,6 +11,9 @@
     -fx-border-color: #00AFEF;
     -fx-border-width: 5px;   
 }
+.modal{
+    -fx-background-color: rgba(0, 0, 0,.1);
+}
 .borda-erro{
     -fx-border-color: #f37e72;
     -fx-border-width: 5px;   
