@@ -182,7 +182,7 @@
                   <Tooltip text="Unidade de venda" />
                </tooltip>
             </ComboBox>
-            <Button fx:id="btSalvar" layoutX="22.0" layoutY="509.0" mnemonicParsing="false" onAction="#salvar" prefHeight="40.0" prefWidth="163.0" styleClass="btIncluir" text="Salvar (F1)">
+            <Button fx:id="btSalvar" layoutX="22.0" layoutY="509.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="163.0" styleClass="btIncluir" text="Salvar (F1)">
                <font>
                   <Font size="13.0" />
                </font>
