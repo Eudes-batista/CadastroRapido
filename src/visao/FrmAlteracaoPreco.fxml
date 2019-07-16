@@ -15,9 +15,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="562.0" prefWidth="610.0" stylesheets="@css.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controle.FrmAlteracaoPrecoController">
+<AnchorPane id="AnchorPane" prefHeight="562.0" prefWidth="575.0" stylesheets="@css.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controle.FrmAlteracaoPrecoController">
    <children>
-      <AnchorPane id="ancoraPrincipal" fx:id="ancoraPrincipal" layoutX="5.0" layoutY="5.0" prefHeight="511.0" prefWidth="585.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane id="ancoraPrincipal" fx:id="ancoraPrincipal" layoutX="5.0" layoutY="5.0" prefHeight="562.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label fx:id="labelReferencia" layoutX="16.0" layoutY="64.0" prefHeight="26.0" prefWidth="270.0" styleClass="label-titulo" text="Referencia" textFill="#d7cfcf">
                <font>
@@ -237,7 +237,7 @@
                   <Tooltip text="Click para consultar" />
                </tooltip>
             </Label>
-            <Label fx:id="labelMinimizar" alignment="CENTER" contentDisplay="CENTER" layoutX="532.0" layoutY="2.0" prefHeight="57.0" prefWidth="40.0" text="-" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="labelMinimizar" alignment="CENTER" contentDisplay="CENTER" layoutX="454.0" layoutY="2.0" prefHeight="57.0" prefWidth="40.0" text="-" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font size="45.0" />
                </font>
@@ -250,7 +250,7 @@
             </Label>
             <JFXToggleButton fx:id="inativar" layoutX="291.0" layoutY="77.0" prefHeight="37.0" prefWidth="120.0" text="Inativar" toggleColor="WHITE" toggleLineColor="#f52821" />
             <JFXToggleButton fx:id="confirmaPreco" layoutX="403.0" layoutY="77.0" prefHeight="58.0" prefWidth="152.0" text="Confirma Preço" toggleColor="WHITE" toggleLineColor="#85c37e" />
-            <Label fx:id="btAjuda" alignment="CENTER" layoutX="547.0" layoutY="55.0" maxWidth="60.0" onMouseClicked="#abrirAjuda" prefHeight="28.0" prefWidth="50.0" styleClass="ajuda" text="?">
+            <Label fx:id="btAjuda" alignment="CENTER" layoutX="516.0" layoutY="8.0" maxWidth="60.0" onMouseClicked="#abrirAjuda" prefHeight="28.0" prefWidth="50.0" styleClass="ajuda" text="?">
                <tooltip>
                   <Tooltip text="Ajuda">
                      <font>
