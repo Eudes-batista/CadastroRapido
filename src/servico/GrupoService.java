@@ -85,10 +85,10 @@ public class GrupoService {
         }
     }
 
-    public List<Grupo> listarGrupos() throws SQLException {
+    public List<Grupo> listarGrupos(String pesquisa) throws SQLException {
         List<Grupo> grupos = new ArrayList<>();
         if (this.conecta.conexao()) {
-            String sql = "SELECT T51CDGRP as codigo,T51DSGRP as nome FROM LAPT51 ORDER BY T51DSGRP";
+            String sql = "SELECT T51CDGRP as codigo,T51DSGRP as nome FROM LAPT51 where T51DSGRP like '%"+pesquisa+"%' ORDER BY T51DSGRP";
             if (this.conecta.executaSQL(sql)) {
                 if (this.conecta.getRs().first()) {
                     do {
