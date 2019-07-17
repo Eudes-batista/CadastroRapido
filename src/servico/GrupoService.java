@@ -101,7 +101,7 @@ public class GrupoService {
         return grupos;
     }
 
-    public Grupo buscarProduto(String codigo) {
+    public Grupo buscarGrupo(String codigo) {
         String sql;
         if (!this.conecta.conexao()) {
             return null;
