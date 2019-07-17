@@ -61,6 +61,7 @@ public class FrmGrupoController implements Initializable {
 
     private final GrupoService grupoService = new GrupoService();
     private final ObservableList<Grupo> grupos = FXCollections.observableArrayList();
+    private boolean editando;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -76,16 +77,16 @@ public class FrmGrupoController implements Initializable {
         this.btVoltar.setOnAction(evt -> {
             this.ancoraCadastro.setVisible(false);
             this.ancoraPesquisa.setVisible(true);
-            limparCampos();
+            this.limparCampos();
         });
         this.editPesquisa.setOnKeyReleased(evt -> {
             if (evt.getCode().equals(KeyCode.ENTER)) {
-                pesquisar();
+                this.pesquisar();
             }
         });
         this.tabela.setOnMouseClicked(evt -> {
             if (evt.getClickCount() == 2) {
-                selecionarGrupo();
+                this.selecionarGrupo();
             }
         });
     }
@@ -97,6 +98,7 @@ public class FrmGrupoController implements Initializable {
         this.editCodigo.setText(grupo.getCodigo());
         this.editNome.setText(grupo.getNome());
         this.editCodigo.setDisable(true);
+        this.editando = true;
     }
 
     private void inicializar() {
@@ -129,21 +131,39 @@ public class FrmGrupoController implements Initializable {
         Grupo grupo = new Grupo();
         grupo.setCodigo(this.editCodigo.getText());
         grupo.setNome(this.editNome.getText());
+        if(this.editando){
+            this.alterar(grupo);
+            return;
+        }
         if (this.grupoService.salvar(grupo)) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Cadastro Rapido");
             alert.setContentText("Grupo salvo com sucesso.");
             alert.show();
             this.pesquisar();
-            limparCampos();
+            this.limparCampos();
             this.editCodigo.requestFocus();
         }
     }
+    
+    private void alterar(Grupo grupo) {
+        if (this.grupoService.alterar(grupo)) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Cadastro Rapido");
+            alert.setContentText("Grupo salvo com sucesso.");
+            alert.show();
+            this.pesquisar();
+            this.limparCampos();
+            this.editCodigo.requestFocus();
+        }
+    }
+    
 
     private void limparCampos() {
         this.editCodigo.setText("");
         this.editNome.setText("");
         this.editCodigo.setDisable(false);
+        this.editando= false;
     }
 
     private boolean validarCampos() {

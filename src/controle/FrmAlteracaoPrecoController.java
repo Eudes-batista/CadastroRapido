@@ -851,6 +851,8 @@ public class FrmAlteracaoPrecoController implements Initializable {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
             this.ancoraPrincipal.setEffect(null);
+            this.listarGrupos();
+            this.grupo.getSelectionModel().select(0);
         } catch (IOException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erro");

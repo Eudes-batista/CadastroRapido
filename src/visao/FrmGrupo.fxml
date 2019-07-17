@@ -21,8 +21,8 @@
       <AnchorPane fx:id="ancoraPesquisa" layoutY="-2.0" prefHeight="488.0" prefWidth="677.0" styleClass="fundo" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label layoutX="8.0" layoutY="47.0" prefHeight="25.0" prefWidth="660.0" styleClass="label-titulo" text="Pesquisar" />
-            <Button fx:id="btIncluir" layoutX="14.0" layoutY="437.0" mnemonicParsing="false" styleClass="btIncluir" text="Incluir" />
-            <Button fx:id="btSair" layoutX="124.0" layoutY="437.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="95.0" styleClass="btCancelar" text="Sair" />
+            <Button fx:id="btIncluir" focusTraversable="false" layoutX="14.0" layoutY="437.0" mnemonicParsing="false" styleClass="btIncluir" text="Incluir" />
+            <Button fx:id="btSair" focusTraversable="false" layoutX="124.0" layoutY="437.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="95.0" styleClass="btCancelar" text="Sair" />
             <Text layoutX="8.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pesquisa de Grupos">
                <font>
                   <Font size="25.0" />
@@ -33,7 +33,7 @@
                   <Font size="15.0" />
                </font>
             </TextField>
-            <TableView fx:id="tabela" layoutY="117.0" prefHeight="312.0" prefWidth="677.0">
+            <TableView fx:id="tabela" focusTraversable="false" layoutY="117.0" prefHeight="312.0" prefWidth="677.0">
               <columns>
                 <TableColumn fx:id="columnCodigo" prefWidth="75.0" text="Codigo" />
                 <TableColumn fx:id="columnNome" prefWidth="75.0" text="Nome" />
