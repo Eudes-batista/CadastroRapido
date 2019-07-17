@@ -39,7 +39,7 @@ public class GrupoService {
         }
         return false;
     }
-    
+
     public boolean alterar(Grupo grupo) {
         if (this.conecta.conexao()) {
             try {
@@ -99,5 +99,31 @@ public class GrupoService {
             }
         }
         return grupos;
+    }
+
+    public Grupo buscarProduto(String codigo) {
+        String sql;
+        if (!this.conecta.conexao()) {
+            return null;
+        }
+        sql = "SELECT T51CDGRP as codigo,T51DSGRP as nome FROM LAPT51 where T51CDGRP='" + codigo + "'";
+        if (!this.conecta.executaSQL(sql)) {
+            this.conecta.desconecta();
+            return null;
+        }
+        try {
+            if (!this.conecta.getRs().first()) {
+                this.conecta.desconecta();
+                return null;
+            }
+            return new Grupo(this.conecta.getRs().getString("codigo"), this.conecta.getRs().getString("nome"));
+        } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro");
+            alert.setContentText("Grupo não existe.");
+            alert.show();
+        }
+        this.conecta.desconecta();
+        return null;
     }
 }
