@@ -92,6 +92,7 @@ public class FrmPesquisaController implements Initializable {
     public void pesquisarProduto() {
        this.pesquisaService.setChekcCancelados(this.chekcCancelados.isSelected());
        this.produtos  = this.pesquisaService.listarProdutos(this.editPesquisa.getText());
+       this.tabela.setItems(this.produtos);
     }
 
     @FXML
@@ -136,6 +137,7 @@ public class FrmPesquisaController implements Initializable {
                 ((Stage) this.anchorPane.getScene().getWindow()).close();
             }
         });
+        this.tabela.setItems(this.produtos);
     }
 
     private void inicializarColunas() {
@@ -147,7 +149,6 @@ public class FrmPesquisaController implements Initializable {
         this.columnQtdAtacado.setCellValueFactory(new PropertyValueFactory<>("qtdAtacado"));
         this.columnApagar.setCellValueFactory(new PropertyValueFactory<>("button"));
         this.columnCheckBox.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
-        this.tabela.setItems(this.produtos);
         this.columnPreco.setCellFactory((TableColumn<Produto, Double> param) -> {
             return new TableCell() {
                 @Override

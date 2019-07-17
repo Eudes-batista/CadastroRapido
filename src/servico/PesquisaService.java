@@ -15,8 +15,7 @@ public class PesquisaService {
     private boolean chekcCancelados;
     private final ObservableList<Produto> produtos = FXCollections.observableArrayList();
     
-    public ObservableList<Produto> listarProdutos(String pesquisa) {
-        
+    public ObservableList<Produto> listarProdutos(String pesquisa) {        
         if (this.conectaBanco.conexao()) {
             String cancelados = this.chekcCancelados ?  "PRDATCAN IS NOT NULL" : "PRDATCAN is null";
             String sql = "select first 20 PRREFERE,PRCODBAR,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA from scea01 left outer join scea07 on(eerefere=prrefere) "
