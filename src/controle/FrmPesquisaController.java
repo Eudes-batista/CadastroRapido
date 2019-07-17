@@ -1,10 +1,6 @@
 package controle;
 
-import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -34,13 +30,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import modelo.Produto;
+import servico.PesquisaService;
 import servico.ProdutoServico;
 
 public class FrmPesquisaController implements Initializable {
-
-    private final ConectaBanco conectaBanco = new ConectaBanco();
-
-    private String host, caminho;
 
     @FXML
     private AnchorPane anchorPane;
@@ -78,173 +71,126 @@ public class FrmPesquisaController implements Initializable {
     private ImageView carregando;
 
     private final DecimalFormat df = new DecimalFormat("#,###0.00");
-
-    public final ObservableList<Produto> produtos = FXCollections.observableArrayList();
     private boolean selecionouRegistro = false;
+    private ObservableList<Produto> produtos = FXCollections.observableArrayList();
+    private PesquisaService pesquisaService;
 
     @FXML
     private void pesquisar(KeyEvent event) {
-        carregando.setVisible(true);
-        if (editPesquisa.getText().isEmpty()) {
-            carregando.setVisible(false);
+        this.carregando.setVisible(true);
+        if (this.editPesquisa.getText().isEmpty()) {
+            this.carregando.setVisible(false);
         }
         if (event.getCode() == KeyCode.ENTER) {
             Platform.runLater(() -> {
                 pesquisarProduto();
-                carregando.setVisible(false);
+                this.carregando.setVisible(false);
             });
         }
     }
 
     public void pesquisarProduto() {
-        produtos.clear();
-        if (conectaBanco.conexao(getHost(), getCaminho())) {
-            String cancelados = chekcCancelados.isSelected() ?  "PRDATCAN IS NOT NULL" : "PRDATCAN is null";
-            String sql = "select first 20 PRREFERE,PRCODBAR,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA from scea01 left outer join scea07 on(eerefere=prrefere) "
-                    + "where PRDESCRI like '%" + editPesquisa.getText().trim().toUpperCase() + "%' AND  "+cancelados
-                    + " group by PRREFERE,PRCODBAR,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA";
-            if (conectaBanco.executaSQL(sql)) {
-                try {
-                    if (conectaBanco.getRs().first()) {
-                        do {
-                            produtos.add(new Produto(conectaBanco.getRs().getString("PRREFERE"),
-                                    conectaBanco.getRs().getString("PRDESCRI"),
-                                    conectaBanco.getRs().getDouble("EEPBRTB1"),
-                                    conectaBanco.getRs().getDouble("EET2PVD1"),
-                                    conectaBanco.getRs().getDouble("PRQTDATA"),
-                                    conectaBanco.getRs().getString("PRCODBAR")));
-                        } while (conectaBanco.getRs().next());
-                        tabela.setItems(produtos);
-                    }
-                } catch (SQLException ex) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("ERRO");
-                    alert.setContentText("Erro ao consultar\n detalhe do erro " + ex.getMessage());
-                    alert.show();
-                }
-            }
-            this.conectaBanco.desconecta();
-        }
-    }
-
-    private void processoConexao() {
-        try {
-            Path path = Paths.get("Preco.txt");
-            if (Files.exists(path)) {
-                List<String> dados = Files.lines(path).collect(Collectors.toList());
-                setHost(dados.get(0));
-                setCaminho(dados.get(1));
-            } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("AVISO");
-                alert.setContentText("Arquivo Preço.txt não existe");
-                alert.show();
-            }
-        } catch (IOException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setContentText("Erro ao ler arquivo Preco.txt \n detalhe do erro: " + ex.getMessage());
-            alert.show();
-        }
+       this.pesquisaService.setChekcCancelados(this.chekcCancelados.isSelected());
+       this.produtos  = this.pesquisaService.listarProdutos(this.editPesquisa.getText());
     }
 
     @FXML
     private void selecionarRegistro(MouseEvent event) {
         if (event.getClickCount() == 2) {
-            selecionouRegistro = true;
-            ((Stage) tabela.getScene().getWindow()).close();
+            this.selecionouRegistro = true;
+            ((Stage) this.tabela.getScene().getWindow()).close();
         }
     }
 
     @FXML
     private void selecionarComOEnter(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
-            selecionouRegistro = true;
-            ((Stage) tabela.getScene().getWindow()).close();
+            this.selecionouRegistro = true;
+            ((Stage) this.tabela.getScene().getWindow()).close();
         }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        processoConexao();
+        this.pesquisaService=new PesquisaService();
         inicializarColunas();
-        carregando.setVisible(false);
-        editPesquisa.setOnKeyPressed((e) -> {
+        this.carregando.setVisible(false);
+        this.editPesquisa.setOnKeyPressed((e) -> {
             pesquisar(e);
             if (e.getCode() == KeyCode.DOWN) {
-                tabela.requestFocus();
-                carregando.setVisible(false);
+                this.tabela.requestFocus();
+                this.carregando.setVisible(false);
             }
         });
-        button.setOnAction((e) -> {
-            selecionouRegistro = false;
-            ((Stage) button.getScene().getWindow()).close();
+        this.button.setOnAction((e) -> {
+            this.selecionouRegistro = false;
+            ((Stage) this.button.getScene().getWindow()).close();
         });
         this.editPesquisa.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
-            if(!editPesquisa.getText().isEmpty())
+            if(!this.editPesquisa.getText().isEmpty())
                 pesquisarProduto();
         });
-        anchorPane.addEventHandler(KeyEvent.KEY_RELEASED, evt -> {
+        this.anchorPane.addEventHandler(KeyEvent.KEY_RELEASED, evt -> {
             if (evt.getCode() == KeyCode.ESCAPE) {
-                selecionouRegistro = false;
-                ((Stage) anchorPane.getScene().getWindow()).close();
+                this.selecionouRegistro = false;
+                ((Stage) this.anchorPane.getScene().getWindow()).close();
             }
         });
     }
 
     private void inicializarColunas() {
-        columnReferencia.setCellValueFactory(new PropertyValueFactory<>("referencia"));
-        columnDescricao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
-        columnCodigoBarra.setCellValueFactory(new PropertyValueFactory<>("codigoBarra"));
-        columnPreco.setCellValueFactory(new PropertyValueFactory<>("preco"));
-        columnPrecoAtacado.setCellValueFactory(new PropertyValueFactory<>("precoAtacado"));
-        columnQtdAtacado.setCellValueFactory(new PropertyValueFactory<>("qtdAtacado"));
-        columnApagar.setCellValueFactory(new PropertyValueFactory<>("button"));
-        columnCheckBox.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
-        tabela.setItems(produtos);
-        columnPreco.setCellFactory((TableColumn<Produto, Double> param) -> {
+        this.columnReferencia.setCellValueFactory(new PropertyValueFactory<>("referencia"));
+        this.columnDescricao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
+        this.columnCodigoBarra.setCellValueFactory(new PropertyValueFactory<>("codigoBarra"));
+        this.columnPreco.setCellValueFactory(new PropertyValueFactory<>("preco"));
+        this.columnPrecoAtacado.setCellValueFactory(new PropertyValueFactory<>("precoAtacado"));
+        this.columnQtdAtacado.setCellValueFactory(new PropertyValueFactory<>("qtdAtacado"));
+        this.columnApagar.setCellValueFactory(new PropertyValueFactory<>("button"));
+        this.columnCheckBox.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
+        this.tabela.setItems(this.produtos);
+        this.columnPreco.setCellFactory((TableColumn<Produto, Double> param) -> {
             return new TableCell() {
                 @Override
                 protected void updateItem(Object item, boolean empty) {
                     super.updateItem(item, empty);
                     setText(null);
                     if (item != null) {
-                        setText(df.format(item));
+                        setText(FrmPesquisaController.this.df.format(item));
                         setAlignment(Pos.CENTER_RIGHT);
                     }
                 }
             };
         });
 
-        columnPrecoAtacado.setCellFactory((TableColumn<Produto, Double> param) -> {
+        this.columnPrecoAtacado.setCellFactory((TableColumn<Produto, Double> param) -> {
             return new TableCell() {
                 @Override
                 protected void updateItem(Object item, boolean empty) {
                     super.updateItem(item, empty);
                     setText(null);
                     if (item != null) {
-                        setText(df.format(item));
+                        setText(FrmPesquisaController.this.df.format(item));
                         setAlignment(Pos.CENTER_RIGHT);
                     }
                 }
             };
         });
 
-        columnQtdAtacado.setCellFactory((TableColumn<Produto, Double> param) -> {
+        this.columnQtdAtacado.setCellFactory((TableColumn<Produto, Double> param) -> {
             return new TableCell() {
                 @Override
                 protected void updateItem(Object item, boolean empty) {
                     super.updateItem(item, empty);
                     setText(null);
                     if (item != null) {
-                        setText(df.format(item));
+                        setText(FrmPesquisaController.this.df.format(item));
                         setAlignment(Pos.CENTER_RIGHT);
                     }
                 }
             };
         });
 
-        columnApagar.setCellFactory((TableColumn<Produto, Button> param) -> {
+        this.columnApagar.setCellFactory((TableColumn<Produto, Button> param) -> {
             return new TableCell<Produto, Button>() {
                 @Override
                 protected void updateItem(Button item, boolean empty) {
@@ -254,7 +200,7 @@ public class FrmPesquisaController implements Initializable {
                         Button button = new Button("Apagar");
                         button.getStyleClass().add("bt-apagar");
                         button.setOnAction(e -> {
-                            excluirProduto(produtos.get(getIndex()), false);
+                            excluirProduto(FrmPesquisaController.this.produtos.get(getIndex()), false);
                         });
                         setAlignment(Pos.CENTER_RIGHT);
                         setGraphic(button);
@@ -262,7 +208,7 @@ public class FrmPesquisaController implements Initializable {
                 }
             };
         });
-        columnCodigoBarra.setCellFactory((TableColumn<Produto, String> param) -> {
+        this.columnCodigoBarra.setCellFactory((TableColumn<Produto, String> param) -> {
             return new TableCell() {
                 @Override
                 protected void updateItem(Object item, boolean empty) {
@@ -331,14 +277,14 @@ public class FrmPesquisaController implements Initializable {
     @FXML
     private void apagarProdutosSelecionados() {
         if (opcoes()) {
-            count = 0;
+            this.count = 0;
             List<Produto> produtosSelecionados = this.produtos.stream().filter(p -> p.getCheckBox().isSelected()).collect(Collectors.toList());
             produtosSelecionados.forEach(p -> {
                 if (this.excluirProduto(p, true)) {
-                    count++;
+                    this.count++;
                 }
             });
-            if (produtosSelecionados.size() == count) {
+            if (produtosSelecionados.size() == this.count) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Sucesso");
                 alert.setContentText("excluido todos com sucesso!!");
@@ -346,25 +292,8 @@ public class FrmPesquisaController implements Initializable {
             }
         }
     }
-
-    public String getCaminho() {
-        return caminho;
-    }
-
-    public void setCaminho(String caminho) {
-        this.caminho = caminho;
-    }
-
-    public String getHost() {
-        return host;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
-
     public boolean isSelecionouRegistro() {
-        return selecionouRegistro;
+        return this.selecionouRegistro;
     }
 
 }

@@ -1,10 +1,6 @@
 package servico;
 
 import controle.ConectaBanco;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,14 +18,9 @@ import modelo.dto.MovimentoDTO;
 public class MovimentoService {
 
     private final ConectaBanco conecta = new ConectaBanco();
-    private String host, caminho;
-
-    public MovimentoService() {
-        this.BuscarCaminho();
-    }
 
     public boolean salvar(Movimento movimento) {
-        if (conecta.conexao(host, caminho)) {
+        if (conecta.conexao()) {
             try {
                 String sql = "INSERT INTO SCEA02 (MCCODEMP,MCTIPMOV,MCNUMERO,MCDATMOV,MCHISTOR,MCIDENTI,MCDATALT)";
                 sql += " VALUES('"+movimento.getEmpresa()+"','"+movimento.getTipo()+"','"+movimento.getDocumento()+
@@ -58,7 +49,7 @@ public class MovimentoService {
     }
 
     public List<String> listarEmpresas() throws SQLException {
-        if (conecta.conexao(host, caminho)) {
+        if (conecta.conexao()) {
             String sql = "SELECT LDCODEMP FROM LAPA13 WHERE LDUSUARI LIKE '%SUPORTE%'";
             if (conecta.executaSQL(sql)) {
                 List<String> empresas = new ArrayList<>();
@@ -74,7 +65,7 @@ public class MovimentoService {
     }
 
     public List<TipoMovimento> listarTipos() throws SQLException {
-        if (conecta.conexao(host, caminho)) {
+        if (conecta.conexao()) {
             String sql = "select T62TPMOV,T62DESCR from LAPT62 order by T62TPMOV";
             if (conecta.executaSQL(sql)) {
                 List<TipoMovimento> tipoMovimentos = new ArrayList<>();
@@ -90,7 +81,7 @@ public class MovimentoService {
     }
 
     public List<Movimento> listarMovimentos(String data, String documento) throws SQLException {
-        if (conecta.conexao(host, caminho)) {
+        if (conecta.conexao()) {
             String sql = "select MCCODEMP as empresa,MCTIPMOV as tipo,MCNUMERO as documento,MCDATMOV as data,MCHISTOR as observacao from SCEA02 where MCNUMERO like '%" + documento + "%' and MCDATMOV BETWEEN '" + data + " 00:00:00' and '" + data + " 23:59:59' group by MCCODEMP,MCTIPMOV,MCNUMERO,MCDATMOV,MCHISTOR order by MCNUMERO";
             if (conecta.executaSQL(sql)) {
                 Set<MovimentoDTO> movimentos = new HashSet<>();
@@ -111,7 +102,7 @@ public class MovimentoService {
     }
 
     public void excluirMovimento(Movimento movimento) {
-        if (conecta.conexao(host, caminho)) {
+        if (conecta.conexao()) {
             try {
                 String sql = "delete from SCEA02 where MCCODEMP=? and MCTIPMOV=? and MCNUMERO=?";
                 PreparedStatement pst = conecta.getConn().prepareStatement(sql);
@@ -130,7 +121,7 @@ public class MovimentoService {
     }
 
     public Movimento verificarMovimento(Movimento movimento) throws SQLException {
-        if (conecta.conexao(host, caminho)) {
+        if (conecta.conexao()) {
             String sql = "select MCCODEMP,MCTIPMOV,MCNUMERO,MCDATMOV,MCHISTOR,MCIDENTI,MCDATALT from SCEA02 where MCCODEMP='" + movimento.getEmpresa() + "' and MCTIPMOV='" + movimento.getTipo() + "' and MCNUMERO='" + movimento.getDocumento() + "' ";
             if (conecta.executaSQL(sql)) {
                 if (conecta.getRs().first()) {
@@ -145,21 +136,5 @@ public class MovimentoService {
             }
         }
         return null;
-    }
-
-    private void BuscarCaminho() {
-        Path path = Paths.get("Preco.txt");
-        if (Files.exists(path)) {
-            try {
-                List<String> lista = Files.lines(path).collect(Collectors.toList());
-                host = lista.get(0);
-                caminho = lista.get(1);
-            } catch (IOException ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erro");
-                alert.setContentText("Erro arquivo não encontrado" + ex.getMessage());
-                alert.show();
-            }
-        }
     }
 }

@@ -1,10 +1,6 @@
 package servico;
 
 import controle.ConectaBanco;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -20,14 +16,9 @@ import modelo.Movimento;
 public class ItemMovimentoService {
 
     private final ConectaBanco conecta = new ConectaBanco();
-    private String host, caminho;
-
-    public ItemMovimentoService() {
-        this.BuscarCaminho();
-    }
 
     public boolean salvar(ItemMovimento itemMovimento) {
-        if (conecta.conexao(host, caminho)) {
+        if (conecta.conexao()) {
             try {
                 itemMovimento.setSeguenciaItem(buscarSequenciaItem(itemMovimento.getMovimento()));
                 String sql = "INSERT INTO SCEA03 (MICODEMP,MITIPMOV,MINUMERO,MINUMITE,MIREFERE,MIDATMOV,MIQUANTI,MIPRUNIT)";
@@ -81,7 +72,7 @@ public class ItemMovimentoService {
     }
 
     public boolean excluirItem(ItemMovimento itemMovimento) {
-        if (conecta.conexao(host, caminho)) {
+        if (conecta.conexao()) {
             try {
                 String sql = "delete from SCEA03 where MINUMITE=? and MICODEMP=? and MITIPMOV=? and MINUMERO=?";
                 PreparedStatement pst = conecta.getConn().prepareStatement(sql);
@@ -104,7 +95,7 @@ public class ItemMovimentoService {
     }
 
     public boolean excluirTodosItens(List<ItemMovimento> itemMovimentos) {
-        if (conecta.conexao(host, caminho)) {
+        if (conecta.conexao()) {
             try {
                 String sql = "delete from SCEA03 where MICODEMP=? and MITIPMOV=? and MINUMERO=?";
                 PreparedStatement pst = conecta.getConn().prepareStatement(sql);
@@ -128,7 +119,7 @@ public class ItemMovimentoService {
     }
 
     public List<ItemMovimento> listarMovimento(Movimento movimento) throws SQLException {
-        if (conecta.conexao(host, caminho)) {
+        if (conecta.conexao()) {
             String sql = "select \n"
                     + "   MIREFERE as REFERENCIA\n"
                     + "  ,PRDESCRI as DESCRICAO\n"
@@ -181,21 +172,4 @@ public class ItemMovimentoService {
         }
         return "1";
     }
-
-    private void BuscarCaminho() {
-        Path path = Paths.get("Preco.txt");
-        if (Files.exists(path)) {
-            try {
-                List<String> lista = Files.lines(path).collect(Collectors.toList());
-                host = lista.get(0);
-                caminho = lista.get(1);
-            } catch (IOException ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erro");
-                alert.setContentText("Erro arquivo não encontrado" + ex.getMessage());
-                alert.show();
-            }
-        }
-    }
-
 }
