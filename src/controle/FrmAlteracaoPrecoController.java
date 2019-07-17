@@ -31,10 +31,12 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -521,6 +523,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         listarGrupos();
         listarSubGrupos();
+        this.btGrupo.setOnAction(evt -> this.abrirCadastroDeGrupo());
         grupo.setConverter(new StringConverter<Grupo>() {
             @Override
             public String toString(Grupo object) {
@@ -833,6 +836,28 @@ public class FrmAlteracaoPrecoController implements Initializable {
             alert.setContentText("Erro ao carregar o arquivo FrmPesquisa.fxml " + ex.getMessage());
             alert.show();
         }
+    }
+
+    private void abrirCadastroDeGrupo() {
+        BoxBlur boxBlur = new BoxBlur(10, 10, 10);
+        this.ancoraPrincipal.setEffect(boxBlur);
+        try {
+            FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/visao/FrmGrupo.fxml"));
+            Parent root = fXMLLoader.load();
+            Scene scene = new Scene(root);
+            scene.setFill(Color.TRANSPARENT);
+            Stage stage = new Stage(StageStyle.TRANSPARENT);
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+            this.ancoraPrincipal.setEffect(null);
+        } catch (IOException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro");
+            alert.setContentText("Erro ao carregar o arquivo FrmGrupo.fxml " + ex.getMessage());
+            alert.show();
+        }
+
     }
 
 }
