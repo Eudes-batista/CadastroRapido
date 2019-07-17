@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXNodesList?>
 <?import com.jfoenix.controls.JFXToggleButton?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
@@ -264,6 +267,23 @@
                   <ProgressIndicator layoutX="232.0" layoutY="180.0" prefHeight="137.0" prefWidth="136.0" />
                </children>
             </Pane>
+            <JFXNodesList layoutX="301.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" spacing="10.0">
+               <children>
+                  <JFXButton alignment="CENTER" contentDisplay="CENTER" prefHeight="32.0" prefWidth="25.0" text=" " textAlignment="CENTER">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <graphic>
+                        <MaterialDesignIconView fill="WHITE" glyphName="DOTS_VERTICAL" size="20" />
+                     </graphic>
+                     <tooltip>
+                        <Tooltip text="Opções" />
+                     </tooltip>
+                  </JFXButton>
+                  <JFXButton fx:id="btSubGrupo" layoutX="11.0" layoutY="10.0" prefWidth="70.0" style="-fx-background-color: #00AFEF;" text="SubGrupo" textFill="WHITE" />
+                  <JFXButton fx:id="btGrupo" buttonType="RAISED" prefWidth="70.0" style="-fx-background-color: #00AFEF;" text="Grupos" textFill="WHITE" />
+               </children>
+            </JFXNodesList>
          </children>
          <styleClass>
             <String fx:value="fundo-form" />

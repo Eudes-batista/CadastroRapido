@@ -1,5 +1,6 @@
 package controle;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXToggleButton;
 import java.awt.Desktop;
 import java.io.File;
@@ -101,6 +102,12 @@ public class FrmAlteracaoPrecoController implements Initializable {
 
     @FXML
     private JFXToggleButton inativar;
+
+    @FXML
+    private JFXButton btSubGrupo;
+
+    @FXML
+    private JFXButton btGrupo;
 
     @FXML
     private JFXToggleButton confirmaPreco;
