@@ -15,6 +15,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import modelo.Grupo;
@@ -67,6 +68,7 @@ public class FrmGrupoController implements Initializable {
         this.pesquisar();
         this.btSalvar.setOnAction(evt -> salvar());
         this.btSair.setOnAction(evt -> sair());
+        this.editCodigo.setOnAction(evt -> this.editNome.requestFocus());
         this.btIncluir.setOnAction(evt -> {
             this.ancoraPesquisa.setVisible(false);
             this.ancoraCadastro.setVisible(true);
@@ -74,7 +76,27 @@ public class FrmGrupoController implements Initializable {
         this.btVoltar.setOnAction(evt -> {
             this.ancoraCadastro.setVisible(false);
             this.ancoraPesquisa.setVisible(true);
+            limparCampos();
         });
+        this.editPesquisa.setOnKeyReleased(evt -> {
+            if (evt.getCode().equals(KeyCode.ENTER)) {
+                pesquisar();
+            }
+        });
+        this.tabela.setOnMouseClicked(evt -> {
+            if (evt.getClickCount() == 2) {
+                selecionarGrupo();
+            }
+        });
+    }
+
+    private void selecionarGrupo() {
+        this.ancoraPesquisa.setVisible(false);
+        this.ancoraCadastro.setVisible(true);
+        Grupo grupo = this.tabela.getSelectionModel().getSelectedItem();
+        this.editCodigo.setText(grupo.getCodigo());
+        this.editNome.setText(grupo.getNome());
+        this.editCodigo.setDisable(true);
     }
 
     private void inicializar() {
@@ -86,7 +108,7 @@ public class FrmGrupoController implements Initializable {
     private void pesquisar() {
         try {
             this.grupos.clear();
-            List<Grupo> listarGrupos = this.grupoService.listarGrupos(this.editPesquisa.getText().trim());
+            List<Grupo> listarGrupos = this.grupoService.listarGrupos(this.editPesquisa.getText().trim().toUpperCase());
             this.grupos.addAll(listarGrupos);
         } catch (SQLException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -111,9 +133,17 @@ public class FrmGrupoController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Cadastro Rapido");
             alert.setContentText("Grupo salvo com sucesso.");
-            alert.show();            
+            alert.show();
             this.pesquisar();
+            limparCampos();
+            this.editCodigo.requestFocus();
         }
+    }
+
+    private void limparCampos() {
+        this.editCodigo.setText("");
+        this.editNome.setText("");
+        this.editCodigo.setDisable(false);
     }
 
     private boolean validarCampos() {
