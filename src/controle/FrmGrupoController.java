@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -45,6 +46,9 @@ public class FrmGrupoController implements Initializable {
     private TableColumn<Grupo, String> columnNome;
 
     @FXML
+    private TableColumn<Grupo, String> columnExcluir;
+
+    @FXML
     private AnchorPane ancoraCadastro;
 
     @FXML
@@ -70,6 +74,7 @@ public class FrmGrupoController implements Initializable {
         this.btSalvar.setOnAction(evt -> salvar());
         this.btSair.setOnAction(evt -> sair());
         this.editCodigo.setOnAction(evt -> this.editNome.requestFocus());
+        this.editNome.setOnAction(evt -> this.salvar());
         this.btIncluir.setOnAction(evt -> {
             this.ancoraPesquisa.setVisible(false);
             this.ancoraCadastro.setVisible(true);
@@ -104,7 +109,29 @@ public class FrmGrupoController implements Initializable {
     private void inicializar() {
         this.columnCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
         this.columnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        this.columnExcluir.setCellValueFactory(new PropertyValueFactory<>("codigo"));
         this.tabela.setItems(this.grupos);
+        this.alterarColuna();
+    }
+
+    private void alterarColuna() {
+        this.columnExcluir.setCellFactory((TableColumn<Grupo, String> param) -> new TableCell<Grupo, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                if (!empty) {
+                    Button button = new Button("Apagar");
+                    button.getStyleClass().add("bt-apagar");
+                    button.setOnAction(evt -> {      
+                          Grupo grupo = FrmGrupoController.this.grupos.get(this.getIndex());
+                          FrmGrupoController.this.grupoService.excluirMovimento(grupo.getCodigo());
+                          FrmGrupoController.this.pesquisar();
+                    });
+                    setGraphic(button);
+                } else {
+                    setGraphic(null);
+                }
+            }
+        });
     }
 
     private void pesquisar() {
@@ -131,7 +158,7 @@ public class FrmGrupoController implements Initializable {
         Grupo grupo = new Grupo();
         grupo.setCodigo(this.editCodigo.getText());
         grupo.setNome(this.editNome.getText());
-        if(this.editando){
+        if (this.editando) {
             this.alterar(grupo);
             return;
         }
@@ -145,7 +172,7 @@ public class FrmGrupoController implements Initializable {
             this.editCodigo.requestFocus();
         }
     }
-    
+
     private void alterar(Grupo grupo) {
         if (this.grupoService.alterar(grupo)) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -157,13 +184,12 @@ public class FrmGrupoController implements Initializable {
             this.editCodigo.requestFocus();
         }
     }
-    
 
     private void limparCampos() {
         this.editCodigo.setText("");
         this.editNome.setText("");
         this.editCodigo.setDisable(false);
-        this.editando= false;
+        this.editando = false;
     }
 
     private boolean validarCampos() {

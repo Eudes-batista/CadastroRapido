@@ -68,12 +68,12 @@ public class GrupoService {
         return false;
     }
 
-    public void excluirMovimento(Grupo grupo) {
+    public void excluirMovimento(String grupo) {
         if (this.conecta.conexao()) {
             try {
                 String sql = "delete from LAPT51 where T51CDGRP=?";
                 PreparedStatement pst = this.conecta.getConn().prepareStatement(sql);
-                pst.setString(1, grupo.getCodigo());
+                pst.setString(1, grupo);
                 pst.execute();
                 this.conecta.getConn().commit();
             } catch (SQLException ex) {
