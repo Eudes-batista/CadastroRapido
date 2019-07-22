@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="CadastroOmegaFX.jnlp">
+  <information>
+    <title>CadastroOmegaFX</title>
+    <vendor>Administrador</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="CadastroOmegaFX.jar" size="146269" download="eager" />
+    <jar href="lib\Componentes.jar" size="11925" download="eager" />
+    <jar href="lib\fontawesomefx-8.9.jar" size="571068" download="eager" />
+    <jar href="lib\gson-2.6.2.jar" size="229650" download="eager" />
+    <jar href="lib\jaybird-full-2.2.7.jar" size="863402" download="eager" />
+    <jar href="lib\jfoenix-8.0.8.jar" size="2708772" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="CadastroOmegaFX" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="alteracaoprecofx.AlteracaoPrecoFX"  name="CadastroOmegaFX" />
+  <update check="always"/>
+</jnlp>
