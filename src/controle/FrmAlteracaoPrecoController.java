@@ -524,6 +524,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         listarGrupos();
         listarSubGrupos();
         this.btGrupo.setOnAction(evt -> this.abrirCadastroDeGrupo());
+        this.btSubGrupo.setOnAction(evt -> this.abrirCadastroDeSubGrupo());
         grupo.setConverter(new StringConverter<Grupo>() {
             @Override
             public String toString(Grupo object) {
@@ -859,7 +860,28 @@ public class FrmAlteracaoPrecoController implements Initializable {
             alert.setContentText("Erro ao carregar o arquivo FrmGrupo.fxml " + ex.getMessage());
             alert.show();
         }
-
+    }
+    private void abrirCadastroDeSubGrupo() {
+        BoxBlur boxBlur = new BoxBlur(10, 10, 10);
+        this.ancoraPrincipal.setEffect(boxBlur);
+        try {
+            FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/visao/FrmSubGrupo.fxml"));
+            Parent root = fXMLLoader.load();
+            Scene scene = new Scene(root);
+            scene.setFill(Color.TRANSPARENT);
+            Stage stage = new Stage(StageStyle.TRANSPARENT);
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+            this.ancoraPrincipal.setEffect(null);
+            this.listarSubGrupos();
+            this.subGrupo.getSelectionModel().select(0);
+        } catch (IOException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro");
+            alert.setContentText("Erro ao carregar o arquivo FrmGrupo.fxml " + ex.getMessage());
+            alert.show();
+        }
     }
 
 }
