@@ -23,7 +23,7 @@
             <Label layoutX="8.0" layoutY="47.0" prefHeight="25.0" prefWidth="660.0" styleClass="label-titulo" text="Pesquisar" />
             <Button fx:id="btIncluir" focusTraversable="false" layoutX="14.0" layoutY="437.0" mnemonicParsing="false" styleClass="btIncluir" text="Incluir" />
             <Button fx:id="btSair" focusTraversable="false" layoutX="124.0" layoutY="437.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="95.0" styleClass="btCancelar" text="Sair" />
-            <Text layoutX="8.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pesquisa de Grupos">
+            <Text layoutX="8.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pesquisa de Sub-Grupos">
                <font>
                   <Font size="25.0" />
                </font>
@@ -51,7 +51,7 @@
             <Label layoutX="27.0" layoutY="61.0" prefHeight="23.0" prefWidth="212.0" styleClass="label-titulo" text="Codigo" />
             <TextFieldCustom fx:id="editNome" layoutX="27.0" layoutY="168.0" maxlength="18" prefHeight="37.0" prefWidth="453.0" styleClass="input-padrao" toUpperCase="true" />
             <Label layoutX="27.0" layoutY="144.0" prefHeight="23.0" prefWidth="453.0" styleClass="label-titulo" text="Nome" />
-            <Text layoutX="27.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cadastro de Grupos">
+            <Text layoutX="27.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cadastro de Sub-Grupos">
                <font>
                   <Font size="25.0" />
                </font>
