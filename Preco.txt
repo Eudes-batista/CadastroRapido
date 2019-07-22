@@ -1,0 +1,2 @@
+localhost
+E:\omega\DBA\Pan-Golden.GDB

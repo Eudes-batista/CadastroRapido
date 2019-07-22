@@ -1,18 +1,14 @@
 package servico;
 
 import controle.ConectaBanco;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 import javafx.scene.control.Alert;
 import modelo.Grupo;
 import modelo.ItemMovimento;
@@ -23,12 +19,10 @@ import modelo.SubGrupo;
 public class ProdutoServico {
 
     public final ConectaBanco conecta = new ConectaBanco();
-    private String host, caminho;
     private MovimentoService movimentoService;
     private ItemMovimentoService itemMovimentoService;
 
     public ProdutoServico() {
-        BuscarCaminho();
     }
 
     public void salvar(Produto produto) {
@@ -42,10 +36,10 @@ public class ProdutoServico {
     }
 
     private void persistir(Produto produto) {
-        if (conecta.conexao(host, caminho)) {
+        if (conecta.conexao()) {
             try {
-                String sql = "INSERT INTO SCEA01 (PRREFERE,PRDESCRI,PRCODBAR,PRREFLIM,PRCGRUPO,PRSUBGRP,PRUNDCPR,PRUNIDAD,PRPOSTRI,PRSPOTRI,PRCLASSI,PRCDCEST,PRIDENTI,PRIVESEF,PRQTDATA,PRULTALT)";
-                sql += " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                String sql = "INSERT INTO SCEA01 (PRREFERE,PRDESCRI,PRCODBAR,PRREFLIM,PRCGRUPO,PRSUBGRP,PRUNDCPR,PRUNIDAD,PRPOSTRI,PRSPOTRI,PRCLASSI,PRCDCEST,PRIDENTI,PRIVESEF,PRQTDATA,PRULTALT,PRCONFPR)";
+                sql += " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 PreparedStatement pst = conecta.getConn().prepareStatement(sql);
                 pst.setString(1, produto.getReferencia());
                 if (produto.getDescricao().length() >= 36) {
@@ -67,6 +61,7 @@ public class ProdutoServico {
                 pst.setString(14, "1");
                 pst.setDouble(15, produto.getQtdAtacado());
                 pst.setString(16, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+                pst.setString(17, produto.getConfirmaPreco());
                 pst.execute();
                 conecta.getConn().commit();
                 String data = LocalDate.now().toString();
@@ -82,11 +77,15 @@ public class ProdutoServico {
                     if (produto.getQuantidade() != 0) {
                         this.movimentoService = new MovimentoService();
                         this.itemMovimentoService = new ItemMovimentoService();
-                        Movimento movimento = new Movimento(empresa,
+                        Movimento movimento = new Movimento(
+                                empresa,
                                 "ENAQ",
                                 new SimpleDateFormat("ddMMyyyy").format(new Date()),
                                 "Estoque Inicial", "ADM", new Date(), new Date());
-                        movimentoService.salvar(movimento);
+                        Movimento m = movimentoService.verificarMovimento(movimento);
+                        if (m == null) {
+                            movimentoService.salvar(movimento);
+                        }
                         itemMovimentoService.salvar(new ItemMovimento(movimento, "01", produto.getReferencia(), produto.getQuantidade(), produto.getPreco()));
                     }
                 }
@@ -118,7 +117,7 @@ public class ProdutoServico {
     }
 
     private void alterar(Produto produto) {
-        if (conecta.conexao(host, caminho)) {
+        if (conecta.conexao()) {
             try {
                 PreparedStatement pst = conecta.getConn().prepareStatement("update scea07 set EEPBRTB1=?,EEPLQTB1=?,EEPBRTB2=?,EEPLQTB2=?,EET2PVD1=?  where EEREFERE=?");
                 pst.setDouble(1, produto.getPreco());
@@ -128,7 +127,7 @@ public class ProdutoServico {
                 pst.setDouble(5, produto.getPrecoAtacado());
                 pst.setString(6, produto.getReferencia());
                 pst.execute();
-                pst = conecta.getConn().prepareStatement("update scea01 set PRQTDATA=?,PRCLASSI=?,PRCDCEST=?,prpostri=?,prspotri=?,prdescri=?,PRUNDCPR=?,PRUNIDAD=?,prcodbar=?,PRCGRUPO=?,PRSUBGRP=? where prrefere=?");
+                pst = conecta.getConn().prepareStatement("update scea01 set PRQTDATA=?,PRCLASSI=?,PRCDCEST=?,prpostri=?,prspotri=?,prdescri=?,PRUNDCPR=?,PRUNIDAD=?,prcodbar=?,PRCGRUPO=?,PRSUBGRP=?,PRULTALT=?,PRDATCAN=?,PRCONFPR=? where prrefere=?");
                 pst.setDouble(1, produto.getQtdAtacado());
                 pst.setString(2, produto.getNcm());
                 pst.setString(3, produto.getCest());
@@ -140,7 +139,12 @@ public class ProdutoServico {
                 pst.setString(9, produto.getCodigoBarra());
                 pst.setString(10, produto.getGrupo());
                 pst.setString(11, produto.getSubgrupo());
-                pst.setString(12, produto.getReferencia());
+                pst.setDate(12, new java.sql.Date(new Date().getTime()));
+                pst.setDate(13, null);
+                if(produto.getDataCancelamento() != null)
+                    pst.setDate(13, new java.sql.Date(new SimpleDateFormat("yyyy-MM-dd").parse(produto.getDataCancelamento()).getTime()));                    
+                pst.setString(14, produto.getConfirmaPreco());
+                pst.setString(15, produto.getReferencia());
                 pst.execute();
                 conecta.getConn().commit();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -159,13 +163,18 @@ public class ProdutoServico {
                 alert.setTitle("Erro");
                 alert.setContentText("Erro ao Alterar o preço\n detalhe do erro: " + ex.getMessage());
                 alert.show();
+            } catch (ParseException ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erro");
+                alert.setContentText("Na conversão da Data de Cancelamento");
+                alert.show();
             }
             conecta.desconecta();
         }
     }
 
     public void excluirProduto(String refencia) throws SQLException {
-        if (conecta.conexao(host, caminho)) {
+        if (conecta.conexao()) {
             PreparedStatement preparedStatement = conecta.getConn().prepareStatement("delete from scea09 where rarefere = ?");
             preparedStatement.setString(1, refencia);
             preparedStatement.execute();
@@ -181,7 +190,7 @@ public class ProdutoServico {
     }
 
     public List<Grupo> listarGrupos() throws SQLException {
-        if (conecta.conexao(host, caminho)) {
+        if (conecta.conexao()) {
             String sql = "SELECT T51CDGRP as codigo,T51DSGRP as nome FROM LAPT51 ORDER BY T51DSGRP";
             if (conecta.executaSQL(sql)) {
                 List<Grupo> grupos = new ArrayList<>();
@@ -197,7 +206,7 @@ public class ProdutoServico {
     }
 
     public List<SubGrupo> listarSubGrupos() throws SQLException {
-        if (conecta.conexao(host, caminho)) {
+        if (conecta.conexao()) {
             String sql = "SELECT T52CDSGR as codigo,T52DSSGR as nome FROM LAPT52 ORDER BY T52DSSGR";
             if (conecta.executaSQL(sql)) {
                 List<SubGrupo> grupos = new ArrayList<>();
@@ -213,7 +222,7 @@ public class ProdutoServico {
     }
 
     private List<String> buscarEmpresa() throws SQLException {
-        if (conecta.conexao(host, caminho)) {
+        if (conecta.conexao()) {
             String sql = "SELECT LDCODEMP FROM LAPA13 WHERE LDUSUARI LIKE '%SUPORTE%'";
             if (conecta.executaSQL(sql)) {
                 List<String> empresas = new ArrayList<>();
@@ -231,23 +240,20 @@ public class ProdutoServico {
     public Produto buscarProduto(String referencia) {
         String sql;
         if (!referencia.trim().isEmpty()) {
-            if (conecta.conexao(host, caminho)) {
-                sql = "select PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,PRPOSTRI,PRSPOTRI,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,EEESTATU from scea01 left outer join scea07 on(eerefere=prrefere) "
-                        + "where prrefere ='" + referencia + "' or PRCODBAR='" + referencia + "' \n"
-                        + "group by PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,prpostri,prspotri,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,EEESTATU";
+            if (conecta.conexao()) {
+                sql = "select first 1 PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,PRPOSTRI,PRSPOTRI,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,EEESTATU,PRCONFPR from scea01 left outer join scea07 on(eerefere=prrefere) "
+                        + " where prrefere ='" + referencia + "' or PRCODBAR='" + referencia + "' ";
                 if (conecta.executaSQL(sql)) {
                     try {
                         if (conecta.getRs().first()) {
                             return buscarProdutoScea01();
                         } else {
-                            sql = "select PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,prpostri,prspotri,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,EEESTATU  from SCEA07 "
+                            sql = "select first 1 PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,prpostri,prspotri,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,EEESTATU,PRCONFPR  from SCEA07 "
                                     + "left outer join  SCEA09 on(RAREFERE=EEREFERE) "
                                     + "left outer join SCEA01 on(PRREFERE=EEREFERE) "
                                     + "where RAREFERE='" + referencia + "' "
                                     + "or    RAREFAUX='" + referencia + "' "
-                                    + "or    RAREFLIM='" + referencia + "' "
-                                    + "group by "
-                                    + "  PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,prpostri,prspotri,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,EEESTATU";
+                                    + "or    RAREFLIM='" + referencia + "' ";
                             if (conecta.executaSQL(sql)) {
                                 if (conecta.getRs().first()) {
                                     return buscarProdutoScea01();
@@ -264,7 +270,7 @@ public class ProdutoServico {
     }
 
     public void atualizarDataCancelamento(Produto produto) throws SQLException {
-        if (conecta.conexao(host, caminho)) {
+        if (conecta.conexao()) {
             String data = produto.getDataCancelamento() != null ? "'" + produto.getDataCancelamento() + "'" : null;
             String sql = "update scea01 set PRDATCAN=" + data + " where prrefere='" + produto.getReferencia() + "'";
             PreparedStatement pst = conecta.getConn().prepareStatement(sql);
@@ -274,7 +280,7 @@ public class ProdutoServico {
     }
 
     public long gerarReferencia() {
-        if (conecta.conexao(host, caminho)) {
+        if (conecta.conexao()) {
             StringBuilder sb = new StringBuilder();
             sb.append("SELECT ")
                     .append(" floor((rand()*count(*))*10000) AS SO_NUMERO ")
@@ -323,24 +329,8 @@ public class ProdutoServico {
         produto.setDataCancelamento(conecta.getRs().getString("PRDATCAN"));
         produto.setGrupo(conecta.getRs().getString("PRCGRUPO"));
         produto.setSubgrupo(conecta.getRs().getString("PRSUBGRP"));
+        produto.setConfirmaPreco(conecta.getRs().getString("PRCONFPR"));
         produto.setQuantidade(conecta.getRs().getDouble("EEESTATU"));
         return produto;
     }
-
-    private void BuscarCaminho() {
-        Path path = Paths.get("Preco.txt");
-        if (Files.exists(path)) {
-            try {
-                List<String> lista = Files.lines(path).collect(Collectors.toList());
-                host = lista.get(0);
-                caminho = lista.get(1);
-            } catch (IOException ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erro");
-                alert.setContentText("Erro arquivo não encontrado" + ex.getMessage());
-                alert.show();
-            }
-        }
-    }
-
 }

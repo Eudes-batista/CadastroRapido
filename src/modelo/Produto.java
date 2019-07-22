@@ -20,6 +20,7 @@ public class Produto {
     private String cest;
     private String dataCancelamento;
     private Double quantidade;
+    private String confirmaPreco;
     private Button button;
     private CheckBox checkBox;
 
@@ -203,6 +204,14 @@ public class Produto {
 
     public void setQuantidade(Double quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public String getConfirmaPreco() {
+        return confirmaPreco;
+    }
+
+    public void setConfirmaPreco(String confirmaPreco) {
+        this.confirmaPreco = confirmaPreco;
     }
 
 }

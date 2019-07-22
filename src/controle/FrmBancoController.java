@@ -1,7 +1,5 @@
 package controle;
 
-import controle.ConectaBanco;
-import controle.CriarArquivo;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -72,20 +70,23 @@ public class FrmBancoController implements Initializable {
             editCaminho.setText(caminho);
         }
     }
-
+    static Stage stageFrmAlteracao;
     @FXML
     public void Iniciar() {
 
         ConectaBanco conecta = new ConectaBanco();
         try {
-            CriarArquivo.GerarArquivo(editHost.getText(), editCaminho.getText());
-            if (conecta.conexao(editHost.getText(), editCaminho.getText())) {
+            String host =editHost.getText(),caminho = editCaminho.getText();
+            CriarArquivo.GerarArquivo(host, caminho);
+            conecta.setHost(host).setCaminho(caminho);
+            if (conecta.conexao()) {
                 Pane root = FXMLLoader.load(getClass().getResource("/visao/FrmAlteracaoPreco.fxml"));
                 Scene scene = new Scene(root);
                 Stage preco = new Stage();
                 preco.setScene(scene);
                 preco.toFront();
                 preco.initStyle(StageStyle.UNDECORATED);
+                stageFrmAlteracao = preco;
                 preco.show();
                 Stage stage = (Stage) btIniciar.getScene().getWindow();
                 stage.close();

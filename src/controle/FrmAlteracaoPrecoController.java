@@ -1,5 +1,7 @@
 package controle;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXToggleButton;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -29,9 +31,12 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -48,6 +53,8 @@ public class FrmAlteracaoPrecoController implements Initializable {
     private AnchorPane ancoraPrincipal;
     @FXML
     private AnchorPane ancoraAjuda;
+    @FXML
+    private Pane paneModal;
 
     @FXML
     private Label labelReferencia;
@@ -59,6 +66,8 @@ public class FrmAlteracaoPrecoController implements Initializable {
     private Label labelNcm;
     @FXML
     private Label labelCest;
+    @FXML
+    private Label labelMinimizar;
 
     @FXML
     private TextField editReferencia;
@@ -90,6 +99,21 @@ public class FrmAlteracaoPrecoController implements Initializable {
     @FXML
     private Button btSair;
 
+    @FXML
+    private Button btSalvar;
+
+    @FXML
+    private JFXToggleButton inativar;
+
+    @FXML
+    private JFXButton btSubGrupo;
+
+    @FXML
+    private JFXButton btGrupo;
+
+    @FXML
+    private JFXToggleButton confirmaPreco;
+
     private String referencia, codigoBarra;
     private final ObservableList<String> tributacoes = FXCollections.observableArrayList("0001 TRIBUTADO", "0400 ISENTO", "0600 TRIBUTADO ST");
     private ObservableList<Grupo> grupos = FXCollections.observableArrayList();
@@ -98,6 +122,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
     private Produto produto = new Produto();
     private final ProdutoServico produtoServico = new ProdutoServico();
     private final DecimalFormat df = new DecimalFormat("#,###0.00");
+    private Thread thread;
 
     public void sair() {
         Platform.exit();
@@ -114,37 +139,47 @@ public class FrmAlteracaoPrecoController implements Initializable {
             p.setNcm(p2.getNcm() == null || p2.getNcm().isEmpty() ? p.getNcm() : p2.getNcm());
             p.setCest(p2.getCest() == null || p2.getCest().isEmpty() ? p.getCest() : p2.getCest());
             p.setTributacao(p2.getTributacao() == null || p2.getTributacao().isEmpty() ? p.getTributacao() : p2.getTributacao());
-            pesquisarProduto(p);
             referencia = p.getReferencia();
             codigoBarra = p.getCodigoBarra();
-            labelReferencia.setText(p.getDataCancelamento() == null ? "Referencia" : "Referencia - Cancelada");
-            editReferencia.setStyle(p.getDataCancelamento() == null ? "-fx-text-fill:#757575" : "-fx-text-fill:red");
-            editEstoqueInicial.setDisable(true);
+            Platform.runLater(() -> {
+                pesquisarProduto(p);
+                labelReferencia.setText(p.getDataCancelamento() == null ? "Referencia" : "Referencia - Cancelada");
+                editReferencia.setStyle(p.getDataCancelamento() == null ? "-fx-text-fill:#757575" : "-fx-text-fill:red");
+                editEstoqueInicial.setDisable(true);
+            });
         } else if (p == null && p2 != null) {
             referencia = p2.getReferencia();
             codigoBarra = p2.getReferencia();
-            pesquisarProduto(p2);
-            editEstoqueInicial.setDisable(true);
+            Platform.runLater(() -> {
+                pesquisarProduto(p2);
+                editEstoqueInicial.setDisable(true);
+            });
         } else if (p2 == null && p != null) {
             referencia = p.getReferencia();
             codigoBarra = p.getCodigoBarra();
-            pesquisarProduto(p);
-            labelReferencia.setText(p.getDataCancelamento() == null ? "Referencia" : "Referencia - Cancelada");
-            editReferencia.setStyle(p.getDataCancelamento() == null ? "-fx-text-fill:#757575" : "-fx-text-fill:red");
-            editEstoqueInicial.setDisable(true);
+            Platform.runLater(() -> {
+                pesquisarProduto(p);
+                labelReferencia.setText(p.getDataCancelamento() == null ? "Referencia" : "Referencia - Cancelada");
+                editReferencia.setStyle(p.getDataCancelamento() == null ? "-fx-text-fill:#757575" : "-fx-text-fill:red");
+                editEstoqueInicial.setDisable(true);
+            });
         } else {
-            if (editReferencia.getText().isEmpty()) {
-                long gerarReferencia = produtoServico.gerarReferencia();
-                editReferencia.setText(String.valueOf(gerarReferencia));
-            }
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("AVISO");
-            alert.setContentText("Produto não Cadastrado no omega. \n Produto não encontrado no Cosmos.");
-            alert.showAndWait();
-            editDescricao.requestFocus();
-            unidade.getSelectionModel().select(0);
-            codigoBarra = "";
-            editEstoqueInicial.setDisable(false);
+            Platform.runLater(() -> {
+                if (editReferencia.getText().isEmpty()) {
+                    long gerarReferencia = produtoServico.gerarReferencia();
+                    editReferencia.setText(String.valueOf(gerarReferencia));
+                }
+                paneModal.setVisible(false);
+                editDescricao.requestFocus();
+                unidade.getSelectionModel().select(0);
+                codigoBarra = "";
+                editEstoqueInicial.setText("1");
+                editEstoqueInicial.setDisable(false);
+            });
+        }
+        paneModal.setVisible(false);
+        if (thread != null) {
+            thread.stop();
         }
     }
 
@@ -430,47 +465,66 @@ public class FrmAlteracaoPrecoController implements Initializable {
 
     @FXML
     private void salvar() {
-        if (validarPreco()) {
-            Double preco, precoAtacado, qtdAtacado;
-            preco = formatarPreco(editPreco.getText());
-            precoAtacado = formatarPreco(editPrecoAtacado.getText());
-            qtdAtacado = formatarPreco(editQtdAtacado.getText());
-            referencia = editReferencia.getText();
-            produto.setReferencia(referencia);
-            if (codigoBarra != null) {
-                if (!codigoBarra.isEmpty()) {
-                    produto.setCodigoBarra(codigoBarra);
+        Platform.runLater(() -> {
+            if (validarPreco()) {
+                Double preco, precoAtacado, qtdAtacado;
+                preco = formatarPreco(editPreco.getText());
+                precoAtacado = formatarPreco(editPrecoAtacado.getText());
+                qtdAtacado = formatarPreco(editQtdAtacado.getText());
+                referencia = editReferencia.getText();
+                produto.setReferencia(referencia);
+                if (codigoBarra != null) {
+                    if (!codigoBarra.isEmpty()) {
+                        produto.setCodigoBarra(codigoBarra);
+                    } else {
+                        produto.setCodigoBarra(referencia);
+                    }
                 } else {
                     produto.setCodigoBarra(referencia);
                 }
-            } else {
-                produto.setCodigoBarra(referencia);
+                produto.setDescricao(editDescricao.getText());
+                produto.setPreco(preco);
+                produto.setPrecoAtacado(precoAtacado);
+                produto.setQtdAtacado(qtdAtacado);
+                produto.setNcm(editNcm.getText());
+                produto.setCest(editCest.getText());
+                produto.setTributacao(tributacao.getSelectionModel().getSelectedItem().replaceAll("\\D", ""));
+                produto.setUnidade(unidade.getSelectionModel().getSelectedItem());
+                produto.setGrupo(this.grupo.getSelectionModel().getSelectedItem().getCodigo());
+                produto.setSubgrupo(this.subGrupo.getSelectionModel().getSelectedItem().getCodigo());
+                String estoque = editEstoqueInicial.getText().replace(",", ".");
+                produto.setQuantidade(Double.parseDouble(estoque));
+                String dataCancelamento = null;
+                if (inativar.isSelected()) {
+                    dataCancelamento = LocalDate.now().toString();
+                }
+                produto.setDataCancelamento(dataCancelamento);
+                String confirmaPreco = "N";
+                if (this.confirmaPreco.isSelected()) {
+                    confirmaPreco = "S";
+                }
+                produto.setConfirmaPreco(confirmaPreco);
+                produtoServico.salvar(produto);
+                editReferencia.requestFocus();
+                editReferencia.selectAll();
+                codigoBarra = "";
+                editEstoqueInicial.setDisable(false);
             }
-            produto.setDescricao(editDescricao.getText());
-            produto.setPreco(preco);
-            produto.setPrecoAtacado(precoAtacado);
-            produto.setQtdAtacado(qtdAtacado);
-            produto.setNcm(editNcm.getText());
-            produto.setCest(editCest.getText());
-            produto.setTributacao(tributacao.getSelectionModel().getSelectedItem().replaceAll("\\D", ""));
-            produto.setUnidade(unidade.getSelectionModel().getSelectedItem());
-            produto.setGrupo(this.grupo.getSelectionModel().getSelectedItem().getCodigo());
-            produto.setSubgrupo(this.subGrupo.getSelectionModel().getSelectedItem().getCodigo());
-            String estoque = editEstoqueInicial.getText().replace(",", ".");
-            produto.setQuantidade(Double.parseDouble(estoque));
-            produtoServico.salvar(produto);
-            editReferencia.requestFocus();
-            editReferencia.selectAll();
-            codigoBarra = "";
-            editEstoqueInicial.setDisable(false);
+        });
+        paneModal.setVisible(false);
+        if (thread != null) {
+            thread.stop();
         }
     }
     private String cest = "";
+    private double x, y;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         listarGrupos();
         listarSubGrupos();
+        this.btGrupo.setOnAction(evt -> this.abrirCadastroDeGrupo());
+        this.btSubGrupo.setOnAction(evt -> this.abrirCadastroDeSubGrupo());
         grupo.setConverter(new StringConverter<Grupo>() {
             @Override
             public String toString(Grupo object) {
@@ -552,7 +606,11 @@ public class FrmAlteracaoPrecoController implements Initializable {
         editCest.setOnAction(e -> tributacao.requestFocus());
         tributacao.setOnAction(e -> unidade.requestFocus());
         labelNcm.setOnMouseClicked(e -> abrirCosmos());
-        labelCest.setOnMouseClicked(e -> abrirCest());
+        labelCest.setOnMouseClicked(e -> {
+            if (this.tributacao.getSelectionModel().getSelectedIndex() == 2) {
+                abrirCest();
+            }
+        });
         labelReferencia.setOnMouseClicked(e -> {
             try {
                 ativarProduto();
@@ -573,7 +631,14 @@ public class FrmAlteracaoPrecoController implements Initializable {
         });
         editReferencia.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
             if (!newValue) {
-                referencia();
+                thread = new Thread() {
+                    @Override
+                    public void run() {
+                        paneModal.setVisible(true);
+                        referencia();
+                    }
+                };
+                thread.start();
             }
         });
         editReferencia.setOnAction(e -> editDescricao.requestFocus());
@@ -596,10 +661,20 @@ public class FrmAlteracaoPrecoController implements Initializable {
         }
         ancoraPrincipal.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
             if (e.getCode().equals(KeyCode.F1)) {
-                salvar();
+                thread = new Thread() {
+                    @Override
+                    public void run() {
+                        paneModal.setVisible(true);
+                        salvar();
+                    }
+                };
+                thread.start();
             } else if (e.getCode().equals(KeyCode.ESCAPE)) {
                 sair();
             }
+        });
+        labelMinimizar.setOnMouseClicked(e -> {
+            ((Stage) ancoraPrincipal.getScene().getWindow()).setIconified(true);
         });
         tributacao.getSelectionModel().select(0);
         grupo.getSelectionModel().select(0);
@@ -609,6 +684,26 @@ public class FrmAlteracaoPrecoController implements Initializable {
         editPreco.setText("0,00");
         editPrecoAtacado.setText("0,00");
         editQtdAtacado.setText("0,00");
+        btSalvar.setOnAction(evt -> {
+            paneModal.setVisible(true);
+            thread = new Thread() {
+                @Override
+                public void run() {
+                    paneModal.setVisible(true);
+                    salvar();
+                }
+            };
+            thread.start();
+        });
+        ancoraPrincipal.setOnMousePressed(evt -> {
+            x = evt.getSceneX();
+            y = evt.getSceneY();
+        });
+
+        ancoraPrincipal.setOnMouseDragged(evt -> {
+            FrmBancoController.stageFrmAlteracao.setX(evt.getScreenX() - x);
+            FrmBancoController.stageFrmAlteracao.setY(evt.getScreenY() - y);
+        });
     }
 
     private boolean opcoes() {
@@ -643,9 +738,15 @@ public class FrmAlteracaoPrecoController implements Initializable {
         }
         editCest.setText(produto.getCest());
         unidade.getSelectionModel().select(produto.getUnidade());
-        grupo.getSelectionModel().select(new Grupo(produto.getGrupo()));
-        subGrupo.getSelectionModel().select(new SubGrupo(produto.getSubgrupo()));
-        editEstoqueInicial.setText(String.valueOf(produto.getQuantidade().intValue()));
+        grupo.getSelectionModel().select(0);
+        subGrupo.getSelectionModel().select(0);
+        if (produto.getGrupo() != null) {
+            grupo.getSelectionModel().select(new Grupo(produto.getGrupo()));
+            subGrupo.getSelectionModel().select(new SubGrupo(produto.getSubgrupo()));
+        }
+        editEstoqueInicial.setText(produto.getQuantidade() != null ? String.valueOf(produto.getQuantidade().intValue()) : "0");
+        inativar.setSelected(produto.getDataCancelamento() != null);
+        confirmaPreco.setSelected("S".equals(produto.getConfirmaPreco()));
         editPreco.requestFocus();
         editPreco.selectAll();
         this.produto = produto;
@@ -723,6 +824,8 @@ public class FrmAlteracaoPrecoController implements Initializable {
                     grupo.getSelectionModel().select(new Grupo(buscarProduto.getGrupo()));
                     subGrupo.getSelectionModel().select(new SubGrupo(buscarProduto.getSubgrupo()));
                     unidade.getSelectionModel().select(buscarProduto.getUnidade());
+                    inativar.setSelected(buscarProduto.getDataCancelamento() != null);
+                    confirmaPreco.setSelected("S".equals(buscarProduto.getConfirmaPreco()));
                     editPreco.requestFocus();
                     editPreco.selectAll();
                     editEstoqueInicial.setDisable(true);
@@ -732,6 +835,51 @@ public class FrmAlteracaoPrecoController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erro");
             alert.setContentText("Erro ao carregar o arquivo FrmPesquisa.fxml " + ex.getMessage());
+            alert.show();
+        }
+    }
+
+    private void abrirCadastroDeGrupo() {
+        BoxBlur boxBlur = new BoxBlur(10, 10, 10);
+        this.ancoraPrincipal.setEffect(boxBlur);
+        try {
+            FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/visao/FrmGrupo.fxml"));
+            Parent root = fXMLLoader.load();
+            Scene scene = new Scene(root);
+            scene.setFill(Color.TRANSPARENT);
+            Stage stage = new Stage(StageStyle.TRANSPARENT);
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+            this.ancoraPrincipal.setEffect(null);
+            this.listarGrupos();
+            this.grupo.getSelectionModel().select(0);
+        } catch (IOException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro");
+            alert.setContentText("Erro ao carregar o arquivo FrmGrupo.fxml " + ex.getMessage());
+            alert.show();
+        }
+    }
+    private void abrirCadastroDeSubGrupo() {
+        BoxBlur boxBlur = new BoxBlur(10, 10, 10);
+        this.ancoraPrincipal.setEffect(boxBlur);
+        try {
+            FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/visao/FrmSubGrupo.fxml"));
+            Parent root = fXMLLoader.load();
+            Scene scene = new Scene(root);
+            scene.setFill(Color.TRANSPARENT);
+            Stage stage = new Stage(StageStyle.TRANSPARENT);
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+            this.ancoraPrincipal.setEffect(null);
+            this.listarSubGrupos();
+            this.subGrupo.getSelectionModel().select(0);
+        } catch (IOException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro");
+            alert.setContentText("Erro ao carregar o arquivo FrmGrupo.fxml " + ex.getMessage());
             alert.show();
         }
     }
