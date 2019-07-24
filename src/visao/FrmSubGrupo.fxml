@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="497.0" prefWidth="687.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controle.FrmSubGrupoController">
+<AnchorPane id="AnchorPane" prefHeight="497.0" prefWidth="687.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controle.FrmSubGrupoController">
     <stylesheets>
         <URL value="@css.css" />
     </stylesheets>
@@ -48,7 +48,7 @@
       <AnchorPane fx:id="ancoraCadastro" layoutX="10.0" layoutY="10.0" prefHeight="302.0" prefWidth="677.0" styleClass="fundo" visible="false" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
          <children>
             <TextFieldCustom fx:id="editCodigo" layoutX="27.0" layoutY="85.0" maxlength="5" styleClass="input-padrao" toUpperCase="true" />
-            <Label layoutX="27.0" layoutY="61.0" prefHeight="23.0" prefWidth="212.0" styleClass="label-titulo" text="Codigo" />
+            <Label layoutX="27.0" layoutY="61.0" prefHeight="23.0" prefWidth="230.0" styleClass="label-titulo" text="Codigo" />
             <TextFieldCustom fx:id="editNome" layoutX="27.0" layoutY="168.0" maxlength="18" prefHeight="37.0" prefWidth="453.0" styleClass="input-padrao" toUpperCase="true" />
             <Label layoutX="27.0" layoutY="144.0" prefHeight="23.0" prefWidth="453.0" styleClass="label-titulo" text="Nome" />
             <Text layoutX="27.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cadastro de Sub-Grupos">
