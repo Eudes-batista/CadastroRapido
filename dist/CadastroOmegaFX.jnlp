@@ -8,12 +8,12 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="CadastroOmegaFX.jar" size="146269" download="eager" />
-    <jar href="lib\Componentes.jar" size="11925" download="eager" />
-    <jar href="lib\fontawesomefx-8.9.jar" size="571068" download="eager" />
-    <jar href="lib\gson-2.6.2.jar" size="229650" download="eager" />
-    <jar href="lib\jaybird-full-2.2.7.jar" size="863402" download="eager" />
-    <jar href="lib\jfoenix-8.0.8.jar" size="2708772" download="eager" />
+    <jar href="CadastroOmegaFX.jar" size="146313" download="eager" />
+    <jar href="lib/Componentes.jar" size="11925" download="eager" />
+    <jar href="lib/fontawesomefx-8.9.jar" size="571068" download="eager" />
+    <jar href="lib/gson-2.6.2.jar" size="229650" download="eager" />
+    <jar href="lib/jaybird-full-2.2.7.jar" size="863402" download="eager" />
+    <jar href="lib/jfoenix-8.0.8.jar" size="2708772" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="CadastroOmegaFX" >
     <param name="requiredFXVersion" value="8.0+"/>

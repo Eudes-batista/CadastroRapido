@@ -251,8 +251,8 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Label>
-            <JFXToggleButton fx:id="inativar" layoutX="291.0" layoutY="77.0" prefHeight="37.0" prefWidth="120.0" text="Inativar" toggleColor="WHITE" toggleLineColor="#f52821" />
-            <JFXToggleButton fx:id="confirmaPreco" layoutX="403.0" layoutY="77.0" prefHeight="58.0" prefWidth="152.0" text="Confirma Preço" toggleColor="WHITE" toggleLineColor="#85c37e" />
+            <JFXToggleButton fx:id="inativar" layoutX="291.0" layoutY="77.0" prefHeight="37.0" prefWidth="135.0" text="Inativar" toggleColor="WHITE" toggleLineColor="#f52821" />
+            <JFXToggleButton fx:id="confirmaPreco" layoutX="403.0" layoutY="77.0" prefHeight="58.0" prefWidth="174.0" text="Confirma Preço" toggleColor="WHITE" toggleLineColor="#85c37e" />
             <Label fx:id="btAjuda" alignment="CENTER" layoutX="516.0" layoutY="8.0" maxWidth="60.0" onMouseClicked="#abrirAjuda" prefHeight="44.0" prefWidth="50.0" styleClass="ajuda" text="?">
                <tooltip>
                   <Tooltip text="Ajuda">
