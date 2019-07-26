@@ -27,13 +27,13 @@ public class RelatorioProduto {
                 + ",EEPBRTB1 as PRECO\n"
                 + ",EET2PVD1 as PRECO_ATACDO\n"
                 + ",PRQTDATA as QUANTIDADE_ATACADO\n"
-                + ",EEESTATU as ESTOQUE\n"
+                + ",MAX(EEESTATU) as ESTOQUE\n"
                 + "from\n"
                 + " scea07 \n"
                 + "left outer join\n"
                 + " scea01 on(prrefere=eerefere)\n"
                 + "group by\n"
-                + " PRREFERE,PRCODBAR,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,EEESTATU";
+                + " PRREFERE,PRCODBAR,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA";
         if (!this.conectaBanco.conexao()) {
             return;
         }
