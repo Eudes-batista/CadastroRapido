@@ -45,6 +45,7 @@ import modelo.Cosmos;
 import modelo.Grupo;
 import modelo.Produto;
 import modelo.SubGrupo;
+import relatorio.RelatorioProduto;
 import servico.ProdutoServico;
 
 public class FrmAlteracaoPrecoController implements Initializable {
@@ -110,6 +111,9 @@ public class FrmAlteracaoPrecoController implements Initializable {
 
     @FXML
     private JFXButton btGrupo;
+    
+    @FXML
+    private JFXButton btRelatorioProduto;
 
     @FXML
     private JFXToggleButton confirmaPreco;
@@ -704,6 +708,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             FrmBancoController.stageFrmAlteracao.setX(evt.getScreenX() - x);
             FrmBancoController.stageFrmAlteracao.setY(evt.getScreenY() - y);
         });
+        this.btRelatorioProduto.setOnAction(evt -> this.imprimirRelatorioProduto());
     }
 
     private boolean opcoes() {
@@ -884,4 +889,10 @@ public class FrmAlteracaoPrecoController implements Initializable {
         }
     }
 
+    private void imprimirRelatorioProduto() {
+        RelatorioProduto relatorioProduto = new RelatorioProduto();
+        relatorioProduto.imprimir();
+    }
+    
+    
 }

@@ -1,2 +1,2 @@
 localhost
-/home/administrador/Downloads/bancos/porto-mix-rest.fdb
+E:\omega\DBA\lanchonete.GDB
