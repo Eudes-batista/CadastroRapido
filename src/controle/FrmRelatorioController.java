@@ -66,6 +66,7 @@ public class FrmRelatorioController implements Initializable {
         this.btMovimentacao.setOnAction(evt -> this.imprimirRelatorioEstoque());
         this.btPesquisar.setOnAction(evt -> this.pesquisarProduto());
         this.btSair.setOnAction(evt -> this.sair());
+        this.comboEmpresa.setItems(this.empresas);
     }
     
     private void sair() {
@@ -74,6 +75,13 @@ public class FrmRelatorioController implements Initializable {
     
 
     private void imprimirRelatorioProduto() {
+        if(this.validarCampo()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Cadastro Rapido");
+            alert.setContentText("Selecione uma empresa.");
+            alert.show();
+            return;
+        }
         this.filtroProduto.setEmpresa(this.comboEmpresa.getSelectionModel().getSelectedItem());
         this.filtroProduto.setProduto(this.editProduto.getText().trim().toUpperCase());
         this.filtroProduto.setDataInicial(this.dataInicial.getValue().toString());
@@ -82,6 +90,13 @@ public class FrmRelatorioController implements Initializable {
     }
    
     private void imprimirRelatorioEstoque() {
+         if(this.validarCampo()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Cadastro Rapido");
+            alert.setContentText("Selecione uma empresa.");
+            alert.show();
+            return;
+        }
         this.filtroProduto.setEmpresa(this.comboEmpresa.getSelectionModel().getSelectedItem());
         this.filtroProduto.setProduto(this.editProduto.getText().trim().toUpperCase());
         this.filtroProduto.setDataInicial(this.dataInicial.getValue().toString());
@@ -126,5 +141,10 @@ public class FrmRelatorioController implements Initializable {
             alert.show();
         }
     }
+    
+    private boolean validarCampo() {
+        return this.comboEmpresa.getSelectionModel().getSelectedItem() == null;
+    }
+    
 
 }
