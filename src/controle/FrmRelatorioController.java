@@ -62,7 +62,15 @@ public class FrmRelatorioController implements Initializable {
         this.filtroProduto.setProduto(this.editProduto.getText().trim().toUpperCase());
         this.filtroProduto.setDataInicial(this.dataInicial.getValue().toString());
         this.filtroProduto.setDataFinal(this.dataFinal.getValue().toString());
-        this.relatorioProduto.imprimirTodosProdutos(filtroProduto);
+        this.relatorioProduto.imprimirTodosProdutos(this.filtroProduto);
+    }
+   
+    private void imprimirRelatorioEstoque() {
+        this.filtroProduto.setEmpresa(this.comboEmpresa.getSelectionModel().getSelectedItem());
+        this.filtroProduto.setProduto(this.editProduto.getText().trim().toUpperCase());
+        this.filtroProduto.setDataInicial(this.dataInicial.getValue().toString());
+        this.filtroProduto.setDataFinal(this.dataFinal.getValue().toString());
+        this.relatorioProduto.imprimirTodosProdutos(this.filtroProduto);
     }
 
     private void listarEmpresa() {
