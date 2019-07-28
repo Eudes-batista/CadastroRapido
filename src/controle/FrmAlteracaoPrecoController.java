@@ -14,8 +14,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.application.Platform;
@@ -121,8 +119,8 @@ public class FrmAlteracaoPrecoController implements Initializable {
 
     private String referencia, codigoBarra;
     private final ObservableList<String> tributacoes = FXCollections.observableArrayList("0001 TRIBUTADO", "0400 ISENTO", "0600 TRIBUTADO ST");
-    private ObservableList<Grupo> grupos = FXCollections.observableArrayList();
-    private ObservableList<SubGrupo> subGrupos = FXCollections.observableArrayList();
+    private final ObservableList<Grupo> grupos = FXCollections.observableArrayList();
+    private final ObservableList<SubGrupo> subGrupos = FXCollections.observableArrayList();
     private final ObservableList<String> unidades = FXCollections.observableArrayList("UN", "KG", "CX", "FD", "M2", "PC", "ML", "PA");
     private Produto produto = new Produto();
     private final ProdutoServico produtoServico = new ProdutoServico();
