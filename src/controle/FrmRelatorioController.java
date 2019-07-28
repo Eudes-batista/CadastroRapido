@@ -3,6 +3,7 @@ package controle;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -14,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -50,12 +52,15 @@ public class FrmRelatorioController implements Initializable {
     @FXML
     private DatePicker dataFinal;
 
+    @FXML
+    private CheckBox checkTodos;
+
     private RelatorioProduto relatorioProduto;
     private FiltroProduto filtroProduto;
     private MovimentoService movimentoService;
 
     private final ObservableList<String> empresas = FXCollections.observableArrayList();
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.relatorioProduto = new RelatorioProduto();
@@ -66,16 +71,33 @@ public class FrmRelatorioController implements Initializable {
         this.btMovimentacao.setOnAction(evt -> this.imprimirRelatorioEstoque());
         this.btPesquisar.setOnAction(evt -> this.pesquisarProduto());
         this.btSair.setOnAction(evt -> this.sair());
+        this.checkTodos.setOnAction(evt -> this.checkTodos());
         this.comboEmpresa.setItems(this.empresas);
+        LocalDate data = LocalDate.now();
+        this.dataInicial.setValue(data);
+        this.dataFinal.setValue(data);
     }
-    
+
     private void sair() {
         ((Stage) this.btSair.getScene().getWindow()).close();
     }
-    
+
+    private void checkTodos() {
+        if (this.checkTodos.isSelected()) {
+            this.dataInicial.setDisable(true);
+            this.dataFinal.setDisable(true);
+            this.editProduto.setDisable(true);
+            this.btPesquisar.setDisable(true);
+            return;
+        }
+        this.dataInicial.setDisable(false);
+        this.dataFinal.setDisable(false);
+        this.editProduto.setDisable(false);
+        this.btPesquisar.setDisable(false);
+    }
 
     private void imprimirRelatorioProduto() {
-        if(this.validarCampo()) {
+        if (this.validarCampo()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Cadastro Rapido");
             alert.setContentText("Selecione uma empresa.");
@@ -88,9 +110,9 @@ public class FrmRelatorioController implements Initializable {
         this.filtroProduto.setDataFinal(this.dataFinal.getValue() == null ? null : this.dataFinal.getValue().toString());
         this.relatorioProduto.imprimirTodosProdutos(this.filtroProduto);
     }
-   
+
     private void imprimirRelatorioEstoque() {
-         if(this.validarCampo()) {
+        if (this.validarCampo()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Cadastro Rapido");
             alert.setContentText("Selecione uma empresa.");
@@ -99,11 +121,12 @@ public class FrmRelatorioController implements Initializable {
         }
         this.filtroProduto.setEmpresa(this.comboEmpresa.getSelectionModel().getSelectedItem());
         this.filtroProduto.setProduto(this.editProduto.getText().trim().toUpperCase());
-        this.filtroProduto.setDataInicial(this.dataInicial.getValue() == null ? null : this.dataInicial.getValue().toString());
-        this.filtroProduto.setDataFinal(this.dataFinal.getValue() == null ? null : this.dataFinal.getValue().toString());
-        this.relatorioProduto.imprimirTodosProdutos(this.filtroProduto);
+        String data = LocalDate.now().toString();
+        this.filtroProduto.setDataInicial(this.dataInicial.getValue() == null ? data : this.dataInicial.getValue().toString());
+        this.filtroProduto.setDataFinal(this.dataFinal.getValue() == null ? data : this.dataFinal.getValue().toString());
+        this.relatorioProduto.imprimirEstoque(this.filtroProduto);
     }
-    
+
     private void pesquisarProduto() {
         try {
             FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/visao/FrmPesquisa.fxml"));
@@ -127,7 +150,6 @@ public class FrmRelatorioController implements Initializable {
             alert.show();
         }
     }
-    
 
     private void listarEmpresa() {
         try {
@@ -141,14 +163,13 @@ public class FrmRelatorioController implements Initializable {
             alert.show();
         }
     }
-    
+
     private boolean validarCampo() {
-        if(this.comboEmpresa.getSelectionModel().getSelectedItem() == null){
+        if (this.comboEmpresa.getSelectionModel().getSelectedItem() == null) {
             this.comboEmpresa.requestFocus();
             return true;
         }
         return false;
     }
-    
 
 }
