@@ -5,14 +5,16 @@ public class FiltroEstoque {
     private String empresa;
     private String dataInicial;
     private String dataFinal;
+    private String produto;
 
     public FiltroEstoque() {
     }
 
-    public FiltroEstoque(String empresa, String dataInicial, String dataFinal) {
+    public FiltroEstoque(String empresa, String dataInicial, String dataFinal, String produto) {
         this.empresa = empresa;
         this.dataInicial = dataInicial;
         this.dataFinal = dataFinal;
+        this.produto = produto;
     }
 
     public String getEmpresa() {
@@ -39,9 +41,18 @@ public class FiltroEstoque {
         this.dataFinal = dataFinal;
     }
 
+    public String getProduto() {
+        return produto;
+    }
+
+    public void setProduto(String produto) {
+        this.produto = produto;
+    }
+
     @Override
     public String toString() {
-        return "FiltroEstoque{" + "empresa=" + empresa + ", dataInicial=" + dataInicial + ", dataFinal=" + dataFinal + '}';
+        return "FiltroEstoque{" + "empresa=" + empresa + ", dataInicial=" + dataInicial + ", dataFinal=" + dataFinal + ", produto=" + produto + '}';
     }
+
     
 }

@@ -93,7 +93,7 @@ public class RelatorioProduto {
                 + "    PRREFERE=MIREFERE\n"
                 + "  )\n"
                 + "WHERE\n"
-                + "  MCCODEMP ='"+filtroEstoque.getEmpresa()+"' and MCDATMOV between '"+filtroEstoque.getDataInicial()+" 00:00:00' and '"+filtroEstoque.getDataFinal()+" 23:59:59' ";
+                + "  MCCODEMP ='"+filtroEstoque.getEmpresa()+"' and MCDATMOV between '"+filtroEstoque.getDataInicial()+" 00:00:00' and '"+filtroEstoque.getDataFinal()+" 23:59:59' and MIREFERE like '%"+filtroEstoque.getProduto()+"%'";
         if (!this.conectaBanco.conexao()) {
             return;
         }

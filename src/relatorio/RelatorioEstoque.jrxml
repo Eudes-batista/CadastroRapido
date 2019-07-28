@@ -95,6 +95,12 @@ WHERE
 	<variable name="subTotalQuantidade" class="java.lang.Double" resetType="Group" resetGroup="Movimentacao" calculation="Sum">
 		<variableExpression><![CDATA[$F{MIQUANTI}]]></variableExpression>
 	</variable>
+	<variable name="totalQuantidadeEntrada" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{MITIPMOV}.startsWith("E") ? $F{MIQUANTI} : 0.0]]></variableExpression>
+	</variable>
+	<variable name="totalQuantidadeSaida" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{MITIPMOV}.startsWith("S") ? $F{MIQUANTI} : 0.0]]></variableExpression>
+	</variable>
 	<group name="Movimentacao">
 		<groupExpression><![CDATA[$F{MCNUMERO}]]></groupExpression>
 		<groupHeader>
@@ -107,9 +113,17 @@ WHERE
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.y" value="px"/>
 					</reportElement>
+					<textField>
+						<reportElement x="41" y="5" width="50" height="15" uuid="10972dd6-035b-43fe-8760-e4e6e31743cc"/>
+						<textFieldExpression><![CDATA[$F{MITIPMOV}]]></textFieldExpression>
+					</textField>
+					<staticText>
+						<reportElement x="4" y="5" width="31" height="15" uuid="0afa4fa1-03f7-45e8-b73a-c2b617a7bd50"/>
+						<text><![CDATA[Tipo]]></text>
+					</staticText>
 				</frame>
 				<textField>
-					<reportElement x="130" y="20" width="100" height="15" uuid="c5e9f9a1-f4af-4e01-a1ba-92c2e09a18e1">
+					<reportElement x="227" y="20" width="100" height="15" uuid="c5e9f9a1-f4af-4e01-a1ba-92c2e09a18e1">
 						<property name="com.jaspersoft.studio.unit.x" value="px"/>
 						<property name="com.jaspersoft.studio.unit.y" value="px"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -117,7 +131,7 @@ WHERE
 					<textFieldExpression><![CDATA[$F{MCNUMERO}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="0" y="20" width="128" height="15" uuid="cb376c06-bee2-45bc-9318-a14bd3d63a46">
+					<reportElement x="97" y="20" width="128" height="15" uuid="cb376c06-bee2-45bc-9318-a14bd3d63a46">
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.y" value="px"/>
@@ -125,7 +139,7 @@ WHERE
 					<text><![CDATA[Numero do Documento : ]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="200" y="20" width="50" height="15" uuid="42829413-2647-478d-91cb-4edfaa0c0be7">
+					<reportElement x="297" y="20" width="50" height="15" uuid="42829413-2647-478d-91cb-4edfaa0c0be7">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="355595e8-23ec-4897-be27-b670173fd371"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.x" value="px"/>
@@ -134,7 +148,7 @@ WHERE
 					<text><![CDATA[Empresa: ]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="255" y="20" width="50" height="15" uuid="be734efa-0c58-479c-8e13-b3b0f1a2a822">
+					<reportElement x="352" y="20" width="50" height="15" uuid="be734efa-0c58-479c-8e13-b3b0f1a2a822">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="355595e8-23ec-4897-be27-b670173fd371"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.x" value="px"/>
@@ -142,14 +156,14 @@ WHERE
 					<textFieldExpression><![CDATA[$F{MICODEMP}]]></textFieldExpression>
 				</textField>
 				<textField pattern="dd/MM/yyyy">
-					<reportElement x="330" y="20" width="100" height="15" uuid="206798eb-d717-4b69-a60d-2dfcc6401a6f">
+					<reportElement x="427" y="20" width="100" height="15" uuid="206798eb-d717-4b69-a60d-2dfcc6401a6f">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					</reportElement>
 					<textFieldExpression><![CDATA[$F{MCDATMOV}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="290" y="20" width="40" height="15" uuid="36c45039-442b-4f23-94a6-2b1dc7ed40e9">
+					<reportElement x="387" y="20" width="40" height="15" uuid="36c45039-442b-4f23-94a6-2b1dc7ed40e9">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.x" value="px"/>
 						<property name="com.jaspersoft.studio.unit.y" value="px"/>
@@ -179,7 +193,7 @@ WHERE
 					<textElement textAlignment="Right"/>
 					<text><![CDATA[Total : ]]></text>
 				</staticText>
-				<textField>
+				<textField pattern="###0.000">
 					<reportElement x="478" y="0" width="72" height="15" uuid="f20b757d-f78e-48be-ae8b-d6650efb3830">
 						<property name="com.jaspersoft.studio.unit.y" value="px"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -255,7 +269,7 @@ WHERE
 				</reportElement>
 				<text><![CDATA[Referencia]]></text>
 			</staticText>
-			<textField>
+			<textField pattern="###0.000">
 				<reportElement x="478" y="0" width="72" height="15" uuid="523cdbe5-50c5-4b85-8e4b-9761f9f2ff2e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6a537b71-60d4-41fd-a84c-22adcaac986d"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
@@ -297,4 +311,36 @@ WHERE
 			</textField>
 		</band>
 	</pageFooter>
+	<summary>
+		<band height="50">
+			<textField pattern="###0.000">
+				<reportElement x="135" y="35" width="100" height="15" uuid="fae9e216-7f4f-4079-9d62-d7e04aca3edc"/>
+				<textFieldExpression><![CDATA[$V{totalQuantidadeEntrada}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.000">
+				<reportElement x="337" y="35" width="65" height="15" uuid="20af807c-b6e8-4b09-95fd-9a0a0cea5907"/>
+				<textFieldExpression><![CDATA[$V{totalQuantidadeSaida}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="0" width="44" height="15" uuid="b6cc0cf5-e229-4eb9-8628-38aba291e5ef"/>
+				<text><![CDATA[Totais : ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="35" y="35" width="100" height="15" uuid="72940fab-1da9-4390-a172-ae10f1456558"/>
+				<text><![CDATA[Total de Entradas:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="35" width="87" height="15" uuid="c56a0dd2-ee88-45cb-93df-940a78707684"/>
+				<text><![CDATA[Total de Saidas:]]></text>
+			</staticText>
+			<textField pattern="###0.000">
+				<reportElement x="455" y="35" width="100" height="15" uuid="b21ac6ca-cfc8-4bd2-9943-006c434a65d0"/>
+				<textFieldExpression><![CDATA[($V{totalQuantidadeEntrada} - $V{totalQuantidadeSaida})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="415" y="35" width="40" height="15" uuid="56c3f1db-797a-4032-9e62-ceab6a6e4f29"/>
+				<text><![CDATA[Total :]]></text>
+			</staticText>
+		</band>
+	</summary>
 </jasperReport>
