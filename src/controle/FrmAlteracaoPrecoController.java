@@ -14,6 +14,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.application.Platform;
@@ -45,7 +47,6 @@ import modelo.Cosmos;
 import modelo.Grupo;
 import modelo.Produto;
 import modelo.SubGrupo;
-import relatorio.RelatorioProduto;
 import servico.ProdutoServico;
 
 public class FrmAlteracaoPrecoController implements Initializable {
@@ -111,7 +112,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
 
     @FXML
     private JFXButton btGrupo;
-    
+
     @FXML
     private JFXButton btRelatorioProduto;
 
@@ -708,7 +709,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             FrmBancoController.stageFrmAlteracao.setX(evt.getScreenX() - x);
             FrmBancoController.stageFrmAlteracao.setY(evt.getScreenY() - y);
         });
-        this.btRelatorioProduto.setOnAction(evt -> this.imprimirRelatorioProduto());
+        this.btRelatorioProduto.setOnAction(evt -> this.abrirTelaDeRelatorio());
     }
 
     private boolean opcoes() {
@@ -866,6 +867,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             alert.show();
         }
     }
+
     private void abrirCadastroDeSubGrupo() {
         BoxBlur boxBlur = new BoxBlur(10, 10, 10);
         this.ancoraPrincipal.setEffect(boxBlur);
@@ -883,16 +885,25 @@ public class FrmAlteracaoPrecoController implements Initializable {
             this.subGrupo.getSelectionModel().select(0);
         } catch (IOException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
+            alert.setTitle("Cadastro Rapido");
             alert.setContentText("Erro ao carregar o arquivo FrmGrupo.fxml " + ex.getMessage());
             alert.show();
         }
     }
 
-    private void imprimirRelatorioProduto() {
-        RelatorioProduto relatorioProduto = new RelatorioProduto();
-        relatorioProduto.imprimirTodosProdutos();
+    private void abrirTelaDeRelatorio() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/visao/FrmRelatorio.fxml"));
+            Stage stage = new Stage(StageStyle.TRANSPARENT);
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch (IOException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Cadastro Rapido");
+            alert.setContentText("Erro ao carregar o arquivo FrmRelatorio.fxml " + ex.getMessage());
+            alert.show();
+        }
     }
-    
-    
+
 }

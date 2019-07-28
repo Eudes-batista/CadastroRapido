@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.sql.ResultSet;
 import java.util.HashMap;
 import javafx.scene.control.Alert;
-import modelo.dto.FiltroEstoque;
+import modelo.dto.FiltroProduto;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -14,13 +14,13 @@ import net.sf.jasperreports.view.JasperViewer;
 
 public class RelatorioProduto {
 
-    private ConectaBanco conectaBanco;
+    private final ConectaBanco conectaBanco;
 
     public RelatorioProduto() {
         this.conectaBanco = new ConectaBanco();
     }
 
-    public void imprimirTodosProdutos() {
+    public void imprimirTodosProdutos(FiltroProduto filtroProduto) { 
         String sql = "select \n"
                 + " PRREFERE as REFERENCIA\n"
                 + ",PRCODBAR as BARRAS\n"
@@ -28,13 +28,18 @@ public class RelatorioProduto {
                 + ",EEPBRTB1 as PRECO\n"
                 + ",EET2PVD1 as PRECO_ATACDO\n"
                 + ",PRQTDATA as QUANTIDADE_ATACADO\n"
-                + ",MAX(EEESTATU) as ESTOQUE\n"
+                + ",EEESTATU as ESTOQUE\n"
                 + "from\n"
                 + " scea07 \n"
                 + "left outer join\n"
-                + " scea01 on(prrefere=eerefere)\n"
-                + "group by\n"
-                + " PRREFERE,PRCODBAR,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA"
+                + " scea01 on(prrefere=eerefere and eecodemp='"+filtroProduto.getEmpresa()+"')\n"
+                + "where \n"
+                + "  prrefere like '%"+filtroProduto.getProduto()+"%' \n";
+                if(filtroProduto.getDataInicial() != null){
+                  sql += "and PRULTALT between '"+filtroProduto.getDataInicial()+" 00:00:00' and '"+filtroProduto.getDataFinal()+" 23:59:59' \n";
+                }    
+            sql += "group by\n"
+                + " PRREFERE,PRCODBAR,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,EEESTATU"
                 + " order by PRDESCRI";
         if (!this.conectaBanco.conexao()) {
             return;
@@ -60,7 +65,7 @@ public class RelatorioProduto {
         }
     }
 
-    public void imprimirEstoque(FiltroEstoque filtroEstoque) {
+    public void imprimirEstoque(FiltroProduto filtroProduto) {
         String sql = "SELECT \n"
                 + "     MCCODEMP\n"
                 + "     MCTIPMOV,\n"
@@ -93,7 +98,7 @@ public class RelatorioProduto {
                 + "    PRREFERE=MIREFERE\n"
                 + "  )\n"
                 + "WHERE\n"
-                + "  MCCODEMP ='"+filtroEstoque.getEmpresa()+"' and MCDATMOV between '"+filtroEstoque.getDataInicial()+" 00:00:00' and '"+filtroEstoque.getDataFinal()+" 23:59:59' and MIREFERE like '%"+filtroEstoque.getProduto()+"%'";
+                + "  MCCODEMP ='"+filtroProduto.getEmpresa()+"' and MCDATMOV between '"+filtroProduto.getDataInicial()+" 00:00:00' and '"+filtroProduto.getDataFinal()+" 23:59:59' and MIREFERE like '%"+filtroProduto.getProduto()+"%'";
         if (!this.conectaBanco.conexao()) {
             return;
         }

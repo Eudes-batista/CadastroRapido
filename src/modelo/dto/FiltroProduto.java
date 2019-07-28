@@ -1,16 +1,16 @@
 package modelo.dto;
 
-public class FiltroEstoque {
+public class FiltroProduto {
     
     private String empresa;
     private String dataInicial;
     private String dataFinal;
     private String produto;
 
-    public FiltroEstoque() {
+    public FiltroProduto() {
     }
 
-    public FiltroEstoque(String empresa, String dataInicial, String dataFinal, String produto) {
+    public FiltroProduto(String empresa, String dataInicial, String dataFinal, String produto) {
         this.empresa = empresa;
         this.dataInicial = dataInicial;
         this.dataFinal = dataFinal;
