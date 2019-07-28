@@ -88,12 +88,17 @@ public class FrmRelatorioController implements Initializable {
             this.dataFinal.setDisable(true);
             this.editProduto.setDisable(true);
             this.btPesquisar.setDisable(true);
+            this.dataInicial.setValue(null);
+            this.dataFinal.setValue(null);
             return;
         }
         this.dataInicial.setDisable(false);
         this.dataFinal.setDisable(false);
         this.editProduto.setDisable(false);
         this.btPesquisar.setDisable(false);
+        LocalDate data = LocalDate.now();
+        this.dataInicial.setValue(data);
+        this.dataFinal.setValue(data);
     }
 
     private void imprimirRelatorioProduto() {
