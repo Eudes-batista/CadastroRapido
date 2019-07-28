@@ -5,8 +5,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -67,7 +65,13 @@ public class FrmRelatorioController implements Initializable {
         this.btProdutos.setOnAction(evt -> this.imprimirRelatorioProduto());
         this.btMovimentacao.setOnAction(evt -> this.imprimirRelatorioEstoque());
         this.btPesquisar.setOnAction(evt -> this.pesquisarProduto());
+        this.btSair.setOnAction(evt -> this.sair());
     }
+    
+    private void sair() {
+        ((Stage) this.btSair.getScene().getWindow()).close();
+    }
+    
 
     private void imprimirRelatorioProduto() {
         this.filtroProduto.setEmpresa(this.comboEmpresa.getSelectionModel().getSelectedItem());
