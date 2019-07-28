@@ -280,9 +280,9 @@
                         <Tooltip text="Opções" />
                      </tooltip>
                   </JFXButton>
-                  <JFXButton fx:id="btSubGrupo" layoutX="11.0" layoutY="10.0" prefWidth="70.0" style="-fx-background-color: #00AFEF;" text="SubGrupo" textFill="WHITE" />
-                  <JFXButton fx:id="btGrupo" buttonType="RAISED" prefWidth="70.0" style="-fx-background-color: #00AFEF;" text="Grupos" textFill="WHITE" />
-                  <JFXButton fx:id="btRelatorioProduto" buttonType="RAISED" layoutY="84.0" prefWidth="70.0" style="-fx-background-color: #00AFEF;" text="Relatorios" textFill="WHITE" />
+                  <JFXButton fx:id="btSubGrupo" layoutX="11.0" layoutY="10.0" prefWidth="100.0" style="-fx-background-color: #00AFEF;" text="SubGrupo" textFill="WHITE" />
+                  <JFXButton fx:id="btGrupo" buttonType="RAISED" prefWidth="100.0" style="-fx-background-color: #00AFEF;" text="Grupos" textFill="WHITE" />
+                  <JFXButton fx:id="btRelatorioProduto" buttonType="RAISED" layoutY="84.0" prefWidth="100.0" style="-fx-background-color: #00AFEF;" text="Relatorios" textFill="WHITE" />
                </children>
             </JFXNodesList>
          </children>

@@ -891,7 +891,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
 
     private void imprimirRelatorioProduto() {
         RelatorioProduto relatorioProduto = new RelatorioProduto();
-        relatorioProduto.imprimir();
+        relatorioProduto.imprimirTodosProdutos();
     }
     
     

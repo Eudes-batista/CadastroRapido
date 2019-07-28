@@ -1,5 +1,6 @@
 package teste;
 
+import modelo.dto.FiltroEstoque;
 import relatorio.RelatorioProduto;
 
 public class Teste {
@@ -7,7 +8,8 @@ public class Teste {
     public static void main(String[] args) {
         
         RelatorioProduto relatorioProduto = new RelatorioProduto();
-        relatorioProduto.imprimir();
+        FiltroEstoque filtroEstoque = new FiltroEstoque("SIG", "2019-07-26", "2019-07-27");
+        relatorioProduto.imprimirEstoque(filtroEstoque);
         
     }
     
