@@ -51,7 +51,7 @@ public class RelatorioProduto {
             ResultSet resultSet = this.conectaBanco.getRs();
             JRResultSetDataSource dataSource = new JRResultSetDataSource(resultSet);
             InputStream inputStream = getClass().getResourceAsStream("/relatorio/produtos.jasper");
-            JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, new HashMap(), dataSource);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, new HashMap<>(), dataSource);
             JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
             jasperViewer.setTitle("Relatorio de Produtos");
             jasperViewer.setDefaultCloseOperation(JasperViewer.DISPOSE_ON_CLOSE);
@@ -109,7 +109,7 @@ public class RelatorioProduto {
             ResultSet resultSet = this.conectaBanco.getRs();
             JRResultSetDataSource dataSource = new JRResultSetDataSource(resultSet);
             InputStream inputStream = getClass().getResourceAsStream("/relatorio/RelatorioEstoque.jasper");
-            JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, new HashMap(), dataSource);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, new HashMap<>(), dataSource);
             JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
             jasperViewer.setTitle("Relatorio de Estoque");
             jasperViewer.setDefaultCloseOperation(JasperViewer.DISPOSE_ON_CLOSE);

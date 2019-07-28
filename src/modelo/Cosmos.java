@@ -12,6 +12,7 @@ import java.util.Objects;
 
 public class Cosmos implements Serializable {
 
+    private static final long serialVersionUID = 3960312712813002883L;
     private String description;
     private String gtin;
     private Double avg_price;

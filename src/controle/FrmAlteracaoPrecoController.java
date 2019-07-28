@@ -182,7 +182,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         }
         paneModal.setVisible(false);
         if (thread != null) {
-            thread.stop();
+            thread.interrupt();
         }
     }
 
@@ -516,7 +516,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         });
         paneModal.setVisible(false);
         if (thread != null) {
-            thread.stop();
+            thread.interrupt();
         }
     }
     private String cest = "";
@@ -714,7 +714,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         Alert alert = new Alert(javafx.scene.control.Alert.AlertType.CONFIRMATION);
         String mensagem = labelReferencia.getText().length() == 10 ? "Deseja cancelar o Produto?" : "Deseja ativar o Produto?";
         alert.setContentText(mensagem);
-        Optional optional = alert.showAndWait();
+        Optional<ButtonType> optional = alert.showAndWait();
         return ButtonType.OK == optional.get();
     }
 

@@ -10,10 +10,11 @@ import java.util.Objects;
 
 /**
  *
- * @author administrador
+ * @author eudes
  */
 public class Cest implements Serializable{
     
+    private static final long serialVersionUID = -4822805974508680416L;
     private Integer id;
     private String code;
     private String description;
