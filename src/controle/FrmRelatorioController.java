@@ -84,8 +84,8 @@ public class FrmRelatorioController implements Initializable {
         }
         this.filtroProduto.setEmpresa(this.comboEmpresa.getSelectionModel().getSelectedItem());
         this.filtroProduto.setProduto(this.editProduto.getText().trim().toUpperCase());
-        this.filtroProduto.setDataInicial(this.dataInicial.getValue().toString());
-        this.filtroProduto.setDataFinal(this.dataFinal.getValue().toString());
+        this.filtroProduto.setDataInicial(this.dataInicial.getValue() == null ? null : this.dataInicial.getValue().toString());
+        this.filtroProduto.setDataFinal(this.dataFinal.getValue() == null ? null : this.dataFinal.getValue().toString());
         this.relatorioProduto.imprimirTodosProdutos(this.filtroProduto);
     }
    
@@ -99,8 +99,8 @@ public class FrmRelatorioController implements Initializable {
         }
         this.filtroProduto.setEmpresa(this.comboEmpresa.getSelectionModel().getSelectedItem());
         this.filtroProduto.setProduto(this.editProduto.getText().trim().toUpperCase());
-        this.filtroProduto.setDataInicial(this.dataInicial.getValue().toString());
-        this.filtroProduto.setDataFinal(this.dataFinal.getValue().toString());
+        this.filtroProduto.setDataInicial(this.dataInicial.getValue() == null ? null : this.dataInicial.getValue().toString());
+        this.filtroProduto.setDataFinal(this.dataFinal.getValue() == null ? null : this.dataFinal.getValue().toString());
         this.relatorioProduto.imprimirTodosProdutos(this.filtroProduto);
     }
     
@@ -143,7 +143,11 @@ public class FrmRelatorioController implements Initializable {
     }
     
     private boolean validarCampo() {
-        return this.comboEmpresa.getSelectionModel().getSelectedItem() == null;
+        if(this.comboEmpresa.getSelectionModel().getSelectedItem() == null){
+            this.comboEmpresa.requestFocus();
+            return true;
+        }
+        return false;
     }
     
 
