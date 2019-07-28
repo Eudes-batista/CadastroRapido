@@ -55,6 +55,8 @@ public class FrmRelatorioController implements Initializable {
         this.filtroProduto = new FiltroProduto();
         this.movimentoService = new MovimentoService();
         this.listarEmpresa();
+        this.btProdutos.setOnAction(evt -> this.imprimirRelatorioProduto());
+        this.btMovimentacao.setOnAction(evt -> this.imprimirRelatorioEstoque());
     }
 
     private void imprimirRelatorioProduto() {
