@@ -34,7 +34,8 @@ public class RelatorioProduto {
                 + "left outer join\n"
                 + " scea01 on(prrefere=eerefere)\n"
                 + "group by\n"
-                + " PRREFERE,PRCODBAR,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA";
+                + " PRREFERE,PRCODBAR,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA"
+                + " order by PRDESCRI";
         if (!this.conectaBanco.conexao()) {
             return;
         }
@@ -70,6 +71,7 @@ public class RelatorioProduto {
                 + "	MINUMERO,\n"
                 + "	MINUMITE,\n"
                 + "	MIREFERE,\n"
+                + "	PRDESCRI,\n"
                 + "	MIDATMOV,\n"
                 + "	MIQUANTI,\n"
                 + "	MIPRUNIT,\n"
@@ -85,6 +87,11 @@ public class RelatorioProduto {
                 + "  AND MITIPMOV   = MCTIPMOV\n"
                 + "  AND MIDATMOV = MCDATMOV\n"
                 + ")\n"
+                + "LEFT OUTER JOIN\n"
+                + "SCEA01\n"
+                + "  ON(\n"
+                + "    PRREFERE=MIREFERE\n"
+                + "  )\n"
                 + "WHERE\n"
                 + "  MCCODEMP ='"+filtroEstoque.getEmpresa()+"' and MCDATMOV between '"+filtroEstoque.getDataInicial()+" 00:00:00' and '"+filtroEstoque.getDataFinal()+" 23:59:59' ";
         if (!this.conectaBanco.conexao()) {

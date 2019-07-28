@@ -1,40 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatorioEstoque" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9d2e8632-043a-4df1-a411-44d90624614c">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="254"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="739"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Relatorio"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
 	<style name="fundoFooterSoma" backcolor="#E8E8E8"/>
-	<queryString language="SQL">
-		<![CDATA[SELECT 
-    MCCODEMP
-	MCTIPMOV,
-    MCNUMERO,
-    MCDATMOV,
-	MICODEMP,
-	MITIPMOV,
-	MINUMERO,
-	MINUMITE,
-	MIREFERE,
-	MIDATMOV,
-	MIQUANTI,
-	MIPRUNIT,
-	MCDATMOV,
-	MCHISTOR
-FROM 
+	<queryString>
+		<![CDATA[SELECT
+                  MCCODEMP
+                  MCTIPMOV,
+                  MCNUMERO,
+                  MCDATMOV,
+                  MICODEMP,
+                  MITIPMOV,
+                  MINUMERO,
+                  MINUMITE,
+                  MIREFERE,
+                  PRDESCRI,
+                  MIDATMOV,
+                  MIQUANTI,
+                  MIPRUNIT,
+                  MCDATMOV,
+                  MCHISTOR
+FROM
     SCEA03
 LEFT OUTER JOIN
-	 SCEA02 
-	 ON (
-            MICODEMP = MCCODEMP
-  AND MINUMERO = MCNUMERO      
+    SCEA02
+ON (
+      MICODEMP = MCCODEMP
+  AND MINUMERO = MCNUMERO
   AND MITIPMOV   = MCTIPMOV
   AND MIDATMOV = MCDATMOV
 )
+LEFT OUTER JOIN
+   SCEA01
+ON(
+   PRREFERE = MIREFERE
+)
 WHERE
-  MCCODEMP ='SIG'
-  ]]>
+  MCCODEMP ='SIG']]>
 	</queryString>
 	<field name="MCTIPMOV" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="MCTIPMOV"/>
@@ -68,6 +75,7 @@ WHERE
 		<property name="com.jaspersoft.studio.field.label" value="MIREFERE"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="SCEA03"/>
 	</field>
+	<field name="PRDESCRI" class="java.lang.String"/>
 	<field name="MIDATMOV" class="java.sql.Timestamp">
 		<property name="com.jaspersoft.studio.field.label" value="MIDATMOV"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="SCEA03"/>
@@ -79,10 +87,6 @@ WHERE
 	<field name="MIPRUNIT" class="java.lang.Double">
 		<property name="com.jaspersoft.studio.field.label" value="MIPRUNIT"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="SCEA03"/>
-	</field>
-	<field name="COLUMN_12" class="java.sql.Timestamp">
-		<property name="com.jaspersoft.studio.field.label" value="MCDATMOV"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="SCEA02"/>
 	</field>
 	<field name="MCHISTOR" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="MCHISTOR"/>
@@ -137,7 +141,7 @@ WHERE
 					</reportElement>
 					<textFieldExpression><![CDATA[$F{MICODEMP}]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField pattern="dd/MM/yyyy">
 					<reportElement x="330" y="20" width="100" height="15" uuid="206798eb-d717-4b69-a60d-2dfcc6401a6f">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.x" value="px"/>
@@ -167,7 +171,7 @@ WHERE
 					</reportElement>
 				</frame>
 				<staticText>
-					<reportElement x="332" y="0" width="58" height="15" uuid="a773573f-1dfd-4a69-9d97-cb40f4f25800">
+					<reportElement x="402" y="0" width="58" height="15" uuid="a773573f-1dfd-4a69-9d97-cb40f4f25800">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.y" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -176,7 +180,7 @@ WHERE
 					<text><![CDATA[Total : ]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="408" y="0" width="100" height="15" uuid="f20b757d-f78e-48be-ae8b-d6650efb3830">
+					<reportElement x="478" y="0" width="72" height="15" uuid="f20b757d-f78e-48be-ae8b-d6650efb3830">
 						<property name="com.jaspersoft.studio.unit.y" value="px"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
@@ -215,7 +219,7 @@ WHERE
 		<band height="23" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField>
-				<reportElement x="160" y="-1" width="30" height="15" uuid="c7606681-ccb8-4bd8-838a-afa03c9dca61">
+				<reportElement x="41" y="0" width="30" height="15" uuid="c7606681-ccb8-4bd8-838a-afa03c9dca61">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d5ee3267-44de-4cd9-b295-634a44c58db2"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
@@ -225,7 +229,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{MINUMITE}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="110" y="-1" width="50" height="15" uuid="90c24a17-9206-44e1-9a42-b5dbe6e0e7a7">
+				<reportElement x="8" y="0" width="33" height="15" uuid="90c24a17-9206-44e1-9a42-b5dbe6e0e7a7">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d5ee3267-44de-4cd9-b295-634a44c58db2"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
@@ -235,7 +239,7 @@ WHERE
 				<text><![CDATA[Item]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="270" y="-1" width="50" height="15" uuid="64b93da9-f1b6-4d97-816f-31c9b69635fd">
+				<reportElement x="140" y="0" width="50" height="15" uuid="64b93da9-f1b6-4d97-816f-31c9b69635fd">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="530a0b05-674d-42b1-a30d-008d3ee62b70"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
@@ -243,7 +247,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{MIREFERE}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="190" y="-1" width="80" height="15" uuid="bc600e70-d6d8-4f3f-acdf-efac4a4b3650">
+				<reportElement x="76" y="0" width="59" height="15" uuid="bc600e70-d6d8-4f3f-acdf-efac4a4b3650">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="530a0b05-674d-42b1-a30d-008d3ee62b70"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -252,7 +256,7 @@ WHERE
 				<text><![CDATA[Referencia]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="410" y="-1" width="100" height="15" uuid="523cdbe5-50c5-4b85-8e4b-9761f9f2ff2e">
+				<reportElement x="478" y="0" width="72" height="15" uuid="523cdbe5-50c5-4b85-8e4b-9761f9f2ff2e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6a537b71-60d4-41fd-a84c-22adcaac986d"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
@@ -261,7 +265,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{MIQUANTI}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="330" y="-1" width="60" height="15" uuid="59ab2bd2-dcf9-409c-afb7-478a8ca44261">
+				<reportElement x="402" y="0" width="60" height="15" uuid="59ab2bd2-dcf9-409c-afb7-478a8ca44261">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6a537b71-60d4-41fd-a84c-22adcaac986d"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -269,23 +273,28 @@ WHERE
 				</reportElement>
 				<text><![CDATA[Quantidade]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="200" y="0" width="50" height="15" uuid="37c55bfc-9955-4236-b4e1-53051f551570"/>
+				<text><![CDATA[Descrição]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="255" y="0" width="135" height="15" uuid="33559c9e-6820-4a02-acb8-8c2b2a247cfc"/>
+				<textFieldExpression><![CDATA[$F{PRDESCRI}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="54" splitType="Stretch">
+		<band height="32" splitType="Stretch">
 			<textField>
-				<reportElement x="350" y="20" width="100" height="30" uuid="a3a735bc-8832-4440-b557-38ae9b42e6b3"/>
+				<reportElement x="355" y="0" width="100" height="30" uuid="a3a735bc-8832-4440-b557-38ae9b42e6b3"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Pagina " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="450" y="20" width="100" height="30" uuid="ccb663f4-87af-4130-a5f1-8f5bfdb3bf58"/>
+				<reportElement x="455" y="0" width="100" height="30" uuid="ccb663f4-87af-4130-a5f1-8f5bfdb3bf58"/>
 				<textElement textAlignment="Left"/>
 				<textFieldExpression><![CDATA[" a " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>
-	<summary>
-		<band height="42" splitType="Stretch"/>
-	</summary>
 </jasperReport>
