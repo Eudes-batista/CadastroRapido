@@ -135,38 +135,13 @@ public class FrmAlteracaoPrecoController implements Initializable {
     private void referencia() {
         referencia = editReferencia.getText();
         codigoBarra = "";
-        Produto p, p2;
-        p = produtoServico.buscarProduto(referencia);
-        p2 = Cosmos.buscarProduto(referencia);
-        if (p != null && p2 != null) {
-            p.setNcm(p2.getNcm() == null || p2.getNcm().isEmpty() ? p.getNcm() : p2.getNcm());
-            p.setCest(p2.getCest() == null || p2.getCest().isEmpty() ? p.getCest() : p2.getCest());
-            p.setTributacao(p2.getTributacao() == null || p2.getTributacao().isEmpty() ? p.getTributacao() : p2.getTributacao());
-            referencia = p.getReferencia();
-            codigoBarra = p.getCodigoBarra();
-            Platform.runLater(() -> {
-                pesquisarProduto(p);
-                labelReferencia.setText(p.getDataCancelamento() == null ? "Referencia" : "Referencia - Cancelada");
-                editReferencia.setStyle(p.getDataCancelamento() == null ? "-fx-text-fill:#757575" : "-fx-text-fill:red");
-                editEstoqueInicial.setDisable(true);
-            });
-        } else if (p == null && p2 != null) {
-            referencia = p2.getReferencia();
-            codigoBarra = p2.getReferencia();
-            Platform.runLater(() -> {
-                pesquisarProduto(p2);
-                editEstoqueInicial.setDisable(true);
-            });
-        } else if (p2 == null && p != null) {
-            referencia = p.getReferencia();
-            codigoBarra = p.getCodigoBarra();
-            Platform.runLater(() -> {
-                pesquisarProduto(p);
-                labelReferencia.setText(p.getDataCancelamento() == null ? "Referencia" : "Referencia - Cancelada");
-                editReferencia.setStyle(p.getDataCancelamento() == null ? "-fx-text-fill:#757575" : "-fx-text-fill:red");
-                editEstoqueInicial.setDisable(true);
-            });
-        } else {
+        Produto produtoNaBaseLocal, produtoNaBaseDaInternet;
+        produtoNaBaseLocal = this.buscarProdutoBaseLocal();
+        if (produtoNaBaseLocal != null) {
+            return;
+        }
+        produtoNaBaseDaInternet = this.buscarProdutoNaInternet();
+        if (produtoNaBaseDaInternet == null) {
             Platform.runLater(() -> {
                 if (editReferencia.getText().isEmpty()) {
                     long gerarReferencia = produtoServico.gerarReferencia();
@@ -184,6 +159,36 @@ public class FrmAlteracaoPrecoController implements Initializable {
         if (thread != null) {
             thread.interrupt();
         }
+    }
+
+    private Produto buscarProdutoNaInternet() {
+        Produto produtoNaBaseDaInternet = Cosmos.buscarProduto(referencia);
+        if (produtoNaBaseDaInternet == null) {
+            return null;
+        }
+        referencia = produtoNaBaseDaInternet.getReferencia();
+        codigoBarra = produtoNaBaseDaInternet.getReferencia();
+        Platform.runLater(() -> {
+            pesquisarProduto(produtoNaBaseDaInternet);
+            editEstoqueInicial.setDisable(true);
+        });
+        return produtoNaBaseDaInternet;
+    }
+
+    private Produto buscarProdutoBaseLocal() {
+        Produto produtoNaBaseLocal = produtoServico.buscarProduto(this.referencia);
+        if (produtoNaBaseLocal == null) {
+            return null;
+        }
+        this.referencia = produtoNaBaseLocal.getReferencia();
+        this.codigoBarra = produtoNaBaseLocal.getCodigoBarra();
+        Platform.runLater(() -> {
+            pesquisarProduto(produtoNaBaseLocal);
+            this.labelReferencia.setText(produtoNaBaseLocal.getDataCancelamento() == null ? "Referencia" : "Referencia - Cancelada");
+            this.editReferencia.setStyle(produtoNaBaseLocal.getDataCancelamento() == null ? "-fx-text-fill:#757575" : "-fx-text-fill:red");
+            this.editEstoqueInicial.setDisable(true);
+        });
+        return produtoNaBaseLocal;
     }
 
     @FXML
