@@ -131,13 +131,13 @@ public class FrmAlteracaoPrecoController implements Initializable {
         Platform.exit();
     }
 
-    @FXML
     private void referencia() {
         referencia = editReferencia.getText();
         codigoBarra = "";
         Produto produtoNaBaseLocal, produtoNaBaseDaInternet;
         produtoNaBaseLocal = this.buscarProdutoBaseLocal();
         if (produtoNaBaseLocal != null) {
+            this.pararProgressoPanelModal();
             return;
         }
         produtoNaBaseDaInternet = this.buscarProdutoNaInternet();
@@ -155,11 +155,15 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 editEstoqueInicial.setDisable(false);
             });
         }
-        paneModal.setVisible(false);
-        if (thread != null) {
-            thread.interrupt();
-        }
+       this.pararProgressoPanelModal();
     }
+    
+    private void pararProgressoPanelModal() {
+        this.paneModal.setVisible(false);
+        if (this.thread != null) {
+            this.thread.interrupt();
+        }
+    }    
 
     private Produto buscarProdutoNaInternet() {
         Produto produtoNaBaseDaInternet = Cosmos.buscarProduto(referencia);
