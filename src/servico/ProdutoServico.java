@@ -31,7 +31,7 @@ public class ProdutoServico {
             persistir(produto);
             return;
         }
-        alterar(produtoEncontrado);
+        alterar(produto);
     }
 
     private void persistir(Produto produto) {
