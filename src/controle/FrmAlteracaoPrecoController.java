@@ -140,7 +140,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             this.pararProgressoPanelModal();
             return;
         }
-        if(this.referencia.length() >= 13)
+        if(this.referencia.length() >= 8)
             produtoNaBaseDaInternet = this.buscarProdutoNaInternet();
         if (produtoNaBaseDaInternet == null) {
             Platform.runLater(() -> {
