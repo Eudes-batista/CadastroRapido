@@ -28,7 +28,7 @@ public class ProdutoServico {
     public void salvar(Produto produto) {
         Produto produtoEncontrado = buscarProduto(produto.getReferencia());
         if (produtoEncontrado == null) {
-            persistir(produtoEncontrado);
+            persistir(produto);
             return;
         }
         alterar(produtoEncontrado);
@@ -234,7 +234,7 @@ public class ProdutoServico {
         if (!conecta.executaSQL(sql)) {
             return null;
         }
-        if (conecta.getRs().first()) {
+        if (!conecta.getRs().first()) {
             return null;
         }
         List<String> empresas = new ArrayList<>();
