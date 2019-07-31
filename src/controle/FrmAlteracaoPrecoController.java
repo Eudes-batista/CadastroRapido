@@ -478,56 +478,54 @@ public class FrmAlteracaoPrecoController implements Initializable {
     @FXML
     private void salvar() {
         Platform.runLater(() -> {
-            if (validarPreco()) {
-                Double preco, precoAtacado, qtdAtacado;
-                preco = formatarPreco(editPreco.getText());
-                precoAtacado = formatarPreco(editPrecoAtacado.getText());
-                qtdAtacado = formatarPreco(editQtdAtacado.getText());
-                referencia = editReferencia.getText();
-                produto.setReferencia(referencia);
-                if (codigoBarra != null) {
-                    if (!codigoBarra.isEmpty()) {
-                        produto.setCodigoBarra(codigoBarra);
-                    } else {
-                        produto.setCodigoBarra(referencia);
-                    }
-                } else {
-                    produto.setCodigoBarra(referencia);
-                }
-                produto.setDescricao(editDescricao.getText());
-                produto.setPreco(preco);
-                produto.setPrecoAtacado(precoAtacado);
-                produto.setQtdAtacado(qtdAtacado);
-                produto.setNcm(editNcm.getText());
-                produto.setCest(editCest.getText());
-                produto.setTributacao(tributacao.getSelectionModel().getSelectedItem().replaceAll("\\D", ""));
-                produto.setUnidade(unidade.getSelectionModel().getSelectedItem());
-                produto.setGrupo(this.grupo.getSelectionModel().getSelectedItem().getCodigo());
-                produto.setSubgrupo(this.subGrupo.getSelectionModel().getSelectedItem().getCodigo());
-                String estoque = editEstoqueInicial.getText().replace(",", ".");
-                produto.setQuantidade(Double.parseDouble(estoque));
-                String dataCancelamento = null;
-                if (inativar.isSelected()) {
-                    dataCancelamento = LocalDate.now().toString();
-                }
-                produto.setDataCancelamento(dataCancelamento);
-                String confirmaPreco = "N";
-                if (this.confirmaPreco.isSelected()) {
-                    confirmaPreco = "S";
-                }
-                produto.setConfirmaPreco(confirmaPreco);
-                produtoServico.salvar(produto);
-                editReferencia.requestFocus();
-                editReferencia.selectAll();
-                codigoBarra = "";
-                editEstoqueInicial.setDisable(false);
+            if (!validarPreco()) {
+                return;
             }
+            Double preco = formatarPreco(this.editPreco.getText()), precoAtacado = formatarPreco(this.editPrecoAtacado.getText()), qtdAtacado = formatarPreco(this.editQtdAtacado.getText());
+            this.referencia = this.editReferencia.getText();
+            produto.setReferencia(referencia);
+            produto.setCodigoBarra(referencia);
+            if (verificarTemValorCodigoBarra()) {
+                produto.setCodigoBarra(codigoBarra);
+            }
+            this.produto.setDescricao(editDescricao.getText());
+            this.produto.setPreco(preco);
+            this.produto.setPrecoAtacado(precoAtacado);
+            this.produto.setQtdAtacado(qtdAtacado);
+            this.produto.setNcm(editNcm.getText());
+            this.produto.setCest(editCest.getText());
+            this.produto.setTributacao(tributacao.getSelectionModel().getSelectedItem().replaceAll("\\D", ""));
+            this.produto.setUnidade(unidade.getSelectionModel().getSelectedItem());
+            this.produto.setGrupo(this.grupo.getSelectionModel().getSelectedItem().getCodigo());
+            this.produto.setSubgrupo(this.subGrupo.getSelectionModel().getSelectedItem().getCodigo());
+            String estoque = editEstoqueInicial.getText().replace(",", ".");
+            this.produto.setQuantidade(Double.parseDouble(estoque));
+            String dataCancelamento = null;
+            if (this.inativar.isSelected()) {
+                dataCancelamento = LocalDate.now().toString();
+            }
+            this.produto.setDataCancelamento(dataCancelamento);
+            String seConfirmaPreco = "N";
+            if (this.confirmaPreco.isSelected()) {
+                seConfirmaPreco = "S";
+            }
+            this.produto.setConfirmaPreco(seConfirmaPreco);
+            this.produtoServico.salvar(this.produto);
+            this.editReferencia.requestFocus();
+            this.editReferencia.selectAll();
+            this.codigoBarra = "";
+            this.editEstoqueInicial.setDisable(false);
         });
-        paneModal.setVisible(false);
-        if (thread != null) {
-            thread.interrupt();
+        this.paneModal.setVisible(false);
+        if (this.thread != null) {
+            this.thread.interrupt();
         }
     }
+
+    private boolean verificarTemValorCodigoBarra() {
+        return codigoBarra != null && !codigoBarra.isEmpty();
+    }
+
     private String cest = "";
     private double x, y;
 
@@ -609,7 +607,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             if (!newValue) {
                 cest = editCest.getText();
             }
-        });        
+        });
         tributacao.setOnAction(e -> {
             if (tributacao.getSelectionModel().getSelectedIndex() != 2) {
                 editCest.setText("");
@@ -681,7 +679,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
 
     private void iniciarValores() {
         editCest.setText(cest);
-        editCest.setDisable(false);
+        editCest.setDisable(true);
         unidade.setItems(unidades);
         tributacao.setItems(tributacoes);
         editPreco.setText("0,00");
@@ -699,7 +697,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             public String toString(Grupo object) {
                 return object.getCodigo() + " - " + object.getNome();
             }
-            
+
             @Override
             public Grupo fromString(String string) {
                 String codigo = string.split(Pattern.quote("-"))[0].trim();
@@ -711,7 +709,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             public String toString(SubGrupo object) {
                 return object.getCodigo() + " - " + object.getNome();
             }
-            
+
             @Override
             public SubGrupo fromString(String string) {
                 String codigo = string.split(Pattern.quote("-"))[0].trim();
