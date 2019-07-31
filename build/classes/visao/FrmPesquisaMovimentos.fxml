@@ -8,7 +8,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="574.0" prefWidth="903.0" styleClass="fundo-form" stylesheets="@css.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controle.FrmPesquisaMovimentosController">
+<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="574.0" prefWidth="903.0" styleClass="fundo-form" stylesheets="@css.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controle.FrmPesquisaMovimentosController">
    <children>
       <TableView fx:id="tabela" layoutX="55.0" layoutY="69.0" onKeyPressed="#selecionarComOEnter" onMouseClicked="#selecionarRegistro" prefHeight="505.0" prefWidth="903.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="69.0">
         <columns>

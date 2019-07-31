@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="237.0" prefWidth="464.0" styleClass="fundo-form" stylesheets="@css.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controle.FrmBancoController">
+<AnchorPane id="AnchorPane" prefHeight="237.0" prefWidth="464.0" styleClass="fundo-form" stylesheets="@css.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controle.FrmBancoController">
    <children>
       <Label fx:id="labelHost" layoutX="21.0" layoutY="59.0" prefHeight="20.0" prefWidth="230.0" styleClass="label-titulo" text="Localhost" textFill="#ebe5e5">
          <font>
