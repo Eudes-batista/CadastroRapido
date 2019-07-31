@@ -1,2 +1,2 @@
 localhost
-E:\omega\dba\porto-mix-rest.fdb
+E:\omega\DBA\lanchonete.GDB
