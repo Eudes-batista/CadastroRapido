@@ -45,7 +45,6 @@ import modelo.Cosmos;
 import modelo.Grupo;
 import modelo.Produto;
 import modelo.SubGrupo;
-import relatorio.RelatorioProduto;
 import servico.ProdutoServico;
 
 public class FrmAlteracaoPrecoController implements Initializable {
@@ -111,7 +110,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
 
     @FXML
     private JFXButton btGrupo;
-    
+
     @FXML
     private JFXButton btRelatorioProduto;
 
@@ -120,8 +119,8 @@ public class FrmAlteracaoPrecoController implements Initializable {
 
     private String referencia, codigoBarra;
     private final ObservableList<String> tributacoes = FXCollections.observableArrayList("0001 TRIBUTADO", "0400 ISENTO", "0600 TRIBUTADO ST");
-    private ObservableList<Grupo> grupos = FXCollections.observableArrayList();
-    private ObservableList<SubGrupo> subGrupos = FXCollections.observableArrayList();
+    private final ObservableList<Grupo> grupos = FXCollections.observableArrayList();
+    private final ObservableList<SubGrupo> subGrupos = FXCollections.observableArrayList();
     private final ObservableList<String> unidades = FXCollections.observableArrayList("UN", "KG", "CX", "FD", "M2", "PC", "ML", "PA");
     private Produto produto = new Produto();
     private final ProdutoServico produtoServico = new ProdutoServico();
@@ -183,7 +182,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         }
         paneModal.setVisible(false);
         if (thread != null) {
-            thread.stop();
+            thread.interrupt();
         }
     }
 
@@ -517,7 +516,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         });
         paneModal.setVisible(false);
         if (thread != null) {
-            thread.stop();
+            thread.interrupt();
         }
     }
     private String cest = "";
@@ -708,14 +707,14 @@ public class FrmAlteracaoPrecoController implements Initializable {
             FrmBancoController.stageFrmAlteracao.setX(evt.getScreenX() - x);
             FrmBancoController.stageFrmAlteracao.setY(evt.getScreenY() - y);
         });
-        this.btRelatorioProduto.setOnAction(evt -> this.imprimirRelatorioProduto());
+        this.btRelatorioProduto.setOnAction(evt -> this.abrirTelaDeRelatorio());
     }
 
     private boolean opcoes() {
         Alert alert = new Alert(javafx.scene.control.Alert.AlertType.CONFIRMATION);
         String mensagem = labelReferencia.getText().length() == 10 ? "Deseja cancelar o Produto?" : "Deseja ativar o Produto?";
         alert.setContentText(mensagem);
-        Optional optional = alert.showAndWait();
+        Optional<ButtonType> optional = alert.showAndWait();
         return ButtonType.OK == optional.get();
     }
 
@@ -866,6 +865,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             alert.show();
         }
     }
+
     private void abrirCadastroDeSubGrupo() {
         BoxBlur boxBlur = new BoxBlur(10, 10, 10);
         this.ancoraPrincipal.setEffect(boxBlur);
@@ -883,16 +883,25 @@ public class FrmAlteracaoPrecoController implements Initializable {
             this.subGrupo.getSelectionModel().select(0);
         } catch (IOException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
+            alert.setTitle("Cadastro Rapido");
             alert.setContentText("Erro ao carregar o arquivo FrmGrupo.fxml " + ex.getMessage());
             alert.show();
         }
     }
 
-    private void imprimirRelatorioProduto() {
-        RelatorioProduto relatorioProduto = new RelatorioProduto();
-        relatorioProduto.imprimir();
+    private void abrirTelaDeRelatorio() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/visao/FrmRelatorio.fxml"));
+            Stage stage = new Stage(StageStyle.TRANSPARENT);
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch (IOException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Cadastro Rapido");
+            alert.setContentText("Erro ao carregar o arquivo FrmRelatorio.fxml " + ex.getMessage());
+            alert.show();
+        }
     }
-    
-    
+
 }

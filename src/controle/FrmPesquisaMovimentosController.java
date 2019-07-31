@@ -2,7 +2,6 @@ package controle;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -63,7 +62,6 @@ public class FrmPesquisaMovimentosController implements Initializable {
     @FXML
     private TextField documento;
 
-    private NumberFormat numberFormat;
     public final ObservableList<Movimento> movimentos = FXCollections.observableArrayList();
     private MovimentoService movimentoService;
     private boolean selecionouRegistro = false;
@@ -143,7 +141,6 @@ public class FrmPesquisaMovimentosController implements Initializable {
 
     private void inicializarServicos() {
         this.movimentoService = new MovimentoService();
-        this.numberFormat = NumberFormat.getInstance();
         this.dataMovimentacao.setValue(LocalDate.now());
     }
 

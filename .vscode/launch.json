@@ -1,0 +1,16 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Teste",
+            "request": "launch",
+            "mainClass": "teste.Teste"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - AlteracaoPrecoFX",
+            "request": "launch",
+            "mainClass": "alteracaoprecofx.AlteracaoPrecoFX"
+        }
+    ]
+}

@@ -13,6 +13,7 @@ import java.util.Objects;
  * @author administrador
  */
 public class Ncm implements Serializable{
+    private static final long serialVersionUID = -5469339989691149108L;
     private String code;
     private String description;
     private String full_description;

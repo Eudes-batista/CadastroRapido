@@ -150,9 +150,9 @@ public class FrmPesquisaController implements Initializable {
         this.columnApagar.setCellValueFactory(new PropertyValueFactory<>("button"));
         this.columnCheckBox.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
         this.columnPreco.setCellFactory((TableColumn<Produto, Double> param) -> {
-            return new TableCell() {
+            return new TableCell<Produto,Double>() {
                 @Override
-                protected void updateItem(Object item, boolean empty) {
+                protected void updateItem(Double item, boolean empty) {
                     super.updateItem(item, empty);
                     setText(null);
                     if (item != null) {
@@ -164,9 +164,9 @@ public class FrmPesquisaController implements Initializable {
         });
 
         this.columnPrecoAtacado.setCellFactory((TableColumn<Produto, Double> param) -> {
-            return new TableCell() {
+            return new TableCell<Produto,Double>() {
                 @Override
-                protected void updateItem(Object item, boolean empty) {
+                protected void updateItem(Double item, boolean empty) {
                     super.updateItem(item, empty);
                     setText(null);
                     if (item != null) {
@@ -178,9 +178,9 @@ public class FrmPesquisaController implements Initializable {
         });
 
         this.columnQtdAtacado.setCellFactory((TableColumn<Produto, Double> param) -> {
-            return new TableCell() {
+            return new TableCell<Produto,Double>() {
                 @Override
-                protected void updateItem(Object item, boolean empty) {
+                protected void updateItem(Double item, boolean empty) {
                     super.updateItem(item, empty);
                     setText(null);
                     if (item != null) {
@@ -210,9 +210,9 @@ public class FrmPesquisaController implements Initializable {
             };
         });
         this.columnCodigoBarra.setCellFactory((TableColumn<Produto, String> param) -> {
-            return new TableCell() {
+            return new TableCell<Produto,String>() {
                 @Override
-                protected void updateItem(Object item, boolean empty) {
+                protected void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
                     setText(null);
                     if (item != null) {
@@ -269,7 +269,7 @@ public class FrmPesquisaController implements Initializable {
     private boolean opcoes() {
         Alert alert = new Alert(javafx.scene.control.Alert.AlertType.CONFIRMATION);
         alert.setContentText("Deseja memso excluir o produto?");
-        Optional optional = alert.showAndWait();
+        Optional<ButtonType> optional = alert.showAndWait();
         return ButtonType.OK == optional.get();
     }
 
