@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" fx:id="ancoraPrincipal" prefHeight="655.0" prefWidth="863.0" styleClass="borda-info" stylesheets="@css.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controle.FrmMovimentoEstoqueController">
+<AnchorPane id="AnchorPane" fx:id="ancoraPrincipal" prefHeight="655.0" prefWidth="863.0" styleClass="borda-info" stylesheets="@css.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controle.FrmMovimentoEstoqueController">
    <children>
       <Separator layoutX="23.0" layoutY="112.0" prefHeight="4.0" prefWidth="811.0" />
       <Label layoutX="577.0" layoutY="51.0" prefHeight="23.0" prefWidth="266.0" styleClass="label-titulo" text="Observação" />

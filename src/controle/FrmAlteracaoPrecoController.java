@@ -131,42 +131,17 @@ public class FrmAlteracaoPrecoController implements Initializable {
         Platform.exit();
     }
 
-    @FXML
     private void referencia() {
         referencia = editReferencia.getText();
         codigoBarra = "";
-        Produto p, p2;
-        p = produtoServico.buscarProduto(referencia);
-        p2 = Cosmos.buscarProduto(referencia);
-        if (p != null && p2 != null) {
-            p.setNcm(p2.getNcm() == null || p2.getNcm().isEmpty() ? p.getNcm() : p2.getNcm());
-            p.setCest(p2.getCest() == null || p2.getCest().isEmpty() ? p.getCest() : p2.getCest());
-            p.setTributacao(p2.getTributacao() == null || p2.getTributacao().isEmpty() ? p.getTributacao() : p2.getTributacao());
-            referencia = p.getReferencia();
-            codigoBarra = p.getCodigoBarra();
-            Platform.runLater(() -> {
-                pesquisarProduto(p);
-                labelReferencia.setText(p.getDataCancelamento() == null ? "Referencia" : "Referencia - Cancelada");
-                editReferencia.setStyle(p.getDataCancelamento() == null ? "-fx-text-fill:#757575" : "-fx-text-fill:red");
-                editEstoqueInicial.setDisable(true);
-            });
-        } else if (p == null && p2 != null) {
-            referencia = p2.getReferencia();
-            codigoBarra = p2.getReferencia();
-            Platform.runLater(() -> {
-                pesquisarProduto(p2);
-                editEstoqueInicial.setDisable(true);
-            });
-        } else if (p2 == null && p != null) {
-            referencia = p.getReferencia();
-            codigoBarra = p.getCodigoBarra();
-            Platform.runLater(() -> {
-                pesquisarProduto(p);
-                labelReferencia.setText(p.getDataCancelamento() == null ? "Referencia" : "Referencia - Cancelada");
-                editReferencia.setStyle(p.getDataCancelamento() == null ? "-fx-text-fill:#757575" : "-fx-text-fill:red");
-                editEstoqueInicial.setDisable(true);
-            });
-        } else {
+        Produto produtoNaBaseLocal, produtoNaBaseDaInternet;
+        produtoNaBaseLocal = this.buscarProdutoBaseLocal();
+        if (produtoNaBaseLocal != null) {
+            this.pararProgressoPanelModal();
+            return;
+        }
+        produtoNaBaseDaInternet = this.buscarProdutoNaInternet();
+        if (produtoNaBaseDaInternet == null) {
             Platform.runLater(() -> {
                 if (editReferencia.getText().isEmpty()) {
                     long gerarReferencia = produtoServico.gerarReferencia();
@@ -180,10 +155,44 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 editEstoqueInicial.setDisable(false);
             });
         }
-        paneModal.setVisible(false);
-        if (thread != null) {
-            thread.interrupt();
+        this.pararProgressoPanelModal();
+    }
+
+    private void pararProgressoPanelModal() {
+        this.paneModal.setVisible(false);
+        if (this.thread != null) {
+            this.thread.interrupt();
         }
+    }
+
+    private Produto buscarProdutoNaInternet() {
+        Produto produtoNaBaseDaInternet = Cosmos.buscarProduto(referencia);
+        if (produtoNaBaseDaInternet == null) {
+            return null;
+        }
+        referencia = produtoNaBaseDaInternet.getReferencia();
+        codigoBarra = produtoNaBaseDaInternet.getReferencia();
+        Platform.runLater(() -> {
+            pesquisarProduto(produtoNaBaseDaInternet);
+            editEstoqueInicial.setDisable(true);
+        });
+        return produtoNaBaseDaInternet;
+    }
+
+    private Produto buscarProdutoBaseLocal() {
+        Produto produtoNaBaseLocal = produtoServico.buscarProduto(this.referencia);
+        if (produtoNaBaseLocal == null) {
+            return null;
+        }
+        this.referencia = produtoNaBaseLocal.getReferencia();
+        this.codigoBarra = produtoNaBaseLocal.getCodigoBarra();
+        Platform.runLater(() -> {
+            pesquisarProduto(produtoNaBaseLocal);
+            this.labelReferencia.setText(produtoNaBaseLocal.getDataCancelamento() == null ? "Referencia" : "Referencia - Cancelada");
+            this.editReferencia.setStyle(produtoNaBaseLocal.getDataCancelamento() == null ? "-fx-text-fill:#757575" : "-fx-text-fill:red");
+            this.editEstoqueInicial.setDisable(true);
+        });
+        return produtoNaBaseLocal;
     }
 
     @FXML
@@ -469,93 +478,69 @@ public class FrmAlteracaoPrecoController implements Initializable {
     @FXML
     private void salvar() {
         Platform.runLater(() -> {
-            if (validarPreco()) {
-                Double preco, precoAtacado, qtdAtacado;
-                preco = formatarPreco(editPreco.getText());
-                precoAtacado = formatarPreco(editPrecoAtacado.getText());
-                qtdAtacado = formatarPreco(editQtdAtacado.getText());
-                referencia = editReferencia.getText();
-                produto.setReferencia(referencia);
-                if (codigoBarra != null) {
-                    if (!codigoBarra.isEmpty()) {
-                        produto.setCodigoBarra(codigoBarra);
-                    } else {
-                        produto.setCodigoBarra(referencia);
-                    }
-                } else {
-                    produto.setCodigoBarra(referencia);
-                }
-                produto.setDescricao(editDescricao.getText());
-                produto.setPreco(preco);
-                produto.setPrecoAtacado(precoAtacado);
-                produto.setQtdAtacado(qtdAtacado);
-                produto.setNcm(editNcm.getText());
-                produto.setCest(editCest.getText());
-                produto.setTributacao(tributacao.getSelectionModel().getSelectedItem().replaceAll("\\D", ""));
-                produto.setUnidade(unidade.getSelectionModel().getSelectedItem());
-                produto.setGrupo(this.grupo.getSelectionModel().getSelectedItem().getCodigo());
-                produto.setSubgrupo(this.subGrupo.getSelectionModel().getSelectedItem().getCodigo());
-                String estoque = editEstoqueInicial.getText().replace(",", ".");
-                produto.setQuantidade(Double.parseDouble(estoque));
-                String dataCancelamento = null;
-                if (inativar.isSelected()) {
-                    dataCancelamento = LocalDate.now().toString();
-                }
-                produto.setDataCancelamento(dataCancelamento);
-                String confirmaPreco = "N";
-                if (this.confirmaPreco.isSelected()) {
-                    confirmaPreco = "S";
-                }
-                produto.setConfirmaPreco(confirmaPreco);
-                produtoServico.salvar(produto);
-                editReferencia.requestFocus();
-                editReferencia.selectAll();
-                codigoBarra = "";
-                editEstoqueInicial.setDisable(false);
+            if (!validarPreco()) {
+                return;
             }
+            Double preco = formatarPreco(this.editPreco.getText()), precoAtacado = formatarPreco(this.editPrecoAtacado.getText()), qtdAtacado = formatarPreco(this.editQtdAtacado.getText());
+            this.referencia = this.editReferencia.getText();
+            produto.setReferencia(referencia);
+            produto.setCodigoBarra(referencia);
+            if (verificarTemValorCodigoBarra()) {
+                produto.setCodigoBarra(codigoBarra);
+            }
+            this.produto.setDescricao(editDescricao.getText());
+            this.produto.setPreco(preco);
+            this.produto.setPrecoAtacado(precoAtacado);
+            this.produto.setQtdAtacado(qtdAtacado);
+            this.produto.setNcm(editNcm.getText());
+            this.produto.setCest(editCest.getText());
+            this.produto.setTributacao(tributacao.getSelectionModel().getSelectedItem().replaceAll("\\D", ""));
+            this.produto.setUnidade(unidade.getSelectionModel().getSelectedItem());
+            this.produto.setGrupo(this.grupo.getSelectionModel().getSelectedItem().getCodigo());
+            this.produto.setSubgrupo(this.subGrupo.getSelectionModel().getSelectedItem().getCodigo());
+            String estoque = editEstoqueInicial.getText().replace(",", ".");
+            this.produto.setQuantidade(Double.parseDouble(estoque));
+            String dataCancelamento = null;
+            if (this.inativar.isSelected()) {
+                dataCancelamento = LocalDate.now().toString();
+            }
+            this.produto.setDataCancelamento(dataCancelamento);
+            String seConfirmaPreco = "N";
+            if (this.confirmaPreco.isSelected()) {
+                seConfirmaPreco = "S";
+            }
+            this.produto.setConfirmaPreco(seConfirmaPreco);
+            this.produtoServico.salvar(this.produto);
+            this.editReferencia.requestFocus();
+            this.editReferencia.selectAll();
+            this.codigoBarra = "";
+            this.editEstoqueInicial.setDisable(false);
         });
-        paneModal.setVisible(false);
-        if (thread != null) {
-            thread.interrupt();
+        this.paneModal.setVisible(false);
+        if (this.thread != null) {
+            this.thread.interrupt();
         }
     }
+
+    private boolean verificarTemValorCodigoBarra() {
+        return codigoBarra != null && !codigoBarra.isEmpty();
+    }
+
     private String cest = "";
     private double x, y;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        listarGrupos();
-        listarSubGrupos();
-        this.btGrupo.setOnAction(evt -> this.abrirCadastroDeGrupo());
-        this.btSubGrupo.setOnAction(evt -> this.abrirCadastroDeSubGrupo());
-        grupo.setConverter(new StringConverter<Grupo>() {
-            @Override
-            public String toString(Grupo object) {
-                return object.getCodigo() + " - " + object.getNome();
-            }
-
-            @Override
-            public Grupo fromString(String string) {
-                String codigo = string.split(Pattern.quote("-"))[0].trim();
-                return new Grupo(codigo);
-            }
-        });
-        subGrupo.setConverter(new StringConverter<SubGrupo>() {
-            @Override
-            public String toString(SubGrupo object) {
-                return object.getCodigo() + " - " + object.getNome();
-            }
-
-            @Override
-            public SubGrupo fromString(String string) {
-                String codigo = string.split(Pattern.quote("-"))[0].trim();
-                return new SubGrupo(codigo);
-            }
-        });
+        this.listarGrupos();
+        this.listarSubGrupos();
+        this.adicionarEventos();
+        this.converterComboBox();
         editDescricao.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
                 editPreco.requestFocus();
-            } else if (e.getCode() == KeyCode.F2) {
+                return;
+            }
+            if (e.getCode() == KeyCode.F2) {
                 abrirPesquisa();
             }
         });
@@ -595,20 +580,14 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 }
             }
         });
-        editPreco.setOnAction(e -> editQtdAtacado.requestFocus());
-        editQtdAtacado.setOnAction(e -> editPrecoAtacado.requestFocus());
-        editPrecoAtacado.setOnAction(e -> editNcm.requestFocus());
+
         editNcm.setOnAction(e -> {
             if (!editCest.isDisable()) {
                 editCest.requestFocus();
-            } else {
-                tributacao.requestFocus();
+                return;
             }
+            tributacao.requestFocus();
         });
-        editCest.setOnAction(e -> tributacao.requestFocus());
-        editCest.setOnAction(e -> tributacao.requestFocus());
-        tributacao.setOnAction(e -> unidade.requestFocus());
-        labelNcm.setOnMouseClicked(e -> abrirCosmos());
         labelCest.setOnMouseClicked(e -> {
             if (this.tributacao.getSelectionModel().getSelectedIndex() == 2) {
                 abrirCest();
@@ -624,16 +603,42 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 alert.show();
             }
         });
-
-        tributacao.setItems(tributacoes);
-
         editCest.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
             if (!newValue) {
                 cest = editCest.getText();
             }
         });
+        tributacao.setOnAction(e -> {
+            if (tributacao.getSelectionModel().getSelectedIndex() != 2) {
+                editCest.setText("");
+                editCest.setDisable(true);
+                return;
+            }
+            editCest.setText(cest);
+            editCest.setDisable(false);
+            editCest.requestFocus();
+        });
+        if (tributacao.getSelectionModel().getSelectedIndex() != 2) {
+            editCest.setText("");
+            editCest.setDisable(true);
+        }
+        this.iniciarValores();
+        ancoraPrincipal.setOnMousePressed(evt -> {
+            x = evt.getSceneX();
+            y = evt.getSceneY();
+        });
+
+        ancoraPrincipal.setOnMouseDragged(evt -> {
+            FrmBancoController.stageFrmAlteracao.setX(evt.getScreenX() - x);
+            FrmBancoController.stageFrmAlteracao.setY(evt.getScreenY() - y);
+        });
+
+    }
+
+    private void adicionandoEventosComThread() {
         editReferencia.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
             if (!newValue) {
+                thread = null;
                 thread = new Thread() {
                     @Override
                     public void run() {
@@ -644,26 +649,9 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 thread.start();
             }
         });
-        editReferencia.setOnAction(e -> editDescricao.requestFocus());
-        tributacao.setOnAction(e -> {
-            if (tributacao.getSelectionModel().getSelectedIndex() != 2) {
-                editCest.setText("");
-                editCest.setDisable(true);
-            } else {
-                editCest.setText(cest);
-                editCest.setDisable(false);
-                editCest.requestFocus();
-            }
-        });
-        if (tributacao.getSelectionModel().getSelectedIndex() != 2) {
-            editCest.setText("");
-            editCest.setDisable(true);
-        } else {
-            editCest.setText(cest);
-            editCest.setDisable(false);
-        }
         ancoraPrincipal.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
             if (e.getCode().equals(KeyCode.F1)) {
+                thread = null;
                 thread = new Thread() {
                     @Override
                     public void run() {
@@ -676,19 +664,8 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 sair();
             }
         });
-        labelMinimizar.setOnMouseClicked(e -> {
-            ((Stage) ancoraPrincipal.getScene().getWindow()).setIconified(true);
-        });
-        tributacao.getSelectionModel().select(0);
-        grupo.getSelectionModel().select(0);
-        subGrupo.getSelectionModel().select(0);
-        unidade.setItems(unidades);
-        unidade.getSelectionModel().select(0);
-        editPreco.setText("0,00");
-        editPrecoAtacado.setText("0,00");
-        editQtdAtacado.setText("0,00");
         btSalvar.setOnAction(evt -> {
-            paneModal.setVisible(true);
+            thread = null;
             thread = new Thread() {
                 @Override
                 public void run() {
@@ -698,16 +675,67 @@ public class FrmAlteracaoPrecoController implements Initializable {
             };
             thread.start();
         });
-        ancoraPrincipal.setOnMousePressed(evt -> {
-            x = evt.getSceneX();
-            y = evt.getSceneY();
-        });
+    }
 
-        ancoraPrincipal.setOnMouseDragged(evt -> {
-            FrmBancoController.stageFrmAlteracao.setX(evt.getScreenX() - x);
-            FrmBancoController.stageFrmAlteracao.setY(evt.getScreenY() - y);
+    private void iniciarValores() {
+        editCest.setText(cest);
+        editCest.setDisable(true);
+        unidade.setItems(unidades);
+        tributacao.setItems(tributacoes);
+        editPreco.setText("0,00");
+        editPrecoAtacado.setText("0,00");
+        editQtdAtacado.setText("0,00");
+        grupo.getSelectionModel().select(0);
+        subGrupo.getSelectionModel().select(0);
+        tributacao.getSelectionModel().select(0);
+        unidade.getSelectionModel().select(0);
+    }
+
+    private void converterComboBox() {
+        grupo.setConverter(new StringConverter<Grupo>() {
+            @Override
+            public String toString(Grupo object) {
+                return object.getCodigo() + " - " + object.getNome();
+            }
+
+            @Override
+            public Grupo fromString(String string) {
+                String codigo = string.split(Pattern.quote("-"))[0].trim();
+                return new Grupo(codigo);
+            }
         });
+        subGrupo.setConverter(new StringConverter<SubGrupo>() {
+            @Override
+            public String toString(SubGrupo object) {
+                return object.getCodigo() + " - " + object.getNome();
+            }
+
+            @Override
+            public SubGrupo fromString(String string) {
+                String codigo = string.split(Pattern.quote("-"))[0].trim();
+                return new SubGrupo(codigo);
+            }
+        });
+    }
+
+    private void minimizar() {
+        ((Stage) ancoraPrincipal.getScene().getWindow()).setIconified(true);
+    }
+
+    private void adicionarEventos() {
+        this.labelMinimizar.setOnMouseClicked(e -> minimizar());
         this.btRelatorioProduto.setOnAction(evt -> this.abrirTelaDeRelatorio());
+        this.editReferencia.setOnAction(e -> this.editDescricao.requestFocus());
+        this.editPreco.setOnAction(e -> this.editQtdAtacado.requestFocus());
+        this.editQtdAtacado.setOnAction(e -> this.editPrecoAtacado.requestFocus());
+        this.editPrecoAtacado.setOnAction(e -> this.editNcm.requestFocus());
+        this.editCest.setOnAction(e -> this.tributacao.requestFocus());
+        this.editCest.setOnAction(e -> this.tributacao.requestFocus());
+        this.tributacao.setOnAction(e -> this.unidade.requestFocus());
+        this.labelNcm.setOnMouseClicked(e -> abrirCosmos());
+        this.btGrupo.setOnAction(evt -> this.abrirCadastroDeGrupo());
+        this.btSubGrupo.setOnAction(evt -> this.abrirCadastroDeSubGrupo());
+        this.adicionandoEventosComThread();
     }
 
     private boolean opcoes() {

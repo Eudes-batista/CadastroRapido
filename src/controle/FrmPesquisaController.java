@@ -216,7 +216,7 @@ public class FrmPesquisaController implements Initializable {
                     super.updateItem(item, empty);
                     setText(null);
                     if (item != null) {
-                        setText(item.toString());
+                        setText(item);
                         setAlignment(Pos.CENTER);
                     }
                 }
