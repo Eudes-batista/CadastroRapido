@@ -155,15 +155,15 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 editEstoqueInicial.setDisable(false);
             });
         }
-       this.pararProgressoPanelModal();
+        this.pararProgressoPanelModal();
     }
-    
+
     private void pararProgressoPanelModal() {
         this.paneModal.setVisible(false);
         if (this.thread != null) {
             this.thread.interrupt();
         }
-    }    
+    }
 
     private Produto buscarProdutoNaInternet() {
         Produto produtoNaBaseDaInternet = Cosmos.buscarProduto(referencia);
@@ -533,38 +533,16 @@ public class FrmAlteracaoPrecoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        listarGrupos();
-        listarSubGrupos();
-        this.btGrupo.setOnAction(evt -> this.abrirCadastroDeGrupo());
-        this.btSubGrupo.setOnAction(evt -> this.abrirCadastroDeSubGrupo());
-        grupo.setConverter(new StringConverter<Grupo>() {
-            @Override
-            public String toString(Grupo object) {
-                return object.getCodigo() + " - " + object.getNome();
-            }
-
-            @Override
-            public Grupo fromString(String string) {
-                String codigo = string.split(Pattern.quote("-"))[0].trim();
-                return new Grupo(codigo);
-            }
-        });
-        subGrupo.setConverter(new StringConverter<SubGrupo>() {
-            @Override
-            public String toString(SubGrupo object) {
-                return object.getCodigo() + " - " + object.getNome();
-            }
-
-            @Override
-            public SubGrupo fromString(String string) {
-                String codigo = string.split(Pattern.quote("-"))[0].trim();
-                return new SubGrupo(codigo);
-            }
-        });
+        this.listarGrupos();
+        this.listarSubGrupos();
+        this.adicionarEventos();
+        this.converterComboBox();
         editDescricao.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
                 editPreco.requestFocus();
-            } else if (e.getCode() == KeyCode.F2) {
+                return;
+            }
+            if (e.getCode() == KeyCode.F2) {
                 abrirPesquisa();
             }
         });
@@ -604,20 +582,14 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 }
             }
         });
-        editPreco.setOnAction(e -> editQtdAtacado.requestFocus());
-        editQtdAtacado.setOnAction(e -> editPrecoAtacado.requestFocus());
-        editPrecoAtacado.setOnAction(e -> editNcm.requestFocus());
+
         editNcm.setOnAction(e -> {
             if (!editCest.isDisable()) {
                 editCest.requestFocus();
-            } else {
-                tributacao.requestFocus();
+                return;
             }
+            tributacao.requestFocus();
         });
-        editCest.setOnAction(e -> tributacao.requestFocus());
-        editCest.setOnAction(e -> tributacao.requestFocus());
-        tributacao.setOnAction(e -> unidade.requestFocus());
-        labelNcm.setOnMouseClicked(e -> abrirCosmos());
         labelCest.setOnMouseClicked(e -> {
             if (this.tributacao.getSelectionModel().getSelectedIndex() == 2) {
                 abrirCest();
@@ -633,16 +605,42 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 alert.show();
             }
         });
-
-        tributacao.setItems(tributacoes);
-
         editCest.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
             if (!newValue) {
                 cest = editCest.getText();
             }
+        });        
+        tributacao.setOnAction(e -> {
+            if (tributacao.getSelectionModel().getSelectedIndex() != 2) {
+                editCest.setText("");
+                editCest.setDisable(true);
+                return;
+            }
+            editCest.setText(cest);
+            editCest.setDisable(false);
+            editCest.requestFocus();
         });
+        if (tributacao.getSelectionModel().getSelectedIndex() != 2) {
+            editCest.setText("");
+            editCest.setDisable(true);
+        }
+        this.iniciarValores();
+        ancoraPrincipal.setOnMousePressed(evt -> {
+            x = evt.getSceneX();
+            y = evt.getSceneY();
+        });
+
+        ancoraPrincipal.setOnMouseDragged(evt -> {
+            FrmBancoController.stageFrmAlteracao.setX(evt.getScreenX() - x);
+            FrmBancoController.stageFrmAlteracao.setY(evt.getScreenY() - y);
+        });
+
+    }
+
+    private void adicionandoEventosComThread() {
         editReferencia.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
             if (!newValue) {
+                thread = null;
                 thread = new Thread() {
                     @Override
                     public void run() {
@@ -653,26 +651,9 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 thread.start();
             }
         });
-        editReferencia.setOnAction(e -> editDescricao.requestFocus());
-        tributacao.setOnAction(e -> {
-            if (tributacao.getSelectionModel().getSelectedIndex() != 2) {
-                editCest.setText("");
-                editCest.setDisable(true);
-            } else {
-                editCest.setText(cest);
-                editCest.setDisable(false);
-                editCest.requestFocus();
-            }
-        });
-        if (tributacao.getSelectionModel().getSelectedIndex() != 2) {
-            editCest.setText("");
-            editCest.setDisable(true);
-        } else {
-            editCest.setText(cest);
-            editCest.setDisable(false);
-        }
         ancoraPrincipal.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
             if (e.getCode().equals(KeyCode.F1)) {
+                thread = null;
                 thread = new Thread() {
                     @Override
                     public void run() {
@@ -685,19 +666,8 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 sair();
             }
         });
-        labelMinimizar.setOnMouseClicked(e -> {
-            ((Stage) ancoraPrincipal.getScene().getWindow()).setIconified(true);
-        });
-        tributacao.getSelectionModel().select(0);
-        grupo.getSelectionModel().select(0);
-        subGrupo.getSelectionModel().select(0);
-        unidade.setItems(unidades);
-        unidade.getSelectionModel().select(0);
-        editPreco.setText("0,00");
-        editPrecoAtacado.setText("0,00");
-        editQtdAtacado.setText("0,00");
         btSalvar.setOnAction(evt -> {
-            paneModal.setVisible(true);
+            thread = null;
             thread = new Thread() {
                 @Override
                 public void run() {
@@ -707,16 +677,67 @@ public class FrmAlteracaoPrecoController implements Initializable {
             };
             thread.start();
         });
-        ancoraPrincipal.setOnMousePressed(evt -> {
-            x = evt.getSceneX();
-            y = evt.getSceneY();
-        });
+    }
 
-        ancoraPrincipal.setOnMouseDragged(evt -> {
-            FrmBancoController.stageFrmAlteracao.setX(evt.getScreenX() - x);
-            FrmBancoController.stageFrmAlteracao.setY(evt.getScreenY() - y);
+    private void iniciarValores() {
+        editCest.setText(cest);
+        editCest.setDisable(false);
+        unidade.setItems(unidades);
+        tributacao.setItems(tributacoes);
+        editPreco.setText("0,00");
+        editPrecoAtacado.setText("0,00");
+        editQtdAtacado.setText("0,00");
+        grupo.getSelectionModel().select(0);
+        subGrupo.getSelectionModel().select(0);
+        tributacao.getSelectionModel().select(0);
+        unidade.getSelectionModel().select(0);
+    }
+
+    private void converterComboBox() {
+        grupo.setConverter(new StringConverter<Grupo>() {
+            @Override
+            public String toString(Grupo object) {
+                return object.getCodigo() + " - " + object.getNome();
+            }
+            
+            @Override
+            public Grupo fromString(String string) {
+                String codigo = string.split(Pattern.quote("-"))[0].trim();
+                return new Grupo(codigo);
+            }
         });
+        subGrupo.setConverter(new StringConverter<SubGrupo>() {
+            @Override
+            public String toString(SubGrupo object) {
+                return object.getCodigo() + " - " + object.getNome();
+            }
+            
+            @Override
+            public SubGrupo fromString(String string) {
+                String codigo = string.split(Pattern.quote("-"))[0].trim();
+                return new SubGrupo(codigo);
+            }
+        });
+    }
+
+    private void minimizar() {
+        ((Stage) ancoraPrincipal.getScene().getWindow()).setIconified(true);
+    }
+
+    private void adicionarEventos() {
+        this.labelMinimizar.setOnMouseClicked(e -> minimizar());
         this.btRelatorioProduto.setOnAction(evt -> this.abrirTelaDeRelatorio());
+        this.editReferencia.setOnAction(e -> this.editDescricao.requestFocus());
+        this.editPreco.setOnAction(e -> this.editQtdAtacado.requestFocus());
+        this.editQtdAtacado.setOnAction(e -> this.editPrecoAtacado.requestFocus());
+        this.editPrecoAtacado.setOnAction(e -> this.editNcm.requestFocus());
+        this.editCest.setOnAction(e -> this.tributacao.requestFocus());
+        this.editCest.setOnAction(e -> this.tributacao.requestFocus());
+        this.tributacao.setOnAction(e -> this.unidade.requestFocus());
+        this.labelNcm.setOnMouseClicked(e -> abrirCosmos());
+        this.btGrupo.setOnAction(evt -> this.abrirCadastroDeGrupo());
+        this.btSubGrupo.setOnAction(evt -> this.abrirCadastroDeSubGrupo());
+        this.adicionandoEventosComThread();
     }
 
     private boolean opcoes() {
