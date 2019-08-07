@@ -269,8 +269,8 @@ public class FrmAlteracaoPrecoController implements Initializable {
             Parent parent = fXMLLoader.load();
             Scene scene = new Scene(parent);
             Stage stage = new Stage(StageStyle.UNDECORATED);
-            stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
             stage.setMaximized(false);
             stage.showAndWait();
         } catch (IOException ex) {
