@@ -52,6 +52,7 @@ public class RelatorioProduto {
             JRResultSetDataSource dataSource = new JRResultSetDataSource(resultSet);
             InputStream inputStream = getClass().getResourceAsStream("/relatorio/produtos.jasper");
             JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, new HashMap<>(), dataSource);
+            jasperPrint.setName("Relatorio de Produtos");
             JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
             jasperViewer.setTitle("Relatorio de Produtos");
             jasperViewer.setDefaultCloseOperation(JasperViewer.DISPOSE_ON_CLOSE);

@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 localhost
 /home/administrador/Downloads/bancos/especoanimal.GDB
+=======
+localhost
+E:\omega\DBA\lanchonete.GDB
+>>>>>>> origin/master

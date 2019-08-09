@@ -31,7 +31,7 @@ public class ProdutoServico {
             persistir(produto);
             return;
         }
-        alterar(produtoEncontrado);
+        alterar(produto);
     }
 
     private void persistir(Produto produto) {
@@ -299,7 +299,7 @@ public class ProdutoServico {
             return 1;
         }
         StringBuilder sb = new StringBuilder();
-        sb.append("SELECT ").append(" floor((rand()*count(*))*10000) AS SO_NUMERO ").append(" FROM SCEA01");
+        sb.append("SELECT ").append(" floor((rand()*count(*))*1000) AS SO_NUMERO ").append(" FROM SCEA01");
         String sql = sb.toString();
         if (!conecta.executaSQL(sql)) {
             return 1;
@@ -313,9 +313,9 @@ public class ProdutoServico {
                 return 1;
             }
             while (verificarSeExisteReferncia(refencia)) {
-                refencia = String.valueOf(Integer.parseInt(refencia) + 1);
+                refencia = String.valueOf(Integer.parseInt(refencia) + 1).substring(0,7);
             }
-            return (long) Double.parseDouble(refencia);
+            return (long) Double.parseDouble(refencia.substring(0,7));
         } catch (SQLException ex) {
             return 1;
         }

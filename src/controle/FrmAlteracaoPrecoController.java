@@ -135,13 +135,14 @@ public class FrmAlteracaoPrecoController implements Initializable {
     private void referencia() {
         referencia = editReferencia.getText();
         codigoBarra = "";
-        Produto produtoNaBaseLocal, produtoNaBaseDaInternet;
+        Produto produtoNaBaseLocal, produtoNaBaseDaInternet = null;
         produtoNaBaseLocal = this.buscarProdutoBaseLocal();
         if (produtoNaBaseLocal != null) {
             this.pararProgressoPanelModal();
             return;
         }
-        produtoNaBaseDaInternet = this.buscarProdutoNaInternet();
+        if(this.referencia.length() >= 8)
+            produtoNaBaseDaInternet = this.buscarProdutoNaInternet();
         if (produtoNaBaseDaInternet == null) {
             Platform.runLater(() -> {
                 if (editReferencia.getText().isEmpty()) {
@@ -269,8 +270,8 @@ public class FrmAlteracaoPrecoController implements Initializable {
             Parent parent = fXMLLoader.load();
             Scene scene = new Scene(parent);
             Stage stage = new Stage(StageStyle.UNDECORATED);
-            stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
             stage.setMaximized(false);
             stage.showAndWait();
         } catch (IOException ex) {
