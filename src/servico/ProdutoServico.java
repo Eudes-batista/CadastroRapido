@@ -313,9 +313,9 @@ public class ProdutoServico {
                 return 1;
             }
             while (verificarSeExisteReferncia(refencia)) {
-                refencia = String.valueOf(Integer.parseInt(refencia) + 1).substring(0,7);
+                refencia = String.valueOf(Integer.parseInt(refencia) + 1).substring(0, 7);
             }
-            return (long) Double.parseDouble(refencia.substring(0,7));
+            return (long) Double.parseDouble(refencia.length() > 7 ? refencia.substring(0, 7) : refencia);
         } catch (SQLException ex) {
             return 1;
         }
