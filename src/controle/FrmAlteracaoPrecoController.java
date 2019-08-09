@@ -11,6 +11,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -788,7 +789,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         try {
             grupos.clear();
             List<Grupo> listarGrupos = produtoServico.listarGrupos();
-            this.grupos.addAll(listarGrupos);
+            this.grupos.addAll(listarGrupos  == null ? Arrays.asList() : listarGrupos);
             this.grupo.setItems(grupos);
         } catch (SQLException ex) {
         }
@@ -798,7 +799,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         try {
             subGrupos.clear();
             List<SubGrupo> listarSubGrupos = produtoServico.listarSubGrupos();
-            this.subGrupos.addAll(listarSubGrupos);
+            this.subGrupos.addAll(listarSubGrupos == null ? Arrays.asList() : listarSubGrupos);
             this.subGrupo.setItems(subGrupos);
         } catch (SQLException ex) {
         }
