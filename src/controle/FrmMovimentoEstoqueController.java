@@ -3,7 +3,7 @@ package controle;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -123,7 +123,7 @@ public class FrmMovimentoEstoqueController implements Initializable {
     private final ItemMovimentoService itemMovimentoService = new ItemMovimentoService();
     private final ProdutoServico produtoServico = new ProdutoServico();
     private Movimento movimento;
-    private DecimalFormat numberFormat;
+    private NumberFormat numberFormat;
 
     private void listarEmpresa() {
         try {
@@ -211,7 +211,7 @@ public class FrmMovimentoEstoqueController implements Initializable {
         listarEmpresa();
         listarTipoMovimento();
         inicializarColunas();
-        this.numberFormat = new DecimalFormat("###,##0.00");
+        this.numberFormat = NumberFormat.getInstance();
         this.columnPreco.setCellFactory((TableColumn<ItemMovimento, Double> param) -> new TableCell<ItemMovimento, Double>() {
             @Override
             protected void updateItem(Double item, boolean empty) {
