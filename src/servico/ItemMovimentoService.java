@@ -178,8 +178,8 @@ public class ItemMovimentoService {
         return "1";
     }
 
-    private void atualizarInformacaoProduto(String produto) throws SQLException {
-        try (PreparedStatement preparedStatement = conecta.getConn().prepareStatement("update scea01 set PRULTOUT=? where PRREFERE=?")) {
+    private void atualizarInformacaoProduto(String produto) throws SQLException{
+        try (PreparedStatement preparedStatement = conecta.getConn().prepareStatement("update scea01 set PRULTALT=? where PRREFERE=?")) {
             preparedStatement.setDate(1, new Date(new java.util.Date().getTime()));
             preparedStatement.setString(2, produto);
             preparedStatement.execute();
