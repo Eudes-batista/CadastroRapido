@@ -294,30 +294,30 @@ public class ProdutoServico {
         }
     }
 
-    public long gerarReferencia() {
+    public String gerarReferencia() {
         if (!conecta.conexao()) {
-            return 1;
+            return "1";
         }
         StringBuilder sb = new StringBuilder();
-        sb.append("SELECT ").append(" floor((rand()*count(*))*1000) AS SO_NUMERO ").append(" FROM SCEA01");
+        sb.append("SELECT ").append(" cast(floor((rand()*count(*))*1000) as integer) AS SO_NUMERO ").append(" FROM SCEA01");
         String sql = sb.toString();
         if (!conecta.executaSQL(sql)) {
-            return 1;
+            return "1";
         }
         try {
             if (!conecta.getRs().first()) {
-                return 1;
+                return "1";
             }
             String refencia = conecta.getRs().getString("SO_NUMERO");
             if (refencia == null) {
-                return 1;
+                return "1";
             }
             while (verificarSeExisteReferncia(refencia)) {
-                refencia = String.valueOf(Integer.parseInt(refencia) + 1).substring(0, 7);
+                refencia = String.valueOf(Integer.parseInt(refencia) + 1);
             }
-            return (long) Double.parseDouble(refencia.length() > 7 ? refencia.substring(0, 7) : refencia);
+            return refencia;
         } catch (SQLException ex) {
-            return 1;
+            return "1";
         }
     }
 
