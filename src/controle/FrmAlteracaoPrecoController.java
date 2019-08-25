@@ -339,7 +339,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         }
     }
 
-    private boolean validarPreco() {
+    private boolean validarCampos() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         if (editReferencia.getText().isEmpty()) {
             alert.setTitle("AVISO");
@@ -410,27 +410,30 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 return false;
             }
         }
-        if (editQtdAtacado.getText() == null || editQtdAtacado.getText().isEmpty()) {
+        if (this.validarCampoVazio(editQtdAtacado.getText())) {
             alert.setTitle("AVISO");
             alert.setContentText("Campo Quantidade em atacado não pode ser Vazio");
             alert.showAndWait();
             editQtdAtacado.requestFocus();
+            editQtdAtacado.setText("0,00");
             return false;
         }
         if (Double.parseDouble(editQtdAtacado.getText().replaceAll(",", ".")) >= 10000) {
             alert.setTitle("AVISO");
-            alert.setContentText("Campo Quantidade em atacado não pode ser maior que 10 mil");
+            alert.setContentText("Quantidade maior que o permitido.");
             alert.showAndWait();
             editQtdAtacado.requestFocus();
             return false;
         }
-        if (editPreco.getText().trim().isEmpty()) {
+        if (this.validarCampoVazio(this.editPreco.getText())) {
             alert.setTitle("AVISO");
             alert.setContentText("Campo Preço não pode ser Vazio");
             alert.showAndWait();
             editPreco.requestFocus();
+            editPreco.setText("0,00");
             return false;
-        } else if (editPreco.getText().trim().length() >= 12) {
+        }
+        if (validarCampoMonetarioMaiorQueDozeDigitos(this.editPreco.getText())) {
             alert.setTitle("AVISO");
             alert.setContentText("Valor muito grade para o preço");
             alert.showAndWait();
@@ -438,9 +441,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             editPreco.selectAll();
             return false;
         }
-        Pattern pattern = Pattern.compile("[aA-zZ]");
-        Matcher matcher = pattern.matcher(editPreco.getText().trim());
-        while (matcher.find()) {
+        if(this.validarCampoMonetario(this.editPreco.getText())) {
             alert.setTitle("AVISO");
             alert.setContentText("Campo preço só pode receber números");
             alert.showAndWait();
@@ -448,7 +449,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             editPreco.selectAll();
             return false;
         }
-        if (Double.parseDouble(editPreco.getText().replace(",", ".")) < 0) {
+        if (this.validarCampoMonetarioComValorNegativo(this.editPreco.getText())) {
             alert.setTitle("AVISO");
             alert.setContentText("Valor do Produto não pode ser negativo");
             alert.showAndWait();
@@ -456,9 +457,28 @@ public class FrmAlteracaoPrecoController implements Initializable {
             editPreco.selectAll();
             return false;
         }
-
         return true;
     }
+    
+    private boolean validarCampoVazio(String valor) {
+        return valor.trim().isEmpty();
+    }
+        
+    private boolean validarCampoMonetario(String valor) {        
+         Pattern pattern = Pattern.compile("[aA-zZ]");
+         Matcher matcher = pattern.matcher(valor.trim());
+         return matcher.find();
+    }
+    
+    private boolean validarCampoMonetarioMaiorQueDozeDigitos(String valor) {
+        int tamanhoMaximoDoCampo = 12;
+        return valor.trim().length() >= tamanhoMaximoDoCampo;
+    }
+    
+    private boolean validarCampoMonetarioComValorNegativo(String valor) {
+        return Double.parseDouble(valor.replace(",", ".")) < 0 ;
+    }
+    
 
     private Double formatarPreco(String preco) {
         String precoSemformatacao = preco.replaceAll(",", ".");
@@ -480,7 +500,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
     @FXML
     private void salvar() {
         Platform.runLater(() -> {
-            if (!validarPreco()) {
+            if (!validarCampos()) {
                 return;
             }
             Double preco = formatarPreco(this.editPreco.getText()), precoAtacado = formatarPreco(this.editPrecoAtacado.getText()), qtdAtacado = formatarPreco(this.editQtdAtacado.getText());
