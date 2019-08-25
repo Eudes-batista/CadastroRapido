@@ -127,6 +127,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
     private final ProdutoServico produtoServico = new ProdutoServico();
     private final DecimalFormat df = new DecimalFormat("#,###0.00");
     private Thread thread;
+    private final Alert alert = new Alert(Alert.AlertType.WARNING);
 
     public void sair() {
         Platform.exit();
@@ -141,8 +142,9 @@ public class FrmAlteracaoPrecoController implements Initializable {
             this.pararProgressoPanelModal();
             return;
         }
-        if(this.referencia.length() >= 8)
+        if (this.referencia.length() >= 8) {
             produtoNaBaseDaInternet = this.buscarProdutoNaInternet();
+        }
         if (produtoNaBaseDaInternet == null) {
             Platform.runLater(() -> {
                 if (editReferencia.getText().isEmpty()) {
@@ -340,7 +342,6 @@ public class FrmAlteracaoPrecoController implements Initializable {
     }
 
     private boolean validarCampos() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
         if (editReferencia.getText().isEmpty()) {
             alert.setTitle("AVISO");
             alert.setContentText("Campo Referencia não pode ser Vazio");
@@ -355,21 +356,21 @@ public class FrmAlteracaoPrecoController implements Initializable {
             editDescricao.requestFocus();
             return false;
         }
-        if (editDescricao.getText() == null) {
+        if (this.validarCampoVazio(editDescricao.getText())) {
             alert.setTitle("AVISO");
             alert.setContentText("Campo descrição deve ser informado.");
             alert.showAndWait();
             editDescricao.requestFocus();
             return false;
         }
-        if (editNcm.getText() == null || editNcm.getText().isEmpty()) {
+        if (this.validarCampoVazio(editNcm.getText())) {
             alert.setTitle("AVISO");
             alert.setContentText("Campo Ncm deve ser informado.");
             alert.showAndWait();
             editNcm.requestFocus();
             return false;
         }
-        if (!editNcm.getText().isEmpty() && editNcm.getText().length() < 8) {
+        if (editNcm.getText().length() < 8) {
             alert.setTitle("AVISO");
             alert.setContentText("Campo Ncm não pode ter menos que 8 digitos");
             alert.showAndWait();
@@ -410,75 +411,71 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 return false;
             }
         }
-        if (this.validarCampoVazio(editQtdAtacado.getText())) {
-            alert.setTitle("AVISO");
-            alert.setContentText("Campo Quantidade em atacado não pode ser Vazio");
-            alert.showAndWait();
-            editQtdAtacado.requestFocus();
-            editQtdAtacado.setText("0,00");
+        if (this.validarCampoDePreco(editQtdAtacado)) {
             return false;
         }
-        if (Double.parseDouble(editQtdAtacado.getText().replaceAll(",", ".")) >= 10000) {
-            alert.setTitle("AVISO");
-            alert.setContentText("Quantidade maior que o permitido.");
-            alert.showAndWait();
-            editQtdAtacado.requestFocus();
+        if (this.validarCampoDePreco(editPrecoAtacado)) {
             return false;
         }
-        if (this.validarCampoVazio(this.editPreco.getText())) {
-            alert.setTitle("AVISO");
-            alert.setContentText("Campo Preço não pode ser Vazio");
-            alert.showAndWait();
-            editPreco.requestFocus();
-            editPreco.setText("0,00");
-            return false;
-        }
-        if (validarCampoMonetarioMaiorQueDozeDigitos(this.editPreco.getText())) {
-            alert.setTitle("AVISO");
-            alert.setContentText("Valor muito grade para o preço");
-            alert.showAndWait();
-            editPreco.requestFocus();
-            editPreco.selectAll();
-            return false;
-        }
-        if(this.validarCampoMonetario(this.editPreco.getText())) {
-            alert.setTitle("AVISO");
-            alert.setContentText("Campo preço só pode receber números");
-            alert.showAndWait();
-            editPreco.requestFocus();
-            editPreco.selectAll();
-            return false;
-        }
-        if (this.validarCampoMonetarioComValorNegativo(this.editPreco.getText())) {
-            alert.setTitle("AVISO");
-            alert.setContentText("Valor do Produto não pode ser negativo");
-            alert.showAndWait();
-            editPreco.requestFocus();
-            editPreco.selectAll();
-            return false;
-        }
-        return true;
+        return !this.validarCampoDePreco(editPreco);
     }
-    
+
     private boolean validarCampoVazio(String valor) {
         return valor.trim().isEmpty();
     }
-        
-    private boolean validarCampoMonetario(String valor) {        
-         Pattern pattern = Pattern.compile("[aA-zZ]");
-         Matcher matcher = pattern.matcher(valor.trim());
-         return matcher.find();
+
+    private boolean validarCampoMonetario(String valor) {
+        Pattern pattern = Pattern.compile("[aA-zZ]");
+        Matcher matcher = pattern.matcher(valor.trim());
+        return matcher.find();
     }
-    
+
     private boolean validarCampoMonetarioMaiorQueDozeDigitos(String valor) {
         int tamanhoMaximoDoCampo = 12;
         return valor.trim().length() >= tamanhoMaximoDoCampo;
     }
-    
+
     private boolean validarCampoMonetarioComValorNegativo(String valor) {
-        return Double.parseDouble(valor.replace(",", ".")) < 0 ;
+        return Double.parseDouble(valor.replace(",", ".")) < 0;
     }
-    
+
+    private boolean validarCampoDePreco(TextField textField) {
+        String valor = textField.getText();
+        if (this.validarCampoVazio(valor)) {
+            alert.setTitle("AVISO");
+            alert.setContentText("Campo não pode ser Vazio");
+            alert.showAndWait();
+            textField.requestFocus();
+            textField.setText("0,00");
+            textField.selectAll();
+            return true;
+        }
+        if (validarCampoMonetarioMaiorQueDozeDigitos(valor)) {
+            alert.setTitle("AVISO");
+            alert.setContentText("Valor muito grade");
+            alert.showAndWait();
+            textField.requestFocus();
+            textField.selectAll();
+            return true;
+        }
+        if (this.validarCampoMonetario(valor)) {
+            alert.setTitle("AVISO");
+            alert.setContentText("Campo só pode receber números");
+            alert.showAndWait();
+            textField.requestFocus();
+            textField.selectAll();
+            return true;
+        }
+        if (this.validarCampoMonetarioComValorNegativo(valor)) {
+            alert.setTitle("AVISO");
+            alert.setContentText("Produto não pode ter números negativo");
+            alert.showAndWait();
+            textField.requestFocus();
+            textField.selectAll();
+            return true;
+        }
+        return false;
+    }
 
     private Double formatarPreco(String preco) {
         String precoSemformatacao = preco.replaceAll(",", ".");
@@ -810,7 +807,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         try {
             grupos.clear();
             List<Grupo> listarGrupos = produtoServico.listarGrupos();
-            this.grupos.addAll(listarGrupos  == null ? Arrays.asList() : listarGrupos);
+            this.grupos.addAll(listarGrupos == null ? Arrays.asList() : listarGrupos);
             this.grupo.setItems(grupos);
         } catch (SQLException ex) {
         }
