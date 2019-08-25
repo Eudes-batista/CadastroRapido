@@ -214,7 +214,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         try {
             Desktop.getDesktop().open(new File("Anydesk.exe"));
         } catch (IOException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setAlertType(Alert.AlertType.ERROR);
             alert.setTitle("Erro");
             alert.setHeaderText(ex.getMessage());
             alert.setContentText("Erro ao acessar o site do cosmos");
@@ -253,12 +253,12 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 }
             }
         } catch (IOException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setAlertType(Alert.AlertType.ERROR);
             alert.setTitle("Erro");
             alert.setContentText("Erro ao abrir navegador");
             alert.show();
         } catch (URISyntaxException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setAlertType(Alert.AlertType.ERROR);
             alert.setTitle("Erro");
             alert.setContentText("Erro ao abrir o site cosmos");
             alert.show();
@@ -277,7 +277,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             stage.setMaximized(false);
             stage.showAndWait();
         } catch (IOException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setAlertType(Alert.AlertType.ERROR);
             alert.setTitle("Erro");
             alert.setContentText("Erro ao tela estoque");
             alert.show();
@@ -313,12 +313,12 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 }
             }
         } catch (URISyntaxException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setAlertType(Alert.AlertType.ERROR);
             alert.setTitle("Erro");
             alert.setContentText("Erro ao acessar o site do cosmos");
             alert.show();
         } catch (IOException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setAlertType(Alert.AlertType.ERROR);
             alert.setTitle("Erro");
             alert.setContentText("Erro ao abrir navegador");
             alert.show();
@@ -616,7 +616,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             try {
                 ativarProduto();
             } catch (SQLException ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setAlertType(Alert.AlertType.ERROR);
                 alert.setTitle("Erro");
                 alert.setContentText("Erro ao Cancelar/Ativar Produto.");
                 alert.show();
@@ -758,7 +758,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
     }
 
     private boolean opcoes() {
-        Alert alert = new Alert(javafx.scene.control.Alert.AlertType.CONFIRMATION);
+        alert.setAlertType(Alert.AlertType.CONFIRMATION);
         String mensagem = labelReferencia.getText().length() == 10 ? "Deseja cancelar o Produto?" : "Deseja ativar o Produto?";
         alert.setContentText(mensagem);
         Optional<ButtonType> optional = alert.showAndWait();
@@ -883,7 +883,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 }
             }
         } catch (IOException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setAlertType(Alert.AlertType.ERROR);
             alert.setTitle("Erro");
             alert.setContentText("Erro ao carregar o arquivo FrmPesquisa.fxml " + ex.getMessage());
             alert.show();
@@ -906,7 +906,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             this.listarGrupos();
             this.grupo.getSelectionModel().select(0);
         } catch (IOException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setAlertType(Alert.AlertType.ERROR);
             alert.setTitle("Erro");
             alert.setContentText("Erro ao carregar o arquivo FrmGrupo.fxml " + ex.getMessage());
             alert.show();
@@ -929,7 +929,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             this.listarSubGrupos();
             this.subGrupo.getSelectionModel().select(0);
         } catch (IOException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setAlertType(Alert.AlertType.ERROR);
             alert.setTitle("Cadastro Rapido");
             alert.setContentText("Erro ao carregar o arquivo FrmGrupo.fxml " + ex.getMessage());
             alert.show();
@@ -944,7 +944,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.show();
         } catch (IOException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setAlertType(Alert.AlertType.ERROR);
             alert.setTitle("Cadastro Rapido");
             alert.setContentText("Erro ao carregar o arquivo FrmRelatorio.fxml " + ex.getMessage());
             alert.show();
