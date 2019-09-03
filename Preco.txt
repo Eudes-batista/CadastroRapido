@@ -1,2 +1,2 @@
 localhost
-E:\omega\DBA\ozias-barbosa.GDB
+/home/administrador/Downloads/bancos/porto-mix-rest.fdb
