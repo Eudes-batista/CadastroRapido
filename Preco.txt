@@ -1,2 +1,2 @@
 localhost
-/home/administrador/Downloads/bancos/especoanimal.GDB
+E:\omega\DBA\ozias-barbosa.GDB

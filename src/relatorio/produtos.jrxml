@@ -116,7 +116,7 @@ group by
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{QUANTIDADE_ATACADO}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="###0.00;-###0.00">
 				<reportElement x="489" y="1" width="60" height="15" uuid="0e03b795-82c8-4bdc-8d4c-c5032b88c82e"/>
 				<textFieldExpression><![CDATA[$F{ESTOQUE}]]></textFieldExpression>
 			</textField>

@@ -1,6 +1,7 @@
 package servico;
 
 import controle.ConectaBanco;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -59,15 +60,19 @@ public class ItemMovimentoService {
         for (String p : produtos) {
             produto = p.split("-")[0].trim();
             String sql = "select (sum( iif( substr(MITIPMOV,1,1) = 'E' , MIQUANTI ,0 ) ) - sum(iif(substr(MITIPMOV,1,1)='S',MIQUANTI,0))) as estoque from scea03 where MIREFERE in('" + produto + "') and MICODEMP='" + itemMovimento.getMovimento().getEmpresa() + "'";
-            if (conecta.executaSQL(sql)) {
-                if (conecta.getRs().first()) {
-                    double estoque = conecta.getRs().getDouble("estoque");
-                    PreparedStatement preparedStatement = conecta.getConn().prepareStatement("update scea07 set EEESTATU=? where EEREFERE in('" + produto + "') and EECODEMP='" + itemMovimento.getMovimento().getEmpresa() + "'");
-                    preparedStatement.setDouble(1, estoque);
-                    preparedStatement.execute();
-                    conecta.getConn().commit();
-                }
+            if (!conecta.executaSQL(sql)) {
+                break;
             }
+            if (!conecta.getRs().first()) {
+                break;
+            }
+            double estoque = conecta.getRs().getDouble("estoque");
+            PreparedStatement preparedStatement = conecta.getConn().prepareStatement("update scea07 set EEESTATU=? where EEREFERE in('" + produto + "') and EECODEMP='" + itemMovimento.getMovimento().getEmpresa() + "'");
+            preparedStatement.setDouble(1, estoque);
+            preparedStatement.execute();
+            conecta.getConn().commit();
+            preparedStatement.close();
+            this.atualizarInformacaoProduto(produto);
         }
     }
 
@@ -172,4 +177,14 @@ public class ItemMovimentoService {
         }
         return "1";
     }
+
+    private void atualizarInformacaoProduto(String produto) throws SQLException{
+        try (PreparedStatement preparedStatement = conecta.getConn().prepareStatement("update scea01 set PRULTALT=? where PRREFERE=?")) {
+            preparedStatement.setDate(1, new Date(new java.util.Date().getTime()));
+            preparedStatement.setString(2, produto);
+            preparedStatement.execute();
+            conecta.getConn().commit();
+        }
+    }
+
 }

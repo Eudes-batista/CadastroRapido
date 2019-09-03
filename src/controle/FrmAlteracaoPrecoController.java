@@ -148,7 +148,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         if (produtoNaBaseDaInternet == null) {
             Platform.runLater(() -> {
                 if (editReferencia.getText().isEmpty()) {
-                    long gerarReferencia = produtoServico.gerarReferencia();
+                    String gerarReferencia = produtoServico.gerarReferencia();
                     editReferencia.setText(String.valueOf(gerarReferencia));
                 }
                 paneModal.setVisible(false);
