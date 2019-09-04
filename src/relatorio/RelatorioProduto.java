@@ -34,7 +34,7 @@ public class RelatorioProduto {
                 + "left outer join\n"
                 + " scea01 on(prrefere=eerefere and eecodemp='"+filtroProduto.getEmpresa()+"')\n"
                 + "where \n"
-                + "  prrefere like '%"+filtroProduto.getProduto()+"%' \n";
+                + "  prrefere like '%"+filtroProduto.getProduto()+"%' and PRDATCAN is not null \n";
                 if(filtroProduto.getDataInicial() != null){
                   sql += "and PRULTALT between '"+filtroProduto.getDataInicial()+" 00:00:00' and '"+filtroProduto.getDataFinal()+" 23:59:59' \n";
                 }    
