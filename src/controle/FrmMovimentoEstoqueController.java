@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -39,6 +41,7 @@ import modelo.ItemMovimento;
 import modelo.Movimento;
 import modelo.Produto;
 import modelo.TipoMovimento;
+import org.joda.time.LocalDate;
 import servico.ItemMovimentoService;
 import servico.MovimentoService;
 import servico.ProdutoServico;
@@ -124,6 +127,8 @@ public class FrmMovimentoEstoqueController implements Initializable {
     private final ProdutoServico produtoServico = new ProdutoServico();
     private Movimento movimento;
     private NumberFormat numberFormat;
+    private SimpleDateFormat dataFormat;
+    private String dataAtual;
 
     private void listarEmpresa() {
         try {
@@ -190,6 +195,8 @@ public class FrmMovimentoEstoqueController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        this.dataFormat = new SimpleDateFormat("ddMMyyyy");
+        this.dataAtual =  dataFormat.format(new Date());
         ancoraPrincipal.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent e) -> {
             switch (e.getCode()) {
                 case F1:
@@ -332,6 +339,12 @@ public class FrmMovimentoEstoqueController implements Initializable {
         });
         this.labelMinimizar.setOnMouseClicked(e -> {
             ((Stage) this.ancoraPrincipal.getScene().getWindow()).setIconified(true);
+        });
+        this.documento.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
+            if(newValue && this.documento.getText().isEmpty()){
+                this.documento.setText(this.dataAtual);
+                this.documento.selectAll();
+            }
         });
     }
 
