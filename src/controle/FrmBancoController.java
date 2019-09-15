@@ -77,7 +77,7 @@ public class FrmBancoController implements Initializable {
         ConectaBanco conecta = new ConectaBanco();
         try {
             String host =editHost.getText(),caminho = editCaminho.getText();
-            CriarArquivo.GerarArquivo(host, caminho);
+            ArquivoConfiguracao.GerarArquivo(host, caminho);
             conecta.setHost(host).setCaminho(caminho);
             if (conecta.conexao()) {
                 Pane root = FXMLLoader.load(getClass().getResource("/visao/FrmAlteracaoPreco.fxml"));

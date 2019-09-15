@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CriarArquivo {
+public class ArquivoConfiguracao {
 
     public static void GerarArquivo(String host, String caminho) {
 
@@ -27,7 +27,7 @@ public class CriarArquivo {
                 pw.close();
 
             } catch (IOException ex) {
-                Logger.getLogger(CriarArquivo.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ArquivoConfiguracao.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             PrintWriter pw = null;
@@ -40,11 +40,12 @@ public class CriarArquivo {
                 pw.flush();
                 pw.close();
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(CriarArquivo.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ArquivoConfiguracao.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
-                Logger.getLogger(CriarArquivo.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ArquivoConfiguracao.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
-                pw.close();
+                if(pw != null)
+                   pw.close();
             }
 
         }
