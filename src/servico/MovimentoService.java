@@ -29,6 +29,7 @@ public class MovimentoService {
                 Statement pst = conecta.getConn().createStatement();
                 pst.execute(sql);
                 conecta.getConn().commit();
+                 pst.close();
                 return true;
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -111,6 +112,7 @@ public class MovimentoService {
                 pst.setString(3, movimento.getDocumento());
                 pst.execute();
                 conecta.getConn().commit();
+                 pst.close();
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erro");

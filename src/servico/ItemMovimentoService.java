@@ -34,6 +34,7 @@ public class ItemMovimentoService {
                 Statement pst = conecta.getConn().createStatement();
                 pst.execute(sql);
                 conecta.getConn().commit();
+                 pst.close();
                 movimentarEstoqueAtual(itemMovimento);
                 return true;
             } catch (SQLException ex) {
@@ -87,6 +88,7 @@ public class ItemMovimentoService {
                 pst.setString(4, itemMovimento.getMovimento().getDocumento());
                 pst.execute();
                 conecta.getConn().commit();
+                 pst.close();
                 movimentarEstoqueAtual(itemMovimento);
                 return true;
             } catch (SQLException ex) {
@@ -109,6 +111,7 @@ public class ItemMovimentoService {
                 pst.setString(3, itemMovimentos.get(0).getMovimento().getDocumento());
                 pst.execute();
                 conecta.getConn().commit();
+                 pst.close();
                 ItemMovimento itemMovimento = itemMovimentos.get(0);
                 itemMovimento.setProduto(itemMovimentos.stream().map(ItemMovimento::getProduto).collect(Collectors.joining(",")));
                 movimentarEstoqueAtual(itemMovimento);

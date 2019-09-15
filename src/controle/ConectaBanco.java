@@ -21,13 +21,13 @@ public class ConectaBanco {
     private Statement stm;
     private ResultSet rs;
     private Connection conn;
-    private String host,caminho;
+    private String host, caminho;
 
     public ConectaBanco() {
         this.BuscarCaminho();
     }
 
-    public boolean conexao() {        
+    public boolean conexao() {
         String path = "jdbc:firebirdsql://" + this.host + ":3050/" + this.caminho;
         try {
             Class.forName(driver);
@@ -36,7 +36,7 @@ public class ConectaBanco {
             props.put("password", "masterkey");
             props.put("charset", "UTF8");
             props.put("lc_ctype", "ISO8859_1");
-            conn = DriverManager.getConnection(path,props);
+            conn = DriverManager.getConnection(path, props);
             conn.setAutoCommit(false);
             return true;
         } catch (ClassNotFoundException | SQLException ex) {
@@ -57,22 +57,23 @@ public class ConectaBanco {
     }
 
     public boolean executaSQL(String sql) {
-        try {
-
-            if (conn != null) {
-                stm = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-                rs = stm.executeQuery(sql);
-                return true;
-            } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("AVISO");
-                alert.setContentText("a conexão não foi realizada com o banco de dados");
-                alert.show();
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
+        if (this.conn == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("AVISO");
+            alert.setContentText("a conexão não foi realizada com o banco de dados");
+            alert.show();
+            return false;
         }
-
+        try{                        
+            this.stm = this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            this.rs = this.stm.executeQuery(sql);
+            return true;
+        } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("AVISO");
+            alert.setContentText("Erro ao consultar "+ex.getMessage());
+            alert.show();
+        }
         return false;
     }
 
@@ -91,7 +92,7 @@ public class ConectaBanco {
     public void setConn(Connection conn) {
         this.conn = conn;
     }
-    
+
     public ConectaBanco setCaminho(String caminho) {
         this.caminho = caminho;
         return this;
@@ -101,7 +102,7 @@ public class ConectaBanco {
         this.host = host;
         return this;
     }
-    
+
     private void BuscarCaminho() {
         Path path = Paths.get("Preco.txt");
         if (Files.exists(path)) {

@@ -21,6 +21,7 @@ public class SubGrupoService {
                 pst.setString(2, subGrupo.getNome());
                 pst.executeUpdate();
                 this.conecta.getConn().commit();
+                pst.close();
                 return true;
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -49,6 +50,7 @@ public class SubGrupoService {
                 pst.setString(2, subGrupo.getCodigo());
                 pst.executeUpdate();
                 this.conecta.getConn().commit();
+                 pst.close();
                 return true;
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -76,6 +78,7 @@ public class SubGrupoService {
                 pst.setString(1, grupo);
                 pst.execute();
                 this.conecta.getConn().commit();
+                 pst.close();
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erro");
