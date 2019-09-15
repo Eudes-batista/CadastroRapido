@@ -130,6 +130,8 @@ public class ProdutoServico {
                 pst.setDouble(5, produto.getPrecoAtacado());
                 pst.setString(6, produto.getReferencia());
                 pst.execute();
+                conecta.getConn().commit();
+                pst.close();
                 pst = conecta.getConn().prepareStatement("update scea01 set PRQTDATA=?,PRCLASSI=?,PRCDCEST=?,prpostri=?,prspotri=?,prdescri=?,PRUNDCPR=?,PRUNIDAD=?,prcodbar=?,PRCGRUPO=?,PRSUBGRP=?,PRULTALT=?,PRDATCAN=?,PRCONFPR=? where prrefere=?");
                 pst.setDouble(1, produto.getQtdAtacado());
                 pst.setString(2, produto.getNcm());
