@@ -63,6 +63,7 @@ public class ProdutoServico {
                 pst.setString(17, produto.getConfirmaPreco());
                 pst.execute();
                 conecta.getConn().commit();
+                 pst.close();
                 String data = LocalDate.now().toString();
                 List<String> empresas = buscarEmpresa();
                 for (String empresa : empresas) {
@@ -73,6 +74,7 @@ public class ProdutoServico {
                     PreparedStatement pst2 = conecta.getConn().prepareStatement(sql);
                     pst2.execute();
                     conecta.getConn().commit();
+                    pst2.close();
                     if (produto.getQuantidade() == 0) {
                         continue;
                     }
@@ -95,6 +97,7 @@ public class ProdutoServico {
                 pst.setString(3, produto.getReferencia());
                 pst.execute();
                 conecta.getConn().commit();
+                pst.close();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("SUCESSO!!");
                 alert.setContentText("Produto salvo com sucesso.");
@@ -127,6 +130,8 @@ public class ProdutoServico {
                 pst.setDouble(5, produto.getPrecoAtacado());
                 pst.setString(6, produto.getReferencia());
                 pst.execute();
+                conecta.getConn().commit();
+                pst.close();
                 pst = conecta.getConn().prepareStatement("update scea01 set PRQTDATA=?,PRCLASSI=?,PRCDCEST=?,prpostri=?,prspotri=?,prdescri=?,PRUNDCPR=?,PRUNIDAD=?,prcodbar=?,PRCGRUPO=?,PRSUBGRP=?,PRULTALT=?,PRDATCAN=?,PRCONFPR=? where prrefere=?");
                 pst.setDouble(1, produto.getQtdAtacado());
                 pst.setString(2, produto.getNcm());
@@ -148,6 +153,7 @@ public class ProdutoServico {
                 pst.setString(15, produto.getReferencia());
                 pst.execute();
                 conecta.getConn().commit();
+                pst.close();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("SUCESSO!!");
                 alert.setContentText("Produto salvo com sucesso.");
@@ -186,6 +192,7 @@ public class ProdutoServico {
             preparedStatement.setString(1, refencia);
             preparedStatement.execute();
             conecta.getConn().commit();
+            preparedStatement.close();
             conecta.desconecta();
         }
     }
@@ -289,8 +296,9 @@ public class ProdutoServico {
             String data = produto.getDataCancelamento() != null ? "'" + produto.getDataCancelamento() + "'" : null;
             String sql = "update scea01 set PRDATCAN=" + data + " where prrefere='" + produto.getReferencia() + "'";
             PreparedStatement pst = conecta.getConn().prepareStatement(sql);
-            pst.execute();
+            pst.execute();            
             conecta.getConn().commit();
+            pst.close();
         }
     }
 

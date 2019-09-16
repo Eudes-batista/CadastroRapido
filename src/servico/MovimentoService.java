@@ -29,6 +29,7 @@ public class MovimentoService {
                 Statement pst = conecta.getConn().createStatement();
                 pst.execute(sql);
                 conecta.getConn().commit();
+                 pst.close();
                 return true;
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -66,7 +67,7 @@ public class MovimentoService {
 
     public List<TipoMovimento> listarTipos() throws SQLException {
         if (conecta.conexao()) {
-            String sql = "select T62TPMOV,T62DESCR from LAPT62 order by T62TPMOV";
+            String sql = "select T62TPMOV,T62DESCR from LAPT62 where T62TPMOV in('ENAQ','SNAQ','ENTP','ENDP') order by T62TPMOV";
             if (conecta.executaSQL(sql)) {
                 List<TipoMovimento> tipoMovimentos = new ArrayList<>();
                 if (conecta.getRs().first()) {
@@ -111,6 +112,7 @@ public class MovimentoService {
                 pst.setString(3, movimento.getDocumento());
                 pst.execute();
                 conecta.getConn().commit();
+                 pst.close();
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erro");
