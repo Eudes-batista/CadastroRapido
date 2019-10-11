@@ -155,7 +155,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 editDescricao.requestFocus();
                 unidade.getSelectionModel().select(0);
                 codigoBarra = "";
-                editEstoqueInicial.setText("1");
+                editEstoqueInicial.setText("0");
                 editEstoqueInicial.setDisable(false);
             });
         }
