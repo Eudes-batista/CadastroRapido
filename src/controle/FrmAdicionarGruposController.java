@@ -130,7 +130,7 @@ public class FrmAdicionarGruposController implements Initializable {
         try {
             String referencias =  produtos.stream().map(produto -> "'"+produto.getReferencia()+"'").collect(Collectors.joining(","));
             this.produtoServico.atualizarGrupo(referencias, this.comboBoxGrupo.getSelectionModel().getSelectedItem().getCodigo());
-            Alert alert = new Alert(Alert.AlertType.WARNING);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Cadastro Rapido");
             alert.setContentText("Produtos Atualizados com sucesso!!");
             alert.show();
