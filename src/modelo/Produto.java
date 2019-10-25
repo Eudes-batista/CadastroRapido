@@ -49,6 +49,11 @@ public class Produto {
     }
 
     public Produto() {
+        this.checkBox = new CheckBox();
+    }
+
+    public Produto(String referencia) {
+        this.referencia = referencia;
     }
 
     public String getReferencia() {

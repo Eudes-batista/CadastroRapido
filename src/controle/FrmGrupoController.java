@@ -1,6 +1,7 @@
 package controle;
 
 import componentesjavafx.TextFieldCustom;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
@@ -8,7 +9,10 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
@@ -18,7 +22,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import modelo.Grupo;
 import servico.GrupoService;
 
@@ -63,6 +70,9 @@ public class FrmGrupoController implements Initializable {
     @FXML
     private Button btVoltar;
 
+    @FXML
+    private Button btVincularProdutos;
+
     private final GrupoService grupoService = new GrupoService();
     private final ObservableList<Grupo> grupos = FXCollections.observableArrayList();
     private boolean editando;
@@ -75,6 +85,7 @@ public class FrmGrupoController implements Initializable {
         this.btSair.setOnAction(evt -> sair());
         this.editCodigo.setOnAction(evt -> this.editNome.requestFocus());
         this.editNome.setOnAction(evt -> this.salvar());
+        this.btVincularProdutos.setOnAction(evt -> this.abrirVinculacaoDeProduto());
         this.btIncluir.setOnAction(evt -> {
             this.ancoraPesquisa.setVisible(false);
             this.ancoraCadastro.setVisible(true);
@@ -121,10 +132,10 @@ public class FrmGrupoController implements Initializable {
                 if (!empty) {
                     Button button = new Button("Apagar");
                     button.getStyleClass().add("bt-apagar");
-                    button.setOnAction(evt -> {      
-                          Grupo grupo = FrmGrupoController.this.grupos.get(this.getIndex());
-                          FrmGrupoController.this.grupoService.excluirMovimento(grupo.getCodigo());
-                          FrmGrupoController.this.pesquisar();
+                    button.setOnAction(evt -> {
+                        Grupo grupo = FrmGrupoController.this.grupos.get(this.getIndex());
+                        FrmGrupoController.this.grupoService.excluirMovimento(grupo.getCodigo());
+                        FrmGrupoController.this.pesquisar();
                     });
                     setGraphic(button);
                 } else {
@@ -195,6 +206,26 @@ public class FrmGrupoController implements Initializable {
     private boolean validarCampos() {
         return this.editCodigo.getText().trim().isEmpty() || this.editNome.getText().trim().isEmpty();
     }
+    
+    private void abrirVinculacaoDeProduto() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/visao/FrmAdicionarGrupos.fxml"));
+            Scene scene = new Scene(root);
+            scene.setFill(Color.TRANSPARENT);
+            Stage stage = new Stage();
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.setScene(scene);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.setResizable(false);
+            stage.showAndWait();
+        } catch (IOException ex) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Cadastro Rapido");
+            alert.setContentText("Erro ao Carregar tela de vinculação de produtos");
+            alert.show();
+        }
+    }
+    
 
     private void sair() {
         ((Stage) this.btSair.getScene().getWindow()).close();

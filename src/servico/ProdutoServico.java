@@ -21,8 +21,10 @@ public class ProdutoServico {
     public final ConectaBanco conecta = new ConectaBanco();
     private MovimentoService movimentoService;
     private ItemMovimentoService itemMovimentoService;
+    private final List<Produto> produtos;
 
     public ProdutoServico() {
+        this.produtos = new ArrayList<>();
     }
 
     public void salvar(Produto produto) {
@@ -63,7 +65,7 @@ public class ProdutoServico {
                 pst.setString(17, produto.getConfirmaPreco());
                 pst.execute();
                 conecta.getConn().commit();
-                 pst.close();
+                pst.close();
                 String data = LocalDate.now().toString();
                 List<String> empresas = buscarEmpresa();
                 for (String empresa : empresas) {
@@ -197,6 +199,21 @@ public class ProdutoServico {
         }
     }
 
+    public void atualizarGrupo(String referencia, String grupo) throws SQLException {
+        if (!conecta.conexao()) {
+            return;
+        }
+        try (PreparedStatement preparedStatement = conecta.getConn().prepareStatement("update scea01 set PRCGRUPO=?,PRSUBGRP=? where PRREFERE=?")) {
+            preparedStatement.setString(1, grupo);
+            preparedStatement.setString(2, grupo);
+            preparedStatement.setString(3, referencia);
+            preparedStatement.execute();
+            conecta.getConn().commit();
+            preparedStatement.close();
+        }
+        conecta.desconecta();
+    }
+
     public List<Grupo> listarGrupos() throws SQLException {
         if (!conecta.conexao()) {
             return null;
@@ -291,12 +308,44 @@ public class ProdutoServico {
         return null;
     }
 
+    public List<Produto> pesquisarProduto(String pesquisa) {
+        String sql;
+        this.produtos.clear();
+        if (pesquisa.trim().isEmpty()) {
+            return null;
+        }
+        if (!conecta.conexao()) {
+            return null;
+        }
+        sql = "select PRREFERE,PRDESCRI,PRCODBAR from scea01 "
+                + " where prrefere ='" + pesquisa + "' or PRCODBAR='" + pesquisa + "' or PRDESCRI like '%" + pesquisa + "%'";
+        if (!conecta.executaSQL(sql)) {
+            return this.produtos;
+        }
+        try {
+            if (!conecta.getRs().first()) {
+                return this.produtos;
+            }
+            do {
+                Produto produto = new Produto();
+                produto.setReferencia(this.conecta.getRs().getString("PRREFERE"));
+                produto.setDescricao(this.conecta.getRs().getString("PRDESCRI"));
+                produto.setCodigoBarra(this.conecta.getRs().getString("PRCODBAR"));
+                this.produtos.add(produto);
+            } while (this.conecta.getRs().next());
+            conecta.desconecta();
+        } catch (SQLException ex) {
+            conecta.desconecta();
+        }
+        return this.produtos;
+    }
+
     public void atualizarDataCancelamento(Produto produto) throws SQLException {
         if (conecta.conexao()) {
             String data = produto.getDataCancelamento() != null ? "'" + produto.getDataCancelamento() + "'" : null;
             String sql = "update scea01 set PRDATCAN=" + data + " where prrefere='" + produto.getReferencia() + "'";
             PreparedStatement pst = conecta.getConn().prepareStatement(sql);
-            pst.execute();            
+            pst.execute();
             conecta.getConn().commit();
             pst.close();
         }

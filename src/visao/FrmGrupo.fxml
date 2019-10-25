@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="497.0" prefWidth="687.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controle.FrmGrupoController">
+<AnchorPane id="AnchorPane" prefHeight="497.0" prefWidth="687.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controle.FrmGrupoController">
     <stylesheets>
         <URL value="@css.css" />
     </stylesheets>
@@ -22,7 +22,7 @@
          <children>
             <Label layoutX="8.0" layoutY="47.0" prefHeight="25.0" prefWidth="660.0" styleClass="label-titulo" text="Pesquisar" />
             <Button fx:id="btIncluir" focusTraversable="false" layoutX="14.0" layoutY="437.0" mnemonicParsing="false" styleClass="btIncluir" text="Incluir" />
-            <Button fx:id="btSair" focusTraversable="false" layoutX="124.0" layoutY="437.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="95.0" styleClass="btCancelar" text="Sair" />
+            <Button fx:id="btSair" focusTraversable="false" layoutX="339.0" layoutY="437.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="110.0" styleClass="btexcluir" text="Sair" />
             <Text layoutX="8.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pesquisa de Grupos">
                <font>
                   <Font size="25.0" />
@@ -43,6 +43,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
+            <Button fx:id="btVincularProdutos" focusTraversable="false" layoutX="121.0" layoutY="437.0" mnemonicParsing="false" styleClass="btfuncao" text="Vincular Produtos" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="ancoraCadastro" layoutX="10.0" layoutY="10.0" prefHeight="302.0" prefWidth="677.0" styleClass="fundo" visible="false" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
