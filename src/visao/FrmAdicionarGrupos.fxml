@@ -24,12 +24,12 @@
             <Label layoutX="22.0" layoutY="55.0" prefHeight="23.0" prefWidth="661.0" styleClass="label-titulo" text="Grupos" />
             <TableView fx:id="tabelaProdutos" layoutX="13.0" layoutY="172.0" prefHeight="264.0" prefWidth="682.0">
               <columns>
-                  <TableColumn fx:id="columnCheckBox" maxWidth="1000.0" prefWidth="39.0">
+                  <TableColumn fx:id="columnCheckBox" maxWidth="600.0" prefWidth="42.0">
                      <graphic>
                         <CheckBox fx:id="checkBoxTodos" mnemonicParsing="false" />
                      </graphic>
                   </TableColumn>
-                <TableColumn fx:id="columnReferencia" maxWidth="3500.0" prefWidth="167.0" text="Referencia" />
+                <TableColumn fx:id="columnReferencia" maxWidth="3500.0" prefWidth="164.0" text="Referencia" />
                 <TableColumn fx:id="columnDescricao" maxWidth="7000.0" prefWidth="300.0" text="Descrição" />
                   <TableColumn fx:id="columnCodigoBarra" maxWidth="3500.0" prefWidth="75.0" text="Codigo Barra" />
               </columns>

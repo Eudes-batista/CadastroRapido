@@ -203,13 +203,9 @@ public class ProdutoServico {
         if (!conecta.conexao()) {
             return;
         }
-        try (PreparedStatement preparedStatement = conecta.getConn().prepareStatement("update scea01 set PRCGRUPO=?,PRSUBGRP=? where PRREFERE=?")) {
-            preparedStatement.setString(1, grupo);
-            preparedStatement.setString(2, grupo);
-            preparedStatement.setString(3, referencia);
+        try (PreparedStatement preparedStatement = conecta.getConn().prepareStatement("update scea01 set PRCGRUPO='"+grupo+"',PRSUBGRP='"+grupo+"' where PRREFERE IN("+referencia+")")) {
             preparedStatement.execute();
             conecta.getConn().commit();
-            preparedStatement.close();
         }
         conecta.desconecta();
     }

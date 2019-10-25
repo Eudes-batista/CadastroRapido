@@ -5,6 +5,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -118,17 +119,27 @@ public class FrmAdicionarGruposController implements Initializable {
     }
 
     private void salvar() {
-        this.produtos.stream().filter(produto -> produto.getCheckBox().isSelected())
-                .forEach(produtoSelecionado -> {
-                    try {
-                        this.produtoServico.atualizarGrupo(produtoSelecionado.getReferencia(), this.comboBoxGrupo.getSelectionModel().getSelectedItem().getCodigo());
-                    } catch (SQLException ex) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Cadastro Rapido");
-                        alert.setContentText("Erro ao atualizar grupo no produto.");
-                        alert.show();
-                    }
-                });
+        if (this.comboBoxGrupo.getSelectionModel().getSelectedItem() == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Cadastro Rapido");
+            alert.setContentText("Selecione um grupo.");
+            alert.show();
+            return;
+        }
+        List<Produto> produtos = this.produtos.stream().filter(produto -> produto.getCheckBox().isSelected()).collect(Collectors.toList());
+        try {
+            String referencias =  produtos.stream().map(produto -> "'"+produto.getReferencia()+"'").collect(Collectors.joining(","));
+            this.produtoServico.atualizarGrupo(referencias, this.comboBoxGrupo.getSelectionModel().getSelectedItem().getCodigo());
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Cadastro Rapido");
+            alert.setContentText("Produtos Atualizados com sucesso!!");
+            alert.show();
+        } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Cadastro Rapido");
+            alert.setContentText("Erro ao atualizar grupo no produto.");
+            alert.show();
+        }
     }
 
     private void listarGrupos() {
