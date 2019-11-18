@@ -134,7 +134,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
     }
 
     private void referencia() {
-        referencia = editReferencia.getText();
+        referencia = editReferencia.getText().trim();
         codigoBarra = "";
         Produto produtoNaBaseLocal, produtoNaBaseDaInternet = null;
         produtoNaBaseLocal = this.buscarProdutoBaseLocal();
