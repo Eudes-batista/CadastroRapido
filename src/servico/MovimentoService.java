@@ -22,7 +22,7 @@ public class MovimentoService {
     public boolean salvar(Movimento movimento) {
         if (conecta.conexao()) {
             try {
-                String sql = "INSERT INTO SCEA02 (MCCODEMP,MCTIPMOV,MCNUMERO,MCDATMOV,MCHISTOR,MCIDENTI,MCDATALT)";
+                String sql = "UPDATE OR INSERT INTO SCEA02 (MCCODEMP,MCTIPMOV,MCNUMERO,MCDATMOV,MCHISTOR,MCIDENTI,MCDATALT)";
                 sql += " VALUES('"+movimento.getEmpresa()+"','"+movimento.getTipo()+"','"+movimento.getDocumento()+
                         "','" + new SimpleDateFormat("yyyy-MM-dd").format(movimento.getDataMovimento()) +
                         "','"+movimento.getObservacao()+"','"+movimento.getUsuario()+"','"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(movimento.getDataAtualizacao())+"')";

@@ -585,7 +585,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         });
         editEstoqueInicial.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             if (newValue != null) {
-                editEstoqueInicial.setText(newValue.replaceAll("\\D", ""));
+                editEstoqueInicial.setText(newValue.replaceAll("^[aA-zZ]", ""));
             }
         });
         editCest.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
