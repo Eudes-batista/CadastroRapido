@@ -250,7 +250,7 @@ public class ProdutoServico {
         if (!conecta.conexao()) {
             return null;
         }
-        String sql = "SELECT LDCODEMP FROM LAPA13 WHERE LDUSUARI LIKE '%SUPORTE%'";
+        String sql = "select LJCODEMP from lapa19 where LJNUMCGC <> '00.000.000/0000-00';";
         if (!conecta.executaSQL(sql)) {
             return null;
         }
@@ -259,7 +259,7 @@ public class ProdutoServico {
         }
         List<String> empresas = new ArrayList<>();
         do {
-            empresas.add(conecta.getRs().getString("LDCODEMP"));
+            empresas.add(conecta.getRs().getString("LJCODEMP"));
         } while (conecta.getRs().next());
         return empresas;
     }
