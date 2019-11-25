@@ -67,8 +67,7 @@ public class ProdutoServico {
                 conecta.getConn().commit();
                 pst.close();
                 String data = LocalDate.now().toString();
-                List<String> empresas = buscarEmpresa();
-                for (String empresa : empresas) {
+                for (String empresa : buscarEmpresaScea07()) {
                     sql = "INSERT INTO SCEA07 (EECODEMP,EEREFERE,EEDTTAB1,EEPBRTB1,EEPLQTB1,EEDTTAB2,EEPBRTB2,EEPLQTB2,EEDTTAB3,EEPBRTB3,EEPLQTB3,EET2PVD1)";
                     sql += " VALUES ('" + empresa + "','" + produto.getReferencia() + "','" + data + "'," + produto.getPreco() + "," + produto.getPreco()
                             + ",'" + data + "','" + produto.getPreco() + "'," + produto.getPreco()
@@ -77,22 +76,8 @@ public class ProdutoServico {
                     pst2.execute();
                     conecta.getConn().commit();
                     pst2.close();
-                    if (produto.getQuantidade() == 0) {
-                        continue;
-                    }
-                    this.movimentoService = new MovimentoService();
-                    this.itemMovimentoService = new ItemMovimentoService();
-                    Movimento movimento = new Movimento(
-                            empresa,
-                            "ENAQ",
-                            new SimpleDateFormat("ddMMyyyy").format(new Date()),
-                            "Estoque Inicial", "ADM", new Date(), new Date());
-                    Movimento m = movimentoService.verificarMovimento(movimento);
-                    if (m == null) {
-                        movimentoService.salvar(movimento);
-                    }
-                    itemMovimentoService.salvar(new ItemMovimento(movimento, "01", produto.getReferencia(), produto.getQuantidade(), produto.getPreco()));
                 }
+                this.registrarEstoque(produto);
                 pst = conecta.getConn().prepareStatement("insert into scea09 values(?,?,?)");
                 pst.setString(1, produto.getReferencia());
                 pst.setString(2, produto.getReferencia());
@@ -203,7 +188,7 @@ public class ProdutoServico {
         if (!conecta.conexao()) {
             return;
         }
-        try (PreparedStatement preparedStatement = conecta.getConn().prepareStatement("update scea01 set PRCGRUPO='"+grupo+"',PRSUBGRP='"+grupo+"' where PRREFERE IN("+referencia+")")) {
+        try (PreparedStatement preparedStatement = conecta.getConn().prepareStatement("update scea01 set PRCGRUPO='" + grupo + "',PRSUBGRP='" + grupo + "' where PRREFERE IN(" + referencia + ")")) {
             preparedStatement.execute();
             conecta.getConn().commit();
         }
@@ -246,11 +231,18 @@ public class ProdutoServico {
         return grupos;
     }
 
-    private List<String> buscarEmpresa() throws SQLException {
+    private List<String> buscarEmpresaScea07() throws SQLException {
+        return buscarEmpresa("SELECT LDCODEMP FROM LAPA13 WHERE LDUSUARI LIKE '%SUPORTE%'");
+    }
+
+    private List<String> buscarEmpresaEstoque() throws SQLException {
+        return this.buscarEmpresa("select LJCODEMP from lapa19 where LJNUMCGC <> '00.000.000/0000-00';");
+    }
+
+    private List<String> buscarEmpresa(String sql) throws SQLException {
         if (!conecta.conexao()) {
             return null;
         }
-        String sql = "select LJCODEMP from lapa19 where LJNUMCGC <> '00.000.000/0000-00';";
         if (!conecta.executaSQL(sql)) {
             return null;
         }
@@ -259,7 +251,7 @@ public class ProdutoServico {
         }
         List<String> empresas = new ArrayList<>();
         do {
-            empresas.add(conecta.getRs().getString("LJCODEMP"));
+            empresas.add(conecta.getRs().getString(1));
         } while (conecta.getRs().next());
         return empresas;
     }
@@ -402,5 +394,25 @@ public class ProdutoServico {
         produto.setConfirmaPreco(conecta.getRs().getString("PRCONFPR"));
         produto.setQuantidade(conecta.getRs().getDouble("EEESTATU"));
         return produto;
+    }
+
+    private void registrarEstoque(Produto produto) throws SQLException {
+        if (produto.getQuantidade() == 0) {
+            return;
+        }
+        for (String empresa : buscarEmpresaEstoque()) {
+            this.movimentoService = new MovimentoService();
+            this.itemMovimentoService = new ItemMovimentoService();
+            Movimento movimento = new Movimento(
+                    empresa,
+                    "ENAQ",
+                    new SimpleDateFormat("ddMMyyyy").format(new Date()),
+                    "Estoque Inicial", "ADM", new Date(), new Date());
+            Movimento m = movimentoService.verificarMovimento(movimento);
+            if (m == null) {
+                movimentoService.salvar(movimento);
+            }
+            itemMovimentoService.salvar(new ItemMovimento(movimento, "01", produto.getReferencia(), produto.getQuantidade(), produto.getPreco()));
+        }
     }
 }
