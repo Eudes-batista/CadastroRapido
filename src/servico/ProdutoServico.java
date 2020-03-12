@@ -264,8 +264,24 @@ public class ProdutoServico {
         if (!conecta.conexao()) {
             return null;
         }
-        sql = "select first 1 PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,PRPOSTRI,PRSPOTRI,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,EEESTATU,PRCONFPR from scea01 left outer join scea07 on(eerefere=prrefere) "
-                + " where prrefere ='" + referencia + "' or PRCODBAR='" + referencia + "' ";
+        sql = "select first 1 PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,PRPOSTRI,PRSPOTRI,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,SUM(EEESTATU) as EEESTATU,PRCONFPR from scea01 left outer join scea07 on(eerefere=prrefere) "
+                + " where prrefere ='" + referencia + "' or PRCODBAR='" + referencia + "' \n";
+        sql += "group by\n"
+                + "   PRREFERE\n"
+                + "  ,PRDESCRI\n"
+                + "  ,EEPBRTB1\n"
+                + "  ,EET2PVD1\n"
+                + "  ,PRQTDATA\n"
+                + "  ,PRCLASSI\n"
+                + "  ,PRCDCEST\n"
+                + "  ,PRPOSTRI\n"
+                + "  ,PRSPOTRI\n"
+                + "  ,PRUNIDAD\n"
+                + "  ,PRCODBAR\n"
+                + "  ,PRDATCAN\n"
+                + "  ,PRCGRUPO\n"
+                + "  ,PRSUBGRP\n"
+                + "  ,PRCONFPR";
         if (!conecta.executaSQL(sql)) {
             return null;
         }
