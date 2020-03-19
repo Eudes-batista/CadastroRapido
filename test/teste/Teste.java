@@ -7,8 +7,7 @@ public class Teste {
 
     public static void main(String[] args) {
 
-        boolean invalid = validarCampoMonetario("789680670006a");
-        System.out.println("invalid = " + invalid);
+        System.out.println("11.593.321/0001-63".length());
         
     }
 
