@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -71,12 +70,13 @@ public class FrmBancoController implements Initializable {
         }
     }
     static Stage stageFrmAlteracao;
+
     @FXML
     public void Iniciar() {
 
         ConectaBanco conecta = new ConectaBanco();
         try {
-            String host =editHost.getText(),caminho = editCaminho.getText();
+            String host = editHost.getText(), caminho = editCaminho.getText();
             ArquivoConfiguracao.GerarArquivo(host, caminho);
             conecta.setHost(host).setCaminho(caminho);
             if (conecta.conexao()) {
@@ -114,9 +114,11 @@ public class FrmBancoController implements Initializable {
         Path path = Paths.get("Preco.txt");
         if (Files.exists(path)) {
             try {
-                List<String> lista = Files.lines(path).collect(Collectors.toList());
-                editHost.setText(lista.get(0));
-                editCaminho.setText(lista.get(1));
+                List<String> lista = Files.readAllLines(path);
+                if (lista != null && !lista.isEmpty() && lista.size() > 1) {
+                    editHost.setText(lista.get(0));
+                    editCaminho.setText(lista.get(1));
+                }
             } catch (IOException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erro");

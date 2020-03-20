@@ -11,7 +11,8 @@ public class AlteracaoPrecoFX extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/visao/FrmBanco.fxml"));
+        FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/visao/FrmBanco.fxml"));
+        Parent root = fXMLLoader.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
