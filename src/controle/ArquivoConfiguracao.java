@@ -32,7 +32,7 @@ public class ArquivoConfiguracao {
         } else {
             PrintWriter pw = null;
             try {
-                FileWriter fileWriter = new FileWriter(file,false);
+                FileWriter fileWriter = new FileWriter(file, false);
 
                 pw = new PrintWriter(fileWriter);
                 pw.println(host);
@@ -44,8 +44,9 @@ public class ArquivoConfiguracao {
             } catch (IOException ex) {
                 Logger.getLogger(ArquivoConfiguracao.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
-                if(pw != null)
-                   pw.close();
+                if (pw != null) {
+                    pw.close();
+                }
             }
 
         }

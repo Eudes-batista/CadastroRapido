@@ -36,6 +36,7 @@ public class ConectaBanco {
             props.put("password", "masterkey");
             props.put("charset", "UTF8");
             props.put("lc_ctype", "ISO8859_1");
+            props.put("connectTimeout", "3");
             conn = DriverManager.getConnection(path, props);
             conn.setAutoCommit(false);
             return true;
