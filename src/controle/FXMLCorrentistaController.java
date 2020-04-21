@@ -23,6 +23,8 @@ import modelo.Cliente;
 import modelo.Correntista;
 import modelo.TipoMovimentacao;
 import modelo.dto.ClientesCorrentistaDTO;
+import modelo.dto.CorrentistaFiltro;
+import relatorio.correntista.RelatorioCorrentista;
 import servico.ClienteService;
 import servico.CorrentistaService;
 import util.FormatterUtil;
@@ -36,10 +38,14 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
     private TipoMovimentacao tipoMovimentacao;
     private Correntista correntista;
     private ClientesCorrentistaDTO consultarSaldosCorrentida;
+    private RelatorioCorrentista relatorioCorrentista;
+    private CorrentistaFiltro correntistaFiltro;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.clientes = FXCollections.observableArrayList();
+        this.relatorioCorrentista = new RelatorioCorrentista();
+        this.correntistaFiltro = new CorrentistaFiltro();
         this.clienteService = new ClienteService();
         this.correntistaService = new CorrentistaService();
         this.ancoraPrincipal.addEventFilter(KeyEvent.KEY_RELEASED, evt -> {
@@ -56,6 +62,7 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
         this.textPesquisa.setOnAction(evt -> this.realizarPesquisa());
         this.btSair.setOnMouseClicked(evt -> this.sair());
         this.btSairContaCorrente.setOnMouseClicked(evt -> this.sair());
+        this.btImprimir.setOnMouseClicked(evt -> this.imprimirRelatorio());
         this.textDataInicial.valueProperty().addListener((ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) -> {
             if(this.textDataFinal.getValue() != null){
                 this.consultarSaldoCorrentista(newValue, this.textDataFinal.getValue());
@@ -249,5 +256,18 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
             return false;
         }
         return true;
+    }
+
+    private void imprimirRelatorio() {
+        this.correntistaFiltro.setCliente(this.cliente.getCodigo());
+        this.correntistaFiltro.setDataInicial(this.textDataInicial.getValue().toString());
+        this.correntistaFiltro.setDataFinal(this.textDataFinal.getValue().toString());
+        
+        this.relatorioCorrentista.setCliente(this.cliente.getNome());
+        this.relatorioCorrentista.setLimiteEmCredito(this.labelSaldoLimiteEmCredito.getText());
+        this.relatorioCorrentista.setSaldoDevedor(this.labelSaldoDevedor.getText());
+        this.relatorioCorrentista.setSaldoDisponivel(this.labelSaldoDisponivel.getText());
+        
+        this.relatorioCorrentista.imprimirCorrentista(this.correntistaFiltro);
     }
 }

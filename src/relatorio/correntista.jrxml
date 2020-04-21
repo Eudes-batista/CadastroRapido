@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="correntista" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3877a078-9c53-496f-888f-bd7523e5c470">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Firebird"/>
+	<parameter name="cliente" class="java.lang.String"/>
+	<parameter name="saldoDisponivel" class="java.lang.String"/>
+	<parameter name="saldoDevedor" class="java.lang.String"/>
+	<parameter name="limiteCredito" class="java.lang.String"/>
+	<parameter name="dataInicial" class="java.lang.String"/>
+	<parameter name="dataFinal" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[select * from crea15]]>
+	</queryString>
+	<field name="CRCLIENT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CRCLIENT"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="CREA15"/>
+	</field>
+	<field name="CRLANCAM" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="CRLANCAM"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="CREA15"/>
+	</field>
+	<field name="CRPROCES" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="CRPROCES"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="CREA15"/>
+	</field>
+	<field name="CRUSUARI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CRUSUARI"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="CREA15"/>
+	</field>
+	<field name="CRTIPMOV" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CRTIPMOV"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="CREA15"/>
+	</field>
+	<field name="CRHISTOR" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CRHISTOR"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="CREA15"/>
+	</field>
+	<field name="CRDEBITO" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="CRDEBITO"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="CREA15"/>
+	</field>
+	<field name="CRCREDIT" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="CRCREDIT"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="CREA15"/>
+	</field>
+	<field name="CRSLDPAR" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="CRSLDPAR"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="CREA15"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="64" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="120" height="30" uuid="c6c6c46d-06c3-49e6-835a-f73125a1edce"/>
+				<textElement textAlignment="Center">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Conta correte: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="130" y="0" width="410" height="30" uuid="e3f84a74-6ef3-4aaa-be01-16d567d223cf"/>
+				<textElement textAlignment="Center">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cliente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="37" width="60" height="20" uuid="8a41862a-dec2-430d-925a-2b0a2439aeff"/>
+				<text><![CDATA[Data Inicial: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="58" y="38" width="80" height="19" uuid="4723c926-f6ce-43a4-8901-7f6e0e7aa3f2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$P{dataInicial}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="128" y="38" width="52" height="15" uuid="6f1a7f10-1881-494c-a17b-9f22930b3e10"/>
+				<text><![CDATA[Data Final:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="180" y="38" width="76" height="18" uuid="1ad5bdb9-6dc1-44aa-916e-10f8ba0015d1"/>
+				<textFieldExpression><![CDATA[$P{dataFinal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="63">
+			<staticText>
+				<reportElement x="23" y="26" width="78" height="17" uuid="69869adc-c62b-4022-8ef3-2b1673c0eb4e"/>
+				<text><![CDATA[Saldo disponivel: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="104" y="25" width="66" height="17" uuid="c164c03f-56eb-4d2c-90c2-61e1e40a6f35"/>
+				<textFieldExpression><![CDATA[$P{saldoDisponivel}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="175" y="24" width="80" height="15" uuid="4a86f107-7978-4d71-ae04-f83ad36bc3b7"/>
+				<text><![CDATA[Saldo Devedor:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="260" y="25" width="70" height="15" uuid="1591831b-fbab-4926-8c08-56b29af57f09"/>
+				<textFieldExpression><![CDATA[$P{saldoDevedor}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="-11" y="51" width="550" height="1" uuid="2fdfbd24-357f-40ce-a4d4-5c0a4af2f488"/>
+			</line>
+			<staticText>
+				<reportElement x="2" y="0" width="118" height="26" uuid="e817b49e-ea0a-4c0f-8eb8-8c27e74dade9"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Saldos da conta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="332" y="25" width="88" height="14" uuid="119f9c79-f658-420a-b423-7df0d8d2bbdc"/>
+				<text><![CDATA[Limite em  crédito:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="420" y="24" width="80" height="14" uuid="a61bcb3b-f41d-4cca-992a-925cfe04f74e"/>
+				<textFieldExpression><![CDATA[$P{limiteCredito}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="30" uuid="9f789df3-eb7e-4656-80db-cb383d1c2079">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="37ab254b-14ae-4af3-8eee-d64edeac8f5d"/>
+				</reportElement>
+				<text><![CDATA[Data lançamento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="3" width="100" height="30" uuid="3e682293-69ed-4bdb-bcc4-cb4520523a8e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8f416de8-0947-41b2-b53c-40313679800c"/>
+				</reportElement>
+				<text><![CDATA[Descrição lancamento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="4" width="80" height="20" uuid="ddfcaada-877d-4392-b385-291a4cc787a0">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ac9776d4-38b4-47a9-866b-d32bae73984d"/>
+				</reportElement>
+				<text><![CDATA[Movimentação]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="4" width="70" height="30" uuid="2ebe08d9-42e3-47a3-bce3-bc1b43c7503c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7c03555b-176f-4192-90d6-499a848a24c9"/>
+				</reportElement>
+				<text><![CDATA[Cédito]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="480" y="4" width="70" height="20" uuid="2d57af9b-7189-4180-a0e4-ae51ad7ffc77">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="44aed5ee-2c05-4411-a051-1e1f2b7e4551"/>
+				</reportElement>
+				<text><![CDATA[Débito]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="65" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="30" uuid="fab50826-4bd1-4b73-b710-078d9f4a7de2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="37ab254b-14ae-4af3-8eee-d64edeac8f5d"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat( "dd/MM/yyyy" ).format($F{CRLANCAM})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="0" width="160" height="30" uuid="51766998-f5f4-4d26-a4db-515547e6b290">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8f416de8-0947-41b2-b53c-40313679800c"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{CRHISTOR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="4" width="100" height="30" uuid="90f58475-e609-44b2-a766-917bd937f747">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ac9776d4-38b4-47a9-866b-d32bae73984d"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{CRTIPMOV}.equals("M") ? "MANUAL" : "AUTOMATICO"]]></textFieldExpression>
+			</textField>
+			<textField pattern="###,##0.00">
+				<reportElement x="400" y="4" width="80" height="26" uuid="d53405eb-09c3-4d2c-8a28-5b3454b286fc">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7c03555b-176f-4192-90d6-499a848a24c9"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{CRCREDIT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###,##0.00">
+				<reportElement x="480" y="0" width="72" height="30" uuid="224838ad-9c94-4a1f-ad8b-b536b33f1767">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="44aed5ee-2c05-4411-a051-1e1f2b7e4551"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{CRDEBITO}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="-5" y="28" width="550" height="1" uuid="4366ce59-a220-4d06-b738-d56493676a99"/>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

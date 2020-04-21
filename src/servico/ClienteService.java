@@ -32,8 +32,7 @@ public class ClienteService {
                 + "    CLCODIGO = '" + pesquisa + "' \n"
                 + "or  CLRAZSOC like '%" + pesquisa + "%' \n"
                 + "or  CLNOMFAN like '%" + pesquisa + "%' \n"
-                + "or  CLCGCCPF = '" + pesquisa + "'\n"
-                + "and CLTIPPES='A'";
+                + "or  CLCGCCPF = '" + pesquisa + "'\n";
         if (!this.conectaBanco.executaSQL(sql)) {
             this.conectaBanco.desconecta();
             return clientes;
@@ -69,8 +68,7 @@ public class ClienteService {
                 + " crea01 \n"
                 + "where \n"
                 + "    CLCODIGO = '" + pesquisa + "' \n"
-                + "or  CLCGCCPF = '" + pesquisa + "'\n"
-                + "and CLTIPPES='A'";
+                + "or  CLCGCCPF = '" + pesquisa + "'\n";
         if (!this.conectaBanco.executaSQL(sql)) {
             this.conectaBanco.desconecta();
             return cliente;

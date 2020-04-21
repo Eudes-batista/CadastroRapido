@@ -1,15 +1,25 @@
 package teste;
 
-import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
+import modelo.dto.CorrentistaFiltro;
+import relatorio.correntista.RelatorioCorrentista;
 
 public class Teste {
 
     public static void main(String[] args) {
 
-        String dataInicial = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()).toString();
-        System.out.println("dataInicial = " + dataInicial);
-        String dataFinal = LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()).toString();
-        System.out.println("dataFinal = " + dataFinal);
+        RelatorioCorrentista relatorioCorrentista = new RelatorioCorrentista();
+        
+        CorrentistaFiltro correntistaFiltro = new CorrentistaFiltro();
+        correntistaFiltro.setCliente("01");
+        correntistaFiltro.setDataInicial("2020-04-01");
+        correntistaFiltro.setDataFinal("2020-04-30");
+        
+        relatorioCorrentista.setCliente("EUDES BATISTA DOS SANTOS");
+        relatorioCorrentista.setLimiteEmCredito("999.999,00");
+        relatorioCorrentista.setSaldoDevedor("999.999,00");
+        relatorioCorrentista.setSaldoDisponivel("999.999,00");
+        
+        relatorioCorrentista.imprimirCorrentista(correntistaFiltro);
+        
     }
 }
