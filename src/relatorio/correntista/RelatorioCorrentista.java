@@ -13,6 +13,8 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.base.JRBaseField;
+import net.sf.jasperreports.engine.fill.JRFillField;
 import net.sf.jasperreports.view.JasperViewer;
 
 public class RelatorioCorrentista {
@@ -38,14 +40,16 @@ public class RelatorioCorrentista {
         }
         try {
             ResultSet resultSet = this.conectaBanco.getResultSet();
-            if (!resultSet.first()) {
+            if(!resultSet.first()){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("CADASTRO RAPIDO");
                 alert.setContentText("Não existe movimentação");
                 alert.show();
                 return;
             }
-            JRResultSetDataSource dataSource = new JRResultSetDataSource(resultSet);
+            resultSet.beforeFirst();
+            JRResultSetDataSource dataSource = new JRResultSetDataSource(resultSet);            
+
             InputStream inputStream = getClass().getResourceAsStream("/relatorio/correntista.jasper");
 
             HashMap<String, Object> parametros = new HashMap<>();

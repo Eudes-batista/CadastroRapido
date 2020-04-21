@@ -10,7 +10,7 @@ public class Teste {
         RelatorioCorrentista relatorioCorrentista = new RelatorioCorrentista();
         
         CorrentistaFiltro correntistaFiltro = new CorrentistaFiltro();
-        correntistaFiltro.setCliente("01");
+        correntistaFiltro.setCliente("1199");
         correntistaFiltro.setDataInicial("2020-04-01");
         correntistaFiltro.setDataFinal("2020-04-30");
         
