@@ -90,7 +90,7 @@
             <TextField fx:id="textPesquisa" layoutX="15.0" layoutY="33.0" prefHeight="40.0" prefWidth="750.0" promptText="Pesquisar cliente" styleClass="input-padrao" />
             <Label layoutX="16.0" layoutY="14.0" text="Pesquisa de cliente" />
             <Button fx:id="btImprimir" disable="true" focusTraversable="false" layoutX="637.0" layoutY="105.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="124.0" styleClass="bttopo" text="Imprimir" />
-            <Button fx:id="btMovimentacoes" disable="true" focusTraversable="false" layoutX="199.0" layoutY="525.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="182.0" styleClass="bttopo" text="Movimentações" />
+            <Button fx:id="btExcluirMovimentacoes" focusTraversable="false" layoutX="227.0" layoutY="525.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="154.0" styleClass="btCancelar" text="Excluir Movimentação" />
             <Button fx:id="btSairContaCorrente" focusTraversable="false" layoutX="398.0" layoutY="525.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="124.0" styleClass="btexcluir" text="Sair" />
          </children>
       </AnchorPane>

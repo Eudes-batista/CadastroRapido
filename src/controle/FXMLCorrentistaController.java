@@ -10,6 +10,8 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -63,6 +65,7 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
         this.btSair.setOnMouseClicked(evt -> this.sair());
         this.btSairContaCorrente.setOnMouseClicked(evt -> this.sair());
         this.btImprimir.setOnMouseClicked(evt -> this.imprimirRelatorio());
+        this.btExcluirMovimentacoes.setOnAction(evt -> this.excluirMovimentacao());
         this.textDataInicial.valueProperty().addListener((ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) -> {
             if(this.textDataFinal.getValue() != null){
                 this.consultarSaldoCorrentista(newValue, this.textDataFinal.getValue());
@@ -269,5 +272,15 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
         this.relatorioCorrentista.setSaldoDisponivel(this.labelSaldoDisponivel.getText());
         
         this.relatorioCorrentista.imprimirCorrentista(this.correntistaFiltro);
+    }
+
+    private void excluirMovimentacao() {
+        try {
+            this.correntistaService.excluirMovimentacaoCorrentista(this.textDataInicial.getValue().toString(), this.textDataFinal.getValue().toString(), cliente.getCodigo());
+            this.mostrarMensagem("Excluido com sucesso!!", Alert.AlertType.INFORMATION);
+            this.realizarPesquisa();
+        } catch (CorrentistaException ex) {
+            this.mostrarMensagem(ex.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 }

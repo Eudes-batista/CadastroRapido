@@ -35,6 +35,22 @@ public class CorrentistaService {
         this.conectaBanco.desconecta();
     }
 
+    public void excluirMovimentacaoCorrentista(String dataInicial, String dataFinal, String cliente) throws CorrentistaException {
+        if (!this.conectaBanco.conexao()) {
+            throw new CorrentistaException("Não foi possivel se conectar com o servidor");
+        }
+        String sql = "delete from crea15 where CRCLIENT='" + cliente + "' and CRLANCAM between '" + dataInicial + "' and '" + dataFinal + "'";
+        try {
+            try (PreparedStatement preparedStatement = this.conectaBanco.getConnection().prepareStatement(sql)) {
+                preparedStatement.execute();
+                this.conectaBanco.getConnection().commit();
+            }
+        } catch (SQLException ex) {
+            throw new CorrentistaException("Não foi possivel salvar lancamento correntista");
+        }
+        this.conectaBanco.desconecta();
+    }
+
     private String criarSqlInsercao(Correntista correntista) {
         return "insert into CREA15 \n"
                 + "(\n"
@@ -51,7 +67,7 @@ public class CorrentistaService {
                 + "values('" + correntista.getCodigoCliente() + "','"
                 + this.dateFormat.format(correntista.getDataLancamento()) + "','"
                 + this.dateTimeFormat.format(correntista.getDataDeProcesso()) + "','"
-                + correntista.getUsuario() + "','"+correntista.getTipoMovimento()+"','" + correntista.getDescricao() + "',"
+                + correntista.getUsuario() + "','" + correntista.getTipoMovimento() + "','" + correntista.getDescricao() + "',"
                 + correntista.getDebito() + "," + correntista.getCredito() + ","
                 + correntista.getSaldoAnterior() + ")";
     }

@@ -104,7 +104,7 @@ public abstract class CorrentistaComponente {
     protected Button btSairContaCorrente;
 
     @FXML
-    protected Button btMovimentacoes;
+    protected Button btExcluirMovimentacoes;
 
     @FXML
     protected Label labelContaCorrente;
