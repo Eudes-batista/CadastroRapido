@@ -48,7 +48,7 @@ public class RelatorioProduto {
             return;
         }
         try {
-            ResultSet resultSet = this.conectaBanco.getRs();
+            ResultSet resultSet = this.conectaBanco.getResultSet();
             JRResultSetDataSource dataSource = new JRResultSetDataSource(resultSet);
             InputStream inputStream = getClass().getResourceAsStream("/relatorio/produtos.jasper");
             JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, new HashMap<>(), dataSource);
@@ -107,7 +107,7 @@ public class RelatorioProduto {
             return;
         }
         try {
-            ResultSet resultSet = this.conectaBanco.getRs();
+            ResultSet resultSet = this.conectaBanco.getResultSet();
             JRResultSetDataSource dataSource = new JRResultSetDataSource(resultSet);
             InputStream inputStream = getClass().getResourceAsStream("/relatorio/RelatorioEstoque.jasper");
             JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, new HashMap<>(), dataSource);

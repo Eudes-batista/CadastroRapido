@@ -116,6 +116,9 @@ public class FrmAlteracaoPrecoController implements Initializable {
     private JFXButton btRelatorioProduto;
 
     @FXML
+    private JFXButton btCorrentista;
+
+    @FXML
     private JFXToggleButton confirmaPreco;
 
     private String referencia, codigoBarra;
@@ -163,7 +166,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
     }
 
     private void pararProgressoPanelModal() {
-        this.paneModal.setVisible(false);
+        Platform.runLater(() -> this.paneModal.setVisible(false));
         if (this.thread != null) {
             this.thread.interrupt();
         }
@@ -661,7 +664,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 thread = new Thread() {
                     @Override
                     public void run() {
-                        paneModal.setVisible(true);
+                        Platform.runLater(() -> paneModal.setVisible(true));
                         referencia();
                     }
                 };
@@ -754,6 +757,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         this.labelNcm.setOnMouseClicked(e -> abrirCosmos());
         this.btGrupo.setOnAction(evt -> this.abrirCadastroDeGrupo());
         this.btSubGrupo.setOnAction(evt -> this.abrirCadastroDeSubGrupo());
+        this.btCorrentista.setOnAction(evt -> this.abrirCorrentista());
         this.adicionandoEventosComThread();
     }
 
@@ -947,6 +951,21 @@ public class FrmAlteracaoPrecoController implements Initializable {
             alert.setAlertType(Alert.AlertType.ERROR);
             alert.setTitle("Cadastro Rapido");
             alert.setContentText("Erro ao carregar o arquivo FrmRelatorio.fxml " + ex.getMessage());
+            alert.show();
+        }
+    }
+
+    private void abrirCorrentista() {
+       try {
+            Parent root = FXMLLoader.load(getClass().getResource("/visao/FXMLCorrentista.fxml"));
+            Stage stage = new Stage(StageStyle.TRANSPARENT);
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch (IOException ex) {
+            alert.setAlertType(Alert.AlertType.ERROR);
+            alert.setTitle("Cadastro Rapido");
+            alert.setContentText("Erro ao carregar o arquivo FXMLCorrentista.fxml " + ex.getMessage());
             alert.show();
         }
     }

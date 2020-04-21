@@ -41,7 +41,7 @@ public class ProdutoServico {
             try {
                 String sql = "INSERT INTO SCEA01 (PRREFERE,PRDESCRI,PRCODBAR,PRREFLIM,PRCGRUPO,PRSUBGRP,PRUNDCPR,PRUNIDAD,PRPOSTRI,PRSPOTRI,PRCLASSI,PRCDCEST,PRIDENTI,PRIVESEF,PRQTDATA,PRULTALT,PRCONFPR)";
                 sql += " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                PreparedStatement pst = conecta.getConn().prepareStatement(sql);
+                PreparedStatement pst = conecta.getConnection().prepareStatement(sql);
                 pst.setString(1, produto.getReferencia());
                 if (produto.getDescricao().length() >= 36) {
                     pst.setString(2, produto.getDescricao().substring(0, 35));
@@ -64,7 +64,7 @@ public class ProdutoServico {
                 pst.setString(16, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
                 pst.setString(17, produto.getConfirmaPreco());
                 pst.execute();
-                conecta.getConn().commit();
+                conecta.getConnection().commit();
                 pst.close();
                 String data = LocalDate.now().toString();
                 for (String empresa : buscarEmpresaScea07()) {
@@ -72,18 +72,18 @@ public class ProdutoServico {
                     sql += " VALUES ('" + empresa + "','" + produto.getReferencia() + "','" + data + "'," + produto.getPreco() + "," + produto.getPreco()
                             + ",'" + data + "','" + produto.getPreco() + "'," + produto.getPreco()
                             + ",'" + data + "'," + produto.getPreco() + "," + produto.getPreco() + "," + produto.getPrecoAtacado() + ")";
-                    PreparedStatement pst2 = conecta.getConn().prepareStatement(sql);
+                    PreparedStatement pst2 = conecta.getConnection().prepareStatement(sql);
                     pst2.execute();
-                    conecta.getConn().commit();
+                    conecta.getConnection().commit();
                     pst2.close();
                 }
                 this.registrarEstoque(produto);
-                pst = conecta.getConn().prepareStatement("insert into scea09 values(?,?,?)");
+                pst = conecta.getConnection().prepareStatement("insert into scea09 values(?,?,?)");
                 pst.setString(1, produto.getReferencia());
                 pst.setString(2, produto.getReferencia());
                 pst.setString(3, produto.getReferencia());
                 pst.execute();
-                conecta.getConn().commit();
+                conecta.getConnection().commit();
                 pst.close();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("SUCESSO!!");
@@ -92,7 +92,7 @@ public class ProdutoServico {
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 try {
-                    conecta.getConn().rollback();
+                    conecta.getConnection().rollback();
                 } catch (SQLException ex1) {
                     alert.setTitle("Erro");
                     alert.setContentText("Erro ao Cadastrar Produto " + ex1.getMessage());
@@ -109,7 +109,7 @@ public class ProdutoServico {
     private void alterar(Produto produto) {
         if (conecta.conexao()) {
             try {
-                PreparedStatement pst = conecta.getConn().prepareStatement("update scea07 set EEPBRTB1=?,EEPLQTB1=?,EEPBRTB2=?,EEPLQTB2=?,EET2PVD1=?  where EEREFERE=?");
+                PreparedStatement pst = conecta.getConnection().prepareStatement("update scea07 set EEPBRTB1=?,EEPLQTB1=?,EEPBRTB2=?,EEPLQTB2=?,EET2PVD1=?  where EEREFERE=?");
                 pst.setDouble(1, produto.getPreco());
                 pst.setDouble(2, produto.getPreco());
                 pst.setDouble(3, produto.getPreco());
@@ -117,9 +117,9 @@ public class ProdutoServico {
                 pst.setDouble(5, produto.getPrecoAtacado());
                 pst.setString(6, produto.getReferencia());
                 pst.execute();
-                conecta.getConn().commit();
+                conecta.getConnection().commit();
                 pst.close();
-                pst = conecta.getConn().prepareStatement("update scea01 set PRQTDATA=?,PRCLASSI=?,PRCDCEST=?,prpostri=?,prspotri=?,prdescri=?,PRUNDCPR=?,PRUNIDAD=?,prcodbar=?,PRCGRUPO=?,PRSUBGRP=?,PRULTALT=?,PRDATCAN=?,PRCONFPR=? where prrefere=?");
+                pst = conecta.getConnection().prepareStatement("update scea01 set PRQTDATA=?,PRCLASSI=?,PRCDCEST=?,prpostri=?,prspotri=?,prdescri=?,PRUNDCPR=?,PRUNIDAD=?,prcodbar=?,PRCGRUPO=?,PRSUBGRP=?,PRULTALT=?,PRDATCAN=?,PRCONFPR=? where prrefere=?");
                 pst.setDouble(1, produto.getQtdAtacado());
                 pst.setString(2, produto.getNcm());
                 pst.setString(3, produto.getCest());
@@ -139,7 +139,7 @@ public class ProdutoServico {
                 pst.setString(14, produto.getConfirmaPreco());
                 pst.setString(15, produto.getReferencia());
                 pst.execute();
-                conecta.getConn().commit();
+                conecta.getConnection().commit();
                 pst.close();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("SUCESSO!!");
@@ -148,7 +148,7 @@ public class ProdutoServico {
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 try {
-                    conecta.getConn().rollback();
+                    conecta.getConnection().rollback();
                 } catch (SQLException ex1) {
                     alert.setTitle("Erro");
                     alert.setContentText("Erro ao Alterar o preço\n detalhe do erro: " + ex1.getMessage());
@@ -169,16 +169,16 @@ public class ProdutoServico {
 
     public void excluirProduto(String refencia) throws SQLException {
         if (conecta.conexao()) {
-            PreparedStatement preparedStatement = conecta.getConn().prepareStatement("delete from scea09 where rarefere = ?");
+            PreparedStatement preparedStatement = conecta.getConnection().prepareStatement("delete from scea09 where rarefere = ?");
             preparedStatement.setString(1, refencia);
             preparedStatement.execute();
-            preparedStatement = conecta.getConn().prepareStatement("delete from scea07 where eerefere = ?");
+            preparedStatement = conecta.getConnection().prepareStatement("delete from scea07 where eerefere = ?");
             preparedStatement.setString(1, refencia);
             preparedStatement.execute();
-            preparedStatement = conecta.getConn().prepareStatement("delete from scea01 where prrefere = ?");
+            preparedStatement = conecta.getConnection().prepareStatement("delete from scea01 where prrefere = ?");
             preparedStatement.setString(1, refencia);
             preparedStatement.execute();
-            conecta.getConn().commit();
+            conecta.getConnection().commit();
             preparedStatement.close();
             conecta.desconecta();
         }
@@ -188,9 +188,9 @@ public class ProdutoServico {
         if (!conecta.conexao()) {
             return;
         }
-        try (PreparedStatement preparedStatement = conecta.getConn().prepareStatement("update scea01 set PRCGRUPO='" + grupo + "',PRSUBGRP='" + grupo + "' where PRREFERE IN(" + referencia + ")")) {
+        try (PreparedStatement preparedStatement = conecta.getConnection().prepareStatement("update scea01 set PRCGRUPO='" + grupo + "',PRSUBGRP='" + grupo + "' where PRREFERE IN(" + referencia + ")")) {
             preparedStatement.execute();
-            conecta.getConn().commit();
+            conecta.getConnection().commit();
         }
         conecta.desconecta();
     }
@@ -203,13 +203,13 @@ public class ProdutoServico {
         if (!conecta.executaSQL(sql)) {
             return null;
         }
-        if (!conecta.getRs().first()) {
+        if (!conecta.getResultSet().first()) {
             return null;
         }
         List<Grupo> grupos = new ArrayList<>();
         do {
-            grupos.add(new Grupo(conecta.getRs().getString("codigo"), conecta.getRs().getString("nome")));
-        } while (conecta.getRs().next());
+            grupos.add(new Grupo(conecta.getResultSet().getString("codigo"), conecta.getResultSet().getString("nome")));
+        } while (conecta.getResultSet().next());
         return grupos;
     }
 
@@ -221,13 +221,13 @@ public class ProdutoServico {
         if (!conecta.executaSQL(sql)) {
             return null;
         }
-        if (!conecta.getRs().first()) {
+        if (!conecta.getResultSet().first()) {
             return null;
         }
         List<SubGrupo> grupos = new ArrayList<>();
         do {
-            grupos.add(new SubGrupo(conecta.getRs().getString("codigo"), conecta.getRs().getString("nome")));
-        } while (conecta.getRs().next());
+            grupos.add(new SubGrupo(conecta.getResultSet().getString("codigo"), conecta.getResultSet().getString("nome")));
+        } while (conecta.getResultSet().next());
         return grupos;
     }
 
@@ -246,13 +246,13 @@ public class ProdutoServico {
         if (!conecta.executaSQL(sql)) {
             return null;
         }
-        if (!conecta.getRs().first()) {
+        if (!conecta.getResultSet().first()) {
             return null;
         }
         List<String> empresas = new ArrayList<>();
         do {
-            empresas.add(conecta.getRs().getString(1));
-        } while (conecta.getRs().next());
+            empresas.add(conecta.getResultSet().getString(1));
+        } while (conecta.getResultSet().next());
         return empresas;
     }
 
@@ -286,7 +286,7 @@ public class ProdutoServico {
             return null;
         }
         try {
-            if (conecta.getRs().first()) {
+            if (conecta.getResultSet().first()) {
                 Produto produto = buscarProdutoScea01();
                 conecta.desconecta();
                 return produto;
@@ -300,7 +300,7 @@ public class ProdutoServico {
             if (!conecta.executaSQL(sql)) {
                 return null;
             }
-            if (!conecta.getRs().first()) {
+            if (!conecta.getResultSet().first()) {
                 return null;
             }
             Produto produto = buscarProdutoScea01();
@@ -327,16 +327,16 @@ public class ProdutoServico {
             return this.produtos;
         }
         try {
-            if (!conecta.getRs().first()) {
+            if (!conecta.getResultSet().first()) {
                 return this.produtos;
             }
             do {
                 Produto produto = new Produto();
-                produto.setReferencia(this.conecta.getRs().getString("PRREFERE"));
-                produto.setDescricao(this.conecta.getRs().getString("PRDESCRI"));
-                produto.setCodigoBarra(this.conecta.getRs().getString("PRCODBAR"));
+                produto.setReferencia(this.conecta.getResultSet().getString("PRREFERE"));
+                produto.setDescricao(this.conecta.getResultSet().getString("PRDESCRI"));
+                produto.setCodigoBarra(this.conecta.getResultSet().getString("PRCODBAR"));
                 this.produtos.add(produto);
-            } while (this.conecta.getRs().next());
+            } while (this.conecta.getResultSet().next());
             conecta.desconecta();
         } catch (SQLException ex) {
             conecta.desconecta();
@@ -348,9 +348,9 @@ public class ProdutoServico {
         if (conecta.conexao()) {
             String data = produto.getDataCancelamento() != null ? "'" + produto.getDataCancelamento() + "'" : null;
             String sql = "update scea01 set PRDATCAN=" + data + " where prrefere='" + produto.getReferencia() + "'";
-            PreparedStatement pst = conecta.getConn().prepareStatement(sql);
+            PreparedStatement pst = conecta.getConnection().prepareStatement(sql);
             pst.execute();
-            conecta.getConn().commit();
+            conecta.getConnection().commit();
             pst.close();
         }
     }
@@ -366,10 +366,10 @@ public class ProdutoServico {
             return "1";
         }
         try {
-            if (!conecta.getRs().first()) {
+            if (!conecta.getResultSet().first()) {
                 return "1";
             }
-            String refencia = conecta.getRs().getString("SO_NUMERO");
+            String refencia = conecta.getResultSet().getString("SO_NUMERO");
             if (refencia == null) {
                 return "1";
             }
@@ -386,29 +386,29 @@ public class ProdutoServico {
         if (!conecta.executaSQL("select count(*) as numero from scea01 where prrefere='" + refencia + "'")) {
             return false;
         }
-        if (!conecta.getRs().first()) {
+        if (!conecta.getResultSet().first()) {
             return false;
         }
-        return conecta.getRs().getInt("numero") != 0;
+        return conecta.getResultSet().getInt("numero") != 0;
     }
 
     private Produto buscarProdutoScea01() throws SQLException {
         Produto produto = new Produto();
-        produto.setReferencia(conecta.getRs().getString("PRREFERE"));
-        produto.setCodigoBarra(conecta.getRs().getString("PRCODBAR"));
-        produto.setDescricao(conecta.getRs().getString("PRDESCRI"));
-        produto.setPreco(conecta.getRs().getDouble("EEPBRTB1"));
-        produto.setPrecoAtacado(conecta.getRs().getDouble("EET2PVD1"));
-        produto.setQtdAtacado(conecta.getRs().getDouble("PRQTDATA"));
-        produto.setNcm(conecta.getRs().getString("PRCLASSI"));
-        produto.setCest(conecta.getRs().getString("PRCDCEST"));
-        produto.setTributacao(conecta.getRs().getString("PRPOSTRI"));
-        produto.setUnidade(conecta.getRs().getString("PRUNIDAD"));
-        produto.setDataCancelamento(conecta.getRs().getString("PRDATCAN"));
-        produto.setGrupo(conecta.getRs().getString("PRCGRUPO"));
-        produto.setSubgrupo(conecta.getRs().getString("PRSUBGRP"));
-        produto.setConfirmaPreco(conecta.getRs().getString("PRCONFPR"));
-        produto.setQuantidade(conecta.getRs().getDouble("EEESTATU"));
+        produto.setReferencia(conecta.getResultSet().getString("PRREFERE"));
+        produto.setCodigoBarra(conecta.getResultSet().getString("PRCODBAR"));
+        produto.setDescricao(conecta.getResultSet().getString("PRDESCRI"));
+        produto.setPreco(conecta.getResultSet().getDouble("EEPBRTB1"));
+        produto.setPrecoAtacado(conecta.getResultSet().getDouble("EET2PVD1"));
+        produto.setQtdAtacado(conecta.getResultSet().getDouble("PRQTDATA"));
+        produto.setNcm(conecta.getResultSet().getString("PRCLASSI"));
+        produto.setCest(conecta.getResultSet().getString("PRCDCEST"));
+        produto.setTributacao(conecta.getResultSet().getString("PRPOSTRI"));
+        produto.setUnidade(conecta.getResultSet().getString("PRUNIDAD"));
+        produto.setDataCancelamento(conecta.getResultSet().getString("PRDATCAN"));
+        produto.setGrupo(conecta.getResultSet().getString("PRCGRUPO"));
+        produto.setSubgrupo(conecta.getResultSet().getString("PRSUBGRP"));
+        produto.setConfirmaPreco(conecta.getResultSet().getString("PRCONFPR"));
+        produto.setQuantidade(conecta.getResultSet().getDouble("EEESTATU"));
         return produto;
     }
 

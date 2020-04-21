@@ -78,19 +78,19 @@ public class ConectaBanco {
         return false;
     }
 
-    public ResultSet getRs() {
+    public ResultSet getResultSet() {
         return rs;
     }
 
-    public void setRs(ResultSet rs) {
+    public void setResultSet(ResultSet rs) {
         this.rs = rs;
     }
 
-    public Connection getConn() {
+    public Connection getConnection() {
         return conn;
     }
 
-    public void setConn(Connection conn) {
+    public void setConnection(Connection conn) {
         this.conn = conn;
     }
 

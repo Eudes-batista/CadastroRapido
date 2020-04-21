@@ -26,15 +26,15 @@ public class MovimentoService {
                 sql += " VALUES('"+movimento.getEmpresa()+"','"+movimento.getTipo()+"','"+movimento.getDocumento()+
                         "','" + new SimpleDateFormat("yyyy-MM-dd").format(movimento.getDataMovimento()) +
                         "','"+movimento.getObservacao()+"','"+movimento.getUsuario()+"','"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(movimento.getDataAtualizacao())+"')";
-                Statement pst = conecta.getConn().createStatement();
+                Statement pst = conecta.getConnection().createStatement();
                 pst.execute(sql);
-                conecta.getConn().commit();
+                conecta.getConnection().commit();
                  pst.close();
                 return true;
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 try {
-                    conecta.getConn().rollback();
+                    conecta.getConnection().rollback();
                 } catch (SQLException ex1) {
                     alert.setTitle("Erro");
                     alert.setContentText("Erro ao incluir Movimento. \n" + ex1.getMessage());
@@ -54,10 +54,10 @@ public class MovimentoService {
             String sql = "SELECT LDCODEMP FROM LAPA13 WHERE LDUSUARI LIKE '%SUPORTE%'";
             if (conecta.executaSQL(sql)) {
                 List<String> empresas = new ArrayList<>();
-                if (conecta.getRs().first()) {
+                if (conecta.getResultSet().first()) {
                     do {
-                        empresas.add(conecta.getRs().getString("LDCODEMP"));
-                    } while (conecta.getRs().next());
+                        empresas.add(conecta.getResultSet().getString("LDCODEMP"));
+                    } while (conecta.getResultSet().next());
                     return empresas;
                 }
             }
@@ -70,10 +70,10 @@ public class MovimentoService {
             String sql = "select T62TPMOV,T62DESCR from LAPT62 where T62TPMOV in('ENAQ','SNAQ','ENTP','ENDP') order by T62TPMOV";
             if (conecta.executaSQL(sql)) {
                 List<TipoMovimento> tipoMovimentos = new ArrayList<>();
-                if (conecta.getRs().first()) {
+                if (conecta.getResultSet().first()) {
                     do {
-                        tipoMovimentos.add(new TipoMovimento(conecta.getRs().getString("T62TPMOV"), conecta.getRs().getString("T62DESCR")));
-                    } while (conecta.getRs().next());
+                        tipoMovimentos.add(new TipoMovimento(conecta.getResultSet().getString("T62TPMOV"), conecta.getResultSet().getString("T62DESCR")));
+                    } while (conecta.getResultSet().next());
                     return tipoMovimentos;
                 }
             }
@@ -86,15 +86,15 @@ public class MovimentoService {
             String sql = "select MCCODEMP as empresa,MCTIPMOV as tipo,MCNUMERO as documento,MCDATMOV as data,MCHISTOR as observacao from SCEA02 where MCNUMERO like '%" + documento + "%' and MCDATMOV BETWEEN '" + data + " 00:00:00' and '" + data + " 23:59:59' group by MCCODEMP,MCTIPMOV,MCNUMERO,MCDATMOV,MCHISTOR order by MCNUMERO";
             if (conecta.executaSQL(sql)) {
                 Set<MovimentoDTO> movimentos = new HashSet<>();
-                if (conecta.getRs().first()) {
+                if (conecta.getResultSet().first()) {
                     do {
-                        movimentos.add(new MovimentoDTO(conecta.getRs().getString("empresa"),
-                                conecta.getRs().getString("tipo"),
-                                conecta.getRs().getString("documento"),
-                                conecta.getRs().getDate("data"),
-                                conecta.getRs().getString("observacao")
+                        movimentos.add(new MovimentoDTO(conecta.getResultSet().getString("empresa"),
+                                conecta.getResultSet().getString("tipo"),
+                                conecta.getResultSet().getString("documento"),
+                                conecta.getResultSet().getDate("data"),
+                                conecta.getResultSet().getString("observacao")
                         ));
-                    } while (conecta.getRs().next());
+                    } while (conecta.getResultSet().next());
                     return movimentos.stream().collect(Collectors.toList());
                 }
             }
@@ -106,12 +106,12 @@ public class MovimentoService {
         if (conecta.conexao()) {
             try {
                 String sql = "delete from SCEA02 where MCCODEMP=? and MCTIPMOV=? and MCNUMERO=?";
-                PreparedStatement pst = conecta.getConn().prepareStatement(sql);
+                PreparedStatement pst = conecta.getConnection().prepareStatement(sql);
                 pst.setString(1, movimento.getEmpresa());
                 pst.setString(2, movimento.getTipo());
                 pst.setString(3, movimento.getDocumento());
                 pst.execute();
-                conecta.getConn().commit();
+                conecta.getConnection().commit();
                  pst.close();
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -126,14 +126,14 @@ public class MovimentoService {
         if (conecta.conexao()) {
             String sql = "select MCCODEMP,MCTIPMOV,MCNUMERO,MCDATMOV,MCHISTOR,MCIDENTI,MCDATALT from SCEA02 where MCCODEMP='" + movimento.getEmpresa() + "' and MCTIPMOV='" + movimento.getTipo() + "' and MCNUMERO='" + movimento.getDocumento() + "' ";
             if (conecta.executaSQL(sql)) {
-                if (conecta.getRs().first()) {
-                    return new Movimento(conecta.getRs().getString("MCCODEMP"),
-                            conecta.getRs().getString("MCTIPMOV"),
-                            conecta.getRs().getString("MCNUMERO"),
-                            conecta.getRs().getString("MCHISTOR"),
-                            conecta.getRs().getString("MCIDENTI"),
-                            conecta.getRs().getDate("MCDATMOV"),
-                            conecta.getRs().getDate("MCDATALT"));
+                if (conecta.getResultSet().first()) {
+                    return new Movimento(conecta.getResultSet().getString("MCCODEMP"),
+                            conecta.getResultSet().getString("MCTIPMOV"),
+                            conecta.getResultSet().getString("MCNUMERO"),
+                            conecta.getResultSet().getString("MCHISTOR"),
+                            conecta.getResultSet().getString("MCIDENTI"),
+                            conecta.getResultSet().getDate("MCDATMOV"),
+                            conecta.getResultSet().getDate("MCDATALT"));
                 }
             }
         }

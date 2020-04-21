@@ -25,19 +25,19 @@ public class PesquisaService {
             return this.produtos;
         }
         try {
-            if (!this.conectaBanco.getRs().first()) {
+            if (!this.conectaBanco.getResultSet().first()) {
                 return this.produtos;
             }
             this.produtos.clear();
             do {
                 this.produtos.add(new Produto(
-                        this.conectaBanco.getRs().getString("PRREFERE"),
-                        this.conectaBanco.getRs().getString("PRDESCRI"),
-                        this.conectaBanco.getRs().getDouble("EEPBRTB1"),
-                        this.conectaBanco.getRs().getDouble("EET2PVD1"),
-                        this.conectaBanco.getRs().getDouble("PRQTDATA"),
-                        conectaBanco.getRs().getString("PRCODBAR")));
-            } while (this.conectaBanco.getRs().next());
+                        this.conectaBanco.getResultSet().getString("PRREFERE"),
+                        this.conectaBanco.getResultSet().getString("PRDESCRI"),
+                        this.conectaBanco.getResultSet().getDouble("EEPBRTB1"),
+                        this.conectaBanco.getResultSet().getDouble("EET2PVD1"),
+                        this.conectaBanco.getResultSet().getDouble("PRQTDATA"),
+                        conectaBanco.getResultSet().getString("PRCODBAR")));
+            } while (this.conectaBanco.getResultSet().next());
         } catch (SQLException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERRO");

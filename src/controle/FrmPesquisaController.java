@@ -253,7 +253,7 @@ public class FrmPesquisaController implements Initializable {
         } catch (SQLException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             try {
-                produtoServico.conecta.getConn().rollback();
+                produtoServico.conecta.getConnection().rollback();
             } catch (SQLException ex1) {
                 alert.setTitle("Erro");
                 alert.setContentText("Erro ao Excluir produto! já existe movimentação");

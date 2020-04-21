@@ -31,16 +31,16 @@ public class ItemMovimentoService {
                         + "','" + new SimpleDateFormat("yyyy-MM-dd").format(itemMovimento.getMovimento().getDataMovimento())
                         + "'," + itemMovimento.getQuantidade()
                         + "," + itemMovimento.getPrecoUnitario() + ")";
-                Statement pst = conecta.getConn().createStatement();
+                Statement pst = conecta.getConnection().createStatement();
                 pst.execute(sql);
-                conecta.getConn().commit();
+                conecta.getConnection().commit();
                  pst.close();
                 movimentarEstoqueAtual(itemMovimento);
                 return true;
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 try {
-                    conecta.getConn().rollback();
+                    conecta.getConnection().rollback();
                 } catch (SQLException ex1) {
                     alert.setTitle("Erro");
                     alert.setContentText("Erro ao incluir Movimento. \n" + ex1.getMessage());
@@ -64,14 +64,14 @@ public class ItemMovimentoService {
             if (!conecta.executaSQL(sql)) {
                 break;
             }
-            if (!conecta.getRs().first()) {
+            if (!conecta.getResultSet().first()) {
                 break;
             }
-            double estoque = conecta.getRs().getDouble("estoque");
-            PreparedStatement preparedStatement = conecta.getConn().prepareStatement("update scea07 set EEESTATU=? where EEREFERE in('" + produto + "') and EECODEMP='" + itemMovimento.getMovimento().getEmpresa() + "'");
+            double estoque = conecta.getResultSet().getDouble("estoque");
+            PreparedStatement preparedStatement = conecta.getConnection().prepareStatement("update scea07 set EEESTATU=? where EEREFERE in('" + produto + "') and EECODEMP='" + itemMovimento.getMovimento().getEmpresa() + "'");
             preparedStatement.setDouble(1, estoque);
             preparedStatement.execute();
-            conecta.getConn().commit();
+            conecta.getConnection().commit();
             preparedStatement.close();
             this.atualizarInformacaoProduto(produto);
         }
@@ -81,13 +81,13 @@ public class ItemMovimentoService {
         if (conecta.conexao()) {
             try {
                 String sql = "delete from SCEA03 where MINUMITE=? and MICODEMP=? and MITIPMOV=? and MINUMERO=?";
-                PreparedStatement pst = conecta.getConn().prepareStatement(sql);
+                PreparedStatement pst = conecta.getConnection().prepareStatement(sql);
                 pst.setString(1, itemMovimento.getSeguenciaItem());
                 pst.setString(2, itemMovimento.getMovimento().getEmpresa());
                 pst.setString(3, itemMovimento.getMovimento().getTipo());
                 pst.setString(4, itemMovimento.getMovimento().getDocumento());
                 pst.execute();
-                conecta.getConn().commit();
+                conecta.getConnection().commit();
                  pst.close();
                 movimentarEstoqueAtual(itemMovimento);
                 return true;
@@ -105,12 +105,12 @@ public class ItemMovimentoService {
         if (conecta.conexao()) {
             try {
                 String sql = "delete from SCEA03 where MICODEMP=? and MITIPMOV=? and MINUMERO=?";
-                PreparedStatement pst = conecta.getConn().prepareStatement(sql);
+                PreparedStatement pst = conecta.getConnection().prepareStatement(sql);
                 pst.setString(1, itemMovimentos.get(0).getMovimento().getEmpresa());
                 pst.setString(2, itemMovimentos.get(0).getMovimento().getTipo());
                 pst.setString(3, itemMovimentos.get(0).getMovimento().getDocumento());
                 pst.execute();
-                conecta.getConn().commit();
+                conecta.getConnection().commit();
                  pst.close();
                 ItemMovimento itemMovimento = itemMovimentos.get(0);
                 itemMovimento.setProduto(itemMovimentos.stream().map(ItemMovimento::getProduto).collect(Collectors.joining(",")));
@@ -149,20 +149,20 @@ public class ItemMovimentoService {
                     + "   MIREFERE,PRDESCRI,MIQUANTI,EEPLQTB1,MINUMITE";
             if (conecta.executaSQL(sql)) {
                 List<ItemMovimento> itemMovimentos = new ArrayList<>();
-                if (conecta.getRs().first()) {
+                if (conecta.getResultSet().first()) {
                     do {
-                        String refrencia = conecta.getRs().getString("REFERENCIA"), descricao = conecta.getRs().getString("DESCRICAO"), produto;
+                        String refrencia = conecta.getResultSet().getString("REFERENCIA"), descricao = conecta.getResultSet().getString("DESCRICAO"), produto;
                         produto = refrencia + " - " + descricao;
                         ItemMovimento itemMovimento = new ItemMovimento();
                         itemMovimento.setCheckBox(new CheckBox());
                         itemMovimento.setMovimento(movimento);
-                        itemMovimento.setSeguenciaItem(conecta.getRs().getString("ITEM"));
+                        itemMovimento.setSeguenciaItem(conecta.getResultSet().getString("ITEM"));
                         itemMovimento.setProduto(produto);
-                        itemMovimento.setQuantidade(conecta.getRs().getDouble("QUANTIDADE"));
-                        itemMovimento.setPrecoUnitario(conecta.getRs().getDouble("PRECO"));
-                        itemMovimento.setPrecoTotal(conecta.getRs().getDouble("TOTAL"));
+                        itemMovimento.setQuantidade(conecta.getResultSet().getDouble("QUANTIDADE"));
+                        itemMovimento.setPrecoUnitario(conecta.getResultSet().getDouble("PRECO"));
+                        itemMovimento.setPrecoTotal(conecta.getResultSet().getDouble("TOTAL"));
                         itemMovimentos.add(itemMovimento);
-                    } while (conecta.getRs().next());
+                    } while (conecta.getResultSet().next());
                     return itemMovimentos;
                 }
             }
@@ -173,8 +173,8 @@ public class ItemMovimentoService {
     private String buscarSequenciaItem(Movimento movimento) throws SQLException {
         String sql = "select max(cast(MINUMITE as Integer))+1 as qtd from scea03 where MICODEMP ='" + movimento.getEmpresa() + "' and MITIPMOV='" + movimento.getTipo() + "' and MINUMERO='" + movimento.getDocumento() + "';";
         if (conecta.executaSQL(sql)) {
-            if (conecta.getRs().first()) {
-                String item = conecta.getRs().getString("qtd") == null ? "1" : conecta.getRs().getString("qtd");
+            if (conecta.getResultSet().first()) {
+                String item = conecta.getResultSet().getString("qtd") == null ? "1" : conecta.getResultSet().getString("qtd");
                 return item;
             }
         }
@@ -182,11 +182,11 @@ public class ItemMovimentoService {
     }
 
     private void atualizarInformacaoProduto(String produto) throws SQLException{
-        try (PreparedStatement preparedStatement = conecta.getConn().prepareStatement("update scea01 set PRULTALT=? where PRREFERE=?")) {
+        try (PreparedStatement preparedStatement = conecta.getConnection().prepareStatement("update scea01 set PRULTALT=? where PRREFERE=?")) {
             preparedStatement.setDate(1, new Date(new java.util.Date().getTime()));
             preparedStatement.setString(2, produto);
             preparedStatement.execute();
-            conecta.getConn().commit();
+            conecta.getConnection().commit();
         }
     }
 

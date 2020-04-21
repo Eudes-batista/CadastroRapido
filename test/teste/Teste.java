@@ -1,23 +1,15 @@
 package teste;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 
 public class Teste {
 
     public static void main(String[] args) {
 
-        System.out.println("11.593.321/0001-63".length());
-        
-    }
-
-    private static boolean validarCampoMonetario(String valor) {
-        int tamanhoMaximoDoCampo = 12;
-        if (valor.trim().length() >= tamanhoMaximoDoCampo) {
-            return true;
-        }
-        Pattern pattern = Pattern.compile("[aA-zZ]");
-        Matcher matcher = pattern.matcher(valor.trim());
-        return matcher.find();
+        String dataInicial = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()).toString();
+        System.out.println("dataInicial = " + dataInicial);
+        String dataFinal = LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()).toString();
+        System.out.println("dataFinal = " + dataFinal);
     }
 }

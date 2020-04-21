@@ -16,17 +16,17 @@ public class SubGrupoService {
         if (this.conecta.conexao()) {
             try {
                 String sql = "INSERT INTO LAPT52 (T52CDSGR,T52DSSGR) values(?,?)";
-                PreparedStatement pst = this.conecta.getConn().prepareStatement(sql);
+                PreparedStatement pst = this.conecta.getConnection().prepareStatement(sql);
                 pst.setString(1, subGrupo.getCodigo());
                 pst.setString(2, subGrupo.getNome());
                 pst.executeUpdate();
-                this.conecta.getConn().commit();
+                this.conecta.getConnection().commit();
                 pst.close();
                 return true;
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 try {
-                    this.conecta.getConn().rollback();
+                    this.conecta.getConnection().rollback();
                 } catch (SQLException ex1) {
                     alert.setTitle("Erro");
                     alert.setContentText("Erro ao incluir SubGrupo");
@@ -45,17 +45,17 @@ public class SubGrupoService {
         if (this.conecta.conexao()) {
             try {
                 String sql = "update LAPT52 set T52DSSGR=? where T52CDSGR=?";
-                PreparedStatement pst = this.conecta.getConn().prepareStatement(sql);
+                PreparedStatement pst = this.conecta.getConnection().prepareStatement(sql);
                 pst.setString(1, subGrupo.getNome());
                 pst.setString(2, subGrupo.getCodigo());
                 pst.executeUpdate();
-                this.conecta.getConn().commit();
+                this.conecta.getConnection().commit();
                  pst.close();
                 return true;
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 try {
-                    this.conecta.getConn().rollback();
+                    this.conecta.getConnection().rollback();
                 } catch (SQLException ex1) {
                     alert.setTitle("Erro");
                     alert.setContentText("Erro ao alterar SubGrupo");
@@ -74,10 +74,10 @@ public class SubGrupoService {
         if (this.conecta.conexao()) {
             try {
                 String sql = "delete from LAPT52 where T52CDSGR=?";
-                PreparedStatement pst = this.conecta.getConn().prepareStatement(sql);
+                PreparedStatement pst = this.conecta.getConnection().prepareStatement(sql);
                 pst.setString(1, grupo);
                 pst.execute();
-                this.conecta.getConn().commit();
+                this.conecta.getConnection().commit();
                  pst.close();
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -93,10 +93,10 @@ public class SubGrupoService {
         if (this.conecta.conexao()) {
             String sql = "SELECT T52CDSGR as codigo,T52DSSGR as nome FROM LAPT52 where T52DSSGR like '%"+pesquisa+"%' ORDER BY T52DSSGR";
             if (this.conecta.executaSQL(sql)) {
-                if (this.conecta.getRs().first()) {
+                if (this.conecta.getResultSet().first()) {
                     do {
-                        grupos.add(new SubGrupo(this.conecta.getRs().getString("codigo"), this.conecta.getRs().getString("nome")));
-                    } while (this.conecta.getRs().next());
+                        grupos.add(new SubGrupo(this.conecta.getResultSet().getString("codigo"), this.conecta.getResultSet().getString("nome")));
+                    } while (this.conecta.getResultSet().next());
                     return grupos;
                 }
             }
@@ -115,11 +115,11 @@ public class SubGrupoService {
             return null;
         }
         try {
-            if (!this.conecta.getRs().first()) {
+            if (!this.conecta.getResultSet().first()) {
                 this.conecta.desconecta();
                 return null;
             }
-            return new SubGrupo(this.conecta.getRs().getString("codigo"), this.conecta.getRs().getString("nome"));
+            return new SubGrupo(this.conecta.getResultSet().getString("codigo"), this.conecta.getResultSet().getString("nome"));
         } catch (SQLException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erro");
