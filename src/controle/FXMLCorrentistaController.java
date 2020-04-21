@@ -10,7 +10,6 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -58,10 +57,14 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
         this.btSair.setOnMouseClicked(evt -> this.sair());
         this.btSairContaCorrente.setOnMouseClicked(evt -> this.sair());
         this.textDataInicial.valueProperty().addListener((ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) -> {
-            this.consultarSaldoCorrentista(newValue, this.textDataFinal.getValue());
+            if(this.textDataFinal.getValue() != null){
+                this.consultarSaldoCorrentista(newValue, this.textDataFinal.getValue());
+            }
         });
         this.textDataFinal.valueProperty().addListener((ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) -> {
-            this.consultarSaldoCorrentista(this.textDataInicial.getValue(), newValue);
+            if(this.textDataInicial.getValue() != null){
+                this.consultarSaldoCorrentista(this.textDataInicial.getValue(), newValue);
+            }            
         });
         this.btCredito.setOnAction(evt -> this.mostrarLancamento(TipoMovimentacao.CREDITO));
         this.btDebito.setOnAction(evt -> this.mostrarLancamento(TipoMovimentacao.DEBITO));
@@ -104,13 +107,13 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
         this.habilitarCampos();
         this.consultarSaldoCorrentista(localDateInicial, localDateFinal);
     }
-    
-    private void consultarSaldoCorrentista(LocalDate localDateInicial, LocalDate localDateFinal) {        
+
+    private void consultarSaldoCorrentista(LocalDate localDateInicial, LocalDate localDateFinal) {
         String dataInicial = localDateInicial.toString();
         String dataFinal = localDateFinal.toString();
         this.consultarSaldosCorrentida = this.clienteService.consultarSaldosCorrentida(this.cliente.getCodigo(), dataInicial, dataFinal);
         this.preencherInformacoes(localDateInicial, localDateFinal, this.consultarSaldosCorrentida);
-    }    
+    }
 
     private void preencherInformacoes(LocalDate localDateInicial, LocalDate localDateFinal, ClientesCorrentistaDTO consultarSaldosCorrentida) {
         this.textDataInicial.setValue(localDateInicial);
@@ -120,7 +123,7 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
         this.labelSaldoLimiteEmCredito.setText("R$ " + FormatterUtil.getValorFormatado(consultarSaldosCorrentida.getSaldoCredito()));
         this.labelTotalCredito.setText("R$ " + FormatterUtil.getValorFormatado(consultarSaldosCorrentida.getTotalCredito()));
         this.labelTotalDebito.setText("R$ " + FormatterUtil.getValorFormatado(consultarSaldosCorrentida.getTotalDebito()));
-        this.labelContaCorrente.setText("Conta - "+this.cliente.getNome().toUpperCase().trim());
+        this.labelContaCorrente.setText("Conta - " + this.cliente.getNome().toUpperCase().trim());
     }
 
     private void realizarPesquisa() {
@@ -175,6 +178,9 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
     }
 
     private void salvar() {
+        if (!this.validarCamposAntesDeSalvar()) {
+            return;
+        }
         this.correntista = null;
         this.correntista = this.preencherCorrentista();
         try {
@@ -210,19 +216,38 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
             novoCorrentista.setCredito(0.0);
             novoCorrentista.setDebito(valor);
         }
-        String dataInicial = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()).toString();
-        String dataFinal = LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()).toString();
+        String dataInicial = this.textDataInicial.getValue().toString();
+        String dataFinal = this.textDataFinal.getValue().toString();
         this.consultarSaldosCorrentida = this.clienteService.consultarSaldosCorrentida(this.cliente.getCodigo(), dataInicial, dataFinal);
-        double saldoDisponivel = this.consultarSaldosCorrentida.getSaldoDisponivel() - valor;
+        double saldoDisponivelNoMomento = this.consultarSaldosCorrentida.getSaldoCredito() - this.consultarSaldosCorrentida.getTotalDebito();
+        double saldoDisponivel = saldoDisponivelNoMomento - valor;
         novoCorrentista.setSaldoAnterior(BigDecimal.valueOf(saldoDisponivel).setScale(2, RoundingMode.HALF_UP).doubleValue());
         return novoCorrentista;
     }
 
-    public void mostrarMensagem(String mensagem, Alert.AlertType alertType) {
+    private void mostrarMensagem(String mensagem, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle("Cadastro Rapido");
         alert.setContentText(mensagem);
         alert.show();
     }
 
+    private boolean validarCamposAntesDeSalvar() {
+        if (this.cliente == null) {
+            this.mostrarMensagem("Selecione algum cliente", Alert.AlertType.WARNING);
+            return false;
+        }
+        if (this.textDescricao.getText().trim().isEmpty()) {
+            this.mostrarMensagem("Preencher a descrição", Alert.AlertType.WARNING);
+            this.textDescricao.requestFocus();
+            this.textDescricao.setText(this.tipoMovimentacao.getValor());
+            this.textDescricao.selectAll();
+            return false;
+        }
+        if (this.textValor.getText().trim().isEmpty()) {
+            this.textValor.requestFocus();
+            return false;
+        }
+        return true;
+    }
 }
