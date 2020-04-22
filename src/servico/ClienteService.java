@@ -86,13 +86,14 @@ public class ClienteService {
         return cliente;
     }
 
-    public ClientesCorrentistaDTO consultarSaldosCorrentida(String codigoCliente,String dataInicial,String dataFinal) {
+    public ClientesCorrentistaDTO consultarSaldosCorrentida(String codigoCliente, String dataInicial, String dataFinal) {
         ClientesCorrentistaDTO clientesCorrentistaDTO = new ClientesCorrentistaDTO();
         clientesCorrentistaDTO.setSaldoDevedor(0.0);
         clientesCorrentistaDTO.setSaldoDisponivel(0.0);
         clientesCorrentistaDTO.setSaldoCredito(0.0);
         clientesCorrentistaDTO.setTotalCredito(0.0);
         clientesCorrentistaDTO.setTotalDebito(0.0);
+        clientesCorrentistaDTO.setValorReceber(0.0);
         if (!this.conectaBanco.conexao()) {
             return clientesCorrentistaDTO;
         }
@@ -107,7 +108,7 @@ public class ClienteService {
                 + "  crea15 on(CRCLIENT=CLCODIGO)\n"
                 + "where \n"
                 + "  clcodigo='" + codigoCliente + "' \n"
-                + " and CRLANCAM between '" + dataInicial + "' and '"+dataFinal+"' \n"
+                + " and CRLANCAM between '" + dataInicial + "' and '" + dataFinal + "' \n"
                 + "group by \n"
                 + "  CLCODIGO";
         if (!this.conectaBanco.executaSQL(sql)) {
@@ -121,12 +122,14 @@ public class ClienteService {
             double limiteDeCreditoMasCredito = credito + limiteDeCredito;
             double debito = this.conectaBanco.getResultSet().getDouble("debito");
             double saldoDevedor = (limiteDeCreditoMasCredito - debito) > 0 ? 0 : (limiteDeCreditoMasCredito - debito);
-            double saldoDisponivel =this.conectaBanco.getResultSet().getDouble("saldo_disponivel");
+            double saldoDisponivel = this.conectaBanco.getResultSet().getDouble("saldo_disponivel");
             clientesCorrentistaDTO.setSaldoDisponivel(saldoDisponivel < 0 ? 0 : saldoDisponivel);
             clientesCorrentistaDTO.setSaldoDevedor(saldoDevedor);
-            clientesCorrentistaDTO.setSaldoCredito(limiteDeCreditoMasCredito);
+            clientesCorrentistaDTO.setSaldoCredito(limiteDeCredito);
             clientesCorrentistaDTO.setTotalCredito(credito);
             clientesCorrentistaDTO.setTotalDebito(debito);
+            double valorAReceber = (credito - debito) > 0 ? 0 : (credito - debito);
+            clientesCorrentistaDTO.setValorReceber(valorAReceber);
         } catch (SQLException ex) {
         }
         this.conectaBanco.desconecta();

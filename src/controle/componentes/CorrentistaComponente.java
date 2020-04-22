@@ -107,6 +107,12 @@ public abstract class CorrentistaComponente {
     protected Button btExcluirMovimentacoes;
 
     @FXML
+    protected Button btMovimentacoes;
+
+    @FXML
     protected Label labelContaCorrente;
+
+    @FXML
+    protected Label labelValorAReceber;
     
 }

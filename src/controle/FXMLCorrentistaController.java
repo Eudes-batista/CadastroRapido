@@ -10,8 +10,6 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -133,6 +131,7 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
         this.labelSaldoLimiteEmCredito.setText("R$ " + FormatterUtil.getValorFormatado(consultarSaldosCorrentida.getSaldoCredito()));
         this.labelTotalCredito.setText("R$ " + FormatterUtil.getValorFormatado(consultarSaldosCorrentida.getTotalCredito()));
         this.labelTotalDebito.setText("R$ " + FormatterUtil.getValorFormatado(consultarSaldosCorrentida.getTotalDebito()));
+        this.labelValorAReceber.setText("R$ " + FormatterUtil.getValorFormatado(consultarSaldosCorrentida.getValorReceber()));
         this.labelContaCorrente.setText("Conta - " + this.cliente.getNome().toUpperCase().trim());
     }
 

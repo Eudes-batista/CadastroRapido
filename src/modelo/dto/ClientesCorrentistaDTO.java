@@ -7,6 +7,7 @@ public class ClientesCorrentistaDTO{
     private double saldoCredito;
     private double totalCredito;
     private double totalDebito;
+    private double valorReceber;
 
     public ClientesCorrentistaDTO() {
     }
@@ -61,7 +62,15 @@ public class ClientesCorrentistaDTO{
 
     @Override
     public String toString() {
-        return "ClientesCorrentistaDTO{" + "saldoDisponivel=" + saldoDisponivel + ", saldoDevedor=" + saldoDevedor + ", saldoCredito=" + saldoCredito + ", totalCredito=" + totalCredito + ", totalDebito=" + totalDebito + '}';
+        return "ClientesCorrentistaDTO{" + "saldoDisponivel=" + saldoDisponivel + ", saldoDevedor=" + saldoDevedor + ", saldoCredito=" + saldoCredito + ", totalCredito=" + totalCredito + ", totalDebito=" + totalDebito + ", valorReceber=" + valorReceber + '}';
+    }
+
+    public double getValorReceber() {
+        return valorReceber;
+    }
+
+    public void setValorReceber(double valorReceber) {
+        this.valorReceber = valorReceber;
     }
 
     
