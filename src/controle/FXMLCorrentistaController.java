@@ -40,6 +40,7 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
     private ClientesCorrentistaDTO consultarSaldosCorrentida;
     private RelatorioCorrentista relatorioCorrentista;
     private CorrentistaFiltro correntistaFiltro;
+    private boolean pesquisaDoCliente;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -59,20 +60,23 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
     }
 
     public void adiconarEvento() {
-        this.textPesquisa.setOnAction(evt -> this.realizarPesquisa());
+        this.textPesquisa.setOnAction(evt -> {
+            this.pesquisaDoCliente = true;
+            this.realizarPesquisa();
+        });
         this.btSair.setOnMouseClicked(evt -> this.sair());
         this.btSairContaCorrente.setOnMouseClicked(evt -> this.sair());
         this.btImprimir.setOnMouseClicked(evt -> this.imprimirRelatorio());
         this.btExcluirMovimentacoes.setOnAction(evt -> this.excluirMovimentacao());
         this.textDataInicial.valueProperty().addListener((ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) -> {
-            if(this.textDataFinal.getValue() != null){
+            if (this.textDataFinal.getValue() != null) {
                 this.consultarSaldoCorrentista(newValue, this.textDataFinal.getValue());
             }
         });
         this.textDataFinal.valueProperty().addListener((ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) -> {
-            if(this.textDataInicial.getValue() != null){
+            if (this.textDataInicial.getValue() != null) {
                 this.consultarSaldoCorrentista(this.textDataInicial.getValue(), newValue);
-            }            
+            }
         });
         this.btCredito.setOnAction(evt -> this.mostrarLancamento(TipoMovimentacao.CREDITO));
         this.btDebito.setOnAction(evt -> this.mostrarLancamento(TipoMovimentacao.DEBITO));
@@ -119,7 +123,12 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
     private void consultarSaldoCorrentista(LocalDate localDateInicial, LocalDate localDateFinal) {
         String dataInicial = localDateInicial.toString();
         String dataFinal = localDateFinal.toString();
-        this.consultarSaldosCorrentida = this.clienteService.consultarSaldosCorrentida(this.cliente.getCodigo(), dataInicial, dataFinal);
+        if(this.pesquisaDoCliente){
+            this.consultarSaldosCorrentida = this.clienteService.consultarSaldosCorrentida(this.cliente.getCodigo(),"", "");
+            this.pesquisaDoCliente = false;
+        }else{
+            this.consultarSaldosCorrentida = this.clienteService.consultarSaldosCorrentida(this.cliente.getCodigo(), dataInicial, dataFinal);            
+        }
         this.preencherInformacoes(localDateInicial, localDateFinal, this.consultarSaldosCorrentida);
     }
 
@@ -264,12 +273,12 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
         this.correntistaFiltro.setCliente(this.cliente.getCodigo());
         this.correntistaFiltro.setDataInicial(this.textDataInicial.getValue().toString());
         this.correntistaFiltro.setDataFinal(this.textDataFinal.getValue().toString());
-        
+
         this.relatorioCorrentista.setCliente(this.cliente.getNome());
         this.relatorioCorrentista.setLimiteEmCredito(this.labelSaldoLimiteEmCredito.getText());
         this.relatorioCorrentista.setSaldoDevedor(this.labelSaldoDevedor.getText());
         this.relatorioCorrentista.setSaldoDisponivel(this.labelSaldoDisponivel.getText());
-        
+
         this.relatorioCorrentista.imprimirCorrentista(this.correntistaFiltro);
     }
 

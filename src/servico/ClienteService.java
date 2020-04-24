@@ -107,10 +107,11 @@ public class ClienteService {
                 + "left outer join \n"
                 + "  crea15 on(CRCLIENT=CLCODIGO)\n"
                 + "where \n"
-                + "  clcodigo='" + codigoCliente + "' \n"
-                + " and CRLANCAM between '" + dataInicial + "' and '" + dataFinal + "' \n"
-                + "group by \n"
-                + "  CLCODIGO";
+                + "  clcodigo='" + codigoCliente + "' \n";
+                if(!dataInicial.isEmpty()){
+                    sql += " and CRLANCAM between '" + dataInicial + "' and '" + dataFinal + "' \n";
+                }
+                sql += "group by CLCODIGO";
         if (!this.conectaBanco.executaSQL(sql)) {
             this.conectaBanco.desconecta();
             return clientesCorrentistaDTO;
