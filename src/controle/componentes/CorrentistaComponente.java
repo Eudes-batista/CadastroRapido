@@ -15,13 +15,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import modelo.Cliente;
+import modelo.Correntista;
 
 /**
  *
  * @author ZOOM
  */
 public abstract class CorrentistaComponente {
-    
+
     @FXML
     protected AnchorPane ancoraPrincipal;
 
@@ -114,5 +115,38 @@ public abstract class CorrentistaComponente {
 
     @FXML
     protected Label labelValorAReceber;
-    
+
+    @FXML
+    private AnchorPane ancoraMovimentacao;
+
+    @FXML
+    private Button btVoltarMovimentacoes;
+
+    @FXML
+    private TableView<Correntista> tabelaMovimentacoes;
+
+    @FXML
+    private TableColumn<Correntista, String> columnDataLancamento;
+
+    @FXML
+    private TableColumn<Correntista, String> columnDataDescricao;
+
+    @FXML
+    private TableColumn<Correntista, String> columnCredito;
+
+    @FXML
+    private TableColumn<Correntista, String> columnDebito;
+
+    @FXML
+    private TableColumn<Correntista, String> columnUsuario;
+
+    @FXML
+    private TableColumn<Correntista, String> columnExcluir;
+
+    @FXML
+    private JFXDatePicker textDataInicialMovimentacao;
+
+    @FXML
+    private JFXDatePicker textDataFinalMovimentacao;
+
 }

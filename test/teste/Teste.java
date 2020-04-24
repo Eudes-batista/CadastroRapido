@@ -1,25 +1,21 @@
 package teste;
 
-import modelo.dto.CorrentistaFiltro;
-import relatorio.correntista.RelatorioCorrentista;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
-public class Teste {
+public class Teste extends Application {
 
-    public static void main(String[] args) {
+    private static final String ITEM = "Item ";
+    private int counter = 0;
 
-        RelatorioCorrentista relatorioCorrentista = new RelatorioCorrentista();
-        
-        CorrentistaFiltro correntistaFiltro = new CorrentistaFiltro();
-        correntistaFiltro.setCliente("1199");
-        correntistaFiltro.setDataInicial("2020-04-01");
-        correntistaFiltro.setDataFinal("2020-04-30");
-        
-        relatorioCorrentista.setCliente("EUDES BATISTA DOS SANTOS");
-        relatorioCorrentista.setLimiteEmCredito("999.999,00");
-        relatorioCorrentista.setSaldoDevedor("999.999,00");
-        relatorioCorrentista.setSaldoDisponivel("999.999,00");
-        
-        relatorioCorrentista.imprimirCorrentista(correntistaFiltro);
+    @Override
+    public void start(Stage stage) throws Exception {
+
         
     }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
 }

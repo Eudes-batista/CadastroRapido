@@ -16,10 +16,10 @@
       <Label fx:id="labelContaCorrente" layoutX="7.0" layoutY="8.0" prefHeight="58.0" prefWidth="780.0" styleClass="label-produto" text="Conta corrente de cliente" />
       <AnchorPane fx:id="ancoraSaldo" layoutX="10.0" layoutY="76.0" prefHeight="524.0" prefWidth="790.0" styleClass="fundo-geral" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="71.0">
          <children>
-            <AnchorPane layoutX="39.0" layoutY="175.0" prefHeight="137.0" prefWidth="176.0" styleClass="fundo-geral">
+            <AnchorPane layoutX="33.0" layoutY="188.0" prefHeight="137.0" prefWidth="232.0" styleClass="fundo-geral">
                <children>
-                  <Label alignment="CENTER" prefHeight="55.0" prefWidth="222.0" styleClass="label-valores" text="Saldo Disponivel" />
-                  <Label fx:id="labelSaldoDisponivel" alignment="CENTER" layoutY="81.0" prefHeight="35.0" prefWidth="222.0" text="R$ 0,00">
+                  <Label alignment="CENTER" prefHeight="55.0" prefWidth="222.0" styleClass="label-valores" text="Saldo Disponivel" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                  <Label fx:id="labelSaldoDisponivel" alignment="CENTER" layoutY="81.0" prefHeight="35.0" prefWidth="222.0" text="R$ 0,00" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
@@ -29,10 +29,10 @@
                   <DropShadow color="#00000044" />
                </effect>
             </AnchorPane>
-            <AnchorPane layoutX="280.0" layoutY="175.0" prefHeight="137.0" prefWidth="176.0" styleClass="fundo-geral">
+            <AnchorPane layoutX="274.0" layoutY="188.0" maxWidth="200.0" prefHeight="137.0" prefWidth="232.0" style="-fx-max-width: 232;" styleClass="fundo-geral">
                <children>
-                  <Label alignment="CENTER" prefHeight="55.0" prefWidth="222.0" styleClass="label-valores" text="Saldo Excedido" />
-                  <Label fx:id="labelSaldoDevedor" alignment="CENTER" layoutY="81.0" prefHeight="35.0" prefWidth="222.0" text="R$ 0,00">
+                  <Label alignment="CENTER" prefHeight="55.0" prefWidth="222.0" styleClass="label-valores" text="Saldo Excedido" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                  <Label fx:id="labelSaldoDevedor" alignment="CENTER" layoutY="81.0" prefHeight="35.0" prefWidth="222.0" text="R$ 0,00" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
@@ -42,10 +42,10 @@
                   <DropShadow color="#00000044" />
                </effect>
             </AnchorPane>
-            <AnchorPane layoutX="520.0" layoutY="175.0" prefHeight="137.0" prefWidth="176.0" styleClass="fundo-geral">
+            <AnchorPane layoutX="515.0" layoutY="188.0" maxWidth="200.0" prefHeight="137.0" prefWidth="232.0" style="-fx-max-width: 232;" styleClass="fundo-geral">
                <children>
-                  <Label alignment="CENTER" prefHeight="55.0" prefWidth="222.0" styleClass="label-valores" text="Limite em Crédito" />
-                  <Label fx:id="labelSaldoLimiteEmCredito" alignment="CENTER" layoutY="81.0" prefHeight="35.0" prefWidth="222.0" text="R$ 0,00">
+                  <Label alignment="CENTER" prefHeight="55.0" prefWidth="222.0" styleClass="label-valores" text="Limite em Crédito" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                  <Label fx:id="labelSaldoLimiteEmCredito" alignment="CENTER" layoutY="81.0" prefHeight="35.0" prefWidth="222.0" text="R$ 0,00" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
@@ -55,10 +55,10 @@
                   <DropShadow color="#00000044" />
                </effect>
             </AnchorPane>
-            <AnchorPane layoutX="39.0" layoutY="339.0" prefHeight="137.0" prefWidth="176.0" styleClass="fundo-geral">
+            <AnchorPane layoutX="34.0" layoutY="349.0" maxWidth="200.0" prefHeight="137.0" prefWidth="232.0" style="-fx-max-width: 232;" styleClass="fundo-geral">
                <children>
-                  <Label alignment="CENTER" prefHeight="55.0" prefWidth="222.0" styleClass="label-valores" text="Total Pago" />
-                  <Label fx:id="labelTotalCredito" alignment="CENTER" layoutY="81.0" prefHeight="35.0" prefWidth="222.0" text="R$ 0,00">
+                  <Label alignment="CENTER" prefHeight="55.0" prefWidth="222.0" styleClass="label-valores" text="Total Pago" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                  <Label fx:id="labelTotalCredito" alignment="CENTER" layoutY="81.0" prefHeight="35.0" prefWidth="222.0" text="R$ 0,00" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
@@ -68,10 +68,10 @@
                   <DropShadow color="#00000044" />
                </effect>
             </AnchorPane>
-            <AnchorPane layoutX="279.0" layoutY="339.0" prefHeight="137.0" prefWidth="176.0" styleClass="fundo-geral">
+            <AnchorPane layoutX="274.0" layoutY="349.0" maxWidth="200.0" prefHeight="137.0" prefWidth="232.0" style="-fx-max-width: 232;" styleClass="fundo-geral">
                <children>
-                  <Label alignment="CENTER" prefHeight="55.0" prefWidth="222.0" styleClass="label-valores" text="Total de Compras" />
-                  <Label fx:id="labelTotalDebito" alignment="CENTER" layoutY="81.0" prefHeight="35.0" prefWidth="222.0" text="R$ 0,00">
+                  <Label alignment="CENTER" prefHeight="55.0" prefWidth="222.0" styleClass="label-valores" text="Total de Compras" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                  <Label fx:id="labelTotalDebito" alignment="CENTER" layoutY="81.0" prefHeight="35.0" prefWidth="222.0" text="R$ 0,00" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
@@ -90,13 +90,13 @@
             <TextField fx:id="textPesquisa" layoutX="15.0" layoutY="33.0" prefHeight="40.0" prefWidth="750.0" promptText="Pesquisar cliente" styleClass="input-padrao" />
             <Label layoutX="16.0" layoutY="14.0" text="Pesquisa de cliente" />
             <Button fx:id="btImprimir" disable="true" focusTraversable="false" layoutX="637.0" layoutY="105.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="124.0" styleClass="bttopo" text="Imprimir" />
-            <Button fx:id="btExcluirMovimentacoes" focusTraversable="false" layoutX="16.0" layoutY="531.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="154.0" styleClass="btCancelar" text="Excluir Movimentação" />
+            <Button fx:id="btExcluirMovimentacoes" focusTraversable="false" layoutX="313.0" layoutY="531.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="154.0" styleClass="btCancelar" text="Excluir Movimentação" />
             <Button fx:id="btSairContaCorrente" focusTraversable="false" layoutX="643.0" layoutY="531.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="124.0" styleClass="btexcluir" text="Sair" />
-            <Button fx:id="btMovimentacoes" disable="true" focusTraversable="false" layoutX="6.0" layoutY="541.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="154.0" style="-fx-font-size: 12pt;" styleClass="bttopo" text="Movimentação" visible="false" />
-            <AnchorPane layoutX="519.0" layoutY="339.0" prefHeight="137.0" prefWidth="176.0" styleClass="fundo-geral">
+            <Button fx:id="btMovimentacoes" disable="true" focusTraversable="false" layoutX="33.0" layoutY="531.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="154.0" style="-fx-font-size: 12pt;" styleClass="bttopo" text="Movimentação" />
+            <AnchorPane layoutX="514.0" layoutY="349.0" maxWidth="200.0" prefHeight="137.0" prefWidth="232.0" style="-fx-max-width: 232;" styleClass="fundo-geral">
                <children>
-                  <Label alignment="CENTER" prefHeight="55.0" prefWidth="222.0" styleClass="label-valores" text="Valor a Receber" />
-                  <Label fx:id="labelValorAReceber" alignment="CENTER" layoutY="81.0" prefHeight="35.0" prefWidth="222.0" text="R$ 0,00">
+                  <Label alignment="CENTER" prefHeight="55.0" prefWidth="222.0" styleClass="label-valores" text="Valor a Receber" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                  <Label fx:id="labelValorAReceber" alignment="CENTER" layoutY="81.0" prefHeight="35.0" prefWidth="222.0" text="R$ 0,00" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
@@ -143,6 +143,25 @@
                   <Button fx:id="btVoltar" layoutX="298.0" layoutY="326.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="144.0" styleClass="btexcluir" text="Voltar (ESC)" />
                </children>
             </AnchorPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="ancoraMovimentacao" layoutX="10.0" layoutY="76.0" prefHeight="599.0" prefWidth="790.0" styleClass="fundo-geral" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="71.0">
+         <children>
+            <Button fx:id="btVoltarMovimentacoes" layoutX="645.0" layoutY="545.0" mnemonicParsing="false" styleClass="bt-apagar" text="Voltar (ESC)" />
+            <TableView fx:id="tabelaMovimentacoes" layoutX="14.0" layoutY="41.0" prefHeight="495.0" prefWidth="780.0" style="-fx-font-size: 10pt;" AnchorPane.bottomAnchor="53.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
+              <columns>
+                <TableColumn fx:id="columnDataLancamento" prefWidth="139.0" text="Data Lçancamento" />
+                <TableColumn fx:id="columnDataDescricao" prefWidth="167.0" text="Descrição" />
+                  <TableColumn fx:id="columnCredito" prefWidth="98.0" text="Crédito" />
+                  <TableColumn fx:id="columnDebito" prefWidth="116.0" text="Débito" />
+                  <TableColumn fx:id="columnUsuario" prefWidth="110.0" text="Usuario" />
+                  <TableColumn fx:id="columnExcluir" prefWidth="113.0" text="Excluir" />
+              </columns>
+            </TableView>
+            <JFXDatePicker fx:id="textDataInicialMovimentacao" layoutX="91.0" layoutY="4.0" />
+            <JFXDatePicker fx:id="textDataFinalMovimentacao" layoutX="335.0" layoutY="6.0" />
+            <Label layoutX="16.0" layoutY="12.0" text="Data Inicial" />
+            <Label layoutX="276.0" layoutY="13.0" text="Data Final" />
          </children>
       </AnchorPane>
    </children>
