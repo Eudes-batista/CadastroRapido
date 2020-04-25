@@ -81,6 +81,8 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
         this.ancoraPrincipal.addEventFilter(KeyEvent.KEY_RELEASED, evt -> {
             if (evt.getCode().equals(KeyCode.ESCAPE)) {
                 this.sair();
+            }else if(evt.getCode().equals(KeyCode.F4)){
+                this.salvar();
             }
         });
     }
