@@ -7,6 +7,8 @@ import java.math.RoundingMode;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +18,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -44,10 +50,12 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
     private CorrentistaFiltro correntistaFiltro;
     private boolean pesquisaDoCliente;
     private SimpleDateFormat dataFormat;
+    private ObservableList<Correntista> correntistas;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.clientes = FXCollections.observableArrayList();
+        this.correntistas = FXCollections.observableArrayList();
         this.dataFormat = new SimpleDateFormat("dd/MM/yyyy");
         this.relatorioCorrentista = new RelatorioCorrentista();
         this.correntistaFiltro = new CorrentistaFiltro();
@@ -59,6 +67,7 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
         this.adicionarEventoInputs();
         this.adicionarEventoTabela();
         this.tabela.setItems(this.clientes);
+        this.tabelaMovimentacoes.setItems(this.correntistas);
     }
 
     private void adicionarTeclasDeAtalhos() {
@@ -209,6 +218,23 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
         this.columnDebito.setCellValueFactory(cell -> new SimpleStringProperty(FormatterUtil.getValorFormatado(cell.getValue().getDebito())));
         this.columnUsuario.setCellValueFactory(new PropertyValueFactory<>("usuario"));
         this.columnExcluir.setCellValueFactory(new PropertyValueFactory<>("codigoCliente"));
+
+        this.columnExcluir.setCellFactory((TableColumn<Correntista, String> param) -> new TableCell<Correntista, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                if (!empty) {
+                    Hyperlink hyperlink = new Hyperlink("Excluir");
+                    hyperlink.setOnAction(evt -> {
+                        Correntista correntista = correntistas.get(this.getIndex());
+                        removerCorrentista(correntista);
+                    });
+                    setGraphic(hyperlink);
+                    setAlignment(Pos.CENTER);
+                } else {
+                    setGraphic(null);
+                }
+            }
+        });
     }
 
     private void mostrarLancamento(TipoMovimentacao tipoMovimentacao) {
@@ -351,6 +377,26 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
             this.correntistaFiltro.setDataInicial(this.textDataInicialMovimentacao.getValue().toString());
             this.correntistaFiltro.setDataFinal(this.textDataFinalMovimentacao.getValue().toString());
         }
-        this.correntistaService.listarMovimentacaoCorrentista(this.correntistaFiltro);
+        List<Correntista> movimentacaoCorrentista = this.correntistaService.listarMovimentacaoCorrentista(this.correntistaFiltro);
+        this.correntistas.clear();
+        this.correntistas.addAll(movimentacaoCorrentista);
+    }
+
+    private void removerCorrentista(Correntista correntista) {
+        Date dataProcesso = correntista.getDataDeProcesso();
+        Date dataLancamento = correntista.getDataLancamento();
+
+        String dataDeLancamento = dataLancamento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().toString();
+        String dataDeProcesso = dataProcesso.toInstant().atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        try {
+            if(correntista.getTipoMovimento().equals("A")){
+                this.mostrarMensagem("Movimento não pode ser apagado\n foi gerado através do frente de loja.", Alert.AlertType.WARNING);
+                return;
+            }
+            this.correntistaService.excluirMovimentacao(dataDeLancamento, dataDeProcesso, cliente.getCodigo());
+            this.correntistas.remove(correntista);
+        } catch (CorrentistaException ex) {
+            this.mostrarMensagem("Erro ao excluir movimento", Alert.AlertType.ERROR);
+        }
     }
 }

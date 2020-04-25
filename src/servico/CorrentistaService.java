@@ -57,6 +57,23 @@ public class CorrentistaService {
         this.conectaBanco.desconecta();
     }
 
+    public void excluirMovimentacao(String dataLancamento, String dataProcesso, String cliente) throws CorrentistaException {
+        if (!this.conectaBanco.conexao()) {
+            throw new CorrentistaException("Não foi possivel se conectar com o servidor");
+        }
+        String sql = "delete from crea15 where CRCLIENT='" + cliente + "'";
+        sql += " and CRLANCAM ='" + dataLancamento + "' and CRPROCES='" + dataProcesso + "'";
+        try {
+            try (PreparedStatement preparedStatement = this.conectaBanco.getConnection().prepareStatement(sql)) {
+                preparedStatement.execute();
+                this.conectaBanco.getConnection().commit();
+            }
+        } catch (SQLException ex) {
+            throw new CorrentistaException("Não foi possivel salvar lancamento correntista");
+        }
+        this.conectaBanco.desconecta();
+    }
+
     public List<Correntista> listarMovimentacaoCorrentista(CorrentistaFiltro correntistaFiltro) throws CorrentistaException {
         if (!this.conectaBanco.conexao()) {
             throw new CorrentistaException("Não foi possivel se conectar com o servidor");
