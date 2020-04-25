@@ -10,7 +10,7 @@ package modelo;
  * @author ZOOM
  */
 public enum TipoMovimentacao {
-    CREDITO("CRÉDITO"),DEBITO("DÉBITO");
+    CREDITO("PAGAMENTO"),DEBITO("DEBITO");
     
     private final String valor;
 

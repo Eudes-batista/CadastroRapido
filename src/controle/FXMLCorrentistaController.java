@@ -269,9 +269,8 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
         this.tipoMovimentacao = tipoMovimentacao;
         this.labelTipoLancamento.setText("Tipo de Lancamento: " + tipoMovimentacao.getValor());
         this.ancoraLancamento.setVisible(true);
-        this.textDescricao.requestFocus();
         this.textDescricao.setText(this.tipoMovimentacao.getValor());
-        this.textDescricao.selectAll();
+        this.textValor.requestFocus();
         this.textValor.setText("");
     }
 
