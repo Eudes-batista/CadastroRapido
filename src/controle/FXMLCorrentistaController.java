@@ -447,6 +447,8 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
     private void mostrarPermissaoDeUsuario() {
         this.ancoraPermissao.setVisible(true);
         this.textUsuario.requestFocus();
+        this.textUsuario.setText("");
+        this.textSenha.setText("");
     }
 
     private void validarUsuario() {
