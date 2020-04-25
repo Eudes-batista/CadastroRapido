@@ -162,6 +162,8 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
         LocalDate localDateInicial = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth());
         LocalDate localDateFinal = LocalDate.now().with(TemporalAdjusters.lastDayOfMonth());
         this.ancoraListarClientes.setVisible(false);
+        this.textPesquisa.setText(this.cliente.getCodigo());
+        this.textPesquisa.selectAll();
         this.habilitarCampos();
         this.consultarSaldoCorrentista(localDateInicial, localDateFinal);
     }
