@@ -32,10 +32,11 @@ public class CorrentistaService {
                 preparedStatement.executeUpdate();
                 this.conectaBanco.getConnection().commit();
             }
+            this.conectaBanco.desconecta();
         } catch (SQLException ex) {
+            this.conectaBanco.desconecta();
             throw new CorrentistaException("Não foi possivel salvar lancamento correntista");
         }
-        this.conectaBanco.desconecta();
     }
 
     public void excluirMovimentacaoCorrentista(String dataInicial, String dataFinal, String cliente) throws CorrentistaException {
@@ -51,10 +52,11 @@ public class CorrentistaService {
                 preparedStatement.execute();
                 this.conectaBanco.getConnection().commit();
             }
+            this.conectaBanco.desconecta();
         } catch (SQLException ex) {
+            this.conectaBanco.desconecta();
             throw new CorrentistaException("Não foi possivel salvar lancamento correntista");
         }
-        this.conectaBanco.desconecta();
     }
 
     public void excluirMovimentacao(String dataLancamento, String dataProcesso, String cliente) throws CorrentistaException {
@@ -68,10 +70,11 @@ public class CorrentistaService {
                 preparedStatement.execute();
                 this.conectaBanco.getConnection().commit();
             }
+            this.conectaBanco.desconecta();
         } catch (SQLException ex) {
+            this.conectaBanco.desconecta();
             throw new CorrentistaException("Não foi possivel salvar lancamento correntista");
         }
-        this.conectaBanco.desconecta();
     }
 
     public List<Correntista> listarMovimentacaoCorrentista(CorrentistaFiltro correntistaFiltro) throws CorrentistaException {

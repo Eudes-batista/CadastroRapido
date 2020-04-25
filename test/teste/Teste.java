@@ -1,30 +1,18 @@
 package teste;
 
-import exception.CorrentistaException;
-import java.util.List;
-import modelo.Correntista;
-import modelo.dto.CorrentistaFiltro;
-import servico.CorrentistaService;
+import modelo.Usuario;
+import servico.UsuarioService;
+import util.CriptografiaDeSenha;
 
 public class Teste {
 
     public static void main(String[] args) {
         
-        CorrentistaService correntistaService = new CorrentistaService();
+        UsuarioService usuarioService = new UsuarioService();
         
-        CorrentistaFiltro correntistaFiltro = new CorrentistaFiltro();
+        Usuario usuario = usuarioService.buscarUsuario("NENA", CriptografiaDeSenha.gerarSenhaUsuario("4321"));
         
-        correntistaFiltro.setCliente("00043");
-        correntistaFiltro.setDataInicial("2020-04-01");
-        correntistaFiltro.setDataFinal("2020-04-25");
-        
-        try {
-            List<Correntista> movimento = correntistaService.listarMovimentacaoCorrentista(correntistaFiltro);
-            movimento.forEach(System.out::println);
-        } catch (CorrentistaException ex) {
-            System.out.println("ex = " + ex);
-        }
-        
+        System.out.println("usuario = " + usuario);
     }
 
 }

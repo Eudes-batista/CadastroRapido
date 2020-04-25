@@ -2,6 +2,7 @@ package controle;
 
 import controle.componentes.CorrentistaComponente;
 import exception.CorrentistaException;
+import exception.UsuarioException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
@@ -26,15 +27,18 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import modelo.Cliente;
 import modelo.Correntista;
 import modelo.TipoMovimentacao;
+import modelo.Usuario;
 import modelo.dto.ClientesCorrentistaDTO;
 import modelo.dto.CorrentistaFiltro;
 import relatorio.correntista.RelatorioCorrentista;
 import servico.ClienteService;
 import servico.CorrentistaService;
+import servico.UsuarioService;
 import util.FormatterUtil;
 
 public class FXMLCorrentistaController extends CorrentistaComponente implements Initializable {
@@ -51,6 +55,7 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
     private boolean pesquisaDoCliente;
     private SimpleDateFormat dataFormat;
     private ObservableList<Correntista> correntistas;
+    private UsuarioService usuarioService;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -61,6 +66,7 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
         this.correntistaFiltro = new CorrentistaFiltro();
         this.clienteService = new ClienteService();
         this.correntistaService = new CorrentistaService();
+        this.usuarioService = new UsuarioService();
         this.inicializarColunas();
         this.adicionarTeclasDeAtalhos();
         this.adiconarEvento();
@@ -82,7 +88,8 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
         this.btSair.setOnMouseClicked(evt -> this.sair());
         this.btSairContaCorrente.setOnMouseClicked(evt -> this.sair());
         this.btImprimir.setOnMouseClicked(evt -> this.imprimirRelatorio());
-        this.btExcluirMovimentacoes.setOnAction(evt -> this.excluirMovimentacao());
+        this.btExcluirMovimentacoes.setOnAction(evt -> this.mostrarPermissaoDeUsuario());
+        this.btConfirmarUsuario.setOnAction(evt -> this.validarUsuario());
         this.btCredito.setOnAction(evt -> this.mostrarLancamento(TipoMovimentacao.CREDITO));
         this.btDebito.setOnAction(evt -> this.mostrarLancamento(TipoMovimentacao.DEBITO));
         this.btSalvar.setOnAction(evt -> this.salvar());
@@ -93,6 +100,15 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
             this.pegarClienteSelecionadoTabela();
             this.selecionarCliente();
         });
+        this.btPesquisa.setOnAction(evt -> {
+            try {
+                this.listarMovimentacoes();
+                this.mostrarSaldoDaMovimentacao();
+            } catch (CorrentistaException ex) {
+                this.mostrarMensagem(ex.getMessage(), Alert.AlertType.ERROR);
+            }
+        });
+        this.btVoltarPermissao.setOnAction(evt -> this.sair());
     }
 
     private void adicionarEventoTabela() {
@@ -130,6 +146,8 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
             this.salvar();
             this.ancoraLancamento.setVisible(false);
         });
+        this.textUsuario.setOnAction(evt -> this.textSenha.requestFocus());
+        this.textSenha.setOnAction(evt -> this.validarUsuario());
     }
 
     private void pegarClienteSelecionadoTabela() {
@@ -205,6 +223,10 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
             this.ancoraMovimentacao.setVisible(false);
             return;
         }
+        if (this.ancoraPermissao.isVisible()) {
+            this.ancoraPermissao.setVisible(false);
+            return;
+        }
         ((Stage) this.ancoraPrincipal.getScene().getWindow()).close();
     }
 
@@ -224,6 +246,7 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
             protected void updateItem(String item, boolean empty) {
                 if (!empty) {
                     Hyperlink hyperlink = new Hyperlink("Excluir");
+                    hyperlink.setTextFill(Color.BLACK);
                     hyperlink.setOnAction(evt -> {
                         Correntista correntista = correntistas.get(this.getIndex());
                         removerCorrentista(correntista);
@@ -270,6 +293,7 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
         this.textDataInicial.setDisable(false);
         this.textDataFinal.setDisable(false);
         this.btMovimentacoes.setDisable(false);
+        this.btExcluirMovimentacoes.setDisable(false);
     }
 
     private Correntista preencherCorrentista() {
@@ -333,7 +357,7 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
         }
         this.relatorioCorrentista.setCliente(this.cliente.getNome());
         this.relatorioCorrentista.setLimiteEmCredito(this.labelSaldoLimiteEmCredito.getText());
-        this.relatorioCorrentista.setSaldoDevedor(this.labelSaldoDevedor.getText());
+        this.relatorioCorrentista.setSaldoDevedor(this.labelValorAReceber.getText());
         this.relatorioCorrentista.setSaldoDisponivel(this.labelSaldoDisponivel.getText());
 
         this.relatorioCorrentista.imprimirCorrentista(this.correntistaFiltro);
@@ -361,6 +385,7 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
         try {
             this.listarMovimentacoes();
             this.ancoraMovimentacao.setVisible(true);
+            this.preencherInformaLabelsMovimentacao(this.labelSaldoDisponivel.getText(), this.labelValorAReceber.getText());
         } catch (CorrentistaException ex) {
             this.mostrarMensagem(ex.getMessage(), Alert.AlertType.ERROR);
         }
@@ -385,11 +410,10 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
     private void removerCorrentista(Correntista correntista) {
         Date dataProcesso = correntista.getDataDeProcesso();
         Date dataLancamento = correntista.getDataLancamento();
-
-        String dataDeLancamento = dataLancamento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().toString();
-        String dataDeProcesso = dataProcesso.toInstant().atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String dataDeLancamento = new Date(dataLancamento.getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate().toString();
+        String dataDeProcesso = new Date(dataProcesso.getTime()).toInstant().atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         try {
-            if(correntista.getTipoMovimento().equals("A")){
+            if (correntista.getTipoMovimento().equals("A")) {
                 this.mostrarMensagem("Movimento não pode ser apagado\n foi gerado através do frente de loja.", Alert.AlertType.WARNING);
                 return;
             }
@@ -397,6 +421,51 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
             this.correntistas.remove(correntista);
         } catch (CorrentistaException ex) {
             this.mostrarMensagem("Erro ao excluir movimento", Alert.AlertType.ERROR);
+        }
+    }
+
+    private void mostrarSaldoDaMovimentacao() {
+        double limiteDeCredito = this.cliente.getLimiteCredito();
+        double totalDeCredito = this.correntistas.stream().mapToDouble(Correntista::getCredito).sum();
+        double totalDeDebito = this.correntistas.stream().mapToDouble(Correntista::getDebito).sum();
+        double saldoDisponivel = (limiteDeCredito + totalDeCredito) - totalDeDebito;
+        double saldoDevedor = totalDeCredito - totalDeDebito;
+        String tituloSaldoDisponivel = saldoDisponivel < 0 ? "0,00" : FormatterUtil.getValorFormatado(saldoDisponivel);
+        String tituloSaldoDevedor = saldoDevedor > 0 ? "0,00" : FormatterUtil.getValorFormatado(saldoDevedor);
+        this.preencherInformaLabelsMovimentacao(tituloSaldoDisponivel, tituloSaldoDevedor);
+    }
+
+    private void preencherInformaLabelsMovimentacao(String saldoDisponivel, String saldoDevedor) {
+        this.labelMovimentacaoSaldoDisponivel.setText("Saldo Disponivel: R$ " + saldoDisponivel);
+        this.labelMovimentacaoSaldoDevedor.setText("Saldo Devedor: R$ " + saldoDevedor);
+    }
+
+    private void mostrarPermissaoDeUsuario() {
+        this.ancoraPermissao.setVisible(true);
+        this.textUsuario.requestFocus();
+    }
+
+    private void validarUsuario() {
+        try {
+            if (this.textUsuario.getText().isEmpty()) {
+                this.mostrarMensagem("Informe o nome do usuario.", Alert.AlertType.WARNING);
+                this.textUsuario.requestFocus();
+                return;
+            }
+            if (this.textSenha.getText().isEmpty()) {
+                this.mostrarMensagem("Informe a senha do usuario.", Alert.AlertType.WARNING);
+                this.textSenha.requestFocus();
+                return;
+            }
+            Usuario usuario = this.usuarioService.buscarUsuario(this.textUsuario.getText(), this.textSenha.getText());
+            if (!usuario.isGerente()) {
+                this.mostrarMensagem("Usuario não tem permissão", Alert.AlertType.WARNING);
+                return;
+            }
+            this.ancoraPermissao.setVisible(false);
+            this.excluirMovimentacao();
+        } catch (UsuarioException ex) {
+            this.mostrarMensagem(ex.getMessage(), Alert.AlertType.ERROR);
         }
     }
 }

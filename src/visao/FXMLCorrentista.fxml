@@ -4,6 +4,7 @@
 <?import componentesjavafx.TextFieldCustom?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -90,7 +91,7 @@
             <TextField fx:id="textPesquisa" layoutX="15.0" layoutY="33.0" prefHeight="40.0" prefWidth="750.0" promptText="Pesquisar cliente" styleClass="input-padrao" />
             <Label layoutX="16.0" layoutY="14.0" text="Pesquisa de cliente" />
             <Button fx:id="btImprimir" disable="true" focusTraversable="false" layoutX="637.0" layoutY="105.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="124.0" styleClass="bttopo" text="Imprimir" />
-            <Button fx:id="btExcluirMovimentacoes" focusTraversable="false" layoutX="313.0" layoutY="531.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="154.0" styleClass="btCancelar" text="Excluir Movimentação" />
+            <Button fx:id="btExcluirMovimentacoes" disable="true" focusTraversable="false" layoutX="313.0" layoutY="531.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="154.0" styleClass="btCancelar" text="Excluir Movimentação" />
             <Button fx:id="btSairContaCorrente" focusTraversable="false" layoutX="643.0" layoutY="531.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="124.0" styleClass="btexcluir" text="Sair" />
             <Button fx:id="btMovimentacoes" disable="true" focusTraversable="false" layoutX="33.0" layoutY="531.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="154.0" style="-fx-font-size: 12pt;" styleClass="bttopo" text="Movimentação" />
             <AnchorPane layoutX="514.0" layoutY="349.0" maxWidth="200.0" prefHeight="137.0" prefWidth="232.0" style="-fx-max-width: 232;" styleClass="fundo-geral">
@@ -154,14 +155,35 @@
                 <TableColumn fx:id="columnDataDescricao" prefWidth="167.0" text="Descrição" />
                   <TableColumn fx:id="columnCredito" prefWidth="98.0" text="Crédito" />
                   <TableColumn fx:id="columnDebito" prefWidth="116.0" text="Débito" />
-                  <TableColumn fx:id="columnUsuario" prefWidth="110.0" text="Usuario" />
-                  <TableColumn fx:id="columnExcluir" prefWidth="113.0" text="Excluir" />
+                  <TableColumn fx:id="columnUsuario" prefWidth="120.0" text="Usuario" />
+                  <TableColumn fx:id="columnExcluir" prefWidth="121.0" text="Excluir" />
               </columns>
             </TableView>
             <JFXDatePicker fx:id="textDataInicialMovimentacao" layoutX="91.0" layoutY="4.0" />
             <JFXDatePicker fx:id="textDataFinalMovimentacao" layoutX="335.0" layoutY="6.0" />
             <Label layoutX="16.0" layoutY="12.0" text="Data Inicial" />
             <Label layoutX="276.0" layoutY="13.0" text="Data Final" />
+            <Button fx:id="btPesquisa" layoutX="519.0" layoutY="4.0" mnemonicParsing="false" style="-fx-font-size: 11pt;" styleClass="bttopo" text="Pesquisa" />
+            <Label fx:id="labelMovimentacaoSaldoDisponivel" alignment="CENTER" layoutX="14.0" layoutY="540.0" maxWidth="283.0" prefHeight="46.0" prefWidth="283.0" style="-fx-font-size: 13pt; -fx-max-width: 300px;" styleClass="label-valores" text="Saldo Disponivel: R$ 999.999,99" />
+            <Label fx:id="labelMovimentacaoSaldoDevedor" alignment="CENTER" layoutX="334.0" layoutY="540.0" style="-fx-font-size: 13pt; -fx-max-width: 300px;" styleClass="label-valores" text="Saldo Devedor: R$ 999.999,99" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="ancoraPermissao" layoutX="10.0" layoutY="76.0" prefHeight="599.0" prefWidth="790.0" styleClass="fundo-geral" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="71.0">
+         <children>
+            <AnchorPane layoutX="195.0" layoutY="75.0" prefHeight="411.0" prefWidth="391.0" styleClass="fundo-geral">
+               <effect>
+                  <DropShadow color="#0000004e" />
+               </effect>
+               <children>
+                  <Label alignment="CENTER" maxWidth="391.0" prefHeight="55.0" prefWidth="391.0" styleClass="label-valores" text="Autorização" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                  <Label layoutX="86.0" layoutY="133.0" text="Usuario" />
+                  <TextField fx:id="textUsuario" layoutX="86.0" layoutY="159.0" styleClass="input-padrao" />
+                  <Label layoutX="86.0" layoutY="213.0" text="Senha" />
+                  <PasswordField fx:id="textSenha" layoutX="86.0" layoutY="235.0" styleClass="input-padrao" />
+                  <Button fx:id="btConfirmarUsuario" layoutX="134.0" layoutY="346.0" mnemonicParsing="false" styleClass="btIncluir" text="Confirmar" />
+               </children>
+            </AnchorPane>
+            <Button fx:id="btVoltarPermissao" layoutX="612.0" layoutY="531.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="154.0" styleClass="btexcluir" text="Voltar (ESC)" />
          </children>
       </AnchorPane>
    </children>
