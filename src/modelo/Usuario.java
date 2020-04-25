@@ -69,6 +69,6 @@ public class Usuario {
     }
 
     public boolean isGerente() {
-        return this.permissao.equals('T');
+        return this.permissao.equals("T");
     }
 }
