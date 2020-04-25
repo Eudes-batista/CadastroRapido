@@ -39,6 +39,7 @@ import relatorio.correntista.RelatorioCorrentista;
 import servico.ClienteService;
 import servico.CorrentistaService;
 import servico.UsuarioService;
+import util.CriptografiaDeSenha;
 import util.FormatterUtil;
 
 public class FXMLCorrentistaController extends CorrentistaComponente implements Initializable {
@@ -311,8 +312,8 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
             novoCorrentista.setCredito(0.0);
             novoCorrentista.setDebito(valor);
         }
-        String dataInicial = this.textDataInicial.getValue().toString();
-        String dataFinal = this.textDataFinal.getValue().toString();
+        String dataInicial = this.textDataInicial.getValue() == null ? "" : this.textDataInicial.getValue().toString();
+        String dataFinal = this.textDataFinal.getValue() == null ? "" : this.textDataFinal.getValue().toString();
         this.consultarSaldosCorrentida = this.clienteService.consultarSaldosCorrentida(this.cliente.getCodigo(), dataInicial, dataFinal);
         double saldoDisponivelNoMomento = this.consultarSaldosCorrentida.getSaldoCredito() - this.consultarSaldosCorrentida.getTotalDebito();
         double saldoDisponivel = saldoDisponivelNoMomento - valor;
@@ -457,7 +458,8 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
                 this.textSenha.requestFocus();
                 return;
             }
-            Usuario usuario = this.usuarioService.buscarUsuario(this.textUsuario.getText(), this.textSenha.getText());
+            String senha = CriptografiaDeSenha.gerarSenhaUsuario(this.textSenha.getText());
+            Usuario usuario = this.usuarioService.buscarUsuario(this.textUsuario.getText().toUpperCase(), senha);
             if (!usuario.isGerente()) {
                 this.mostrarMensagem("Usuario não tem permissão", Alert.AlertType.WARNING);
                 return;
