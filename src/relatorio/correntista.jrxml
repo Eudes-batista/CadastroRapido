@@ -10,7 +10,7 @@
 	<parameter name="dataInicial" class="java.lang.String"/>
 	<parameter name="dataFinal" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[select * from crea15]]>
+		<![CDATA[select CRCLIENT,CRLANCAM,CRPROCES,CRUSUARI,CRTIPMOV,CRHISTOR,COALESCE(CRDEBITO,0) as CRDEBITO,COALESCE(CRCREDIT,0) as CRCREDIT from crea15]]>
 	</queryString>
 	<field name="CRCLIENT" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="CRCLIENT"/>
@@ -42,10 +42,6 @@
 	</field>
 	<field name="CRCREDIT" class="java.lang.Double">
 		<property name="com.jaspersoft.studio.field.label" value="CRCREDIT"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="CREA15"/>
-	</field>
-	<field name="CRSLDPAR" class="java.lang.Double">
-		<property name="com.jaspersoft.studio.field.label" value="CRSLDPAR"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="CREA15"/>
 	</field>
 	<background>
@@ -179,7 +175,7 @@
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{CRTIPMOV}.equals("M") ? "MANUAL" : "AUTOMATICO"]]></textFieldExpression>
 			</textField>
-			<textField pattern="###,##0.00">
+			<textField pattern="###,##0.00" isBlankWhenNull="true">
 				<reportElement x="400" y="4" width="80" height="26" uuid="d53405eb-09c3-4d2c-8a28-5b3454b286fc">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7c03555b-176f-4192-90d6-499a848a24c9"/>
 				</reportElement>

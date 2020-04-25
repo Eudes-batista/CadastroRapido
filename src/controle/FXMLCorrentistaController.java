@@ -5,11 +5,13 @@ import exception.CorrentistaException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -41,52 +43,50 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
     private RelatorioCorrentista relatorioCorrentista;
     private CorrentistaFiltro correntistaFiltro;
     private boolean pesquisaDoCliente;
+    private SimpleDateFormat dataFormat;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.clientes = FXCollections.observableArrayList();
+        this.dataFormat = new SimpleDateFormat("dd/MM/yyyy");
         this.relatorioCorrentista = new RelatorioCorrentista();
         this.correntistaFiltro = new CorrentistaFiltro();
         this.clienteService = new ClienteService();
         this.correntistaService = new CorrentistaService();
+        this.inicializarColunas();
+        this.adicionarTeclasDeAtalhos();
+        this.adiconarEvento();
+        this.adicionarEventoInputs();
+        this.adicionarEventoTabela();
+        this.tabela.setItems(this.clientes);
+    }
+
+    private void adicionarTeclasDeAtalhos() {
         this.ancoraPrincipal.addEventFilter(KeyEvent.KEY_RELEASED, evt -> {
             if (evt.getCode().equals(KeyCode.ESCAPE)) {
                 this.sair();
             }
         });
-        this.inicializarColunas();
-        this.tabela.setItems(this.clientes);
-        this.adiconarEvento();
     }
 
-    public void adiconarEvento() {
-        this.textPesquisa.setOnAction(evt -> {
-            this.pesquisaDoCliente = true;
-            this.realizarPesquisa();
-        });
+    private void adiconarEvento() {
         this.btSair.setOnMouseClicked(evt -> this.sair());
         this.btSairContaCorrente.setOnMouseClicked(evt -> this.sair());
         this.btImprimir.setOnMouseClicked(evt -> this.imprimirRelatorio());
         this.btExcluirMovimentacoes.setOnAction(evt -> this.excluirMovimentacao());
-        this.textDataInicial.valueProperty().addListener((ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) -> {
-            if (this.textDataFinal.getValue() != null) {
-                this.consultarSaldoCorrentista(newValue, this.textDataFinal.getValue());
-            }
-        });
-        this.textDataFinal.valueProperty().addListener((ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) -> {
-            if (this.textDataInicial.getValue() != null) {
-                this.consultarSaldoCorrentista(this.textDataInicial.getValue(), newValue);
-            }
-        });
         this.btCredito.setOnAction(evt -> this.mostrarLancamento(TipoMovimentacao.CREDITO));
         this.btDebito.setOnAction(evt -> this.mostrarLancamento(TipoMovimentacao.DEBITO));
         this.btSalvar.setOnAction(evt -> this.salvar());
         this.btVoltar.setOnAction(evt -> this.sair());
-        this.textDescricao.setOnAction(evt -> this.textValor.requestFocus());
-        this.textValor.setOnAction(evt -> {
-            this.salvar();
-            this.ancoraLancamento.setVisible(false);
+        this.btMovimentacoes.setOnAction(evt -> this.mostrarMovimentacoes());
+        this.btVoltarMovimentacoes.setOnAction(evt -> this.ancoraMovimentacao.setVisible(false));
+        this.btSelecionarCliente.setOnAction(evt -> {
+            this.pegarClienteSelecionadoTabela();
+            this.selecionarCliente();
         });
+    }
+
+    private void adicionarEventoTabela() {
         this.tabela.setOnMouseClicked(evt -> {
             if (evt.getClickCount() == 2) {
                 this.pegarClienteSelecionadoTabela();
@@ -99,9 +99,27 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
                 this.selecionarCliente();
             }
         });
-        this.btSelecionarCliente.setOnAction(evt -> {
-            this.pegarClienteSelecionadoTabela();
-            this.selecionarCliente();
+    }
+
+    private void adicionarEventoInputs() {
+        this.textDescricao.setOnAction(evt -> this.textValor.requestFocus());
+        this.textPesquisa.setOnAction(evt -> {
+            this.pesquisaDoCliente = true;
+            this.realizarPesquisa();
+        });
+        this.textDataInicial.valueProperty().addListener((ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) -> {
+            if (this.textDataFinal.getValue() != null) {
+                this.consultarSaldoCorrentista(newValue, this.textDataFinal.getValue());
+            }
+        });
+        this.textDataFinal.valueProperty().addListener((ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) -> {
+            if (this.textDataInicial.getValue() != null) {
+                this.consultarSaldoCorrentista(this.textDataInicial.getValue(), newValue);
+            }
+        });
+        this.textValor.setOnAction(evt -> {
+            this.salvar();
+            this.ancoraLancamento.setVisible(false);
         });
     }
 
@@ -123,18 +141,16 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
     private void consultarSaldoCorrentista(LocalDate localDateInicial, LocalDate localDateFinal) {
         String dataInicial = localDateInicial.toString();
         String dataFinal = localDateFinal.toString();
-        if(this.pesquisaDoCliente){
-            this.consultarSaldosCorrentida = this.clienteService.consultarSaldosCorrentida(this.cliente.getCodigo(),"", "");
+        if (this.pesquisaDoCliente) {
+            this.consultarSaldosCorrentida = this.clienteService.consultarSaldosCorrentida(this.cliente.getCodigo(), "", "");
             this.pesquisaDoCliente = false;
-        }else{
-            this.consultarSaldosCorrentida = this.clienteService.consultarSaldosCorrentida(this.cliente.getCodigo(), dataInicial, dataFinal);            
+        } else {
+            this.consultarSaldosCorrentida = this.clienteService.consultarSaldosCorrentida(this.cliente.getCodigo(), dataInicial, dataFinal);
         }
-        this.preencherInformacoes(localDateInicial, localDateFinal, this.consultarSaldosCorrentida);
+        this.preencherInformacoes(this.consultarSaldosCorrentida);
     }
 
-    private void preencherInformacoes(LocalDate localDateInicial, LocalDate localDateFinal, ClientesCorrentistaDTO consultarSaldosCorrentida) {
-        this.textDataInicial.setValue(localDateInicial);
-        this.textDataFinal.setValue(localDateFinal);
+    private void preencherInformacoes(ClientesCorrentistaDTO consultarSaldosCorrentida) {
         this.labelSaldoDisponivel.setText("R$ " + FormatterUtil.getValorFormatado(consultarSaldosCorrentida.getSaldoDisponivel()));
         this.labelSaldoDevedor.setText("R$ " + FormatterUtil.getValorFormatado(consultarSaldosCorrentida.getSaldoDevedor()));
         this.labelSaldoLimiteEmCredito.setText("R$ " + FormatterUtil.getValorFormatado(consultarSaldosCorrentida.getSaldoCredito()));
@@ -176,6 +192,10 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
             this.ancoraLancamento.setVisible(false);
             return;
         }
+        if (this.ancoraMovimentacao.isVisible()) {
+            this.ancoraMovimentacao.setVisible(false);
+            return;
+        }
         ((Stage) this.ancoraPrincipal.getScene().getWindow()).close();
     }
 
@@ -183,6 +203,12 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
         this.columnCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
         this.columnCliente.setCellValueFactory(new PropertyValueFactory<>("nome"));
         this.columnLimiteCredito.setCellValueFactory(new PropertyValueFactory<>("limiteCredito"));
+        this.columnDataLancamento.setCellValueFactory(cell -> new SimpleStringProperty(this.dataFormat.format(cell.getValue().getDataLancamento())));
+        this.columnDataDescricao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
+        this.columnCredito.setCellValueFactory(cell -> new SimpleStringProperty(FormatterUtil.getValorFormatado(cell.getValue().getCredito())));
+        this.columnDebito.setCellValueFactory(cell -> new SimpleStringProperty(FormatterUtil.getValorFormatado(cell.getValue().getDebito())));
+        this.columnUsuario.setCellValueFactory(new PropertyValueFactory<>("usuario"));
+        this.columnExcluir.setCellValueFactory(new PropertyValueFactory<>("codigoCliente"));
     }
 
     private void mostrarLancamento(TipoMovimentacao tipoMovimentacao) {
@@ -217,6 +243,7 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
         this.btImprimir.setDisable(false);
         this.textDataInicial.setDisable(false);
         this.textDataFinal.setDisable(false);
+        this.btMovimentacoes.setDisable(false);
     }
 
     private Correntista preencherCorrentista() {
@@ -271,9 +298,13 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
 
     private void imprimirRelatorio() {
         this.correntistaFiltro.setCliente(this.cliente.getCodigo());
-        this.correntistaFiltro.setDataInicial(this.textDataInicial.getValue().toString());
-        this.correntistaFiltro.setDataFinal(this.textDataFinal.getValue().toString());
-
+        if (this.textDataInicial.getValue() == null || this.textDataFinal.getValue() == null) {
+            this.correntistaFiltro.setDataInicial("");
+            this.correntistaFiltro.setDataFinal("");
+        } else {
+            this.correntistaFiltro.setDataInicial(this.textDataInicial.getValue().toString());
+            this.correntistaFiltro.setDataFinal(this.textDataFinal.getValue().toString());
+        }
         this.relatorioCorrentista.setCliente(this.cliente.getNome());
         this.relatorioCorrentista.setLimiteEmCredito(this.labelSaldoLimiteEmCredito.getText());
         this.relatorioCorrentista.setSaldoDevedor(this.labelSaldoDevedor.getText());
@@ -284,11 +315,42 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
 
     private void excluirMovimentacao() {
         try {
-            this.correntistaService.excluirMovimentacaoCorrentista(this.textDataInicial.getValue().toString(), this.textDataFinal.getValue().toString(), cliente.getCodigo());
+            if (this.textDataInicial.getValue() == null || this.textDataFinal.getValue() == null) {
+                this.correntistaService.excluirMovimentacaoCorrentista("", "", cliente.getCodigo());
+            } else {
+                this.correntistaService.excluirMovimentacaoCorrentista(this.textDataInicial.getValue().toString(), this.textDataFinal.getValue().toString(), cliente.getCodigo());
+            }
             this.mostrarMensagem("Excluido com sucesso!!", Alert.AlertType.INFORMATION);
             this.realizarPesquisa();
         } catch (CorrentistaException ex) {
             this.mostrarMensagem(ex.getMessage(), Alert.AlertType.ERROR);
         }
+    }
+
+    private void mostrarMovimentacoes() {
+        if (this.cliente == null) {
+            this.mostrarMensagem("Selecione um cliente", Alert.AlertType.WARNING);
+            return;
+        }
+        try {
+            this.listarMovimentacoes();
+            this.ancoraMovimentacao.setVisible(true);
+        } catch (CorrentistaException ex) {
+            this.mostrarMensagem(ex.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+    private void listarMovimentacoes() throws CorrentistaException {
+        this.correntistaFiltro = null;
+        this.correntistaFiltro = new CorrentistaFiltro();
+        this.correntistaFiltro.setCliente(this.cliente.getCodigo());
+        if (this.textDataInicialMovimentacao.getValue() == null || this.textDataFinalMovimentacao.getValue() == null) {
+            this.correntistaFiltro.setDataInicial("");
+            this.correntistaFiltro.setDataFinal("");
+        } else {
+            this.correntistaFiltro.setDataInicial(this.textDataInicialMovimentacao.getValue().toString());
+            this.correntistaFiltro.setDataFinal(this.textDataFinalMovimentacao.getValue().toString());
+        }
+        this.correntistaService.listarMovimentacaoCorrentista(this.correntistaFiltro);
     }
 }

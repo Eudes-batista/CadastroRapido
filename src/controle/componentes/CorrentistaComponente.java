@@ -117,36 +117,36 @@ public abstract class CorrentistaComponente {
     protected Label labelValorAReceber;
 
     @FXML
-    private AnchorPane ancoraMovimentacao;
+    protected AnchorPane ancoraMovimentacao;
 
     @FXML
-    private Button btVoltarMovimentacoes;
+    protected Button btVoltarMovimentacoes;
 
     @FXML
-    private TableView<Correntista> tabelaMovimentacoes;
+    protected TableView<Correntista> tabelaMovimentacoes;
 
     @FXML
-    private TableColumn<Correntista, String> columnDataLancamento;
+    protected TableColumn<Correntista, String> columnDataLancamento;
 
     @FXML
-    private TableColumn<Correntista, String> columnDataDescricao;
+    protected TableColumn<Correntista, String> columnDataDescricao;
 
     @FXML
-    private TableColumn<Correntista, String> columnCredito;
+    protected TableColumn<Correntista, String> columnCredito;
 
     @FXML
-    private TableColumn<Correntista, String> columnDebito;
+    protected TableColumn<Correntista, String> columnDebito;
 
     @FXML
-    private TableColumn<Correntista, String> columnUsuario;
+    protected TableColumn<Correntista, String> columnUsuario;
 
     @FXML
-    private TableColumn<Correntista, String> columnExcluir;
+    protected TableColumn<Correntista, String> columnExcluir;
 
     @FXML
-    private JFXDatePicker textDataInicialMovimentacao;
+    protected JFXDatePicker textDataInicialMovimentacao;
 
     @FXML
-    private JFXDatePicker textDataFinalMovimentacao;
+    protected JFXDatePicker textDataFinalMovimentacao;
 
 }

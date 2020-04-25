@@ -5,16 +5,12 @@ import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.control.Alert;
 import modelo.dto.CorrentistaFiltro;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.base.JRBaseField;
-import net.sf.jasperreports.engine.fill.JRFillField;
 import net.sf.jasperreports.view.JasperViewer;
 
 public class RelatorioCorrentista {
@@ -30,7 +26,10 @@ public class RelatorioCorrentista {
     }
 
     public void imprimirCorrentista(CorrentistaFiltro correntistaFiltro) {
-        String sql = "select * from crea15 where CRCLIENT='" + correntistaFiltro.getCliente() + "' and CRLANCAM between '" + correntistaFiltro.getDataInicial() + "' and '" + correntistaFiltro.getDataFinal() + "'";
+        String sql = "select CRCLIENT,CRLANCAM,CRPROCES,CRUSUARI,CRTIPMOV,CRHISTOR,COALESCE(CRDEBITO,0) as CRDEBITO,COALESCE(CRCREDIT,0) as CRCREDIT from crea15 where CRCLIENT='" + correntistaFiltro.getCliente() + "' ";
+        if (!correntistaFiltro.getDataInicial().isEmpty()) {
+            sql += "and CRLANCAM between '" + correntistaFiltro.getDataInicial() + "' and '" + correntistaFiltro.getDataFinal() + "'";
+        }
         if (!this.conectaBanco.conexao()) {
             return;
         }
@@ -40,15 +39,15 @@ public class RelatorioCorrentista {
         }
         try {
             ResultSet resultSet = this.conectaBanco.getResultSet();
-            if(!resultSet.first()){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
+            if (!resultSet.first()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("CADASTRO RAPIDO");
                 alert.setContentText("Não existe movimentação");
                 alert.show();
                 return;
             }
             resultSet.beforeFirst();
-            JRResultSetDataSource dataSource = new JRResultSetDataSource(resultSet);            
+            JRResultSetDataSource dataSource = new JRResultSetDataSource(resultSet);
 
             InputStream inputStream = getClass().getResourceAsStream("/relatorio/correntista.jasper");
 
@@ -68,13 +67,11 @@ public class RelatorioCorrentista {
             jasperViewer.setDefaultCloseOperation(JasperViewer.DISPOSE_ON_CLOSE);
             jasperViewer.setResizable(false);
             jasperViewer.setVisible(true);
-        } catch (JRException ex) {
+        } catch (JRException | SQLException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("CADASTRO RAPIDO");
             alert.setContentText("Erro ao consultar correntista");
             alert.show();
-        } catch (SQLException ex) {
-            Logger.getLogger(RelatorioCorrentista.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

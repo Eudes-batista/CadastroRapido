@@ -95,7 +95,7 @@
             <Button fx:id="btMovimentacoes" disable="true" focusTraversable="false" layoutX="33.0" layoutY="531.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="154.0" style="-fx-font-size: 12pt;" styleClass="bttopo" text="Movimentação" />
             <AnchorPane layoutX="514.0" layoutY="349.0" maxWidth="200.0" prefHeight="137.0" prefWidth="232.0" style="-fx-max-width: 232;" styleClass="fundo-geral">
                <children>
-                  <Label alignment="CENTER" prefHeight="55.0" prefWidth="222.0" styleClass="label-valores" text="Valor a Receber" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                  <Label alignment="CENTER" prefHeight="55.0" prefWidth="222.0" styleClass="label-valores" text="Saldo Devedor" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                   <Label fx:id="labelValorAReceber" alignment="CENTER" layoutY="81.0" prefHeight="35.0" prefWidth="222.0" text="R$ 0,00" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <font>
                         <Font name="System Bold" size="24.0" />
