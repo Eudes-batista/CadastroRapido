@@ -98,8 +98,8 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
         this.btMovimentacoes.setOnAction(evt -> this.mostrarMovimentacoes());
         this.btVoltarMovimentacoes.setOnAction(evt -> this.ancoraMovimentacao.setVisible(false));
         this.btSelecionarCliente.setOnAction(evt -> {
-            this.pegarClienteSelecionadoTabela();
             this.tabela.getSelectionModel().selectFirst();
+            this.pegarClienteSelecionadoTabela();
             this.selecionarCliente();
         });
         this.btPesquisa.setOnAction(evt -> {
