@@ -196,6 +196,7 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
         if (this.cliente != null) {
             this.habilitarCampos();
             this.selecionarCliente();
+            this.textPesquisa.selectAll();
             return;
         }
         this.listarClientes(pesquisa);
@@ -466,6 +467,8 @@ public class FXMLCorrentistaController extends CorrentistaComponente implements 
                 this.mostrarMensagem("Usuario não tem permissão", Alert.AlertType.WARNING);
                 return;
             }
+            this.textUsuario.setText("");
+            this.textSenha.setText("");
             this.ancoraPermissao.setVisible(false);
             this.excluirMovimentacao();
         } catch (UsuarioException ex) {
