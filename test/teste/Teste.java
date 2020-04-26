@@ -1,18 +1,21 @@
 package teste;
 
-import modelo.Usuario;
-import servico.UsuarioService;
-import util.CriptografiaDeSenha;
+import modelo.dto.FiltroProduto;
+import relatorio.RelatorioProduto;
 
 public class Teste {
 
     public static void main(String[] args) {
         
-        UsuarioService usuarioService = new UsuarioService();
+        RelatorioProduto relatorioProduto = new RelatorioProduto();
         
-        Usuario usuario = usuarioService.buscarUsuario("NENA", CriptografiaDeSenha.gerarSenhaUsuario("4321"));
+        FiltroProduto filtroProduto = new FiltroProduto();
+        filtroProduto.setProduto("");
+        filtroProduto.setEmpresa("");
+        filtroProduto.setDataInicial("2020-01-01");
+        filtroProduto.setDataFinal("2020-04-26");
         
-        System.out.println("usuario = " + usuario);
+        relatorioProduto.imprimirTodosProdutos(filtroProduto);
     }
 
 }
