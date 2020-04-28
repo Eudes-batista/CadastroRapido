@@ -41,7 +41,7 @@ public class ConectaBanco {
             conn.setAutoCommit(false);
             return true;
         } catch (ClassNotFoundException | SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Não foi possivel se conectar ao servidor\n verifique se o servidor está ligado e se tem conexão de rede");
             return false;
         }
     }
