@@ -10,6 +10,7 @@ public class Produto {
     private String descricao;
     private Double preco;
     private Double precoAtacado;
+    private Double precoEspecial;
     private Double qtdAtacado;
     private String codigoBarra;
     private String tributacao;
@@ -136,6 +137,14 @@ public class Produto {
         this.cest = cest;
     }
 
+    public Double getPrecoEspecial() {
+        return precoEspecial;
+    }
+
+    public void setPrecoEspecial(Double precoEspecial) {
+        this.precoEspecial = precoEspecial;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;

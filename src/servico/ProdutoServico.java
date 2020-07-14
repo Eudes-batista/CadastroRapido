@@ -68,10 +68,10 @@ public class ProdutoServico {
                 pst.close();
                 String data = LocalDate.now().toString();
                 for (String empresa : buscarEmpresaScea07()) {
-                    sql = "INSERT INTO SCEA07 (EECODEMP,EEREFERE,EEDTTAB1,EEPBRTB1,EEPLQTB1,EEDTTAB2,EEPBRTB2,EEPLQTB2,EEDTTAB3,EEPBRTB3,EEPLQTB3,EET2PVD1)";
+                    sql = "INSERT INTO SCEA07 (EECODEMP,EEREFERE,EEDTTAB1,EEPBRTB1,EEPLQTB1,EEDTTAB2,EEPBRTB2,EEPLQTB2,EEDTTAB3,EEPBRTB3,EEPLQTB3,EET2PVD1,EET3VIG1,EET3PVD1)";
                     sql += " VALUES ('" + empresa + "','" + produto.getReferencia() + "','" + data + "'," + produto.getPreco() + "," + produto.getPreco()
                             + ",'" + data + "','" + produto.getPreco() + "'," + produto.getPreco()
-                            + ",'" + data + "'," + produto.getPreco() + "," + produto.getPreco() + "," + produto.getPrecoAtacado() + ")";
+                            + ",'" + data + "'," + produto.getPreco() + "," + produto.getPreco() + "," + produto.getPrecoAtacado() + ",'" + data + "'," + produto.getPrecoEspecial() + ")";
                     PreparedStatement pst2 = conecta.getConnection().prepareStatement(sql);
                     pst2.execute();
                     conecta.getConnection().commit();
@@ -109,13 +109,15 @@ public class ProdutoServico {
     private void alterar(Produto produto) {
         if (conecta.conexao()) {
             try {
-                PreparedStatement pst = conecta.getConnection().prepareStatement("update scea07 set EEPBRTB1=?,EEPLQTB1=?,EEPBRTB2=?,EEPLQTB2=?,EET2PVD1=?  where EEREFERE=?");
+                PreparedStatement pst = conecta.getConnection().prepareStatement("update scea07 set EEPBRTB1=?,EEPLQTB1=?,EEPBRTB2=?,EEPLQTB2=?,EET2PVD1=?,EET3PVD1=?,EET3VIG1=?  where EEREFERE=?");
                 pst.setDouble(1, produto.getPreco());
                 pst.setDouble(2, produto.getPreco());
                 pst.setDouble(3, produto.getPreco());
                 pst.setDouble(4, produto.getPreco());
                 pst.setDouble(5, produto.getPrecoAtacado());
-                pst.setString(6, produto.getReferencia());
+                pst.setDouble(6, produto.getPrecoEspecial());
+                pst.setDate(7, new java.sql.Date(new Date().getTime()));
+                pst.setString(8, produto.getReferencia());
                 pst.execute();
                 conecta.getConnection().commit();
                 pst.close();
@@ -264,7 +266,7 @@ public class ProdutoServico {
         if (!conecta.conexao()) {
             return null;
         }
-        sql = "select first 1 PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,PRPOSTRI,PRSPOTRI,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,SUM(EEESTATU) as EEESTATU,PRCONFPR from scea01 left outer join scea07 on(eerefere=prrefere) "
+        sql = "select first 1 PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,PRPOSTRI,PRSPOTRI,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,SUM(EEESTATU) as EEESTATU,PRCONFPR,EET3PVD1 from scea01 left outer join scea07 on(eerefere=prrefere) "
                 + " where prrefere ='" + referencia + "' or PRCODBAR='" + referencia + "' \n";
         sql += "group by\n"
                 + "   PRREFERE\n"
@@ -281,7 +283,8 @@ public class ProdutoServico {
                 + "  ,PRDATCAN\n"
                 + "  ,PRCGRUPO\n"
                 + "  ,PRSUBGRP\n"
-                + "  ,PRCONFPR";
+                + "  ,PRCONFPR"
+                + "  ,EET3PVD1";
         if (!conecta.executaSQL(sql)) {
             return null;
         }
@@ -291,7 +294,7 @@ public class ProdutoServico {
                 conecta.desconecta();
                 return produto;
             }
-            sql = "select first 1 PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,prpostri,prspotri,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,EEESTATU,PRCONFPR  from SCEA07 "
+            sql = "select first 1 PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,prpostri,prspotri,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,EEESTATU,PRCONFPR,EET3PVD1  from SCEA07 "
                     + "left outer join  SCEA09 on(RAREFERE=EEREFERE) "
                     + "left outer join SCEA01 on(PRREFERE=EEREFERE) "
                     + "where RAREFERE='" + referencia + "' "
@@ -409,6 +412,7 @@ public class ProdutoServico {
         produto.setSubgrupo(conecta.getResultSet().getString("PRSUBGRP"));
         produto.setConfirmaPreco(conecta.getResultSet().getString("PRCONFPR"));
         produto.setQuantidade(conecta.getResultSet().getDouble("EEESTATU"));
+        produto.setPrecoEspecial(conecta.getResultSet().getDouble("EET3PVD1"));
         return produto;
     }
 

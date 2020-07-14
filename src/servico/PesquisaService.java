@@ -18,9 +18,9 @@ public class PesquisaService {
             return this.produtos;
         }
         String cancelados = this.chekcCancelados ? "PRDATCAN IS NOT NULL" : "PRDATCAN is null";
-        String sql = "select first 20 PRREFERE,PRCODBAR,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA from scea01 left outer join scea07 on(eerefere=prrefere) "
+        String sql = "select first 50 PRREFERE,PRCODBAR,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,EET3PVD1 from scea01 left outer join scea07 on(eerefere=prrefere) "
                 + "where PRDESCRI like '%" + pesquisa.trim().toUpperCase() + "%' AND  " + cancelados
-                + " group by PRREFERE,PRCODBAR,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA";
+                + " group by PRREFERE,PRCODBAR,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,EET3PVD1";
         if (!this.conectaBanco.executaSQL(sql)) {
             return this.produtos;
         }
@@ -30,13 +30,15 @@ public class PesquisaService {
             }
             this.produtos.clear();
             do {
-                this.produtos.add(new Produto(
+                Produto produto = new Produto(
                         this.conectaBanco.getResultSet().getString("PRREFERE"),
                         this.conectaBanco.getResultSet().getString("PRDESCRI"),
                         this.conectaBanco.getResultSet().getDouble("EEPBRTB1"),
                         this.conectaBanco.getResultSet().getDouble("EET2PVD1"),
                         this.conectaBanco.getResultSet().getDouble("PRQTDATA"),
-                        conectaBanco.getResultSet().getString("PRCODBAR")));
+                        conectaBanco.getResultSet().getString("PRCODBAR"));
+                produto.setPrecoEspecial(this.conectaBanco.getResultSet().getDouble("EET3PVD1"));
+                this.produtos.add(produto);
             } while (this.conectaBanco.getResultSet().next());
         } catch (SQLException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);

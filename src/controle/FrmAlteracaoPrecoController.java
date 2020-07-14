@@ -121,6 +121,9 @@ public class FrmAlteracaoPrecoController implements Initializable {
     @FXML
     private JFXToggleButton confirmaPreco;
 
+    @FXML
+    private TextField editPrecoEspecial;
+
     private String referencia, codigoBarra;
     private final ObservableList<String> tributacoes = FXCollections.observableArrayList("0001 TRIBUTADO", "0400 ISENTO", "0600 TRIBUTADO ST");
     private final ObservableList<Grupo> grupos = FXCollections.observableArrayList();
@@ -504,6 +507,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 return;
             }
             Double preco = formatarPreco(this.editPreco.getText()), precoAtacado = formatarPreco(this.editPrecoAtacado.getText()), qtdAtacado = formatarPreco(this.editQtdAtacado.getText());
+            Double precoEspecial = formatarPreco(this.editPrecoEspecial.getText());
             this.referencia = this.editReferencia.getText();
             produto.setReferencia(referencia);
             produto.setCodigoBarra(referencia);
@@ -520,6 +524,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             this.produto.setUnidade(unidade.getSelectionModel().getSelectedItem());
             this.produto.setGrupo(this.grupo.getSelectionModel().getSelectedItem().getCodigo());
             this.produto.setSubgrupo(this.subGrupo.getSelectionModel().getSelectedItem().getCodigo());
+            this.produto.setPrecoEspecial(precoEspecial);
             String estoque = editEstoqueInicial.getText().replace(",", ".");
             this.produto.setQuantidade(Double.parseDouble(estoque));
             String dataCancelamento = null;
@@ -748,9 +753,9 @@ public class FrmAlteracaoPrecoController implements Initializable {
         this.labelMinimizar.setOnMouseClicked(e -> minimizar());
         this.btRelatorioProduto.setOnAction(evt -> this.abrirTelaDeRelatorio());
         this.editReferencia.setOnAction(e -> this.editDescricao.requestFocus());
-        this.editPreco.setOnAction(e -> this.editQtdAtacado.requestFocus());
-        this.editQtdAtacado.setOnAction(e -> this.editPrecoAtacado.requestFocus());
-        this.editPrecoAtacado.setOnAction(e -> this.editNcm.requestFocus());
+        this.editPreco.setOnAction(e -> this.editPrecoAtacado.requestFocus());
+        this.editPrecoAtacado.setOnAction(e -> this.editPrecoEspecial.requestFocus());
+        this.editPrecoEspecial.setOnAction(e -> this.editNcm.requestFocus());
         this.editCest.setOnAction(e -> this.tributacao.requestFocus());
         this.editCest.setOnAction(e -> this.tributacao.requestFocus());
         this.tributacao.setOnAction(e -> this.unidade.requestFocus());
@@ -777,6 +782,9 @@ public class FrmAlteracaoPrecoController implements Initializable {
         }
         if (produto.getPreco() != null) {
             editPrecoAtacado.setText(df.format(produto.getPrecoAtacado()));
+        }
+        if (produto.getPrecoEspecial() != null) {
+            editPrecoEspecial.setText(df.format(produto.getPrecoEspecial()));
         }
         editQtdAtacado.setText(String.valueOf(produto.getQtdAtacado()));
         editNcm.setText(produto.getNcm());
@@ -852,12 +860,14 @@ public class FrmAlteracaoPrecoController implements Initializable {
                     Double preco = buscarProduto.getPreco();
                     Double precoAtacado = buscarProduto.getPrecoAtacado();
                     Double qtdAtacado = buscarProduto.getQtdAtacado();
+                    Double precoEspecial = buscarProduto.getPrecoEspecial();
                     codigoBarra = buscarProduto.getCodigoBarra();
                     editDescricao.setText(descricao);
                     editReferencia.setText(buscarProduto.getCodigoBarra() == null || buscarProduto.getCodigoBarra().isEmpty() ? referencia : buscarProduto.getCodigoBarra());
                     editPreco.setText(df.format(preco));
                     editPrecoAtacado.setText(df.format(precoAtacado));
                     editQtdAtacado.setText(df.format(qtdAtacado));
+                    editPrecoEspecial.setText(df.format(precoEspecial));
                     if (cosmosProduto != null) {
                         tributacao.getSelectionModel().select(0);
                         if (cosmosProduto.getTributacao().replaceAll("\\D", "").equals("0600")) {
@@ -956,7 +966,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
     }
 
     private void abrirCorrentista() {
-       try {
+        try {
             Parent root = FXMLLoader.load(getClass().getResource("/visao/FXMLCorrentista.fxml"));
             Stage stage = new Stage(StageStyle.TRANSPARENT);
             stage.setScene(new Scene(root));

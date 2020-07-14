@@ -22,6 +22,22 @@
    <children>
       <AnchorPane id="ancoraPrincipal" fx:id="ancoraPrincipal" layoutX="5.0" layoutY="5.0" prefHeight="562.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
+            <Label fx:id="labelPreco21" focusTraversable="false" layoutX="368.0" layoutY="298.0" prefHeight="26.0" prefWidth="189.0" styleClass="label-titulo" text="Preço de Especial" textFill="#e1dfdf">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <padding>
+                  <Insets left="3.0" />
+               </padding>
+            </Label>
+            <TextField fx:id="editPrecoEspecial" alignment="CENTER_RIGHT" focusTraversable="false" layoutX="368.0" layoutY="323.0" prefHeight="40.0" prefWidth="189.0" styleClass="input-padrao" text="0,00">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <tooltip>
+                  <Tooltip text="Preço de venda para atacado" />
+               </tooltip>
+            </TextField>
             <Label fx:id="labelReferencia" layoutX="16.0" layoutY="64.0" prefHeight="26.0" prefWidth="270.0" styleClass="label-titulo" text="Referencia" textFill="#d7cfcf">
                <font>
                   <Font size="16.0" />
@@ -60,7 +76,7 @@
                   <Tooltip text="Descrição do Produto ( aperta F2 para pesquisa)" />
                </tooltip>
             </TextField>
-            <Label fx:id="labelPreco" layoutX="20.0" layoutY="302.0" prefHeight="26.0" prefWidth="163.0" styleClass="label-titulo" text="Preço de Venda" textFill="#e1dfdf">
+            <Label fx:id="labelPreco" layoutX="20.0" layoutY="298.0" prefHeight="26.0" prefWidth="163.0" styleClass="label-titulo" text="Preço de Venda" textFill="#e1dfdf">
                <font>
                   <Font size="16.0" />
                </font>
@@ -68,7 +84,7 @@
                   <Insets left="3.0" />
                </padding>
             </Label>
-            <TextField fx:id="editPreco" alignment="CENTER_RIGHT" layoutX="20.0" layoutY="327.0" prefHeight="33.0" prefWidth="163.0" styleClass="input-padrao" text="0,00">
+            <TextField fx:id="editPreco" alignment="CENTER_RIGHT" layoutX="20.0" layoutY="323.0" prefHeight="33.0" prefWidth="163.0" styleClass="input-padrao" text="0,00">
                <font>
                   <Font size="16.0" />
                </font>
@@ -81,7 +97,7 @@
                   <Font size="13.0" />
                </font>
             </Button>
-            <Label fx:id="labelPreco1" layoutX="193.0" layoutY="301.0" prefHeight="28.0" prefWidth="189.0" styleClass="label-titulo" text="Qtd.Atacado" textFill="#e1dfdf">
+            <Label fx:id="labelPreco1" layoutX="194.0" layoutY="438.0" prefHeight="28.0" prefWidth="152.0" styleClass="label-titulo" text="Qtd.Atacado" textFill="#e1dfdf">
                <font>
                   <Font size="16.0" />
                </font>
@@ -89,7 +105,7 @@
                   <Insets left="3.0" />
                </padding>
             </Label>
-            <TextField fx:id="editQtdAtacado" alignment="CENTER_RIGHT" layoutX="193.0" layoutY="327.0" prefHeight="40.0" prefWidth="189.0" styleClass="input-padrao" text="0">
+            <TextField fx:id="editQtdAtacado" alignment="CENTER_RIGHT" layoutX="194.0" layoutY="464.0" prefHeight="40.0" prefWidth="152.0" styleClass="input-padrao" text="0">
                <font>
                   <Font size="16.0" />
                </font>
@@ -97,7 +113,7 @@
                   <Tooltip text="Quantidade de venda para atacado" />
                </tooltip>
             </TextField>
-            <Label fx:id="labelPreco2" layoutX="389.0" layoutY="301.0" prefHeight="25.0" prefWidth="170.0" styleClass="label-titulo" text="Preço de Atacado" textFill="#e1dfdf">
+            <Label fx:id="labelPreco2" layoutX="189.0" layoutY="297.0" prefHeight="25.0" prefWidth="170.0" styleClass="label-titulo" text="Preço de Atacado" textFill="#e1dfdf">
                <font>
                   <Font size="16.0" />
                </font>
@@ -105,7 +121,7 @@
                   <Insets left="3.0" />
                </padding>
             </Label>
-            <TextField fx:id="editPrecoAtacado" alignment="CENTER_RIGHT" layoutX="389.0" layoutY="326.0" prefHeight="39.0" prefWidth="170.0" styleClass="input-padrao" text="0,00">
+            <TextField fx:id="editPrecoAtacado" alignment="CENTER_RIGHT" layoutX="189.0" layoutY="322.0" prefHeight="39.0" prefWidth="170.0" styleClass="input-padrao" text="0,00">
                <font>
                   <Font size="16.0" />
                </font>
@@ -113,12 +129,12 @@
                   <Tooltip text="Preço de venda para atacado" />
                </tooltip>
             </TextField>
-            <TextField fx:id="editNcm" layoutX="20.0" layoutY="398.0" prefHeight="30.0" prefWidth="162.0" promptText="Obrigatorio" styleClass="input-padrao">
+            <TextField fx:id="editNcm" layoutX="20.0" layoutY="392.0" prefHeight="30.0" prefWidth="162.0" promptText="Obrigatorio" styleClass="input-padrao">
                <tooltip>
                   <Tooltip text="Código NCM  (apenas 8 dígitos)" />
                </tooltip>
             </TextField>
-            <Label fx:id="labelNcm" layoutX="20.0" layoutY="375.0" prefHeight="25.0" prefWidth="162.0" styleClass="label-titulo" text="Ncm" textFill="#e1dfdf">
+            <Label fx:id="labelNcm" layoutX="20.0" layoutY="369.0" prefHeight="25.0" prefWidth="162.0" styleClass="label-titulo" text="Ncm" textFill="#e1dfdf">
                <font>
                   <Font size="16.0" />
                </font>
@@ -132,12 +148,12 @@
                   <Tooltip text="Click para consultar" />
                </tooltip>
             </Label>
-            <TextField fx:id="editCest" layoutX="193.0" layoutY="399.0" prefHeight="28.0" prefWidth="89.0" styleClass="input-padrao">
+            <TextField fx:id="editCest" layoutX="193.0" layoutY="393.0" prefHeight="28.0" prefWidth="89.0" styleClass="input-padrao">
                <tooltip>
                   <Tooltip text="Código CEST (apenas 7 dígitos)" />
                </tooltip>
             </TextField>
-            <Label fx:id="labelCest" layoutX="193.0" layoutY="375.0" prefHeight="25.0" prefWidth="89.0" styleClass="label-titulo" text="Cest" textFill="#e1dfdf">
+            <Label fx:id="labelCest" layoutX="193.0" layoutY="369.0" prefHeight="25.0" prefWidth="89.0" styleClass="label-titulo" text="Cest" textFill="#e1dfdf">
                <font>
                   <Font size="16.0" />
                </font>
@@ -151,7 +167,7 @@
                   <Tooltip text="Click para consultar" />
                </tooltip>
             </Label>
-            <Label fx:id="labelPreco311" layoutX="293.0" layoutY="377.0" prefHeight="23.0" prefWidth="170.0" styleClass="label-titulo" text="Tributaçao" textFill="#e1dfdf">
+            <Label fx:id="labelPreco311" layoutX="293.0" layoutY="369.0" prefHeight="23.0" prefWidth="170.0" styleClass="label-titulo" text="Tributaçao" textFill="#e1dfdf">
                <font>
                   <Font size="16.0" />
                </font>
@@ -159,7 +175,7 @@
                   <Insets left="3.0" />
                </padding>
             </Label>
-            <ComboBox fx:id="tributacao" layoutX="293.0" layoutY="399.0" prefHeight="40.0" prefWidth="170.0" styleClass="input-padrao">
+            <ComboBox fx:id="tributacao" layoutX="293.0" layoutY="391.0" prefHeight="40.0" prefWidth="170.0" styleClass="input-padrao">
                <tooltip>
                   <Tooltip text="Tributação do Produto" />
                </tooltip>
@@ -172,7 +188,7 @@
                   <Insets left="3.0" />
                </padding>
             </Label>
-            <Label fx:id="labelPreco3111" layoutX="467.0" layoutY="376.0" prefHeight="23.0" prefWidth="97.0" styleClass="label-titulo" text="Unidade" textFill="#e1dfdf">
+            <Label fx:id="labelPreco3111" layoutX="467.0" layoutY="368.0" prefHeight="23.0" prefWidth="97.0" styleClass="label-titulo" text="Unidade" textFill="#e1dfdf">
                <font>
                   <Font size="16.0" />
                </font>
@@ -180,7 +196,7 @@
                   <Insets left="3.0" />
                </padding>
             </Label>
-            <ComboBox fx:id="unidade" layoutX="467.0" layoutY="399.0" prefHeight="40.0" prefWidth="97.0" styleClass="input-padrao">
+            <ComboBox fx:id="unidade" layoutX="467.0" layoutY="391.0" prefHeight="40.0" prefWidth="97.0" styleClass="input-padrao">
                <tooltip>
                   <Tooltip text="Unidade de venda" />
                </tooltip>
