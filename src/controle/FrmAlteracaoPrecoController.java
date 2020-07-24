@@ -1,6 +1,7 @@
 package controle;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXToggleButton;
 import java.awt.Desktop;
 import java.io.File;
@@ -86,6 +87,8 @@ public class FrmAlteracaoPrecoController implements Initializable {
     private TextField editCest;
     @FXML
     private TextField editEstoqueInicial;
+    @FXML
+    private JFXTextArea textAplicacaoComposicao;
 
     @FXML
     private ComboBox<String> tributacao;

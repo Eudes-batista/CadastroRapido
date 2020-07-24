@@ -22,6 +22,15 @@ public class Produto {
     private String dataCancelamento;
     private Double quantidade;
     private String confirmaPreco;
+    private String aplicacao;
+
+    public String getAplicacao() {
+        return aplicacao;
+    }
+
+    public void setAplicacao(String aplicacao) {
+        this.aplicacao = aplicacao;
+    }
     private Button button;
     private CheckBox checkBox;
 
