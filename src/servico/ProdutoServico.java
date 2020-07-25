@@ -268,7 +268,7 @@ public class ProdutoServico {
         if (!conecta.conexao()) {
             return null;
         }
-        sql = "select first 1 PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,PRPOSTRI,PRSPOTRI,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,SUM(EEESTATU) as EEESTATU,PRCONFPR,EET3PVD1 from scea01 left outer join scea07 on(eerefere=prrefere) "
+        sql = "select first 1 PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,PRPOSTRI,PRSPOTRI,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,SUM(EEESTATU) as EEESTATU,PRCONFPR,EET3PVD1,PRAPLICA from scea01 left outer join scea07 on(eerefere=prrefere) "
                 + " where prrefere ='" + referencia + "' or PRCODBAR='" + referencia + "' \n";
         sql += "group by\n"
                 + "   PRREFERE\n"
@@ -286,7 +286,8 @@ public class ProdutoServico {
                 + "  ,PRCGRUPO\n"
                 + "  ,PRSUBGRP\n"
                 + "  ,PRCONFPR"
-                + "  ,EET3PVD1";
+                + "  ,EET3PVD1"
+                + "  ,PRAPLICA";
         if (!conecta.executaSQL(sql)) {
             return null;
         }
@@ -296,7 +297,7 @@ public class ProdutoServico {
                 conecta.desconecta();
                 return produto;
             }
-            sql = "select first 1 PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,prpostri,prspotri,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,EEESTATU,PRCONFPR,EET3PVD1  from SCEA07 "
+            sql = "select first 1 PRREFERE,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,PRCLASSI,PRCDCEST,prpostri,prspotri,PRUNIDAD,PRCODBAR,PRDATCAN,PRCGRUPO,PRSUBGRP,EEESTATU,PRCONFPR,EET3PVD1,PRAPLICA  from SCEA07 "
                     + "left outer join  SCEA09 on(RAREFERE=EEREFERE) "
                     + "left outer join SCEA01 on(PRREFERE=EEREFERE) "
                     + "where RAREFERE='" + referencia + "' "
@@ -415,6 +416,7 @@ public class ProdutoServico {
         produto.setConfirmaPreco(conecta.getResultSet().getString("PRCONFPR"));
         produto.setQuantidade(conecta.getResultSet().getDouble("EEESTATU"));
         produto.setPrecoEspecial(conecta.getResultSet().getDouble("EET3PVD1"));
+        produto.setAplicacao(conecta.getResultSet().getString("PRAPLICA"));
         return produto;
     }
 

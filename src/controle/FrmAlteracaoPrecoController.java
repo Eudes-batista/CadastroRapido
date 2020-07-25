@@ -803,6 +803,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 break;
         }
         editCest.setText(produto.getCest());
+        textAplicacaoComposicao.setText(produto.getAplicacao());
         unidade.getSelectionModel().select(produto.getUnidade());
         grupo.getSelectionModel().select(0);
         subGrupo.getSelectionModel().select(0);
@@ -871,6 +872,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
                     editPrecoAtacado.setText(df.format(precoAtacado));
                     editQtdAtacado.setText(df.format(qtdAtacado));
                     editPrecoEspecial.setText(df.format(precoEspecial));
+                    textAplicacaoComposicao.setText(buscarProduto.getAplicacao());
                     if (cosmosProduto != null) {
                         tributacao.getSelectionModel().select(0);
                         if (cosmosProduto.getTributacao().replaceAll("\\D", "").equals("0600")) {
