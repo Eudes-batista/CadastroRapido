@@ -518,6 +518,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 produto.setCodigoBarra(codigoBarra);
             }
             this.produto.setDescricao(editDescricao.getText());
+            this.produto.setAplicacao(textAplicacaoComposicao.getText());
             this.produto.setPreco(preco);
             this.produto.setPrecoAtacado(precoAtacado);
             this.produto.setQtdAtacado(qtdAtacado);
