@@ -102,29 +102,17 @@ public class FrmRelatorioController implements Initializable {
     }
 
     private void imprimirRelatorioProduto() {
-        if (this.validarCampo()) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Cadastro Rapido");
-            alert.setContentText("Selecione uma empresa.");
-            alert.show();
-            return;
-        }
-        this.filtroProduto.setEmpresa(this.comboEmpresa.getSelectionModel().getSelectedItem());
+        String empresa = this.comboEmpresa.getSelectionModel().getSelectedItem();
+        this.filtroProduto.setEmpresa(empresa == null ? "" : empresa);
         this.filtroProduto.setProduto(this.editProduto.getText().trim().toUpperCase());
         this.filtroProduto.setDataInicial(this.dataInicial.getValue() == null ? null : this.dataInicial.getValue().toString());
         this.filtroProduto.setDataFinal(this.dataFinal.getValue() == null ? null : this.dataFinal.getValue().toString());
         this.relatorioProduto.imprimirTodosProdutos(this.filtroProduto);
     }
 
-    private void imprimirRelatorioEstoque() {
-        if (this.validarCampo()) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Cadastro Rapido");
-            alert.setContentText("Selecione uma empresa.");
-            alert.show();
-            return;
-        }
-        this.filtroProduto.setEmpresa(this.comboEmpresa.getSelectionModel().getSelectedItem());
+    private void imprimirRelatorioEstoque() {        
+        String empresa = this.comboEmpresa.getSelectionModel().getSelectedItem();
+        this.filtroProduto.setEmpresa(empresa == null ? "" : empresa);
         this.filtroProduto.setProduto(this.editProduto.getText().trim().toUpperCase());
         String data = LocalDate.now().toString();
         this.filtroProduto.setDataInicial(this.dataInicial.getValue() == null ? data : this.dataInicial.getValue().toString());
@@ -167,14 +155,6 @@ public class FrmRelatorioController implements Initializable {
             alert.setContentText("Erro ao listar empresa.");
             alert.show();
         }
-    }
-
-    private boolean validarCampo() {
-        if (this.comboEmpresa.getSelectionModel().getSelectedItem() == null) {
-            this.comboEmpresa.requestFocus();
-            return true;
-        }
-        return false;
     }
 
 }

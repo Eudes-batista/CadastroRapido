@@ -20,7 +20,7 @@ public class RelatorioProduto {
         this.conectaBanco = new ConectaBanco();
     }
 
-    public void imprimirTodosProdutos(FiltroProduto filtroProduto) { 
+    public void imprimirTodosProdutos(FiltroProduto filtroProduto) {
         String sql = "select \n"
                 + " PRREFERE as REFERENCIA\n"
                 + ",PRCODBAR as BARRAS\n"
@@ -28,18 +28,18 @@ public class RelatorioProduto {
                 + ",EEPBRTB1 as PRECO\n"
                 + ",EET2PVD1 as PRECO_ATACDO\n"
                 + ",PRQTDATA as QUANTIDADE_ATACADO\n"
-                + ",EEESTATU as ESTOQUE\n"
+                + ",SUM(EEESTATU) as ESTOQUE\n"
                 + "from\n"
                 + " scea07 \n"
-                + "left outer join\n"
-                + " scea01 on(prrefere=eerefere and eecodemp='"+filtroProduto.getEmpresa()+"')\n"
-                + "where \n"
-                + "  prrefere like '%"+filtroProduto.getProduto()+"%' and PRDATCAN is null \n";
-                if(filtroProduto.getDataInicial() != null){
-                  sql += "and PRULTALT between '"+filtroProduto.getDataInicial()+" 00:00:00' and '"+filtroProduto.getDataFinal()+" 23:59:59' \n";
-                }    
-            sql += "group by\n"
-                + " PRREFERE,PRCODBAR,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA,EEESTATU"
+                + "left outer join\n";
+        sql += " scea01 on(prrefere=eerefere and eecodemp like '%" + filtroProduto.getEmpresa() + "%')\n";
+        sql += "where \n"
+                + "  prrefere like '%" + filtroProduto.getProduto() + "%' and PRDATCAN is null \n";
+        if (filtroProduto.getDataInicial() != null) {
+            sql += "and PRULTALT between '" + filtroProduto.getDataInicial() + " 00:00:00' and '" + filtroProduto.getDataFinal() + " 23:59:59' \n";
+        }
+        sql += "group by\n"
+                + " PRREFERE,PRCODBAR,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA"
                 + " order by PRDESCRI";
         if (!this.conectaBanco.conexao()) {
             return;
@@ -99,7 +99,7 @@ public class RelatorioProduto {
                 + "    PRREFERE=MIREFERE\n"
                 + "  )\n"
                 + "WHERE\n"
-                + "  MCCODEMP ='"+filtroProduto.getEmpresa()+"' and MCDATMOV between '"+filtroProduto.getDataInicial()+" 00:00:00' and '"+filtroProduto.getDataFinal()+" 23:59:59' and MIREFERE like '%"+filtroProduto.getProduto()+"%'";
+                + "  MCCODEMP like '%" + filtroProduto.getEmpresa() + "%' and MCDATMOV between '" + filtroProduto.getDataInicial() + " 00:00:00' and '" + filtroProduto.getDataFinal() + " 23:59:59' and MIREFERE like '%" + filtroProduto.getProduto() + "%'";
         if (!this.conectaBanco.conexao()) {
             return;
         }
