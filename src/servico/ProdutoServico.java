@@ -69,10 +69,10 @@ public class ProdutoServico {
                 pst.close();
                 String data = LocalDate.now().toString();
                 for (String empresa : buscarEmpresaScea07()) {
-                    sql = "INSERT INTO SCEA07 (EECODEMP,EEREFERE,EEDTTAB1,EEPBRTB1,EEPLQTB1,EEDTTAB2,EEPBRTB2,EEPLQTB2,EEDTTAB3,EEPBRTB3,EEPLQTB3,EET2PVD1,EET3PVD1)";
+                    sql = "INSERT INTO SCEA07 (EECODEMP,EEREFERE,EEDTTAB1,EEPBRTB1,EEPLQTB1,EEDTTAB2,EEPBRTB2,EEPLQTB2,EEDTTAB3,EEPBRTB3,EEPLQTB3,EET2PVD1,EET3VIG1,EET3PVD1,EET3VIG2,EET3PVD2,EET3VIG3,EET3PVD3)";
                     sql += " VALUES ('" + empresa + "','" + produto.getReferencia() + "','" + data + "'," + produto.getPreco() + "," + produto.getPreco()
                             + ",'" + data + "','" + produto.getPreco() + "'," + produto.getPreco()
-                            + ",'" + data + "'," + produto.getPreco() + "," + produto.getPreco() + "," + produto.getPrecoAtacado() + ","+ produto.getPrecoEspecial() + ")";
+                            + ",'" + data + "'," + produto.getPreco() + "," + produto.getPreco() + "," + produto.getPrecoAtacado() +",'"+data+ "',"+ produto.getPrecoEspecial() + ",'"+data+"',"+produto.getPrecoEspecial()+",'"+data+"',"+produto.getPrecoEspecial()+")";
                     PreparedStatement pst2 = conecta.getConnection().prepareStatement(sql);
                     pst2.execute();
                     conecta.getConnection().commit();
@@ -110,14 +110,16 @@ public class ProdutoServico {
     private void alterar(Produto produto) {
         if (conecta.conexao()) {
             try {
-                PreparedStatement pst = conecta.getConnection().prepareStatement("update scea07 set EEPBRTB1=?,EEPLQTB1=?,EEPBRTB2=?,EEPLQTB2=?,EET2PVD1=?,EET3PVD1=?  where EEREFERE=?");
+                PreparedStatement pst = conecta.getConnection().prepareStatement("update scea07 set EEPBRTB1=?,EEPLQTB1=?,EEPBRTB2=?,EEPLQTB2=?,EET2PVD1=?,EET3PVD1=?,EET3PVD2=?,EET3PVD3=?  where EEREFERE=?");
                 pst.setDouble(1, produto.getPreco());
                 pst.setDouble(2, produto.getPreco());
                 pst.setDouble(3, produto.getPreco());
                 pst.setDouble(4, produto.getPreco());
                 pst.setDouble(5, produto.getPrecoAtacado());
                 pst.setDouble(6, produto.getPrecoEspecial());
-                pst.setString(7, produto.getReferencia());
+                pst.setDouble(7, produto.getPrecoEspecial());
+                pst.setDouble(8, produto.getPrecoEspecial());
+                pst.setString(9, produto.getReferencia());
                 pst.execute();
                 conecta.getConnection().commit();
                 pst.close();
