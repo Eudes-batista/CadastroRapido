@@ -276,27 +276,6 @@ public class FrmAlteracaoPrecoController implements Initializable {
     }
 
     @FXML
-    private void abrirEstoque() {
-        try {
-            this.ancoraPrincipal.setEffect(new BoxBlur(10, 10, 10));
-            FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/visao/FrmMovimentoEstoque.fxml"));
-            Parent parent = fXMLLoader.load();
-            Scene scene = new Scene(parent);
-            Stage stage = new Stage(StageStyle.UNDECORATED);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(scene);
-            stage.setMaximized(true);
-            stage.showAndWait();
-            this.ancoraPrincipal.setEffect(null);
-        } catch (IOException ex) {
-            alert.setAlertType(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setContentText("Erro ao tela estoque");
-            alert.show();
-        }
-    }
-
-    @FXML
     private void abrirCest() {
         try {
             String sistema = System.getProperty("os.name");

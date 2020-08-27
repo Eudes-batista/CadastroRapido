@@ -233,15 +233,6 @@
                   <Tooltip text="SubGrupo do Produto" />
                </tooltip>
             </ComboBox>
-            <HBox alignment="CENTER" layoutX="456.0" layoutY="700.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="456.0" AnchorPane.rightAnchor="393.0">
-               <children>
-                  <Button fx:id="btEstoque" mnemonicParsing="false" onAction="#abrirEstoque" prefHeight="40.0" prefWidth="170.0" styleClass="btpadrao" text="Estoque">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                  </Button>
-               </children>
-            </HBox>
             <TextField fx:id="editEstoqueInicial" alignment="CENTER_RIGHT" layoutX="373.0" layoutY="420.0" prefHeight="49.0" prefWidth="189.0" styleClass="input-padrao" text="0">
                <tooltip>
                   <Tooltip text="Código NCM  (apenas 8 dígitos)" />
