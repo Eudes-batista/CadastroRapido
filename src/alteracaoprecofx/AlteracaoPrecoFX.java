@@ -8,11 +8,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import util.FXMLUtil;
 
 public class AlteracaoPrecoFX extends Application {
 
@@ -20,28 +17,21 @@ public class AlteracaoPrecoFX extends Application {
     public void start(Stage stage) throws Exception {
         Platform.setImplicitExit(true);
         if (this.conectar()) {
-            this.abrirTelaCadastro();
+            this.abrirTelaMenu();
             return;
         }
         this.abrirConexaoComBanco();
     }
 
     private void abrirConexaoComBanco() throws IOException {
-        this.abrirFXML("FrmBanco",false);
+        Stage stage = FXMLUtil.abrirFXML("FrmBanco");
+        stage.setMaximized(false);
+        stage.show();
     }
 
-    private void abrirTelaCadastro() throws IOException {
-        this.abrirFXML("FrmAlteracaoPreco",true);
-    }
-
-    private void abrirFXML(String fxml,boolean telaCheia) throws IOException {
-        FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/visao/" + fxml + ".fxml"));
-        Parent root = fXMLLoader.load();
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setMaximized(telaCheia);
-        stage.initStyle(StageStyle.UNDECORATED);
+    private void abrirTelaMenu() throws IOException {
+        Stage stage = FXMLUtil.abrirFXML("FXMLMenu");
+        stage.setMaximized(true);
         stage.show();
     }
 

@@ -48,6 +48,7 @@ import modelo.Grupo;
 import modelo.Produto;
 import modelo.SubGrupo;
 import servico.ProdutoServico;
+import util.FXMLUtil;
 
 public class FrmAlteracaoPrecoController implements Initializable {
 
@@ -139,7 +140,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
     private final Alert alert = new Alert(Alert.AlertType.WARNING);
 
     public void sair() {
-        Platform.exit();
+        FXMLUtil.sair(this.ancoraPrincipal);
     }
 
     private void referencia() {
