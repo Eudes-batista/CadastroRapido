@@ -4,13 +4,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -42,10 +40,10 @@ import modelo.ItemMovimento;
 import modelo.Movimento;
 import modelo.Produto;
 import modelo.TipoMovimento;
-import org.joda.time.LocalDate;
 import servico.ItemMovimentoService;
 import servico.MovimentoService;
 import servico.ProdutoServico;
+import util.FormatterUtil;
 import util.TableColumnUtil;
 
 public class FrmMovimentoEstoqueController implements Initializable {
@@ -127,7 +125,6 @@ public class FrmMovimentoEstoqueController implements Initializable {
     private final ItemMovimentoService itemMovimentoService = new ItemMovimentoService();
     private final ProdutoServico produtoServico = new ProdutoServico();
     private Movimento movimento;
-    private DecimalFormat numberFormat;
     private SimpleDateFormat dataFormat;
     private String dataAtual;
 
@@ -197,7 +194,7 @@ public class FrmMovimentoEstoqueController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.dataFormat = new SimpleDateFormat("ddMMyyyy");
-        this.dataAtual =  dataFormat.format(new Date());
+        this.dataAtual = dataFormat.format(new Date());
         ancoraPrincipal.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent e) -> {
             switch (e.getCode()) {
                 case F1:
@@ -219,13 +216,12 @@ public class FrmMovimentoEstoqueController implements Initializable {
         listarEmpresa();
         listarTipoMovimento();
         inicializarColunas();
-        this.numberFormat = new DecimalFormat("###,##0.00");
         this.columnPreco.setCellFactory((TableColumn<ItemMovimento, Double> param) -> new TableCell<ItemMovimento, Double>() {
             @Override
             protected void updateItem(Double item, boolean empty) {
                 setText("");
                 if (!empty) {
-                    setText(numberFormat.format(item));
+                    setText(FormatterUtil.getValorFormatado(item));
                     setAlignment(Pos.CENTER_RIGHT);
                 }
             }
@@ -235,7 +231,7 @@ public class FrmMovimentoEstoqueController implements Initializable {
             protected void updateItem(Double item, boolean empty) {
                 setText("");
                 if (!empty) {
-                    setText(numberFormat.format(item));
+                    setText(FormatterUtil.getValorFormatado(item));
                     setAlignment(Pos.CENTER_RIGHT);
                 }
             }
@@ -290,24 +286,25 @@ public class FrmMovimentoEstoqueController implements Initializable {
         movimento.setDataMovimento(new Date());
         movimento.setDataAtualizacao(new Date());
         movimento.setUsuario("EDS");
-        if (movimentoService.salvar(movimento)) {
-            ObservableList<ItemMovimento> itens = FXCollections.observableArrayList(this.itemMovimentos);
-            this.itemMovimentos.forEach(item -> {
-                item.setMovimento(this.movimento);
-                item.setCheckBox(new CheckBox());
-                if (this.itemMovimentoService.salvar(item)) {
-                    itens.remove(item);
-                    itens.add(item);
-                }
-            });
-            this.itemMovimentos.clear();
-            this.itemMovimentos.addAll(itens);
-            this.tabelaMovimento.setItems(itemMovimentos);
-            desabilitarCampos(true);
-            tabelaMovimento.scrollTo(this.itemMovimentos.size());
-            limparCamposItem();
-            quantidadeItens.setText(String.valueOf(itemMovimentos.size()));
+        if (!movimentoService.salvar(movimento)) {
+            return;
         }
+        ObservableList<ItemMovimento> itens = FXCollections.observableArrayList(this.itemMovimentos);
+        this.itemMovimentos.forEach(item -> {
+            item.setMovimento(this.movimento);
+            item.setCheckBox(new CheckBox());
+            if (this.itemMovimentoService.salvar(item)) {
+                itens.remove(item);
+                itens.add(item);
+            }
+        });
+        this.itemMovimentos.clear();
+        this.itemMovimentos.addAll(itens);
+        this.tabelaMovimento.setItems(itemMovimentos);
+        desabilitarCampos(true);
+        tabelaMovimento.scrollTo(this.itemMovimentos.size());
+        limparCamposItem();
+        quantidadeItens.setText(String.valueOf(itemMovimentos.size()));
     }
 
     private void eventos() {
@@ -342,7 +339,7 @@ public class FrmMovimentoEstoqueController implements Initializable {
             ((Stage) this.ancoraPrincipal.getScene().getWindow()).setIconified(true);
         });
         this.documento.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
-            if(newValue && this.documento.getText().isEmpty()){
+            if (newValue && this.documento.getText().isEmpty()) {
                 this.documento.setText(this.dataAtual);
                 this.documento.selectAll();
             }
@@ -387,8 +384,7 @@ public class FrmMovimentoEstoqueController implements Initializable {
         ItemMovimento itemMovimento = new ItemMovimento(movimento);
         itemMovimento.setProduto(item.getText() + " - " + labelDescricao.getText());
         itemMovimento.setQuantidade(Double.parseDouble(quantidade.getText().replace(".", "").replaceAll(",", ".")));
-        String preco = precoUnitario.getText().isEmpty() ? "0" : precoUnitario.getText().replace(".", "").replaceAll(",", ".");
-        itemMovimento.setPrecoUnitario(Double.parseDouble(preco));
+        itemMovimento.setPrecoUnitario(FormatterUtil.getValorPago(precoUnitario.getText()));
         if (this.itemMovimentoService.salvar(itemMovimento)) {
             itemMovimento.setCheckBox(new CheckBox());
             this.itemMovimentos.add(itemMovimento);

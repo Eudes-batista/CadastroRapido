@@ -27,7 +27,7 @@ public class FormatterUtil {
         }
     }
 
-    public static float getValorPago(String valorPago) {
+    public static double getValorPago(String valorPago) {
         NumberFormat numberFormat = NumberFormat.getInstance();
         try {
             Number parse;
@@ -39,10 +39,10 @@ public class FormatterUtil {
                 parse = numberFormat.parse(valorPago);
             } else {
 
-                parse = Float.parseFloat(valorPago);
+                parse = Double.parseDouble(valorPago);
             }
-            return parse.floatValue();
-        } catch (ParseException ex) {
+            return parse.doubleValue();
+        } catch (ParseException | NumberFormatException ex) {
             return 0f;
         }
     }

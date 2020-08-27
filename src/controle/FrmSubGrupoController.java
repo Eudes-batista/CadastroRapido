@@ -120,11 +120,12 @@ public class FrmSubGrupoController implements Initializable {
             protected void updateItem(String item, boolean empty) {
                 if (!empty) {
                     Button button = new Button("Apagar");
-                    button.getStyleClass().add("bt-apagar");
-                    button.setOnAction(evt -> {      
-                          SubGrupo grupo = FrmSubGrupoController.this.subGrupos.get(this.getIndex());
-                          FrmSubGrupoController.this.subGrupoService.excluirMovimento(grupo.getCodigo());
-                          FrmSubGrupoController.this.pesquisar();
+                    button.getStyleClass().add("btpadrao");
+                    button.setStyle("-fx-font-size:11pt; -fx-text-fill: #fff;");
+                    button.setOnAction(evt -> {
+                        SubGrupo grupo = FrmSubGrupoController.this.subGrupos.get(this.getIndex());
+                        FrmSubGrupoController.this.subGrupoService.excluirMovimento(grupo.getCodigo());
+                        FrmSubGrupoController.this.pesquisar();
                     });
                     setGraphic(button);
                 } else {

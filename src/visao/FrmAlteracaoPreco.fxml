@@ -16,14 +16,14 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="562.0" prefWidth="575.0" stylesheets="@css.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controle.FrmAlteracaoPrecoController">
+<AnchorPane id="AnchorPane" prefHeight="768.0" prefWidth="1024.0" stylesheets="@css.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controle.FrmAlteracaoPrecoController">
    <children>
-      <AnchorPane id="ancoraPrincipal" fx:id="ancoraPrincipal" layoutX="5.0" layoutY="5.0" prefHeight="562.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane id="ancoraPrincipal" fx:id="ancoraPrincipal" layoutX="5.0" layoutY="5.0" prefHeight="768.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="labelPreco21" focusTraversable="false" layoutX="368.0" layoutY="284.0" prefHeight="26.0" prefWidth="189.0" styleClass="label-titulo" text="Preço de Especial" textFill="#e1dfdf">
+            <Label fx:id="labelPreco21" focusTraversable="false" layoutX="370.0" layoutY="228.0" prefHeight="26.0" prefWidth="192.0" styleClass="label-titulo" text="Preço de Especial" textFill="#e1dfdf">
                <font>
                   <Font size="16.0" />
                </font>
@@ -31,7 +31,7 @@
                   <Insets left="3.0" />
                </padding>
             </Label>
-            <TextField fx:id="editPrecoEspecial" alignment="CENTER_RIGHT" focusTraversable="false" layoutX="368.0" layoutY="309.0" prefHeight="40.0" prefWidth="189.0" styleClass="input-padrao" text="0,00">
+            <TextField fx:id="editPrecoEspecial" alignment="CENTER_RIGHT" focusTraversable="false" layoutX="370.0" layoutY="252.0" prefHeight="52.0" prefWidth="192.0" styleClass="input-padrao" text="0,00">
                <font>
                   <Font size="16.0" />
                </font>
@@ -39,7 +39,7 @@
                   <Tooltip text="Preço de venda para atacado" />
                </tooltip>
             </TextField>
-            <Label fx:id="labelReferencia" layoutX="16.0" layoutY="64.0" prefHeight="26.0" prefWidth="270.0" styleClass="label-titulo" text="Referencia" textFill="#d7cfcf">
+            <Label fx:id="labelReferencia" layoutX="16.0" layoutY="64.0" prefHeight="26.0" prefWidth="270.0" styleClass="label-titulo" text="Referência" textFill="#d7cfcf">
                <font>
                   <Font size="16.0" />
                </font>
@@ -53,7 +53,7 @@
                   <Tooltip text="Click para ativar ou cancelar o produto" />
                </tooltip>
             </Label>
-            <TextField fx:id="editReferencia" layoutX="16.0" layoutY="90.0" prefHeight="40.0" prefWidth="270.0" promptText="Obrigatorio" styleClass="input-padrao">
+            <TextField fx:id="editReferencia" layoutX="16.0" layoutY="90.0" prefHeight="52.0" prefWidth="270.0" promptText="Obrigatorio" styleClass="input-padrao">
                <font>
                   <Font size="15.0" />
                </font>
@@ -61,7 +61,7 @@
                   <Tooltip text="Referência ou código de Barras do Produto" />
                </tooltip>
             </TextField>
-            <Label fx:id="labelDescricao" layoutX="16.0" layoutY="136.0" prefHeight="26.0" prefWidth="544.0" styleClass="label-titulo" text="Descrição" textFill="#e4dfdf">
+            <Label fx:id="labelDescricao" layoutX="16.0" layoutY="146.0" prefHeight="26.0" prefWidth="546.0" styleClass="label-titulo" text="Descrição" textFill="#e4dfdf">
                <font>
                   <Font size="16.0" />
                </font>
@@ -69,7 +69,7 @@
                   <Insets left="3.0" />
                </padding>
             </Label>
-            <TextField fx:id="editDescricao" layoutX="16.0" layoutY="162.0" prefHeight="49.0" prefWidth="544.0" promptText="Obrigatorio" styleClass="input-padrao">
+            <TextField fx:id="editDescricao" layoutX="16.0" layoutY="172.0" prefHeight="49.0" prefWidth="546.0" promptText="Obrigatorio" styleClass="input-padrao">
                <font>
                   <Font size="15.0" />
                </font>
@@ -77,7 +77,7 @@
                   <Tooltip text="Descrição do Produto ( aperta F2 para pesquisa)" />
                </tooltip>
             </TextField>
-            <Label fx:id="labelPreco" layoutX="20.0" layoutY="285.0" prefHeight="26.0" prefWidth="163.0" styleClass="label-titulo" text="Preço de Venda" textFill="#e1dfdf">
+            <Label fx:id="labelPreco" layoutX="16.0" layoutY="229.0" prefHeight="26.0" prefWidth="170.0" styleClass="label-titulo" text="Preço de Venda" textFill="#e1dfdf">
                <font>
                   <Font size="16.0" />
                </font>
@@ -85,7 +85,7 @@
                   <Insets left="3.0" />
                </padding>
             </Label>
-            <TextField fx:id="editPreco" alignment="CENTER_RIGHT" layoutX="20.0" layoutY="310.0" prefHeight="33.0" prefWidth="163.0" styleClass="input-padrao" text="0,00">
+            <TextField fx:id="editPreco" alignment="CENTER_RIGHT" layoutX="16.0" layoutY="254.0" prefHeight="50.0" prefWidth="170.0" styleClass="input-padrao" text="0,00">
                <font>
                   <Font size="16.0" />
                </font>
@@ -93,12 +93,12 @@
                   <Tooltip text="Preço unitário de venda" />
                </tooltip>
             </TextField>
-            <Button fx:id="btSair" layoutX="389.0" layoutY="509.0" mnemonicParsing="false" onAction="#sair" prefHeight="40.0" prefWidth="163.0" styleClass="btexcluir" text="Sair">
+            <Button fx:id="btSair" layoutX="847.0" layoutY="710.0" mnemonicParsing="false" onAction="#sair" prefHeight="40.0" prefWidth="163.0" styleClass="btpadrao" text="Sair" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0">
                <font>
                   <Font size="13.0" />
                </font>
             </Button>
-            <Label fx:id="labelPreco1" layoutX="194.0" layoutY="425.0" prefHeight="26.0" prefWidth="152.0" styleClass="label-titulo" text="Qtd.Atacado" textFill="#e1dfdf">
+            <Label fx:id="labelPreco1" layoutX="370.0" layoutY="309.0" prefHeight="26.0" prefWidth="192.0" styleClass="label-titulo" text="Qtd.Atacado" textFill="#e1dfdf">
                <font>
                   <Font size="16.0" />
                </font>
@@ -106,7 +106,7 @@
                   <Insets left="3.0" />
                </padding>
             </Label>
-            <TextField fx:id="editQtdAtacado" alignment="CENTER_RIGHT" layoutX="194.0" layoutY="449.0" prefHeight="40.0" prefWidth="152.0" styleClass="input-padrao" text="0">
+            <TextField fx:id="editQtdAtacado" alignment="CENTER_RIGHT" layoutX="370.0" layoutY="335.0" prefHeight="49.0" prefWidth="192.0" styleClass="input-padrao" text="0">
                <font>
                   <Font size="16.0" />
                </font>
@@ -114,7 +114,7 @@
                   <Tooltip text="Quantidade de venda para atacado" />
                </tooltip>
             </TextField>
-            <Label fx:id="labelPreco2" layoutX="191.0" layoutY="284.0" prefHeight="25.0" prefWidth="170.0" styleClass="label-titulo" text="Preço de Atacado" textFill="#e1dfdf">
+            <Label fx:id="labelPreco2" layoutX="193.0" layoutY="228.0" prefHeight="25.0" prefWidth="170.0" styleClass="label-titulo" text="Preço de Atacado" textFill="#e1dfdf">
                <font>
                   <Font size="16.0" />
                </font>
@@ -122,7 +122,7 @@
                   <Insets left="3.0" />
                </padding>
             </Label>
-            <TextField fx:id="editPrecoAtacado" alignment="CENTER_RIGHT" layoutX="191.0" layoutY="309.0" prefHeight="39.0" prefWidth="170.0" styleClass="input-padrao" text="0,00">
+            <TextField fx:id="editPrecoAtacado" alignment="CENTER_RIGHT" layoutX="193.0" layoutY="253.0" prefHeight="50.0" prefWidth="170.0" styleClass="input-padrao" text="0,00">
                <font>
                   <Font size="16.0" />
                </font>
@@ -130,12 +130,12 @@
                   <Tooltip text="Preço de venda para atacado" />
                </tooltip>
             </TextField>
-            <TextField fx:id="editNcm" layoutX="20.0" layoutY="379.0" prefHeight="30.0" prefWidth="162.0" promptText="Obrigatorio" styleClass="input-padrao">
+            <TextField fx:id="editNcm" layoutX="16.0" layoutY="334.0" prefHeight="50.0" prefWidth="170.0" promptText="Obrigatorio" styleClass="input-padrao">
                <tooltip>
                   <Tooltip text="Código NCM  (apenas 8 dígitos)" />
                </tooltip>
             </TextField>
-            <Label fx:id="labelNcm" layoutX="20.0" layoutY="356.0" prefHeight="25.0" prefWidth="162.0" styleClass="label-titulo" text="Ncm" textFill="#e1dfdf">
+            <Label fx:id="labelNcm" layoutX="16.0" layoutY="309.0" prefHeight="26.0" prefWidth="170.0" styleClass="label-titulo" text="Ncm" textFill="#e1dfdf">
                <font>
                   <Font size="16.0" />
                </font>
@@ -149,12 +149,12 @@
                   <Tooltip text="Click para consultar" />
                </tooltip>
             </Label>
-            <TextField fx:id="editCest" layoutX="192.0" layoutY="380.0" prefHeight="28.0" prefWidth="89.0" styleClass="input-padrao">
+            <TextField fx:id="editCest" layoutX="193.0" layoutY="334.0" prefHeight="50.0" prefWidth="170.0" styleClass="input-padrao">
                <tooltip>
                   <Tooltip text="Código CEST (apenas 7 dígitos)" />
                </tooltip>
             </TextField>
-            <Label fx:id="labelCest" layoutX="192.0" layoutY="356.0" prefHeight="25.0" prefWidth="89.0" styleClass="label-titulo" text="Cest" textFill="#e1dfdf">
+            <Label fx:id="labelCest" layoutX="193.0" layoutY="309.0" prefHeight="26.0" prefWidth="170.0" styleClass="label-titulo" text="Cest" textFill="#e1dfdf">
                <font>
                   <Font size="16.0" />
                </font>
@@ -168,7 +168,7 @@
                   <Tooltip text="Click para consultar" />
                </tooltip>
             </Label>
-            <Label fx:id="labelPreco311" layoutX="290.0" layoutY="356.0" prefHeight="23.0" prefWidth="170.0" styleClass="label-titulo" text="Tributaçao" textFill="#e1dfdf">
+            <Label fx:id="labelPreco311" layoutX="16.0" layoutY="395.0" prefHeight="23.0" prefWidth="170.0" styleClass="label-titulo" text="Tributação" textFill="#e1dfdf">
                <font>
                   <Font size="16.0" />
                </font>
@@ -176,7 +176,7 @@
                   <Insets left="3.0" />
                </padding>
             </Label>
-            <ComboBox fx:id="tributacao" layoutX="290.0" layoutY="378.0" prefHeight="40.0" prefWidth="170.0" styleClass="input-padrao">
+            <ComboBox fx:id="tributacao" layoutX="16.0" layoutY="421.0" prefHeight="49.0" prefWidth="170.0" styleClass="input-padrao">
                <tooltip>
                   <Tooltip text="Tributação do Produto" />
                </tooltip>
@@ -189,7 +189,7 @@
                   <Insets left="3.0" />
                </padding>
             </Label>
-            <Label fx:id="labelPreco3111" layoutX="467.0" layoutY="355.0" prefHeight="23.0" prefWidth="97.0" styleClass="label-titulo" text="Unidade" textFill="#e1dfdf">
+            <Label fx:id="labelPreco3111" layoutX="193.0" layoutY="395.0" prefHeight="26.0" prefWidth="170.0" styleClass="label-titulo" text="Unidade" textFill="#e1dfdf">
                <font>
                   <Font size="16.0" />
                </font>
@@ -197,17 +197,17 @@
                   <Insets left="3.0" />
                </padding>
             </Label>
-            <ComboBox fx:id="unidade" layoutX="467.0" layoutY="378.0" prefHeight="40.0" prefWidth="97.0" styleClass="input-padrao">
+            <ComboBox fx:id="unidade" layoutX="193.0" layoutY="421.0" prefHeight="49.0" prefWidth="170.0" styleClass="input-padrao">
                <tooltip>
                   <Tooltip text="Unidade de venda" />
                </tooltip>
             </ComboBox>
-            <Button fx:id="btSalvar" layoutX="22.0" layoutY="509.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="163.0" styleClass="btIncluir" text="Salvar (F1)">
+            <Button fx:id="btSalvar" layoutX="14.0" layoutY="710.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="163.0" styleClass="btpadrao" text="Salvar (F1)" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0">
                <font>
                   <Font size="13.0" />
                </font>
             </Button>
-            <Label fx:id="labelPreco3112" layoutX="18.0" layoutY="216.0" prefHeight="25.0" prefWidth="270.0" styleClass="label-titulo" text="Grupo" textFill="#e1dfdf">
+            <Label fx:id="labelPreco3112" layoutX="571.0" layoutY="146.0" prefHeight="26.0" prefWidth="216.0" styleClass="label-titulo" text="Grupo" textFill="#e1dfdf">
                <font>
                   <Font size="16.0" />
                </font>
@@ -215,12 +215,12 @@
                   <Insets left="3.0" />
                </padding>
             </Label>
-            <ComboBox fx:id="grupo" layoutX="18.0" layoutY="240.0" prefHeight="40.0" prefWidth="270.0" styleClass="input-padrao">
+            <ComboBox fx:id="grupo" layoutX="571.0" layoutY="170.0" prefHeight="50.0" prefWidth="216.0" styleClass="input-padrao">
                <tooltip>
                   <Tooltip text="Grupo do Produto" />
                </tooltip>
             </ComboBox>
-            <Label fx:id="labelPreco31121" layoutX="296.0" layoutY="216.0" prefHeight="25.0" prefWidth="263.0" styleClass="label-titulo" text="SubGrupo" textFill="#e1dfdf">
+            <Label fx:id="labelPreco31121" layoutX="794.0" layoutY="146.0" prefHeight="26.0" prefWidth="216.0" styleClass="label-titulo" text="SubGrupo" textFill="#e1dfdf">
                <font>
                   <Font size="16.0" />
                </font>
@@ -228,22 +228,26 @@
                   <Insets left="3.0" />
                </padding>
             </Label>
-            <ComboBox fx:id="subGrupo" layoutX="296.0" layoutY="240.0" prefHeight="40.0" prefWidth="263.0" styleClass="input-padrao">
+            <ComboBox fx:id="subGrupo" layoutX="794.0" layoutY="170.0" prefHeight="50.0" prefWidth="216.0" styleClass="input-padrao">
                <tooltip>
                   <Tooltip text="SubGrupo do Produto" />
                </tooltip>
             </ComboBox>
-            <Button fx:id="btEstoque" layoutX="206.0" layoutY="509.0" mnemonicParsing="false" onAction="#abrirEstoque" prefHeight="40.0" prefWidth="170.0" styleClass="btfuncao" text="Estoque">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </Button>
-            <TextField fx:id="editEstoqueInicial" alignment="CENTER_RIGHT" layoutX="21.0" layoutY="448.0" prefHeight="37.0" prefWidth="162.0" styleClass="input-padrao" text="0">
+            <HBox alignment="CENTER" layoutX="456.0" layoutY="700.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="456.0" AnchorPane.rightAnchor="393.0">
+               <children>
+                  <Button fx:id="btEstoque" mnemonicParsing="false" onAction="#abrirEstoque" prefHeight="40.0" prefWidth="170.0" styleClass="btpadrao" text="Estoque">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+            <TextField fx:id="editEstoqueInicial" alignment="CENTER_RIGHT" layoutX="373.0" layoutY="420.0" prefHeight="49.0" prefWidth="189.0" styleClass="input-padrao" text="0">
                <tooltip>
                   <Tooltip text="Código NCM  (apenas 8 dígitos)" />
                </tooltip>
             </TextField>
-            <Label fx:id="labelEstoque" layoutX="21.0" layoutY="425.0" prefHeight="25.0" prefWidth="162.0" styleClass="label-titulo" text="Estoque Inicial" textFill="#e1dfdf">
+            <Label fx:id="labelEstoque" layoutX="373.0" layoutY="395.0" prefHeight="26.0" prefWidth="189.0" styleClass="label-titulo" text="Estoque Inicial" textFill="#e1dfdf">
                <font>
                   <Font size="16.0" />
                </font>
@@ -257,7 +261,7 @@
                   <Tooltip text="Click para consultar" />
                </tooltip>
             </Label>
-            <Label fx:id="labelMinimizar" alignment="CENTER" contentDisplay="CENTER" layoutX="454.0" layoutY="2.0" prefHeight="57.0" prefWidth="40.0" text="-" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="labelMinimizar" alignment="CENTER" contentDisplay="CENTER" layoutX="903.0" layoutY="5.0" prefHeight="30.0" prefWidth="40.0" text="-" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font size="45.0" />
                </font>
@@ -268,9 +272,9 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Label>
-            <JFXToggleButton fx:id="inativar" layoutX="291.0" layoutY="77.0" prefHeight="37.0" prefWidth="135.0" text="Inativar" toggleColor="WHITE" toggleLineColor="#f52821" />
-            <JFXToggleButton fx:id="confirmaPreco" layoutX="403.0" layoutY="77.0" prefHeight="58.0" prefWidth="174.0" text="Confirma Preço" toggleColor="WHITE" toggleLineColor="#85c37e" />
-            <Label fx:id="btAjuda" alignment="CENTER" layoutX="516.0" layoutY="8.0" maxWidth="60.0" onMouseClicked="#abrirAjuda" prefHeight="44.0" prefWidth="50.0" styleClass="ajuda" text="?">
+            <JFXToggleButton fx:id="inativar" layoutX="688.0" layoutY="61.0" prefHeight="37.0" prefWidth="135.0" text="Inativar" toggleColor="WHITE" toggleLineColor="#f52821" />
+            <JFXToggleButton fx:id="confirmaPreco" layoutX="836.0" layoutY="61.0" prefHeight="58.0" prefWidth="174.0" text="Confirma Preço" toggleColor="WHITE" toggleLineColor="#85c37e" />
+            <Label fx:id="btAjuda" alignment="CENTER" layoutX="955.0" layoutY="14.0" maxWidth="60.0" onMouseClicked="#abrirAjuda" prefHeight="35.0" prefWidth="35.0" style="-fx-font-size: 20;" styleClass="ajuda" text="?">
                <tooltip>
                   <Tooltip text="Ajuda">
                      <font>
@@ -279,20 +283,13 @@
                   </Tooltip>
                </tooltip>
             </Label>
-            <Pane fx:id="paneModal" layoutX="4.0" layoutY="54.0" prefHeight="501.0" prefWidth="610.0" styleClass="modal" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <JFXNodesList layoutX="841.0" layoutY="22.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" spacing="10.0">
                <children>
-                  <ProgressIndicator layoutX="232.0" layoutY="180.0" prefHeight="137.0" prefWidth="136.0" />
-               </children>
-            </Pane>
-            <JFXNodesList layoutX="411.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" spacing="10.0">
-               <children>
+                  <MaterialDesignIconView fill="WHITE" glyphName="DOTS_VERTICAL" size="20" />
                   <JFXButton alignment="CENTER" contentDisplay="CENTER" prefHeight="32.0" prefWidth="25.0" text=" " textAlignment="CENTER">
                      <font>
                         <Font size="16.0" />
                      </font>
-                     <graphic>
-                        <MaterialDesignIconView fill="WHITE" glyphName="DOTS_VERTICAL" size="20" />
-                     </graphic>
                      <tooltip>
                         <Tooltip text="Opções" />
                      </tooltip>
@@ -303,11 +300,19 @@
                   <JFXButton fx:id="btCorrentista" buttonType="RAISED" layoutX="-15.0" layoutY="127.0" prefWidth="100.0" style="-fx-background-color: #00AFEF;" text="Correntista" textFill="WHITE" />
                </children>
             </JFXNodesList>
-            <JFXTextArea fx:id="textAplicacaoComposicao" labelFloat="true" layoutX="355.0" layoutY="428.0" prefHeight="73.0" prefWidth="216.0" promptText="Aplicação/Composição" />
+            <JFXTextArea fx:id="textAplicacaoComposicao" focusColor="#563d7c" labelFloat="true" layoutX="571.0" layoutY="252.0" prefHeight="218.0" prefWidth="439.0" promptText="Aplicação/Composição" style="-fx-background-color: #fff;" styleClass="textarea" unFocusColor="#563d7c">
+               <font>
+                  <Font size="15.0" />
+               </font></JFXTextArea>
+            <HBox fx:id="paneModal" alignment="CENTER" layoutX="-27.262508392333984" layoutY="-26.607324600219727" prefHeight="768.0" prefWidth="1024.0" styleClass="modal" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <ProgressIndicator prefHeight="137.0" prefWidth="136.0" />
+               </children>
+            </HBox>
          </children>
          <styleClass>
             <String fx:value="fundo-form" />
-            <String fx:value="borda-question" />
+            <String fx:value="borda-padrao" />
          </styleClass>
       </AnchorPane>
       <AnchorPane id="acnoraAjuda" fx:id="ancoraAjuda" layoutX="-6.0" layoutY="13.0" prefHeight="521.0" prefWidth="591.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -340,14 +345,14 @@
                   <Insets left="5.0" />
                </padding>
             </Label>
-            <Button fx:id="btSuporte" layoutX="151.0" layoutY="306.0" mnemonicParsing="false" onAction="#abrirSuporte" prefHeight="44.0" prefWidth="283.0" styleClass="btIncluir" text="Acesso do Suporte" />
-            <Button fx:id="btVoltar" layoutX="419.0" layoutY="447.0" mnemonicParsing="false" onAction="#voltar" prefHeight="35.0" prefWidth="152.0" styleClass="btfuncao" text="Voltar (ESC)" />
+            <Button fx:id="btSuporte" layoutX="20.0" layoutY="307.0" mnemonicParsing="false" onAction="#abrirSuporte" prefHeight="44.0" prefWidth="283.0" styleClass="btpadrao" text="Acesso do Suporte" />
+            <Button fx:id="btVoltar" layoutX="851.0" layoutY="710.0" mnemonicParsing="false" onAction="#voltar" prefHeight="35.0" prefWidth="152.0" styleClass="btpadrao" text="Voltar (ESC)" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" />
             <Label layoutX="11.0" layoutY="412.0" text="Zoom Tecnologia">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="labelReferencia11" alignment="CENTER_RIGHT" layoutX="5.0" maxHeight="59.0" prefHeight="59.0" prefWidth="585.0" styleClass="cabecalho-info" text="Ajuda" textFill="#d7cfcf" AnchorPane.bottomAnchor="491.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Label fx:id="labelReferencia11" alignment="CENTER_RIGHT" layoutX="10.0" layoutY="10.0" maxHeight="66.0" prefHeight="66.0" prefWidth="1014.0" styleClass="cabecalho-question" text="Ajuda" textFill="#d7cfcf" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <font>
                   <Font size="16.0" />
                </font>
@@ -358,7 +363,7 @@
          </children>
          <styleClass>
             <String fx:value="fundo-form" />
-            <String fx:value="borda-info" />
+            <String fx:value="borda-padrao" />
          </styleClass>
       </AnchorPane>
    </children>

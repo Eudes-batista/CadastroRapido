@@ -37,7 +37,7 @@ import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -56,7 +56,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
     @FXML
     private AnchorPane ancoraAjuda;
     @FXML
-    private Pane paneModal;
+    private HBox paneModal;
 
     @FXML
     private Label labelReferencia;
@@ -277,14 +277,16 @@ public class FrmAlteracaoPrecoController implements Initializable {
     @FXML
     private void abrirEstoque() {
         try {
+            this.ancoraPrincipal.setEffect(new BoxBlur(10, 10, 10));
             FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/visao/FrmMovimentoEstoque.fxml"));
             Parent parent = fXMLLoader.load();
             Scene scene = new Scene(parent);
             Stage stage = new Stage(StageStyle.UNDECORATED);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(scene);
-            stage.setMaximized(false);
+            stage.setMaximized(true);
             stage.showAndWait();
+            this.ancoraPrincipal.setEffect(null);
         } catch (IOException ex) {
             alert.setAlertType(Alert.AlertType.ERROR);
             alert.setTitle("Erro");
@@ -335,19 +337,21 @@ public class FrmAlteracaoPrecoController implements Initializable {
     }
 
     private void ativarProduto() throws SQLException {
-        if (produto.getReferencia() != null) {
-            if (opcoes()) {
-                if (produto.getDataCancelamento() == null) {
-                    produto.setReferencia(referencia);
-                    produto.setDataCancelamento(LocalDate.now().toString());
-                    produtoServico.atualizarDataCancelamento(produto);
-                } else {
-                    produto.setDataCancelamento(null);
-                    produtoServico.atualizarDataCancelamento(produto);
-                }
-                referencia();
-            }
+        if (produto.getReferencia() == null) {
+            return;
         }
+        if (!opcoes()) {
+            return;
+        }
+        if (produto.getDataCancelamento() == null) {
+            produto.setReferencia(referencia);
+            produto.setDataCancelamento(LocalDate.now().toString());
+            produtoServico.atualizarDataCancelamento(produto);
+        } else {
+            produto.setDataCancelamento(null);
+            produtoServico.atualizarDataCancelamento(produto);
+        }
+        referencia();
     }
 
     private boolean validarCampos() {
@@ -842,6 +846,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
 
     private void abrirPesquisa() {
         try {
+            this.ancoraPrincipal.setEffect(new BoxBlur(10, 10, 10));
             FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/visao/FrmPesquisa.fxml"));
             Parent parent = fXMLLoader.load();
             FrmPesquisaController controller = fXMLLoader.getController();
@@ -851,6 +856,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
+            this.ancoraPrincipal.setEffect(null);
             if (controller.tabela.getSelectionModel().getSelectedItem() != null) {
                 if (controller.isSelecionouRegistro()) {
                     referencia = controller.tabela.getSelectionModel().getSelectedItem().getReferencia();

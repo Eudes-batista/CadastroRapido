@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -7,37 +8,41 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="237.0" prefWidth="464.0" styleClass="fundo-form" stylesheets="@css.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controle.FrmBancoController">
+<AnchorPane id="AnchorPane" prefHeight="295.0" prefWidth="583.0" stylesheets="@css.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controle.FrmBancoController">
    <children>
-      <Label fx:id="labelHost" layoutX="21.0" layoutY="59.0" prefHeight="20.0" prefWidth="230.0" styleClass="label-titulo" text="Localhost" textFill="#ebe5e5">
+      <Label fx:id="labelHost" layoutX="14.0" layoutY="59.0" prefHeight="20.0" prefWidth="230.0" styleClass="label-titulo" text="Localhost" textFill="#ebe5e5">
          <font>
             <Font size="14.0" />
          </font>
          <padding>
             <Insets left="5.0" />
          </padding></Label>
-      <TextField fx:id="editHost" layoutX="21.0" layoutY="84.0" onAction="#Host" prefHeight="32.0" prefWidth="230.0" styleClass="input-padrao">
+      <TextField fx:id="editHost" layoutX="14.0" layoutY="84.0" onAction="#Host" prefHeight="48.0" prefWidth="230.0" styleClass="input-padrao">
          <font>
             <Font size="15.0" />
          </font></TextField>
-      <Label fx:id="labelCaminho" layoutX="23.0" layoutY="131.0" prefHeight="25.0" prefWidth="332.0" styleClass="label-titulo" text="Caminho" textFill="#ebe5e5">
+      <Label fx:id="labelCaminho" layoutX="16.0" layoutY="141.0" prefHeight="25.0" prefWidth="332.0" styleClass="label-titulo" text="Caminho" textFill="#ebe5e5">
          <font>
             <Font size="14.0" />
          </font>
          <padding>
             <Insets left="5.0" />
          </padding></Label>
-      <TextField fx:id="editCaminho" layoutX="23.0" layoutY="156.0" prefHeight="32.0" prefWidth="332.0" styleClass="input-padrao">
+      <TextField fx:id="editCaminho" layoutX="16.0" layoutY="166.0" prefHeight="48.0" prefWidth="475.0" styleClass="input-padrao">
          <font>
             <Font size="15.0" />
          </font></TextField>
-      <Button fx:id="btPesquisar" focusTraversable="false" layoutX="368.0" layoutY="156.0" mnemonicParsing="false" onAction="#Pesquisa" prefHeight="32.0" prefWidth="64.0" style="-fx-font-size: 12;" styleClass="btpdv" text="..." />
-      <Button fx:id="btIniciar" layoutX="22.0" layoutY="216.0" mnemonicParsing="false" onAction="#Iniciar" onKeyPressed="#KeyPress" prefHeight="43.0" prefWidth="191.0" styleClass="btpdv" text="Iniciar conexão" />
-      <Button fx:id="btSair" focusTraversable="false" layoutX="224.0" layoutY="217.0" mnemonicParsing="false" onAction="#Sair" prefHeight="43.0" prefWidth="177.0" styleClass="btpdv" text="Sair" />
-      <Label layoutX="7.0" layoutY="5.0" maxHeight="51.0" prefHeight="43.0" prefWidth="464.0" style="-fx-font-size: 24;" styleClass="btpdv" text="Conexao com o banco de dados" AnchorPane.bottomAnchor="247.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Button fx:id="btPesquisar" focusTraversable="false" layoutX="505.0" layoutY="168.0" mnemonicParsing="false" onAction="#Pesquisa" prefHeight="44.0" prefWidth="64.0" style="-fx-font-size: 12;" styleClass="btpadrao" text="..." AnchorPane.rightAnchor="15.0" />
+      <Button fx:id="btIniciar" layoutX="14.0" layoutY="239.0" mnemonicParsing="false" onAction="#Iniciar" onKeyPressed="#KeyPress" prefHeight="43.0" prefWidth="191.0" styleClass="btpadrao" text="Iniciar conexão" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" />
+      <Button fx:id="btSair" focusTraversable="false" layoutX="392.0" layoutY="241.0" mnemonicParsing="false" onAction="#Sair" prefHeight="43.0" prefWidth="177.0" styleClass="btpadrao" text="Sair" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+      <Label layoutX="7.0" layoutY="5.0" maxHeight="51.0" prefHeight="43.0" prefWidth="464.0" styleClass="cabecalho-question" text="Conexao com o banco de dados" AnchorPane.bottomAnchor="247.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <padding>
             <Insets left="5.0" />
          </padding>
       </Label>
    </children>
+   <styleClass>
+      <String fx:value="fundo-form" />
+      <String fx:value="borda-padrao" />
+   </styleClass>
 </AnchorPane>

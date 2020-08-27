@@ -83,6 +83,7 @@ public class FrmBancoController implements Initializable {
                 Pane root = FXMLLoader.load(getClass().getResource("/visao/FrmAlteracaoPreco.fxml"));
                 Scene scene = new Scene(root);
                 Stage preco = new Stage();
+                preco.setMaximized(true);
                 preco.setScene(scene);
                 preco.toFront();
                 preco.initStyle(StageStyle.UNDECORATED);

@@ -50,22 +50,18 @@ public class FrmPesquisaController implements Initializable {
     @FXML
     private TableColumn<Produto, Double> columnPrecoAtacado;
     @FXML
-    private TableColumn<Produto, Double> columnQtdAtacado;
-    @FXML
     private TableColumn<Produto, String> columnCodigoBarra;
     @FXML
     private TableColumn<Produto, Button> columnApagar;
-    @FXML
-    private TableColumn<Produto, CheckBox> columnCheckBox;
 
     @FXML
     protected TextField editPesquisa;
-    
+
     @FXML
     private CheckBox chekcCancelados;
 
     @FXML
-    private Button button;
+    private Button btSair;
 
     @FXML
     private ImageView carregando;
@@ -90,9 +86,9 @@ public class FrmPesquisaController implements Initializable {
     }
 
     public void pesquisarProduto() {
-       this.pesquisaService.setChekcCancelados(this.chekcCancelados.isSelected());
-       this.produtos  = this.pesquisaService.listarProdutos(this.editPesquisa.getText());
-       this.tabela.setItems(this.produtos);
+        this.pesquisaService.setChekcCancelados(this.chekcCancelados.isSelected());
+        this.produtos = this.pesquisaService.listarProdutos(this.editPesquisa.getText());
+        this.tabela.setItems(this.produtos);
     }
 
     @FXML
@@ -113,7 +109,7 @@ public class FrmPesquisaController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.pesquisaService=new PesquisaService();
+        this.pesquisaService = new PesquisaService();
         inicializarColunas();
         this.carregando.setVisible(false);
         this.editPesquisa.setOnKeyPressed((e) -> {
@@ -123,13 +119,14 @@ public class FrmPesquisaController implements Initializable {
                 this.carregando.setVisible(false);
             }
         });
-        this.button.setOnAction((e) -> {
+        this.btSair.setOnAction((e) -> {
             this.selecionouRegistro = false;
-            ((Stage) this.button.getScene().getWindow()).close();
+            ((Stage) this.btSair.getScene().getWindow()).close();
         });
         this.editPesquisa.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
-            if(!this.editPesquisa.getText().isEmpty())
+            if (!this.editPesquisa.getText().isEmpty()) {
                 pesquisarProduto();
+            }
         });
         this.anchorPane.addEventHandler(KeyEvent.KEY_RELEASED, evt -> {
             if (evt.getCode() == KeyCode.ESCAPE) {
@@ -146,11 +143,9 @@ public class FrmPesquisaController implements Initializable {
         this.columnCodigoBarra.setCellValueFactory(new PropertyValueFactory<>("codigoBarra"));
         this.columnPreco.setCellValueFactory(new PropertyValueFactory<>("preco"));
         this.columnPrecoAtacado.setCellValueFactory(new PropertyValueFactory<>("precoAtacado"));
-        this.columnQtdAtacado.setCellValueFactory(new PropertyValueFactory<>("qtdAtacado"));
         this.columnApagar.setCellValueFactory(new PropertyValueFactory<>("button"));
-        this.columnCheckBox.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
         this.columnPreco.setCellFactory((TableColumn<Produto, Double> param) -> {
-            return new TableCell<Produto,Double>() {
+            return new TableCell<Produto, Double>() {
                 @Override
                 protected void updateItem(Double item, boolean empty) {
                     super.updateItem(item, empty);
@@ -164,7 +159,7 @@ public class FrmPesquisaController implements Initializable {
         });
 
         this.columnPrecoAtacado.setCellFactory((TableColumn<Produto, Double> param) -> {
-            return new TableCell<Produto,Double>() {
+            return new TableCell<Produto, Double>() {
                 @Override
                 protected void updateItem(Double item, boolean empty) {
                     super.updateItem(item, empty);
@@ -176,21 +171,6 @@ public class FrmPesquisaController implements Initializable {
                 }
             };
         });
-
-        this.columnQtdAtacado.setCellFactory((TableColumn<Produto, Double> param) -> {
-            return new TableCell<Produto,Double>() {
-                @Override
-                protected void updateItem(Double item, boolean empty) {
-                    super.updateItem(item, empty);
-                    setText(null);
-                    if (item != null) {
-                        setText(FrmPesquisaController.this.df.format(item));
-                        setAlignment(Pos.CENTER_RIGHT);
-                    }
-                }
-            };
-        });
-
         this.columnApagar.setCellFactory((TableColumn<Produto, Button> param) -> {
             return new TableCell<Produto, Button>() {
                 @Override
@@ -199,7 +179,8 @@ public class FrmPesquisaController implements Initializable {
                     setGraphic(null);
                     if (item != null) {
                         Button button = new Button("Apagar");
-                        button.getStyleClass().add("bt-apagar");
+                        button.getStyleClass().add("btpadrao");
+                        button.setStyle("-fx-font-size:11pt; -fx-text-fill: #fff;");
                         button.setOnAction(e -> {
                             excluirProduto(FrmPesquisaController.this.produtos.get(getIndex()), false);
                         });
@@ -210,7 +191,7 @@ public class FrmPesquisaController implements Initializable {
             };
         });
         this.columnCodigoBarra.setCellFactory((TableColumn<Produto, String> param) -> {
-            return new TableCell<Produto,String>() {
+            return new TableCell<Produto, String>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
@@ -273,8 +254,8 @@ public class FrmPesquisaController implements Initializable {
         return ButtonType.OK == optional.get();
     }
 
-    
     private int count = 0;
+
     @FXML
     private void apagarProdutosSelecionados() {
         if (opcoes()) {
@@ -293,6 +274,7 @@ public class FrmPesquisaController implements Initializable {
             }
         }
     }
+
     public boolean isSelecionouRegistro() {
         return this.selecionouRegistro;
     }

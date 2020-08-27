@@ -1,2 +1,2 @@
-localhost
-E:\omega\DBA\porto-mix-rest.FDB
+192.168.1.78
+G:\Omega\DBA\zoom.FDB

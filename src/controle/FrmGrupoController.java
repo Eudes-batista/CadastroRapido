@@ -131,7 +131,8 @@ public class FrmGrupoController implements Initializable {
             protected void updateItem(String item, boolean empty) {
                 if (!empty) {
                     Button button = new Button("Apagar");
-                    button.getStyleClass().add("bt-apagar");
+                    button.getStyleClass().add("btpadrao");
+                    button.setStyle("-fx-font-size:11pt; -fx-text-fill: #fff;");
                     button.setOnAction(evt -> {
                         Grupo grupo = FrmGrupoController.this.grupos.get(this.getIndex());
                         FrmGrupoController.this.grupoService.excluirMovimento(grupo.getCodigo());
@@ -206,7 +207,7 @@ public class FrmGrupoController implements Initializable {
     private boolean validarCampos() {
         return this.editCodigo.getText().trim().isEmpty() || this.editNome.getText().trim().isEmpty();
     }
-    
+
     private void abrirVinculacaoDeProduto() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/visao/FrmAdicionarGrupos.fxml"));
@@ -225,7 +226,6 @@ public class FrmGrupoController implements Initializable {
             alert.show();
         }
     }
-    
 
     private void sair() {
         ((Stage) this.btSair.getScene().getWindow()).close();

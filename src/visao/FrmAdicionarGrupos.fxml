@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import componentesjavafx.TextFieldCustom?>
-<?import javafx.geometry.Insets?>
+<?import java.lang.String?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
@@ -12,17 +12,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="ancoraPrincipal" prefHeight="503.0" prefWidth="720.0" stylesheets="@css.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controle.FrmAdicionarGruposController">
+<AnchorPane fx:id="ancoraPrincipal" prefHeight="768.0" prefWidth="1024.0" stylesheets="@css.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controle.FrmAdicionarGruposController">
    <children>
-      <AnchorPane id="AnchorPane" prefHeight="436.0" prefWidth="668.0" styleClass="fundo-geral" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane id="AnchorPane" prefHeight="506.0" prefWidth="720.0" styleClass="fundo-form" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label layoutX="24.0" layoutY="14.0" text="Vincular Produtos">
+            <Label layoutX="24.0" layoutY="14.0" maxHeight="53.0" prefHeight="53.0" prefWidth="1014.0" styleClass="cabecalho-question" text="Vincular Produtos" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <font>
                   <Font size="21.0" />
                </font></Label>
-            <ComboBox fx:id="comboBoxGrupo" layoutX="22.0" layoutY="78.0" prefHeight="37.0" prefWidth="661.0" promptText="Selecione um grupo" styleClass="input-padrao" />
-            <Label layoutX="22.0" layoutY="55.0" prefHeight="23.0" prefWidth="661.0" styleClass="label-titulo" text="Grupos" />
-            <TableView fx:id="tabelaProdutos" layoutX="13.0" layoutY="172.0" prefHeight="264.0" prefWidth="682.0">
+            <ComboBox fx:id="comboBoxGrupo" layoutX="12.0" layoutY="98.0" prefHeight="40.0" prefWidth="328.0" promptText="Selecione um grupo" styleClass="input-padrao" />
+            <Label layoutX="12.0" layoutY="75.0" prefHeight="23.0" prefWidth="328.0" styleClass="label-titulo" text="Grupos" />
+            <TableView fx:id="tabelaProdutos" layoutX="13.0" layoutY="160.0" prefHeight="518.0" prefWidth="984.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="160.0">
               <columns>
                   <TableColumn fx:id="columnCheckBox" maxWidth="600.0" prefWidth="42.0">
                      <graphic>
@@ -40,16 +40,18 @@
                   <DropShadow />
                </effect>
             </TableView>
-            <TextFieldCustom fx:id="txtPesquisa" layoutX="23.0" layoutY="129.0" prefHeight="37.0" prefWidth="661.0" promptText="Pesquisa de Produtos" styleClass="input-padrao" toUpperCase="true" />
-            <Button fx:id="btSalvar" layoutX="14.0" layoutY="441.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="147.0" styleClass="btIncluir" text="Salvar" />
-            <Button fx:id="btSair" layoutX="174.0" layoutY="441.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="147.0" styleClass="btexcluir" text="Sair" />
+            <TextFieldCustom fx:id="txtPesquisa" layoutX="353.0" layoutY="98.0" prefHeight="40.0" prefWidth="647.0" promptText="Pesquisa de Produtos" styleClass="input-padrao" toUpperCase="true" />
+            <Button fx:id="btSalvar" layoutX="14.0" layoutY="441.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="147.0" styleClass="btpadrao" text="Salvar" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" />
+            <Button fx:id="btSair" layoutX="539.0" layoutY="427.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="147.0" styleClass="btpadrao" text="Sair" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+            <Label layoutX="353.0" layoutY="75.0" prefHeight="23.0" prefWidth="328.0" styleClass="label-titulo" text="Pesquisa" />
          </children>
       </AnchorPane>
    </children>
-   <padding>
-      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-   </padding>
    <effect>
       <DropShadow color="#0000009e" />
    </effect>
+   <styleClass>
+      <String fx:value="fundo-form" />
+      <String fx:value="borda-padrao" />
+   </styleClass>
 </AnchorPane>
