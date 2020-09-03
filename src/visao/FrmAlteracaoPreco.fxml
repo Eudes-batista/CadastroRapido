@@ -288,7 +288,6 @@
                   <JFXButton fx:id="btSubGrupo" layoutX="11.0" layoutY="10.0" prefWidth="100.0" style="-fx-background-color: #00AFEF;" text="SubGrupo" textFill="WHITE" />
                   <JFXButton fx:id="btGrupo" buttonType="RAISED" prefWidth="100.0" style="-fx-background-color: #00AFEF;" text="Grupos" textFill="WHITE" />
                   <JFXButton fx:id="btRelatorioProduto" buttonType="RAISED" layoutY="84.0" prefWidth="100.0" style="-fx-background-color: #00AFEF;" text="Relatorios" textFill="WHITE" />
-                  <JFXButton fx:id="btCorrentista" buttonType="RAISED" layoutX="-15.0" layoutY="127.0" prefWidth="100.0" style="-fx-background-color: #00AFEF;" text="Correntista" textFill="WHITE" />
                </children>
             </JFXNodesList>
             <JFXTextArea fx:id="textAplicacaoComposicao" focusColor="#563d7c" labelFloat="true" layoutX="571.0" layoutY="252.0" prefHeight="218.0" prefWidth="439.0" promptText="Aplicação/Composição" style="-fx-background-color: #fff;" styleClass="textarea" unFocusColor="#563d7c">

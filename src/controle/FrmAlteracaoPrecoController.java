@@ -120,9 +120,6 @@ public class FrmAlteracaoPrecoController implements Initializable {
     private JFXButton btRelatorioProduto;
 
     @FXML
-    private JFXButton btCorrentista;
-
-    @FXML
     private JFXToggleButton confirmaPreco;
 
     @FXML
@@ -750,7 +747,6 @@ public class FrmAlteracaoPrecoController implements Initializable {
         this.labelNcm.setOnMouseClicked(e -> abrirCosmos());
         this.btGrupo.setOnAction(evt -> this.abrirCadastroDeGrupo());
         this.btSubGrupo.setOnAction(evt -> this.abrirCadastroDeSubGrupo());
-        this.btCorrentista.setOnAction(evt -> this.abrirCorrentista());
         this.adicionandoEventosComThread();
     }
 
@@ -956,20 +952,4 @@ public class FrmAlteracaoPrecoController implements Initializable {
             alert.show();
         }
     }
-
-    private void abrirCorrentista() {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/visao/FXMLCorrentista.fxml"));
-            Stage stage = new Stage(StageStyle.TRANSPARENT);
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.show();
-        } catch (IOException ex) {
-            alert.setAlertType(Alert.AlertType.ERROR);
-            alert.setTitle("Cadastro Rapido");
-            alert.setContentText("Erro ao carregar o arquivo FXMLCorrentista.fxml " + ex.getMessage());
-            alert.show();
-        }
-    }
-
 }
