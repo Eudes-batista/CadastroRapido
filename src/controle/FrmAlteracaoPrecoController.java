@@ -564,6 +564,14 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 editDescricao.setText(oldValue.toUpperCase());
             }
         });
+        editReferencia.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            if (newValue.length() <= 20) {
+                editReferencia.setText(newValue.toUpperCase());
+            } else {
+                editReferencia.setText("");
+                editReferencia.setText(oldValue.toUpperCase());
+            }
+        });
 
         editNcm.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             if (newValue != null) {
