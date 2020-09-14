@@ -87,7 +87,7 @@ public class FrmPesquisaController implements Initializable {
 
     public void pesquisarProduto() {
         this.pesquisaService.setChekcCancelados(this.chekcCancelados.isSelected());
-        this.produtos = this.pesquisaService.listarProdutos(this.editPesquisa.getText());
+        this.produtos = this.pesquisaService.listarProdutos(this.editPesquisa.getText().trim().toUpperCase());
         this.tabela.setItems(this.produtos);
     }
 
