@@ -80,7 +80,7 @@ public class FrmBancoController implements Initializable {
             ArquivoConfiguracao.GerarArquivo(host, caminho);
             conecta.setHost(host).setCaminho(caminho);
             if (conecta.conexao()) {
-                Pane root = FXMLLoader.load(getClass().getResource("/visao/FrmAlteracaoPreco.fxml"));
+                Pane root = FXMLLoader.load(getClass().getResource("/visao/FXMLMenu.fxml"));
                 Scene scene = new Scene(root);
                 Stage preco = new Stage();
                 preco.setMaximized(true);
@@ -95,7 +95,7 @@ public class FrmBancoController implements Initializable {
         } catch (IOException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERRO");
-            alert.setHeaderText("Erro Encontra o caminho do arquivo FrmAlteracaoPreco.fxml");
+            alert.setHeaderText("Erro Encontra o caminho do arquivo FXMLMenu.fxml");
             alert.setContentText(ex.getMessage());
             alert.show();
         } finally {
