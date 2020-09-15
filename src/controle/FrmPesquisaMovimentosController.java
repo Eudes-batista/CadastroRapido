@@ -2,10 +2,14 @@ package controle;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -45,7 +49,7 @@ public class FrmPesquisaMovimentosController implements Initializable {
     private TableColumn<Movimento, String> columnDocumento;
 
     @FXML
-    private TableColumn<Movimento, Date> columnDataMovimentacao;
+    private TableColumn<Movimento, String> columnDataMovimentacao;
 
     @FXML
     private TableColumn<Movimento, String> columnObservacao;
@@ -62,6 +66,8 @@ public class FrmPesquisaMovimentosController implements Initializable {
     @FXML
     private TextField documento;
 
+    private SimpleDateFormat simpleDateFormat;
+    
     public final ObservableList<Movimento> movimentos = FXCollections.observableArrayList();
     private MovimentoService movimentoService;
     private boolean selecionouRegistro = false;
@@ -99,6 +105,7 @@ public class FrmPesquisaMovimentosController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        this.simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         inicializarServicos();
         pesquisarMovimentacao();
         inicializarColunas();
@@ -124,7 +131,7 @@ public class FrmPesquisaMovimentosController implements Initializable {
         this.columnEmpresa.setCellValueFactory(new PropertyValueFactory<>("empresa"));
         this.columnTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
         this.columnDocumento.setCellValueFactory(new PropertyValueFactory<>("documento"));
-        this.columnDataMovimentacao.setCellValueFactory(new PropertyValueFactory<>("dataMovimento"));
+        this.columnDataMovimentacao.setCellValueFactory(cell -> new SimpleStringProperty(this.simpleDateFormat.format(cell.getValue().getDataMovimento())));
         this.columnObservacao.setCellValueFactory(new PropertyValueFactory<>("observacao"));
         this.tabela.setItems(movimentos);
         organizarConteudoColunas();
@@ -151,5 +158,5 @@ public class FrmPesquisaMovimentosController implements Initializable {
     public TableView<Movimento> getTabela() {
         return tabela;
     }
-
+    
 }
