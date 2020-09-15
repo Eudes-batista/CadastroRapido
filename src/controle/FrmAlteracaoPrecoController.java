@@ -106,6 +106,9 @@ public class FrmAlteracaoPrecoController implements Initializable {
 
     @FXML
     private Button btSalvar;
+    
+    @FXML
+    private Button btEstoque;
 
     @FXML
     private JFXToggleButton inativar;
@@ -755,6 +758,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         this.labelNcm.setOnMouseClicked(e -> abrirCosmos());
         this.btGrupo.setOnAction(evt -> this.abrirCadastroDeGrupo());
         this.btSubGrupo.setOnAction(evt -> this.abrirCadastroDeSubGrupo());
+        this.btEstoque.setOnAction(evt -> this.abrirMovimentacaoDeEstoque());
         this.adicionandoEventosComThread();
     }
 
@@ -942,6 +946,25 @@ public class FrmAlteracaoPrecoController implements Initializable {
             alert.setAlertType(Alert.AlertType.ERROR);
             alert.setTitle("Cadastro Rapido");
             alert.setContentText("Erro ao carregar o arquivo FrmGrupo.fxml " + ex.getMessage());
+            alert.show();
+        }
+    }
+    
+    private void abrirMovimentacaoDeEstoque() {
+        try {
+            FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/visao/FrmMovimentoEstoque.fxml"));
+            Parent root = fXMLLoader.load();
+            Scene scene = new Scene(root);
+            scene.setFill(Color.TRANSPARENT);
+            Stage stage = new Stage(StageStyle.TRANSPARENT);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (IOException ex) {
+            alert.setAlertType(Alert.AlertType.ERROR);
+            alert.setTitle("Cadastro Rapido");
+            alert.setContentText("Erro ao carregar o arquivo FrmMovimentoEstoque.fxml " + ex.getMessage());
             alert.show();
         }
     }
