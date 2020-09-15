@@ -54,7 +54,7 @@
 				<textElement textAlignment="Center">
 					<font size="16"/>
 				</textElement>
-				<text><![CDATA[Conta correte: ]]></text>
+				<text><![CDATA[Conta corrente: ]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="130" y="0" width="410" height="30" uuid="e3f84a74-6ef3-4aaa-be01-16d567d223cf"/>
@@ -87,7 +87,7 @@
 		<band height="63">
 			<staticText>
 				<reportElement x="23" y="26" width="78" height="17" uuid="69869adc-c62b-4022-8ef3-2b1673c0eb4e"/>
-				<text><![CDATA[Saldo disponivel: ]]></text>
+				<text><![CDATA[Saldo disponível: ]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="104" y="25" width="66" height="17" uuid="c164c03f-56eb-4d2c-90c2-61e1e40a6f35"/>
@@ -133,7 +133,7 @@
 				<reportElement x="120" y="3" width="100" height="30" uuid="3e682293-69ed-4bdb-bcc4-cb4520523a8e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8f416de8-0947-41b2-b53c-40313679800c"/>
 				</reportElement>
-				<text><![CDATA[Descrição lancamento]]></text>
+				<text><![CDATA[Descrição lançamento]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="290" y="4" width="80" height="20" uuid="ddfcaada-877d-4392-b385-291a4cc787a0">
@@ -145,7 +145,7 @@
 				<reportElement x="400" y="4" width="70" height="30" uuid="2ebe08d9-42e3-47a3-bce3-bc1b43c7503c">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7c03555b-176f-4192-90d6-499a848a24c9"/>
 				</reportElement>
-				<text><![CDATA[Cédito]]></text>
+				<text><![CDATA[Crédito]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="480" y="4" width="70" height="20" uuid="2d57af9b-7189-4180-a0e4-ae51ad7ffc77">
@@ -173,7 +173,7 @@
 				<reportElement x="290" y="4" width="100" height="30" uuid="90f58475-e609-44b2-a766-917bd937f747">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ac9776d4-38b4-47a9-866b-d32bae73984d"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{CRTIPMOV}.equals("M") ? "MANUAL" : "AUTOMATICO"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{CRTIPMOV}.equals("M") ? "MANUAL" : "AUTOMÁTICO"]]></textFieldExpression>
 			</textField>
 			<textField pattern="###,##0.00" isBlankWhenNull="true">
 				<reportElement x="400" y="4" width="80" height="26" uuid="d53405eb-09c3-4d2c-8a28-5b3454b286fc">
