@@ -34,7 +34,7 @@ public class ItemMovimentoService {
                 Statement pst = conecta.getConnection().createStatement();
                 pst.execute(sql);
                 conecta.getConnection().commit();
-                 pst.close();
+                pst.close();
                 movimentarEstoqueAtual(itemMovimento);
                 return true;
             } catch (SQLException ex) {
@@ -68,7 +68,8 @@ public class ItemMovimentoService {
                 break;
             }
             double estoque = conecta.getResultSet().getDouble("estoque");
-            PreparedStatement preparedStatement = conecta.getConnection().prepareStatement("update scea07 set EEESTATU=? where EEREFERE in('" + produto + "') and EECODEMP='" + itemMovimento.getMovimento().getEmpresa() + "'");
+            sql = "update scea07 set EEESTATU=? where EEREFERE in('" + produto + "') and EECODEMP='" + itemMovimento.getMovimento().getEmpresa() + "'";
+            PreparedStatement preparedStatement = conecta.getConnection().prepareStatement(sql);
             preparedStatement.setDouble(1, estoque);
             preparedStatement.execute();
             conecta.getConnection().commit();
@@ -88,7 +89,7 @@ public class ItemMovimentoService {
                 pst.setString(4, itemMovimento.getMovimento().getDocumento());
                 pst.execute();
                 conecta.getConnection().commit();
-                 pst.close();
+                pst.close();
                 movimentarEstoqueAtual(itemMovimento);
                 return true;
             } catch (SQLException ex) {
@@ -111,7 +112,7 @@ public class ItemMovimentoService {
                 pst.setString(3, itemMovimentos.get(0).getMovimento().getDocumento());
                 pst.execute();
                 conecta.getConnection().commit();
-                 pst.close();
+                pst.close();
                 ItemMovimento itemMovimento = itemMovimentos.get(0);
                 itemMovimento.setProduto(itemMovimentos.stream().map(ItemMovimento::getProduto).collect(Collectors.joining(",")));
                 movimentarEstoqueAtual(itemMovimento);
@@ -181,8 +182,8 @@ public class ItemMovimentoService {
         return "1";
     }
 
-    private void atualizarInformacaoProduto(String produto) throws SQLException{
-        try (PreparedStatement preparedStatement = conecta.getConnection().prepareStatement("update scea01 set PRULTALT=? where PRREFERE=?")) {
+    private void atualizarInformacaoProduto(String produto) throws SQLException {
+        try ( PreparedStatement preparedStatement = conecta.getConnection().prepareStatement("update scea01 set PRULTALT=? where PRREFERE=?")) {
             preparedStatement.setDate(1, new Date(new java.util.Date().getTime()));
             preparedStatement.setString(2, produto);
             preparedStatement.execute();
