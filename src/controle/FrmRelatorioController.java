@@ -114,9 +114,8 @@ public class FrmRelatorioController implements Initializable {
         String empresa = this.comboEmpresa.getSelectionModel().getSelectedItem();
         this.filtroProduto.setEmpresa(empresa == null ? "" : empresa);
         this.filtroProduto.setProduto(this.editProduto.getText().trim().toUpperCase());
-        String data = LocalDate.now().toString();
-        this.filtroProduto.setDataInicial(this.dataInicial.getValue() == null ? data : this.dataInicial.getValue().toString());
-        this.filtroProduto.setDataFinal(this.dataFinal.getValue() == null ? data : this.dataFinal.getValue().toString());
+        this.filtroProduto.setDataInicial(this.dataInicial.getValue() == null ? null : this.dataInicial.getValue().toString());
+        this.filtroProduto.setDataFinal(this.dataFinal.getValue() == null ? null : this.dataFinal.getValue().toString());
         this.relatorioProduto.imprimirEstoque(this.filtroProduto);
     }
 
