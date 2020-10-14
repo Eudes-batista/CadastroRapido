@@ -99,7 +99,7 @@ public class RelatorioProduto {
                 + "    PRREFERE=MIREFERE\n"
                 + "  )\n"
                 + "WHERE\n"
-                + "  MCCODEMP like '%" + filtroProduto.getEmpresa() + "%' and MIREFERE like '%" + filtroProduto.getProduto() + "%' ";
+                + "  MCCODEMP like '%" + filtroProduto.getEmpresa() + "%' and MIREFERE like '%" + filtroProduto.getProduto() + "%' and MITIPMOV like '%"+filtroProduto.getTipoDeMovimentacao()+"%'";
         if (filtroProduto.getDataInicial() != null) {
             sql += "and MCDATMOV between '" + filtroProduto.getDataInicial() + " 00:00:00' and '" + filtroProduto.getDataFinal() + " 23:59:59'";
         }

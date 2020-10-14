@@ -8,23 +8,38 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 
-
-<AnchorPane fx:id="ancoraPrincipal" prefHeight="400.0" prefWidth="600.0" stylesheets="@css.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controle.FrmRelatorioController">
+<AnchorPane fx:id="ancoraPrincipal" prefHeight="509.0" prefWidth="605.0" stylesheets="@css.css" xmlns="http://javafx.com/javafx/8.0.251" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controle.FrmRelatorioController">
    <children>
-      <Label layoutX="14.0" layoutY="130.0" prefHeight="21.0" prefWidth="282.0" styleClass="label-titulo" text="Data Inicial" />
-      <DatePicker fx:id="dataInicial" layoutX="14.0" layoutY="148.0" prefHeight="26.0" prefWidth="282.0" promptText="Data Inicial" styleClass="input-padrao" />
-      <Label layoutX="337.0" layoutY="129.0" prefHeight="21.0" prefWidth="242.0" styleClass="label-titulo" text="Data Final" />
-      <DatePicker fx:id="dataFinal" layoutX="337.0" layoutY="147.0" prefHeight="26.0" prefWidth="242.0" promptText="Data Final" styleClass="input-padrao" />
-      <ComboBox fx:id="comboEmpresa" layoutX="13.0" layoutY="84.0" prefHeight="35.0" prefWidth="562.0" promptText="Selecione uma Empresa" styleClass="input-padrao" />
-      <Label layoutX="14.0" layoutY="61.0" prefHeight="26.0" prefWidth="562.0" styleClass="label-titulo" text="Empresa" />
-      <TextField fx:id="editProduto" layoutX="14.0" layoutY="208.0" prefHeight="35.0" prefWidth="514.0" promptText="Refencia ou Codigo de Barra" styleClass="input-padrao" />
-      <Label layoutX="14.0" layoutY="190.0" prefHeight="21.0" prefWidth="514.0" styleClass="label-titulo" text="Prduto" />
-      <Button fx:id="btPesquisar" layoutX="14.0" layoutY="256.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="255.0" styleClass="btpadrao" text="Pesquisar produto" />
-      <Button fx:id="btProdutos" layoutX="15.0" layoutY="341.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="178.0" styleClass="btpadrao" text="Filtrar Produtos" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" />
-      <Button fx:id="btMovimentacao" layoutX="205.0" layoutY="341.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="178.0" styleClass="btpadrao" text="Filtrar Estoque" AnchorPane.bottomAnchor="15.0" />
-      <Button fx:id="btSair" layoutX="397.0" layoutY="341.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="178.0" styleClass="btpadrao" text="Sair" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" />
-      <CheckBox fx:id="checkTodos" layoutX="283.0" layoutY="267.0" mnemonicParsing="false" text="Todos Produtos" />
+      <HBox alignment="CENTER" layoutX="10.0" layoutY="77.0" prefHeight="416.0" prefWidth="605.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="72.0">
+         <children>
+            <AnchorPane>
+               <children>
+                  <Label layoutX="10.0" layoutY="204.0" prefHeight="21.0" prefWidth="282.0" styleClass="label-titulo" text="Data Inicial" />
+                  <DatePicker fx:id="dataInicial" layoutX="10.0" layoutY="224.0" prefHeight="26.0" prefWidth="282.0" promptText="Data Inicial" styleClass="input-padrao" />
+                  <Label layoutX="302.0" layoutY="204.0" prefHeight="21.0" prefWidth="242.0" styleClass="label-titulo" text="Data Final" />
+                  <DatePicker fx:id="dataFinal" layoutX="302.0" layoutY="225.0" prefHeight="26.0" prefWidth="242.0" promptText="Data Final" styleClass="input-padrao" />
+                  <ComboBox fx:id="comboEmpresa" layoutX="10.0" layoutY="23.0" prefHeight="35.0" prefWidth="562.0" promptText="Selecione uma Empresa" styleClass="input-padrao" />
+                  <Label layoutX="11.0" prefHeight="26.0" prefWidth="562.0" styleClass="label-titulo" text="Empresa" />
+                  <TextField fx:id="editProduto" layoutX="11.0" layoutY="296.0" prefHeight="40.0" prefWidth="348.0" promptText="Refencia ou Codigo de Barra" styleClass="input-padrao" />
+                  <Label layoutX="11.0" layoutY="274.0" prefHeight="21.0" prefWidth="348.0" styleClass="label-titulo" text="Prduto" />
+                  <Button fx:id="btPesquisar" layoutX="369.0" layoutY="292.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="206.0" styleClass="btpadrao" text="Pesquisar produto" />
+                  <CheckBox fx:id="checkTodos" layoutX="262.0" layoutY="163.0" mnemonicParsing="false" text="Todos Produtos" />
+                  <ComboBox fx:id="comboTipoMovimentacao" disable="true" layoutX="10.0" layoutY="96.0" prefHeight="40.0" prefWidth="562.0" promptText="Selecione um tipo de movimentação" styleClass="input-padrao" />
+                  <Label layoutX="11.0" layoutY="73.0" prefHeight="26.0" prefWidth="348.0" styleClass="label-titulo" text="Tipo de movimentação" />
+                  <CheckBox fx:id="checkSemTipoMovimentacao" layoutX="17.0" layoutY="163.0" mnemonicParsing="false" selected="true" text="Sem tipo de movimentação" />
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="360.0" spacing="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                     <children>
+                        <Button fx:id="btProdutos" mnemonicParsing="false" prefHeight="35.0" prefWidth="178.0" styleClass="btpadrao" text="Filtrar Produtos" />
+                        <Button fx:id="btMovimentacao" mnemonicParsing="false" prefHeight="35.0" prefWidth="178.0" styleClass="btpadrao" text="Filtrar Estoque" />
+                        <Button fx:id="btSair" mnemonicParsing="false" prefHeight="44.0" prefWidth="178.0" styleClass="btpadrao" text="Sair" />
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
       <Label layoutX="15.0" layoutY="14.0" maxHeight="53.0" prefHeight="53.0" prefWidth="590.0" styleClass="cabecalho-question" text="Filtro de Relatório" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
    </children>
    <styleClass>

@@ -23,13 +23,13 @@ public class MovimentoService {
         if (conecta.conexao()) {
             try {
                 String sql = "UPDATE OR INSERT INTO SCEA02 (MCCODEMP,MCTIPMOV,MCNUMERO,MCDATMOV,MCHISTOR,MCIDENTI,MCDATALT)";
-                sql += " VALUES('"+movimento.getEmpresa()+"','"+movimento.getTipo()+"','"+movimento.getDocumento()+
-                        "','" + new SimpleDateFormat("yyyy-MM-dd").format(movimento.getDataMovimento()) +
-                        "','"+movimento.getObservacao()+"','"+movimento.getUsuario()+"','"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(movimento.getDataAtualizacao())+"')";
+                sql += " VALUES('" + movimento.getEmpresa() + "','" + movimento.getTipo() + "','" + movimento.getDocumento()
+                        + "','" + new SimpleDateFormat("yyyy-MM-dd").format(movimento.getDataMovimento())
+                        + "','" + movimento.getObservacao() + "','" + movimento.getUsuario() + "','" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(movimento.getDataAtualizacao()) + "')";
                 Statement pst = conecta.getConnection().createStatement();
                 pst.execute(sql);
                 conecta.getConnection().commit();
-                 pst.close();
+                pst.close();
                 return true;
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -81,6 +81,31 @@ public class MovimentoService {
         return null;
     }
 
+    public List<TipoMovimento> listarTodosTipos() {
+        List<TipoMovimento> tipoMovimentos = new ArrayList<>();
+        if (!conecta.conexao()) {
+            return tipoMovimentos;
+        }
+        String sql = "select T62TPMOV,T62DESCR from LAPT62 order by T62TPMOV";
+        if (!conecta.executaSQL(sql)) {
+            this.conecta.desconecta();
+            return tipoMovimentos;
+        }
+        try {
+            if (!conecta.getResultSet().first()) {
+                this.conecta.desconecta();
+                return tipoMovimentos;
+            }
+            do {
+                tipoMovimentos.add(new TipoMovimento(conecta.getResultSet().getString("T62TPMOV"), conecta.getResultSet().getString("T62DESCR")));
+            } while (conecta.getResultSet().next());
+        } catch (SQLException ex) {
+            tipoMovimentos.clear();
+        }
+        this.conecta.desconecta();
+        return tipoMovimentos;
+    }
+
     public List<Movimento> listarMovimentos(String data, String documento) throws SQLException {
         if (conecta.conexao()) {
             String sql = "select MCCODEMP as empresa,MCTIPMOV as tipo,MCNUMERO as documento,MCDATMOV as data,MCHISTOR as observacao from SCEA02 where MCNUMERO like '%" + documento + "%' and MCDATMOV BETWEEN '" + data + " 00:00:00' and '" + data + " 23:59:59' group by MCCODEMP,MCTIPMOV,MCNUMERO,MCDATMOV,MCHISTOR order by MCNUMERO";
@@ -112,7 +137,7 @@ public class MovimentoService {
                 pst.setString(3, movimento.getDocumento());
                 pst.execute();
                 conecta.getConnection().commit();
-                 pst.close();
+                pst.close();
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erro");

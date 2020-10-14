@@ -1,11 +1,12 @@
 package modelo.dto;
 
 public class FiltroProduto {
-    
+
     private String empresa;
     private String dataInicial;
     private String dataFinal;
     private String produto;
+    private String tipoDeMovimentacao;
 
     public FiltroProduto() {
     }
@@ -49,10 +50,17 @@ public class FiltroProduto {
         this.produto = produto;
     }
 
+    public String getTipoDeMovimentacao() {
+        return tipoDeMovimentacao;
+    }
+
+    public void setTipoDeMovimentacao(String tipoDeMovimentacao) {
+        this.tipoDeMovimentacao = tipoDeMovimentacao;
+    }
+
     @Override
     public String toString() {
         return "FiltroEstoque{" + "empresa=" + empresa + ", dataInicial=" + dataInicial + ", dataFinal=" + dataFinal + ", produto=" + produto + '}';
     }
 
-    
 }

@@ -23,6 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import modelo.TipoMovimento;
 import modelo.dto.FiltroProduto;
 import relatorio.RelatorioProduto;
 import servico.MovimentoService;
@@ -48,6 +49,9 @@ public class FrmRelatorioController implements Initializable {
     private ComboBox<String> comboEmpresa;
 
     @FXML
+    private ComboBox<TipoMovimento> comboTipoMovimentacao;
+
+    @FXML
     private DatePicker dataInicial;
     @FXML
     private DatePicker dataFinal;
@@ -55,11 +59,15 @@ public class FrmRelatorioController implements Initializable {
     @FXML
     private CheckBox checkTodos;
 
+    @FXML
+    private CheckBox checkSemTipoMovimentacao;
+
     private RelatorioProduto relatorioProduto;
     private FiltroProduto filtroProduto;
     private MovimentoService movimentoService;
 
     private final ObservableList<String> empresas = FXCollections.observableArrayList();
+    private ObservableList<TipoMovimento> tipoMovimentacoes;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -76,6 +84,10 @@ public class FrmRelatorioController implements Initializable {
         LocalDate data = LocalDate.now();
         this.dataInicial.setValue(data);
         this.dataFinal.setValue(data);
+        this.tipoMovimentacoes = FXCollections.observableArrayList();
+        this.tipoMovimentacoes.addAll(this.movimentoService.listarTodosTipos());
+        this.comboTipoMovimentacao.setItems(this.tipoMovimentacoes);
+        this.comboTipoMovimentacao.disableProperty().bind(this.checkSemTipoMovimentacao.selectedProperty());
     }
 
     private void sair() {
@@ -110,12 +122,19 @@ public class FrmRelatorioController implements Initializable {
         this.relatorioProduto.imprimirTodosProdutos(this.filtroProduto);
     }
 
-    private void imprimirRelatorioEstoque() {        
+    private void imprimirRelatorioEstoque() {
         String empresa = this.comboEmpresa.getSelectionModel().getSelectedItem();
         this.filtroProduto.setEmpresa(empresa == null ? "" : empresa);
         this.filtroProduto.setProduto(this.editProduto.getText().trim().toUpperCase());
         this.filtroProduto.setDataInicial(this.dataInicial.getValue() == null ? null : this.dataInicial.getValue().toString());
         this.filtroProduto.setDataFinal(this.dataFinal.getValue() == null ? null : this.dataFinal.getValue().toString());
+        TipoMovimento tipoMovimento = this.comboTipoMovimentacao.getSelectionModel().getSelectedItem();
+        if(tipoMovimento != null){
+            this.filtroProduto.setTipoDeMovimentacao(tipoMovimento.getCodigo());            
+        }
+        if (this.checkSemTipoMovimentacao.isSelected()) {
+            this.filtroProduto.setTipoDeMovimentacao("");
+        }
         this.relatorioProduto.imprimirEstoque(this.filtroProduto);
     }
 
