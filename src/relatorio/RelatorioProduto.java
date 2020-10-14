@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.sql.ResultSet;
 import java.util.HashMap;
 import javafx.scene.control.Alert;
+import javax.swing.JFrame;
 import modelo.dto.FiltroProduto;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
@@ -56,7 +57,8 @@ public class RelatorioProduto {
             JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
             jasperViewer.setTitle("Relatorio de Produtos");
             jasperViewer.setDefaultCloseOperation(JasperViewer.DISPOSE_ON_CLOSE);
-            jasperViewer.setResizable(false);
+            jasperViewer.setResizable(true);
+            jasperViewer.setExtendedState(JFrame.MAXIMIZED_BOTH);
             jasperViewer.setVisible(true);
         } catch (JRException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -117,7 +119,8 @@ public class RelatorioProduto {
             JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
             jasperViewer.setTitle("Relatorio de Estoque");
             jasperViewer.setDefaultCloseOperation(JasperViewer.DISPOSE_ON_CLOSE);
-            jasperViewer.setResizable(false);
+            jasperViewer.setResizable(true);
+            jasperViewer.setExtendedState(JFrame.MAXIMIZED_BOTH);
             jasperViewer.setVisible(true);
         } catch (JRException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
