@@ -341,7 +341,7 @@ public class FrmMovimentoEstoqueController implements Initializable {
 
     private void inicializarColunas() {
         this.columnCheckBox.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
-        this.columnProduto.setCellValueFactory(new PropertyValueFactory<>("produto"));
+        this.columnProduto.setCellValueFactory(new PropertyValueFactory<>("descricao"));
         this.columnQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
         this.columnPreco.setCellValueFactory(new PropertyValueFactory<>("precoUnitario"));
         this.columnTotal.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
@@ -371,8 +371,9 @@ public class FrmMovimentoEstoqueController implements Initializable {
             return;
         }
         ItemMovimento itemMovimento = new ItemMovimento(movimento);
-        itemMovimento.setProduto(item.getText() + " - " + labelDescricao.getText());
-        itemMovimento.setQuantidade(Double.parseDouble(quantidade.getText().replace(".", "").replaceAll(",", ".")));
+        itemMovimento.setProduto(item.getText());
+        itemMovimento.setDescricao(item.getText() + " - " + labelDescricao.getText());
+        itemMovimento.setQuantidade(FormatterUtil.getValorPago(quantidade.getText()));
         itemMovimento.setPrecoUnitario(FormatterUtil.getValorPago(precoUnitario.getText()));
         if (this.itemMovimentoService.salvar(itemMovimento)) {
             itemMovimento.setCheckBox(new CheckBox());

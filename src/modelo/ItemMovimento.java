@@ -10,6 +10,7 @@ public class ItemMovimento {
     private CheckBox checkBox;
     private Movimento movimento;    
     private String seguenciaItem;
+    private String descricao;
     private String produto;
     private double quantidade;
     private double precoUnitario;
@@ -79,6 +80,14 @@ public class ItemMovimento {
         this.precoUnitario = precoUnitario;
     }
 
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 3;
@@ -107,7 +116,7 @@ public class ItemMovimento {
 
     @Override
     public String toString() {
-        return "ItemMovimento{" + "movimento=" + movimento + ", seguenciaItem=" + seguenciaItem + ", produto=" + produto + ", quantidade=" + quantidade + ", precoUnitario=" + precoUnitario + '}';
+        return "ItemMovimento{" + "checkBox=" + checkBox + ", movimento=" + movimento + ", seguenciaItem=" + seguenciaItem + ", descricao=" + descricao + ", produto=" + produto + ", quantidade=" + quantidade + ", precoUnitario=" + precoUnitario + ", precoTotal=" + precoTotal + '}';
     }
 
     public CheckBox getCheckBox() {

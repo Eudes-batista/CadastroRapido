@@ -27,7 +27,7 @@ public class ItemMovimentoService {
                         + "','" + itemMovimento.getMovimento().getTipo()
                         + "','" + itemMovimento.getMovimento().getDocumento()
                         + "','" + itemMovimento.getSeguenciaItem()
-                        + "','" + itemMovimento.getProduto().split("-")[0].trim()
+                        + "','" + itemMovimento.getProduto().trim()
                         + "','" + new SimpleDateFormat("yyyy-MM-dd").format(itemMovimento.getMovimento().getDataMovimento())
                         + "'," + itemMovimento.getQuantidade()
                         + "," + itemMovimento.getPrecoUnitario() + ")";
@@ -59,7 +59,7 @@ public class ItemMovimentoService {
         String produto;
         String produtos[] = itemMovimento.getProduto().split(",");
         for (String p : produtos) {
-            produto = p.split("-")[0].trim();
+            produto = p;
             String sql = "select (sum( iif( substr(MITIPMOV,1,1) = 'E' , MIQUANTI ,0 ) ) - sum(iif(substr(MITIPMOV,1,1)='S',MIQUANTI,0))) as estoque from scea03 where MIREFERE in('" + produto + "') and MICODEMP='" + itemMovimento.getMovimento().getEmpresa() + "'";
             if (!conecta.executaSQL(sql)) {
                 break;
@@ -158,7 +158,8 @@ public class ItemMovimentoService {
                         itemMovimento.setCheckBox(new CheckBox());
                         itemMovimento.setMovimento(movimento);
                         itemMovimento.setSeguenciaItem(conecta.getResultSet().getString("ITEM"));
-                        itemMovimento.setProduto(produto);
+                        itemMovimento.setProduto(refrencia);
+                        itemMovimento.setDescricao(produto);
                         itemMovimento.setQuantidade(conecta.getResultSet().getDouble("QUANTIDADE"));
                         itemMovimento.setPrecoUnitario(conecta.getResultSet().getDouble("PRECO"));
                         itemMovimento.setPrecoTotal(conecta.getResultSet().getDouble("TOTAL"));
