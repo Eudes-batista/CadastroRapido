@@ -495,11 +495,11 @@ public class FrmAlteracaoPrecoController implements Initializable {
             }
             Double preco = formatarPreco(this.editPreco.getText()), precoAtacado = formatarPreco(this.editPrecoAtacado.getText()), qtdAtacado = formatarPreco(this.editQtdAtacado.getText());
             Double precoEspecial = formatarPreco(this.editPrecoEspecial.getText());
-            this.referencia = this.editReferencia.getText();
+            this.referencia = this.editReferencia.getText().trim();
             produto.setReferencia(referencia);
             produto.setCodigoBarra(referencia);
             if (verificarTemValorCodigoBarra()) {
-                produto.setCodigoBarra(codigoBarra);
+                produto.setCodigoBarra(codigoBarra.trim());
             }
             this.produto.setDescricao(editDescricao.getText());
             this.produto.setAplicacao(textAplicacaoComposicao.getText());
