@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioTotalVendedores" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0ff27b76-0347-4737-addf-c5ccbf7d51ab">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
+	<parameter name="periodoSelecionado" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[select 
+  sum(OSVLRORC) as total_vendas_brutas
+, (select 
+  sum(OSVLRORC) - sum(DIQUANTI*DIPRUNIT)
+from 
+  sosa20 
+inner join 
+  sosa21 on(DIDEVOLU=DVDEVOLU)
+where
+    DVDATVEN >= '2020-11-01 00:00:00' 
+and DVDATVEN <= '2020-11-30 23:59:59'
+and DVVENDED = OSVENDED) as total_vendas_liquidas
+, (select 
+   sum(DIQUANTI*DIPRUNIT)
+from 
+  sosa20 
+inner join 
+  sosa21 on(DIDEVOLU=DVDEVOLU)
+where
+    DVDATVEN >= '2020-11-01 00:00:00' 
+and DVDATVEN <= '2020-11-30 23:59:59'
+and DVVENDED = OSVENDED) as total_devolucoes,
+OSVENDED as vendedores
+from 
+  sosa01 
+where 
+  OSLIQUID >= '2020-11-01 00:00:00' and OSLIQUID <= '2020-11-30 23:59:59' and OSVENDED like '%%'
+group by 
+  OSVENDED]]>
+	</queryString>
+	<field name="VENDEDORES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="VENDEDORES"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="SOSA01"/>
+	</field>
+	<field name="TOTAL_VENDAS_BRUTAS" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="TOTAL_VENDAS_BRUTAS"/>
+	</field>
+	<field name="TOTAL_VENDAS_LIQUIDAS" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="TOTAL_VENDAS_LIQUIDAS"/>
+	</field>
+	<field name="TOTAL_DEVOLUCOES" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="TOTAL_DEVOLUCOES"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="65" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="10" width="550" height="30" uuid="8132ce58-ef55-4a72-ba3a-fb69bc63b649"/>
+				<textElement textAlignment="Center">
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[Relatório de vendedores ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="8" y="45" width="536" height="17" uuid="6a7174cb-0459-44fa-b1f3-4c0dcd8bc64c"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{periodoSelecionado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="39" splitType="Stretch">
+			<staticText>
+				<reportElement x="20" y="10" width="70" height="19" uuid="408d635a-8d81-4b95-b510-350c1c718a5c"/>
+				<textElement>
+					<font size="13"/>
+				</textElement>
+				<text><![CDATA[Vendedor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="125" y="10" width="89" height="19" uuid="846205e3-7819-456e-a5bb-c1f4704f560e"/>
+				<textElement>
+					<font size="13"/>
+				</textElement>
+				<text><![CDATA[Total Bruto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="249" y="10" width="102" height="22" uuid="85537bc5-1644-4d41-a3c3-8fdf553c5726"/>
+				<textElement>
+					<font size="13"/>
+				</textElement>
+				<text><![CDATA[Total Liquido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="379" y="7" width="115" height="24" uuid="cf1d9e82-c3b2-4969-80ac-2ffbd832e639"/>
+				<textElement>
+					<font size="13"/>
+				</textElement>
+				<text><![CDATA[Total Devoluções]]></text>
+			</staticText>
+			<line>
+				<reportElement x="8" y="35" width="536" height="1" uuid="61a57ade-82cc-483f-9669-10b778527497"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="45" splitType="Stretch">
+			<textField>
+				<reportElement x="35" y="1" width="100" height="30" uuid="c1e07eef-9e35-40d3-9e4a-7d999856b5ae"/>
+				<textElement>
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{VENDEDORES}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;¤-#,##0.00">
+				<reportElement x="125" y="0" width="103" height="30" uuid="551a04ea-d6c7-4634-b9df-331bae2812ea">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b24cba3f-8396-4e6c-807e-c4167d0fa02e"/>
+				</reportElement>
+				<textElement>
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTAL_VENDAS_BRUTAS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;¤-#,##0.00">
+				<reportElement x="245" y="0" width="100" height="30" uuid="402023de-aebd-414c-97a7-f7acf6e6fef2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="89b74aa4-c0cb-4b96-ab11-f7d98a80b238"/>
+				</reportElement>
+				<textElement>
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTAL_VENDAS_LIQUIDAS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;¤-#,##0.00">
+				<reportElement x="395" y="0" width="100" height="30" uuid="92001ee6-a595-4a0d-9a43-6c836c7bfdd6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="eae7b6c6-a6d8-435e-9cb4-021db1b27b4a"/>
+				</reportElement>
+				<textElement>
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTAL_DEVOLUCOES}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="8" y="38" width="536" height="1" uuid="bd473e23-4073-43b0-951c-c286356bae5c"/>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="67" splitType="Stretch">
+			<textField>
+				<reportElement x="352" y="15" width="100" height="30" uuid="b480cf8d-efb5-480e-aa44-6121f780d5cc"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="452" y="15" width="100" height="30" uuid="b18dd791-0452-4d48-997a-f419d55ac0f9"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="5" y="18" width="130" height="30" uuid="417900e9-23a3-4d1b-bc89-030db6b673da"/>
+				<textFieldExpression><![CDATA["Total de páginas " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
