@@ -60,9 +60,9 @@ public class RelatorioVendedor {
     public void imprimir() {
         
         String sql = "select \n"
-                + "  sum(OSVLRORC) as total_vendas_brutas\n"
+                + "  coalesce(sum(OSVLRORC),0) as total_vendas_brutas\n"
                 + ", (select \n"
-                + "  sum(OSVLRORC) - sum(DIQUANTI*DIPRUNIT)\n"
+                + "  coalesce(sum(OSVLRORC) - sum(DIQUANTI*DIPRUNIT),0)\n"
                 + "from \n"
                 + "  sosa20 \n"
                 + "inner join \n"
@@ -72,7 +72,7 @@ public class RelatorioVendedor {
                 + "and DVDATVEN <= '" + this.dataFinal + " 23:59:59'\n"
                 + "and DVVENDED = OSVENDED) as total_vendas_liquidas\n"
                 + ", (select \n"
-                + "   sum(DIQUANTI*DIPRUNIT)\n"
+                + "   coalesce(sum(DIQUANTI*DIPRUNIT),0)\n"
                 + "from \n"
                 + "  sosa20 \n"
                 + "inner join \n"
