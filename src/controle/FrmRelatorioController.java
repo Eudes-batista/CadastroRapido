@@ -1,9 +1,11 @@
 package controle;
 
+import componentesjavafx.TextFieldCustom;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -24,9 +26,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import modelo.TipoMovimento;
+import modelo.Vendedor;
 import modelo.dto.FiltroProduto;
+import modelo.dto.FiltroProdutoVendido;
 import relatorio.RelatorioProduto;
 import servico.MovimentoService;
+import servico.VendedorService;
 
 public class FrmRelatorioController implements Initializable {
 
@@ -62,32 +67,49 @@ public class FrmRelatorioController implements Initializable {
     @FXML
     private CheckBox checkSemTipoMovimentacao;
 
+    @FXML
+    private CheckBox checkProdutosVendidos;
+
+    @FXML
+    private ComboBox<Vendedor> comboVendedores;
+
+    @FXML
+    private TextFieldCustom editNumeroCaixa;
+
     private RelatorioProduto relatorioProduto;
     private FiltroProduto filtroProduto;
     private MovimentoService movimentoService;
+    VendedorService vendedorService;
 
     private final ObservableList<String> empresas = FXCollections.observableArrayList();
     private ObservableList<TipoMovimento> tipoMovimentacoes;
+    private ObservableList<Vendedor> vendedores;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.relatorioProduto = new RelatorioProduto();
         this.filtroProduto = new FiltroProduto();
         this.movimentoService = new MovimentoService();
+        this.vendedorService = new VendedorService();
         this.listarEmpresa();
         this.btProdutos.setOnAction(evt -> this.imprimirRelatorioProduto());
         this.btMovimentacao.setOnAction(evt -> this.imprimirRelatorioEstoque());
         this.btPesquisar.setOnAction(evt -> this.pesquisarProduto());
         this.btSair.setOnAction(evt -> this.sair());
         this.checkTodos.setOnAction(evt -> this.checkTodos());
+        this.checkProdutosVendidos.setOnAction(evt -> this.listarVendedores());
         this.comboEmpresa.setItems(this.empresas);
         LocalDate data = LocalDate.now();
         this.dataInicial.setValue(data);
         this.dataFinal.setValue(data);
         this.tipoMovimentacoes = FXCollections.observableArrayList();
+        this.vendedores = FXCollections.observableArrayList();
         this.tipoMovimentacoes.addAll(this.movimentoService.listarTodosTipos());
         this.comboTipoMovimentacao.setItems(this.tipoMovimentacoes);
         this.comboTipoMovimentacao.disableProperty().bind(this.checkSemTipoMovimentacao.selectedProperty());
+        this.comboVendedores.disableProperty().bind(this.checkProdutosVendidos.selectedProperty().not());
+        this.editNumeroCaixa.disableProperty().bind(this.checkProdutosVendidos.selectedProperty().not());
+        this.comboVendedores.setItems(this.vendedores);
     }
 
     private void sair() {
@@ -114,6 +136,10 @@ public class FrmRelatorioController implements Initializable {
     }
 
     private void imprimirRelatorioProduto() {
+        if (this.checkProdutosVendidos.isSelected()) {
+            this.impirmirProdutosVendidos();            
+            return;
+        }
         String empresa = this.comboEmpresa.getSelectionModel().getSelectedItem();
         this.filtroProduto.setEmpresa(empresa == null ? "" : empresa);
         this.filtroProduto.setProduto(this.editProduto.getText().trim().toUpperCase());
@@ -129,13 +155,35 @@ public class FrmRelatorioController implements Initializable {
         this.filtroProduto.setDataInicial(this.dataInicial.getValue() == null ? null : this.dataInicial.getValue().toString());
         this.filtroProduto.setDataFinal(this.dataFinal.getValue() == null ? null : this.dataFinal.getValue().toString());
         TipoMovimento tipoMovimento = this.comboTipoMovimentacao.getSelectionModel().getSelectedItem();
-        if(tipoMovimento != null){
-            this.filtroProduto.setTipoDeMovimentacao(tipoMovimento.getCodigo());            
+        if (tipoMovimento != null) {
+            this.filtroProduto.setTipoDeMovimentacao(tipoMovimento.getCodigo());
         }
         if (this.checkSemTipoMovimentacao.isSelected()) {
             this.filtroProduto.setTipoDeMovimentacao("");
         }
         this.relatorioProduto.imprimirEstoque(this.filtroProduto);
+    }
+
+    private void impirmirProdutosVendidos() {        
+        FiltroProdutoVendido filtroProdutoVendido = new FiltroProdutoVendido();
+        filtroProdutoVendido.setCaixa(this.editNumeroCaixa.getText().trim());
+        filtroProdutoVendido.setReferencia(this.editProduto.getText());
+        Vendedor vendedor = this.comboVendedores.getSelectionModel().getSelectedItem();
+        filtroProdutoVendido.setVendedor("");
+        String vendedorInformado = "nenhum vendedor informado";
+        if (vendedor != null) {
+            filtroProdutoVendido.setVendedor(vendedor.getCodigo());
+            vendedorInformado = vendedor.getNome();
+        }
+        LocalDate localDateDataInicial = this.dataInicial.getValue() == null ? LocalDate.now() : this.dataInicial.getValue();
+        LocalDate localDateDataFinal = this.dataFinal.getValue() == null ? LocalDate.now() : this.dataFinal.getValue();
+        String dataInicial = localDateDataInicial.toString();
+        String dataFinal = localDateDataFinal.toString();
+        filtroProdutoVendido.setDataInicial(dataInicial);
+        filtroProdutoVendido.setDataFinal(dataFinal);
+        filtroProdutoVendido.setPeriodo("Período: " + localDateDataInicial.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " - " + localDateDataFinal.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        filtroProdutoVendido.setInformacaoCaixa("Caixa: " + String.format("%02d", Integer.parseInt(this.editNumeroCaixa.getText())) + " Vendedor: " + vendedorInformado);
+        this.relatorioProduto.imprimirProdutosVendidos(filtroProdutoVendido);
     }
 
     private void pesquisarProduto() {
@@ -173,6 +221,13 @@ public class FrmRelatorioController implements Initializable {
             alert.setContentText("Erro ao listar empresa.");
             alert.show();
         }
+    }
+
+    private void listarVendedores() {
+        this.vendedores.clear();
+        List<Vendedor> listaVendedores = this.vendedorService.listarVendedores();
+        listaVendedores.add(new Vendedor("", "Selecione um Vendedor"));
+        this.vendedores.addAll(listaVendedores);
     }
 
 }

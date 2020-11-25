@@ -3,10 +3,14 @@ package relatorio;
 import controle.ConectaBanco;
 import java.io.InputStream;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.control.Alert;
 import javax.swing.JFrame;
 import modelo.dto.FiltroProduto;
+import modelo.dto.FiltroProdutoVendido;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -68,6 +72,71 @@ public class RelatorioProduto {
         }
     }
 
+    public void imprimirProdutosVendidos(FiltroProdutoVendido filtroProdutoVendido) {
+        String sql = "select \n"
+                + "  POREFERE as referencia,\n"
+                + "  sum(POQUANTI) as quantidade,\n"
+                + "  sum(POVALITE) as total_vendido,\n"
+                + "  PODESCRI as descricao,\n"
+                + "  POUNIDAD as  unidade,\n"
+                + "  MAX(PODTORCA) as data_ultima_venda \n"
+                + "from \n"
+                + "  sosa06\n"
+                + "inner join\n"
+                + "  sosa01 on(OSORCAOS=POORCAOS)\n"
+                + "where \n"
+                + "    substr(OSORCAOS,2,3) like '%" + filtroProdutoVendido.getCaixa() + "%'\n"
+                + "and OSVENDED like '%" + filtroProdutoVendido.getVendedor() + "%'\n"
+                + "and POREFERE like '%" + filtroProdutoVendido.getReferencia() + "%'\n"
+                + "and OSLIQUID >= '" + filtroProdutoVendido.getDataInicial() + " 00:00:00' and OSLIQUID <= '" + filtroProdutoVendido.getDataFinal() + " 23:59:59'\n"
+                + "group by \n"
+                + "  referencia,\n"
+                + "  descricao,\n"
+                + "  unidade\n"
+                + "order by \n"
+                + "  total_vendido desc";
+        if (!this.conectaBanco.conexao()) {
+            return;
+        }
+        if (!this.conectaBanco.executaSQL(sql)) {
+            return;
+        }
+        try {
+            ResultSet resultSet = this.conectaBanco.getResultSet();
+            if (!resultSet.first()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("CADASTRO RAPIDO");
+                alert.setContentText("Não existe movimentação nesse período.");
+                alert.show();
+                return;
+            }
+            resultSet.beforeFirst();
+            JRResultSetDataSource dataSource = new JRResultSetDataSource(resultSet);
+            InputStream inputStream = getClass().getResourceAsStream("/relatorio/produtos_vendidos.jasper");
+            HashMap<String, Object> parametros = new HashMap<>();
+            parametros.put("periodo", filtroProdutoVendido.getPeriodo());
+            parametros.put("informacaoCaixa", filtroProdutoVendido.getInformacaoCaixa());
+            JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parametros, dataSource);
+            jasperPrint.setName("Relatorio de produtos vendidos");
+            JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
+            jasperViewer.setTitle("Relatorio de produtos vendidos");
+            jasperViewer.setDefaultCloseOperation(JasperViewer.DISPOSE_ON_CLOSE);
+            jasperViewer.setResizable(true);
+            jasperViewer.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            jasperViewer.setVisible(true);
+        } catch (JRException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("CADASTRO RAPIDO");
+            alert.setContentText("Erro ao consultar produtos");
+            alert.show();
+        } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("CADASTRO RAPIDO");
+            alert.setContentText(ex.getMessage());
+            alert.show();
+        }
+    }
+
     public void imprimirEstoque(FiltroProduto filtroProduto) {
         String sql = "SELECT \n"
                 + "     MCCODEMP\n"
@@ -101,7 +170,7 @@ public class RelatorioProduto {
                 + "    PRREFERE=MIREFERE\n"
                 + "  )\n"
                 + "WHERE\n"
-                + "  MCCODEMP like '%" + filtroProduto.getEmpresa() + "%' and MIREFERE like '%" + filtroProduto.getProduto() + "%' and MITIPMOV like '%"+filtroProduto.getTipoDeMovimentacao()+"%'";
+                + "  MCCODEMP like '%" + filtroProduto.getEmpresa() + "%' and MIREFERE like '%" + filtroProduto.getProduto() + "%' and MITIPMOV like '%" + filtroProduto.getTipoDeMovimentacao() + "%'";
         if (filtroProduto.getDataInicial() != null) {
             sql += "and MCDATMOV between '" + filtroProduto.getDataInicial() + " 00:00:00' and '" + filtroProduto.getDataFinal() + " 23:59:59'";
         }

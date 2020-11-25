@@ -5,6 +5,14 @@ public class Vendedor {
     private String codigo;
     private String nome;
 
+    public Vendedor(String codigo, String nome) {
+        this.codigo = codigo;
+        this.nome = nome;
+    }
+
+    public Vendedor() {
+    }
+
     public String getCodigo() {
         return codigo;
     }
