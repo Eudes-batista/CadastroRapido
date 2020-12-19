@@ -165,8 +165,9 @@ public class FrmRelatorioController implements Initializable {
     }
 
     private void impirmirProdutosVendidos() {        
+        String numeroDoCaixa = this.editNumeroCaixa.getText().trim();
         FiltroProdutoVendido filtroProdutoVendido = new FiltroProdutoVendido();
-        filtroProdutoVendido.setCaixa(this.editNumeroCaixa.getText().trim());
+        filtroProdutoVendido.setCaixa(numeroDoCaixa);
         filtroProdutoVendido.setReferencia(this.editProduto.getText());
         Vendedor vendedor = this.comboVendedores.getSelectionModel().getSelectedItem();
         filtroProdutoVendido.setVendedor("");
@@ -182,7 +183,7 @@ public class FrmRelatorioController implements Initializable {
         filtroProdutoVendido.setDataInicial(dataInicial);
         filtroProdutoVendido.setDataFinal(dataFinal);
         filtroProdutoVendido.setPeriodo("Período: " + localDateDataInicial.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " - " + localDateDataFinal.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        filtroProdutoVendido.setInformacaoCaixa("Caixa: " + String.format("%02d", Integer.parseInt(this.editNumeroCaixa.getText())) + " Vendedor: " + vendedorInformado);
+        filtroProdutoVendido.setInformacaoCaixa("Caixa: " + String.format("%02d", numeroDoCaixa.isEmpty() ? 0 : Integer.parseInt(numeroDoCaixa)) + " Vendedor: " + vendedorInformado);
         this.relatorioProduto.imprimirProdutosVendidos(filtroProdutoVendido);
     }
 

@@ -86,9 +86,12 @@ public class RelatorioProduto {
                 + "  sosa01 on(OSORCAOS=POORCAOS)\n"
                 + "where \n"
                 + "    substr(OSORCAOS,2,3) like '%" + filtroProdutoVendido.getCaixa() + "%'\n"
-                + "and OSVENDED like '%" + filtroProdutoVendido.getVendedor() + "%'\n"
-                + "and POREFERE like '%" + filtroProdutoVendido.getReferencia() + "%'\n"
-                + "and OSLIQUID >= '" + filtroProdutoVendido.getDataInicial() + " 00:00:00' and OSLIQUID <= '" + filtroProdutoVendido.getDataFinal() + " 23:59:59'\n"
+                + "and OSVENDED like '%" + filtroProdutoVendido.getVendedor() + "%'\n";
+        String referencia = filtroProdutoVendido.getReferencia();
+        if (referencia != null && !referencia.isEmpty()) {
+            sql += "and POREFERE ='" + referencia + "'\n";
+        }
+        sql += "and OSLIQUID >= '" + filtroProdutoVendido.getDataInicial() + " 00:00:00' and OSLIQUID <= '" + filtroProdutoVendido.getDataFinal() + " 23:59:59'\n"
                 + "group by \n"
                 + "  referencia,\n"
                 + "  descricao,\n"
