@@ -27,7 +27,7 @@ public class ItemMovimentoService {
                         + "','" + itemMovimento.getMovimento().getTipo()
                         + "','" + itemMovimento.getMovimento().getDocumento()
                         + "','" + itemMovimento.getSeguenciaItem()
-                        + "','" + itemMovimento.getProduto().trim()
+                        + "','" + itemMovimento.getProduto()
                         + "','" + new SimpleDateFormat("yyyy-MM-dd").format(itemMovimento.getMovimento().getDataMovimento())
                         + "'," + itemMovimento.getQuantidade()
                         + "," + itemMovimento.getPrecoUnitario() + ")";
