@@ -561,7 +561,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         });
         editDescricao.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             if (newValue.length() <= 35) {
-                editDescricao.setText(newValue.toUpperCase());
+                editDescricao.setText(newValue.toUpperCase().replaceAll("\\W", ""));
             } else {
                 editDescricao.setText("");
                 editDescricao.setText(oldValue.toUpperCase());
