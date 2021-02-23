@@ -127,6 +127,8 @@ public class FrmRelatorioController implements Initializable {
         this.comboVendedores.setItems(this.vendedores);
         this.listarGrupos();
         this.listarSubGrupos();
+        this.comboGrupos.getSelectionModel().selectFirst();
+        this.comboSubGrupo.getSelectionModel().selectFirst();
     }
 
     private void listarTipoMovimentacoes() {
