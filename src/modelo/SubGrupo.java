@@ -56,12 +56,11 @@ public class SubGrupo {
             return false;
         }
         final SubGrupo other = (SubGrupo) obj;
-        if (!Objects.equals(this.codigo, other.codigo)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.codigo, other.codigo);
     }
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return this.codigo+" - "+this.nome;
+    }    
 }

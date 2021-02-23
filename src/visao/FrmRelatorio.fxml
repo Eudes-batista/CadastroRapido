@@ -11,42 +11,49 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane fx:id="ancoraPrincipal" prefHeight="555.0" prefWidth="650.0" stylesheets="@css.css" xmlns="http://javafx.com/javafx/8.0.251" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controle.FrmRelatorioController">
+<AnchorPane fx:id="ancoraPrincipal" prefHeight="768.0" prefWidth="1024.0" stylesheets="@css.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controle.FrmRelatorioController">
    <children>
-      <HBox alignment="CENTER" layoutX="10.0" layoutY="77.0" prefHeight="416.0" prefWidth="605.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="72.0">
+      <HBox alignment="CENTER" layoutX="11.0" layoutY="61.0" AnchorPane.bottomAnchor="69.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="61.0">
          <children>
             <AnchorPane>
                <children>
-                  <Label layoutX="10.0" layoutY="204.0" prefHeight="21.0" prefWidth="282.0" styleClass="label-titulo" text="Data Inicial" />
-                  <DatePicker fx:id="dataInicial" layoutX="10.0" layoutY="224.0" prefHeight="26.0" prefWidth="282.0" promptText="Data Inicial" styleClass="input-padrao" />
-                  <Label layoutX="302.0" layoutY="204.0" prefHeight="21.0" prefWidth="242.0" styleClass="label-titulo" text="Data Final" />
-                  <DatePicker fx:id="dataFinal" layoutX="302.0" layoutY="225.0" prefHeight="26.0" prefWidth="242.0" promptText="Data Final" styleClass="input-padrao" />
-                  <ComboBox fx:id="comboEmpresa" layoutX="10.0" layoutY="23.0" prefHeight="35.0" prefWidth="562.0" promptText="Selecione uma Empresa" styleClass="input-padrao" />
-                  <Label layoutX="11.0" prefHeight="26.0" prefWidth="562.0" styleClass="label-titulo" text="Empresa" />
-                  <TextField fx:id="editProduto" layoutX="11.0" layoutY="296.0" prefHeight="40.0" prefWidth="348.0" promptText="Refencia ou Codigo de Barra" styleClass="input-padrao" />
-                  <Label layoutX="11.0" layoutY="274.0" prefHeight="21.0" prefWidth="348.0" styleClass="label-titulo" text="Produto" />
-                  <Button fx:id="btPesquisar" layoutX="369.0" layoutY="292.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="206.0" styleClass="btpadrao" text="Pesquisar produto" />
-                  <CheckBox fx:id="checkTodos" layoutX="262.0" layoutY="163.0" mnemonicParsing="false" text="Todos Produtos" />
-                  <ComboBox fx:id="comboTipoMovimentacao" disable="true" layoutX="10.0" layoutY="96.0" prefHeight="40.0" prefWidth="562.0" promptText="Selecione um tipo de movimentação" styleClass="input-padrao" />
-                  <Label layoutX="11.0" layoutY="73.0" prefHeight="26.0" prefWidth="348.0" styleClass="label-titulo" text="Tipo de movimentação" />
-                  <CheckBox fx:id="checkSemTipoMovimentacao" layoutX="17.0" layoutY="163.0" mnemonicParsing="false" selected="true" text="Sem tipo de movimentação" />
-                  <HBox alignment="CENTER" layoutX="10.0" layoutY="420.0" spacing="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
-                     <children>
-                        <Button fx:id="btProdutos" mnemonicParsing="false" prefHeight="35.0" prefWidth="178.0" styleClass="btpadrao" text="Filtrar Produtos" />
-                        <Button fx:id="btMovimentacao" mnemonicParsing="false" prefHeight="44.0" prefWidth="192.0" styleClass="btpadrao" text="Filtrar Estoque" />
-                        <Button fx:id="btSair" mnemonicParsing="false" prefHeight="44.0" prefWidth="178.0" styleClass="btpadrao" text="Sair" />
-                     </children>
-                  </HBox>
-                  <CheckBox fx:id="checkProdutosVendidos" layoutX="422.0" layoutY="163.0" mnemonicParsing="false" text="Produtos Vendidos" />
-                  <Label layoutX="11.0" layoutY="344.0" prefHeight="21.0" prefWidth="120.0" styleClass="label-titulo" text="Número do caixa" />
-                  <ComboBox fx:id="comboVendedores" disable="true" layoutX="267.0" layoutY="365.0" prefHeight="40.0" prefWidth="310.0" promptText="Selecione uma Vendedor" styleClass="input-padrao" />
-                  <Label layoutX="269.0" layoutY="341.0" prefHeight="26.0" prefWidth="120.0" styleClass="label-titulo" text="Vendedor" />
-                  <TextFieldCustom fx:id="editNumeroCaixa" alignment="CENTER" disable="true" isNumber="true" layoutX="11.0" layoutY="365.0" maxlength="2" prefHeight="40.0" prefWidth="242.0" promptText="Informe o número do caixa" styleClass="input-padrao" />
+                  <Label layoutX="4.0" layoutY="122.0" prefHeight="21.0" prefWidth="206.0" styleClass="label-titulo" text="Data Inicial" />
+                  <DatePicker fx:id="dataInicial" layoutX="4.0" layoutY="142.0" prefHeight="40.0" prefWidth="206.0" promptText="Data Inicial" styleClass="input-padrao" />
+                  <Label layoutX="233.0" layoutY="122.0" prefHeight="21.0" prefWidth="206.0" styleClass="label-titulo" text="Data Final" />
+                  <DatePicker fx:id="dataFinal" layoutX="233.0" layoutY="143.0" prefHeight="40.0" prefWidth="206.0" promptText="Data Final" styleClass="input-padrao" />
+                  <ComboBox fx:id="comboEmpresa" layoutX="2.0" layoutY="71.0" prefHeight="35.0" prefWidth="562.0" promptText="Selecione uma Empresa" styleClass="input-padrao" />
+                  <Label layoutX="3.0" layoutY="48.0" prefHeight="26.0" prefWidth="562.0" styleClass="label-titulo" text="Empresa" />
+                  <TextField fx:id="editProduto" layoutX="6.0" layoutY="284.0" prefHeight="40.0" prefWidth="348.0" promptText="Refencia ou Codigo de Barra" styleClass="input-padrao" />
+                  <Label layoutX="6.0" layoutY="262.0" prefHeight="21.0" prefWidth="348.0" styleClass="label-titulo" text="Produto" />
+                  <Button fx:id="btPesquisar" layoutX="364.0" layoutY="280.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="206.0" styleClass="btpadrao" text="Pesquisar produto" />
+                  <CheckBox fx:id="checkTodos" layoutX="448.0" layoutY="152.0" mnemonicParsing="false" text="Todos Produtos" />
+                  <ComboBox fx:id="comboTipoMovimentacao" disable="true" layoutX="5.0" layoutY="439.0" prefHeight="40.0" prefWidth="562.0" promptText="Selecione um tipo de movimentação" styleClass="input-padrao" />
+                  <Label layoutX="6.0" layoutY="416.0" prefHeight="26.0" prefWidth="348.0" styleClass="label-titulo" text="Tipo de movimentação" />
+                  <CheckBox fx:id="checkSemTipoMovimentacao" layoutX="6.0" layoutY="387.0" mnemonicParsing="false" selected="true" text="Sem tipo de movimentação" />
+                  <CheckBox fx:id="checkProdutosVendidos" layoutX="8.0" layoutY="541.0" mnemonicParsing="false" text="Produtos Vendidos" />
+                  <Label layoutX="9.0" layoutY="568.0" prefHeight="21.0" prefWidth="120.0" styleClass="label-titulo" text="Número do caixa" />
+                  <ComboBox fx:id="comboVendedores" disable="true" layoutX="274.0" layoutY="593.0" prefHeight="40.0" prefWidth="310.0" promptText="Selecione uma Vendedor" styleClass="input-padrao" />
+                  <Label layoutX="278.0" layoutY="572.0" prefHeight="26.0" prefWidth="120.0" styleClass="label-titulo" text="Vendedor" />
+                  <TextFieldCustom fx:id="editNumeroCaixa" alignment="CENTER" disable="true" isNumber="true" layoutX="9.0" layoutY="589.0" maxlength="2" prefHeight="40.0" prefWidth="242.0" promptText="Informe o número do caixa" styleClass="input-padrao" />
+                  <Label layoutX="4.0" layoutY="331.0" maxHeight="53.0" prefHeight="53.0" prefWidth="590.0" style="-fx-font-size: 15pt;" styleClass="cabecalho-question" text="Filtro de Estoque" />
+                  <Label maxHeight="53.0" prefHeight="53.0" prefWidth="590.0" style="-fx-font-size: 15pt;" styleClass="cabecalho-question" text="Filtro Principal" />
+                  <Label layoutX="4.0" layoutY="483.0" maxHeight="53.0" prefHeight="53.0" prefWidth="590.0" style="-fx-font-size: 15pt;" styleClass="cabecalho-question" text="Filtro Produtos vendidos" />
+                  <ComboBox fx:id="comboGrupos" layoutX="6.0" layoutY="213.0" prefHeight="40.0" prefWidth="269.0" promptText="Selecione um Grupo" styleClass="input-padrao" />
+                  <Label layoutX="7.0" layoutY="190.0" prefHeight="26.0" prefWidth="269.0" styleClass="label-titulo" text="Grupo de Produto" />
+                  <ComboBox fx:id="comboSubGrupo" layoutX="299.0" layoutY="213.0" prefHeight="40.0" prefWidth="276.0" promptText="Selecione um Grupo" styleClass="input-padrao" />
+                  <Label layoutX="300.0" layoutY="190.0" prefHeight="26.0" prefWidth="276.0" styleClass="label-titulo" text="SubGrupo" />
                </children>
             </AnchorPane>
          </children>
       </HBox>
-      <Label layoutX="15.0" layoutY="14.0" maxHeight="53.0" prefHeight="53.0" prefWidth="590.0" styleClass="cabecalho-question" text="Filtro de Relatório" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <HBox alignment="CENTER" layoutX="10.0" layoutY="642.0" spacing="20.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Button fx:id="btProdutos" mnemonicParsing="false" prefHeight="35.0" prefWidth="178.0" styleClass="btpadrao" text="Filtrar Produtos" />
+            <Button fx:id="btMovimentacao" mnemonicParsing="false" prefHeight="44.0" prefWidth="192.0" styleClass="btpadrao" text="Filtrar Estoque" />
+            <Button fx:id="btSair" mnemonicParsing="false" prefHeight="44.0" prefWidth="178.0" styleClass="btpadrao" text="Sair" />
+         </children>
+      </HBox>
+      <Label maxHeight="53.0" prefHeight="53.0" prefWidth="590.0" styleClass="cabecalho-question" text="Filtro de Relatório" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
    </children>
    <styleClass>
       <String fx:value="fundo-form" />

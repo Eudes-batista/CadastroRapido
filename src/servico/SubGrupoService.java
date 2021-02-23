@@ -50,7 +50,7 @@ public class SubGrupoService {
                 pst.setString(2, subGrupo.getCodigo());
                 pst.executeUpdate();
                 this.conecta.getConnection().commit();
-                 pst.close();
+                pst.close();
                 return true;
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -78,7 +78,7 @@ public class SubGrupoService {
                 pst.setString(1, grupo);
                 pst.execute();
                 this.conecta.getConnection().commit();
-                 pst.close();
+                pst.close();
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erro");
@@ -90,17 +90,22 @@ public class SubGrupoService {
 
     public List<SubGrupo> listarSubGrupos(String pesquisa) throws SQLException {
         List<SubGrupo> grupos = new ArrayList<>();
-        if (this.conecta.conexao()) {
-            String sql = "SELECT T52CDSGR as codigo,T52DSSGR as nome FROM LAPT52 where T52DSSGR like '%"+pesquisa+"%' ORDER BY T52DSSGR";
-            if (this.conecta.executaSQL(sql)) {
-                if (this.conecta.getResultSet().first()) {
-                    do {
-                        grupos.add(new SubGrupo(this.conecta.getResultSet().getString("codigo"), this.conecta.getResultSet().getString("nome")));
-                    } while (this.conecta.getResultSet().next());
-                    return grupos;
-                }
-            }
+        if (!this.conecta.conexao()) {
+            return grupos;
         }
+        String sql = "SELECT T52CDSGR as codigo,T52DSSGR as nome FROM LAPT52 where T52DSSGR like '%" + pesquisa + "%' ORDER BY T52DSSGR";
+        if (!this.conecta.executaSQL(sql)) {
+            this.conecta.desconecta();
+            return grupos;
+        }
+        if (!this.conecta.getResultSet().first()) {
+            this.conecta.desconecta();
+            return grupos;
+        }
+        do {
+            grupos.add(new SubGrupo(this.conecta.getResultSet().getString("codigo"), this.conecta.getResultSet().getString("nome")));
+        } while (this.conecta.getResultSet().next());
+        this.conecta.desconecta();
         return grupos;
     }
 

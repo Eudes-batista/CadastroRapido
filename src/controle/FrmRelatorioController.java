@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -25,12 +27,16 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import modelo.Grupo;
+import modelo.SubGrupo;
 import modelo.TipoMovimento;
 import modelo.Vendedor;
 import modelo.dto.FiltroProduto;
 import modelo.dto.FiltroProdutoVendido;
 import relatorio.RelatorioProduto;
+import servico.GrupoService;
 import servico.MovimentoService;
+import servico.SubGrupoService;
 import servico.VendedorService;
 
 public class FrmRelatorioController implements Initializable {
@@ -76,10 +82,18 @@ public class FrmRelatorioController implements Initializable {
     @FXML
     private TextFieldCustom editNumeroCaixa;
 
+    @FXML
+    private ComboBox<Grupo> comboGrupos;
+
+    @FXML
+    private ComboBox<SubGrupo> comboSubGrupo;
+
     private RelatorioProduto relatorioProduto;
     private FiltroProduto filtroProduto;
     private MovimentoService movimentoService;
     VendedorService vendedorService;
+    private GrupoService grupoService;
+    private SubGrupoService subGrupoService;
 
     private final ObservableList<String> empresas = FXCollections.observableArrayList();
     private ObservableList<TipoMovimento> tipoMovimentacoes;
@@ -91,6 +105,8 @@ public class FrmRelatorioController implements Initializable {
         this.filtroProduto = new FiltroProduto();
         this.movimentoService = new MovimentoService();
         this.vendedorService = new VendedorService();
+        this.grupoService = new GrupoService();
+        this.subGrupoService = new SubGrupoService();
         this.listarEmpresa();
         this.btProdutos.setOnAction(evt -> this.imprimirRelatorioProduto());
         this.btMovimentacao.setOnAction(evt -> this.imprimirRelatorioEstoque());
@@ -102,14 +118,22 @@ public class FrmRelatorioController implements Initializable {
         LocalDate data = LocalDate.now();
         this.dataInicial.setValue(data);
         this.dataFinal.setValue(data);
-        this.tipoMovimentacoes = FXCollections.observableArrayList();
         this.vendedores = FXCollections.observableArrayList();
-        this.tipoMovimentacoes.addAll(this.movimentoService.listarTodosTipos());
+        this.listarTipoMovimentacoes();
         this.comboTipoMovimentacao.setItems(this.tipoMovimentacoes);
         this.comboTipoMovimentacao.disableProperty().bind(this.checkSemTipoMovimentacao.selectedProperty());
         this.comboVendedores.disableProperty().bind(this.checkProdutosVendidos.selectedProperty().not());
         this.editNumeroCaixa.disableProperty().bind(this.checkProdutosVendidos.selectedProperty().not());
         this.comboVendedores.setItems(this.vendedores);
+        this.listarGrupos();
+        this.listarSubGrupos();
+    }
+
+    private void listarTipoMovimentacoes() {
+        this.tipoMovimentacoes = FXCollections.observableArrayList();
+        List<TipoMovimento> listaDeTipoMovimentacoes = this.movimentoService.listarTodosTipos();
+        listaDeTipoMovimentacoes.add(0, new TipoMovimento("", "Selecione Tipo de movimentação"));
+        this.tipoMovimentacoes.addAll(listaDeTipoMovimentacoes);
     }
 
     private void sair() {
@@ -137,7 +161,7 @@ public class FrmRelatorioController implements Initializable {
 
     private void imprimirRelatorioProduto() {
         if (this.checkProdutosVendidos.isSelected()) {
-            this.impirmirProdutosVendidos();            
+            this.impirmirProdutosVendidos();
             return;
         }
         String empresa = this.comboEmpresa.getSelectionModel().getSelectedItem();
@@ -154,6 +178,8 @@ public class FrmRelatorioController implements Initializable {
         this.filtroProduto.setProduto(this.editProduto.getText().trim().toUpperCase());
         this.filtroProduto.setDataInicial(this.dataInicial.getValue() == null ? null : this.dataInicial.getValue().toString());
         this.filtroProduto.setDataFinal(this.dataFinal.getValue() == null ? null : this.dataFinal.getValue().toString());
+        this.filtroProduto.setGrupo(this.comboGrupos.getSelectionModel().getSelectedItem().getCodigo());
+        this.filtroProduto.setSubGrupo(this.comboSubGrupo.getSelectionModel().getSelectedItem().getCodigo());
         TipoMovimento tipoMovimento = this.comboTipoMovimentacao.getSelectionModel().getSelectedItem();
         if (tipoMovimento != null) {
             this.filtroProduto.setTipoDeMovimentacao(tipoMovimento.getCodigo());
@@ -164,7 +190,7 @@ public class FrmRelatorioController implements Initializable {
         this.relatorioProduto.imprimirEstoque(this.filtroProduto);
     }
 
-    private void impirmirProdutosVendidos() {        
+    private void impirmirProdutosVendidos() {
         String numeroDoCaixa = this.editNumeroCaixa.getText().trim();
         FiltroProdutoVendido filtroProdutoVendido = new FiltroProdutoVendido();
         filtroProdutoVendido.setCaixa(numeroDoCaixa);
@@ -229,6 +255,32 @@ public class FrmRelatorioController implements Initializable {
         List<Vendedor> listaVendedores = this.vendedorService.listarVendedores();
         listaVendedores.add(new Vendedor("", "Selecione um Vendedor"));
         this.vendedores.addAll(listaVendedores);
+    }
+
+    private void listarGrupos() {
+        try {
+            List<Grupo> listaGrupos = this.grupoService.listarGrupos("");
+            listaGrupos.add(0, new Grupo("", "Selecione um SubGrupo"));
+            this.comboGrupos.setItems(FXCollections.observableArrayList(listaGrupos));
+        } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Cadastro Rapido");
+            alert.setContentText("Erro ao listar grupos.");
+            alert.show();
+        }
+    }
+
+    private void listarSubGrupos() {
+        try {
+            List<SubGrupo> listaSubGrupos = this.subGrupoService.listarSubGrupos("");
+            listaSubGrupos.add(0, new SubGrupo("", "Selecione um SubGrupo"));
+            this.comboSubGrupo.setItems(FXCollections.observableArrayList(listaSubGrupos));
+        } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Cadastro Rapido");
+            alert.setContentText("Erro ao listar subgrupos.");
+            alert.show();
+        }
     }
 
 }

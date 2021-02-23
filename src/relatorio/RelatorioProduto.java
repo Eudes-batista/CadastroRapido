@@ -5,8 +5,6 @@ import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.control.Alert;
 import javax.swing.JFrame;
 import modelo.dto.FiltroProduto;
@@ -173,7 +171,9 @@ public class RelatorioProduto {
                 + "    PRREFERE=MIREFERE\n"
                 + "  )\n"
                 + "WHERE\n"
-                + "  MCCODEMP like '%" + filtroProduto.getEmpresa() + "%' and MIREFERE like '%" + filtroProduto.getProduto() + "%' and MITIPMOV like '%" + filtroProduto.getTipoDeMovimentacao() + "%'";
+                + "  MCCODEMP like '%" + filtroProduto.getEmpresa() + "%' and MIREFERE like '%" + filtroProduto.getProduto() + "%' and MITIPMOV like '%" + filtroProduto.getTipoDeMovimentacao() + "%'"
+                + " AND PRCGRUPO like '%"+filtroProduto.getGrupo()+"%' AND PRSUBGRP like '%"+filtroProduto.getSubGrupo()+"%' ";
+                
         if (filtroProduto.getDataInicial() != null) {
             sql += "and MCDATMOV between '" + filtroProduto.getDataInicial() + " 00:00:00' and '" + filtroProduto.getDataFinal() + " 23:59:59'";
         }

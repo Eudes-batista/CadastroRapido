@@ -7,6 +7,8 @@ public class FiltroProduto {
     private String dataFinal;
     private String produto;
     private String tipoDeMovimentacao;
+    private String grupo;
+    private String subGrupo;
 
     public FiltroProduto() {
     }
@@ -58,9 +60,24 @@ public class FiltroProduto {
         this.tipoDeMovimentacao = tipoDeMovimentacao;
     }
 
-    @Override
-    public String toString() {
-        return "FiltroEstoque{" + "empresa=" + empresa + ", dataInicial=" + dataInicial + ", dataFinal=" + dataFinal + ", produto=" + produto + '}';
+    public String getGrupo() {
+        return grupo;
     }
 
+    public void setGrupo(String grupo) {
+        this.grupo = grupo;
+    }
+
+    public String getSubGrupo() {
+        return subGrupo;
+    }
+
+    public void setSubGrupo(String subGrupo) {
+        this.subGrupo = subGrupo;
+    }
+
+    @Override
+    public String toString() {
+        return "FiltroProduto{" + "empresa=" + empresa + ", dataInicial=" + dataInicial + ", dataFinal=" + dataFinal + ", produto=" + produto + ", tipoDeMovimentacao=" + tipoDeMovimentacao + ", grupo=" + grupo + ", subGrupo=" + subGrupo + '}';
+    }
 }

@@ -21,7 +21,7 @@ public class GrupoService {
                 pst.setString(2, grupo.getNome());
                 pst.executeUpdate();
                 this.conecta.getConnection().commit();
-                 pst.close();
+                pst.close();
                 return true;
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -50,7 +50,7 @@ public class GrupoService {
                 pst.setString(2, grupo.getCodigo());
                 pst.executeUpdate();
                 this.conecta.getConnection().commit();
-                 pst.close();
+                pst.close();
                 return true;
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -78,7 +78,7 @@ public class GrupoService {
                 pst.setString(1, grupo);
                 pst.execute();
                 this.conecta.getConnection().commit();
-                 pst.close();
+                pst.close();
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erro");
@@ -90,17 +90,22 @@ public class GrupoService {
 
     public List<Grupo> listarGrupos(String pesquisa) throws SQLException {
         List<Grupo> grupos = new ArrayList<>();
-        if (this.conecta.conexao()) {
-            String sql = "SELECT T51CDGRP as codigo,T51DSGRP as nome FROM LAPT51 where T51DSGRP like '%"+pesquisa+"%' ORDER BY T51DSGRP";
-            if (this.conecta.executaSQL(sql)) {
-                if (this.conecta.getResultSet().first()) {
-                    do {
-                        grupos.add(new Grupo(this.conecta.getResultSet().getString("codigo"), this.conecta.getResultSet().getString("nome")));
-                    } while (this.conecta.getResultSet().next());
-                    return grupos;
-                }
-            }
+        if (!this.conecta.conexao()) {
+            return grupos;
         }
+        String sql = "SELECT T51CDGRP as codigo,T51DSGRP as nome FROM LAPT51 where T51DSGRP like '%" + pesquisa + "%' ORDER BY T51DSGRP";
+        if (!this.conecta.executaSQL(sql)) {
+            this.conecta.desconecta();
+            return grupos;
+        }
+        if (!this.conecta.getResultSet().first()) {
+            this.conecta.desconecta();
+            return grupos;
+        }
+        do {
+            grupos.add(new Grupo(this.conecta.getResultSet().getString("codigo"), this.conecta.getResultSet().getString("nome")));
+        } while (this.conecta.getResultSet().next());
+        this.conecta.desconecta();
         return grupos;
     }
 
