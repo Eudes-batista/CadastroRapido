@@ -94,6 +94,7 @@ public class FXMLManutencaoNcmController implements Initializable {
         try {
             this.manutencaoNcmService.atualizarNcm(this.editNcmExpirado.getText(), this.editNcmNovo.getText());
             this.mostrarMensagem(Alert.AlertType.INFORMATION, "Ncm atualizado com sucesso!!");
+            this.pesquisarProduto();
         } catch (SQLException ex) {
             this.mostrarMensagem(Alert.AlertType.ERROR, "Não foi possivel atualizar o ncm.");
         }
@@ -101,6 +102,7 @@ public class FXMLManutencaoNcmController implements Initializable {
 
     public void pesquisarProduto() {
         this.pesquisaService.setChekcCancelados(false);
+        this.produtos.clear();
         this.produtos = this.pesquisaService.listarProdutos(this.editPesquisaProduto.getText().trim().toUpperCase());
         this.tableview.setItems(this.produtos);
     }
