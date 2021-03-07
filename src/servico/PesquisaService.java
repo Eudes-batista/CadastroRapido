@@ -34,6 +34,7 @@ public class PesquisaService {
                         this.conectaBanco.getResultSet().getDouble("quantidade_atacado"),
                         conectaBanco.getResultSet().getString("codigo_barra"));
                 produto.setPrecoEspecial(this.conectaBanco.getResultSet().getDouble("preco_especial"));
+                produto.setNcm(this.conectaBanco.getResultSet().getString("ncm"));
                 this.produtos.add(produto);
             } while (this.conectaBanco.getResultSet().next());
         } catch (SQLException ex) {
@@ -58,7 +59,8 @@ public class PesquisaService {
                 + "   MAX(EEPLQTB1) as preco,\n"
                 + "   MAX(EET2PVD1) as preco_atacado,\n"
                 + "   MAX(PRQTDATA) as quantidade_atacado,\n"
-                + "   MAX(EET3PVD1) as preco_especial \n"
+                + "   MAX(EET3PVD1) as preco_especial, \n"
+                + "   MAX(PRCLASSI) as ncm \n"
                 + "from \n"
                 + "   scea01 \n"
                 + "left outer join \n"
@@ -67,7 +69,7 @@ public class PesquisaService {
                 + "   scea09 on(rarefere=prrefere) \n"
                 + "where \n";
         String cancelados = produtoCancelado ? "PRDATCAN IS NOT NULL \n" : "PRDATCAN is null \n";
-        sql += " "+cancelados;
+        sql += " " + cancelados;
         sql += this.adicionarCondicao(pesquisa);
         sql += "group by \n"
                 + "  referencia";
