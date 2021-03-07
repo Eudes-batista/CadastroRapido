@@ -86,6 +86,7 @@ public class PesquisaService {
                     + "OR PRCODBAR = '" + palavra + "'\n"
                     + "OR PRREFERE = '" + palavra + "'\n"
                     + "OR RAREFAUX = '" + palavra + "'\n"
+                    + "OR PRCLASSI = '" + palavra + "'\n"
                     + ") \n";
         }
         return sqlCondicoes;

@@ -21,7 +21,7 @@ public class ManutencaoNcmService {
             alert.show();
             return;
         }
-        try (PreparedStatement preparedStatement = this.conectaBanco.getConnection().prepareStatement("update scea01 set prclassi=? where set prclassi=?")) {
+        try (PreparedStatement preparedStatement = this.conectaBanco.getConnection().prepareStatement("update scea01 set prclassi=? where prclassi=?")) {
             preparedStatement.setString(1, ncmNovo);
             preparedStatement.setString(2, ncmExpirado);
             preparedStatement.executeUpdate();
