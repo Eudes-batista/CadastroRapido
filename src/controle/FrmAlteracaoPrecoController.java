@@ -106,7 +106,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
 
     @FXML
     private Button btSalvar;
-    
+
     @FXML
     private Button btEstoque;
 
@@ -849,12 +849,6 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 if (controller.isSelecionouRegistro()) {
                     referencia = controller.tabela.getSelectionModel().getSelectedItem().getReferencia();
                     Produto buscarProduto = produtoServico.buscarProduto(referencia);
-                    Produto cosmosProduto = null;
-                    if (buscarProduto.getCodigoBarra() != null) {
-                        if (!buscarProduto.getCodigoBarra().isEmpty()) {
-                            cosmosProduto = Cosmos.buscarProduto(buscarProduto.getCodigoBarra());
-                        }
-                    }
                     String descricao = buscarProduto.getDescricao();
                     Double preco = buscarProduto.getPreco();
                     Double precoAtacado = buscarProduto.getPrecoAtacado();
@@ -868,23 +862,14 @@ public class FrmAlteracaoPrecoController implements Initializable {
                     editQtdAtacado.setText(df.format(qtdAtacado));
                     editPrecoEspecial.setText(df.format(precoEspecial));
                     textAplicacaoComposicao.setText(buscarProduto.getAplicacao());
-                    if (cosmosProduto != null) {
-                        tributacao.getSelectionModel().select(0);
-                        if (cosmosProduto.getTributacao().replaceAll("\\D", "").equals("0600")) {
-                            tributacao.getSelectionModel().select(2);
-                        }
-                        editNcm.setText(cosmosProduto.getNcm());
-                        editCest.setText(cosmosProduto.getCest());
-                    } else {
-                        tributacao.getSelectionModel().select(0);
-                        if (buscarProduto.getTributacao().replaceAll("\\D", "").equals("0600")) {
-                            tributacao.getSelectionModel().select(2);
-                        } else if (buscarProduto.getTributacao().replaceAll("\\D", "").equals("0400")) {
-                            tributacao.getSelectionModel().select(1);
-                        }
-                        editNcm.setText(buscarProduto.getNcm());
-                        editCest.setText(buscarProduto.getCest());
+                    tributacao.getSelectionModel().select(0);
+                    if (buscarProduto.getTributacao().replaceAll("\\D", "").equals("0600")) {
+                        tributacao.getSelectionModel().select(2);
+                    } else if (buscarProduto.getTributacao().replaceAll("\\D", "").equals("0400")) {
+                        tributacao.getSelectionModel().select(1);
                     }
+                    editNcm.setText(buscarProduto.getNcm());
+                    editCest.setText(buscarProduto.getCest());
                     editEstoqueInicial.setText(String.valueOf(buscarProduto.getQuantidade().intValue()));
                     grupo.getSelectionModel().select(new Grupo(buscarProduto.getGrupo()));
                     subGrupo.getSelectionModel().select(new SubGrupo(buscarProduto.getSubgrupo()));
@@ -949,7 +934,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             alert.show();
         }
     }
-    
+
     private void abrirMovimentacaoDeEstoque() {
         try {
             FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/visao/FrmMovimentoEstoque.fxml"));
