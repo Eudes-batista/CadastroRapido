@@ -1,6 +1,10 @@
 package controle;
 
 import componentesjavafx.TextFieldCustom;
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -10,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -54,6 +59,9 @@ public class FXMLManutencaoNcmController implements Initializable {
     @FXML
     private Button btPesquisar;
 
+    @FXML
+    private Label labelNcmExpirado;
+
     private ManutencaoNcmService manutencaoNcmService;
     private ObservableList<Produto> produtos = FXCollections.observableArrayList();
     private PesquisaService pesquisaService;
@@ -66,12 +74,15 @@ public class FXMLManutencaoNcmController implements Initializable {
         this.editNcmExpirado.setOnAction(evt -> this.editNcmNovo.requestFocus());
         this.editNcmNovo.setOnAction(evt -> this.atualizarNcm());
         this.btAtualizar.setOnAction(evt -> this.atualizarNcm());
-        this.btSair.setOnAction(evt -> this.sair());        
+        this.btSair.setOnAction(evt -> this.sair());
         this.btPesquisar.setOnAction(evt -> this.pesquisarProduto());
         this.editPesquisaProduto.setOnKeyPressed(evt -> {
             if (evt.getCode().equals(KeyCode.ENTER)) {
                 this.pesquisarProduto();
             }
+        });
+        this.labelNcmExpirado.setOnMouseClicked(evt -> {
+            this.abrirConsultaNcmExpirado();
         });
     }
 
@@ -116,6 +127,40 @@ public class FXMLManutencaoNcmController implements Initializable {
 
     private void sair() {
         ((Stage) this.btSair.getScene().getWindow()).close();
+    }
+
+    private void abrirConsultaNcmExpirado() {
+        try {
+            String sistema = System.getProperty("os.name");
+            if (sistema.equals("Linux")) {
+                String[] browsers = {"x-www-browser", "google-chrome",
+                    "firefox", "opera", "epiphany", "konqueror", "conkeror", "midori",
+                    "kazehakase", "mozilla"};
+                String browser = null;
+                for (String b : browsers) {
+                    if (browser == null && Runtime.getRuntime().exec(new String[]{"which", b}).getInputStream().read() != -1) {
+                        Runtime.getRuntime().exec(new String[]{browser = b, "https://cosmos.bluesoft.com.br/ncms/" + this.editNcmExpirado.getText()});
+                    }
+                }
+                return;
+            }
+            Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+            String url = "https://cosmos.bluesoft.com.br/ncms/" + this.editNcmExpirado.getText().replace(" ", "%20");
+            if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+                desktop.browse(new URI(url));
+            }
+        } catch (IOException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro");
+            alert.setContentText("Erro ao abrir navegador");
+            alert.show();
+        } catch (URISyntaxException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setAlertType(Alert.AlertType.ERROR);
+            alert.setTitle("Erro");
+            alert.setContentText("Erro ao abrir o site cosmos");
+            alert.show();
+        }
     }
 
 }
