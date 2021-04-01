@@ -7,6 +7,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -133,33 +135,41 @@ public class FXMLManutencaoNcmController implements Initializable {
         try {
             String sistema = System.getProperty("os.name");
             if (sistema.equals("Linux")) {
-                String[] browsers = {"x-www-browser", "google-chrome",
-                    "firefox", "opera", "epiphany", "konqueror", "conkeror", "midori",
-                    "kazehakase", "mozilla"};
-                String browser = null;
-                for (String b : browsers) {
-                    if (browser == null && Runtime.getRuntime().exec(new String[]{"which", b}).getInputStream().read() != -1) {
-                        Runtime.getRuntime().exec(new String[]{browser = b, "https://cosmos.bluesoft.com.br/ncms/" + this.editNcmExpirado.getText()});
-                    }
-                }
+                this.consultarNcmNavegadorLinux();
                 return;
             }
-            Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-            String url = "https://cosmos.bluesoft.com.br/ncms/" + this.editNcmExpirado.getText().replace(" ", "%20");
-            if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
-                desktop.browse(new URI(url));
-            }
+            this.consultarNcmNavegadorWindows();
         } catch (IOException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setContentText("Erro ao abrir navegador");
-            alert.show();
+            this.mostrarMensagem(Alert.AlertType.ERROR, "Erro ao abrir navegador");
         } catch (URISyntaxException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setAlertType(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setContentText("Erro ao abrir o site cosmos");
-            alert.show();
+            this.mostrarMensagem(Alert.AlertType.ERROR, "Erro ao abrir o site cosmos");
+        }
+    }
+
+    private void consultarNcmNavegadorWindows() throws IOException, URISyntaxException {
+        Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+        String url = "https://cosmos.bluesoft.com.br/ncms/" + this.editNcmExpirado.getText().replace(" ", "%20");
+        if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+            desktop.browse(new URI(url));
+        }
+    }
+
+    private void consultarNcmNavegadorLinux() throws IOException {
+        String[] browsers = {"x-www-browser", "google-chrome", "firefox", "opera", "epiphany", "konqueror", "conkeror", "midori", "kazehakase", "mozilla"};
+        Optional<String> optionalBrowser = Arrays.asList(browsers).stream().filter(this::verificarBrowserDoSistemaLinux).findFirst();
+        if (!optionalBrowser.isPresent()) {
+            return;
+        }
+        String browser = optionalBrowser.get();
+        Runtime.getRuntime().exec(new String[]{browser, "https://cosmos.bluesoft.com.br/ncms/" + this.editNcmExpirado.getText()});
+    }
+
+    private boolean verificarBrowserDoSistemaLinux(String browser) {
+        try {
+            boolean browserExiste = Runtime.getRuntime().exec(new String[]{"which", browser}).getInputStream().read() != -1;
+            return browserExiste;
+        } catch (IOException ex) {
+            return false;
         }
     }
 
