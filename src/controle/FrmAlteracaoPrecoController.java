@@ -703,8 +703,6 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 thread.start();
             } else if (e.getCode().equals(KeyCode.ESCAPE)) {
                 sair();
-            } else if (e.getCode().equals(KeyCode.F2)) {
-                this.abrirMovimentacaoDeEstoque();
             }
         });
         btSalvar.setOnAction(evt -> {

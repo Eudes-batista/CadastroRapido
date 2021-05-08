@@ -299,7 +299,7 @@
                   <ProgressIndicator prefHeight="137.0" prefWidth="136.0" />
                </children>
             </HBox>
-            <Button fx:id="btEstoque" layoutX="190.0" layoutY="704.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="163.0" styleClass="btpadrao" text="Estoque (F2)" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="190.0">
+            <Button fx:id="btEstoque" layoutX="190.0" layoutY="704.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="163.0" styleClass="btpadrao" text="Estoque" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="190.0">
                <font>
                   <Font size="13.0" />
                </font>
