@@ -42,6 +42,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.Window;
 import javafx.util.StringConverter;
 import modelo.Cosmos;
 import modelo.Grupo;
@@ -228,6 +229,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             alert.setTitle("Erro");
             alert.setHeaderText(ex.getMessage());
             alert.setContentText("Erro ao acessar o site do cosmos");
+            alert.initOwner(this.pegarTelaCadastroProduto());
             alert.show();
         }
     }
@@ -266,11 +268,13 @@ public class FrmAlteracaoPrecoController implements Initializable {
             alert.setAlertType(Alert.AlertType.ERROR);
             alert.setTitle("Erro");
             alert.setContentText("Erro ao abrir navegador");
+            alert.initOwner(this.pegarTelaCadastroProduto());
             alert.show();
         } catch (URISyntaxException ex) {
             alert.setAlertType(Alert.AlertType.ERROR);
             alert.setTitle("Erro");
             alert.setContentText("Erro ao abrir o site cosmos");
+            alert.initOwner(this.pegarTelaCadastroProduto());
             alert.show();
         }
     }
@@ -307,11 +311,13 @@ public class FrmAlteracaoPrecoController implements Initializable {
             alert.setAlertType(Alert.AlertType.ERROR);
             alert.setTitle("Erro");
             alert.setContentText("Erro ao acessar o site do cosmos");
+            alert.initOwner(this.pegarTelaCadastroProduto());
             alert.show();
         } catch (IOException ex) {
             alert.setAlertType(Alert.AlertType.ERROR);
             alert.setTitle("Erro");
             alert.setContentText("Erro ao abrir navegador");
+            alert.initOwner(this.pegarTelaCadastroProduto());
             alert.show();
         }
     }
@@ -338,6 +344,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         if (editReferencia.getText().isEmpty()) {
             alert.setTitle("AVISO");
             alert.setContentText("Campo Referencia não pode ser Vazio");
+            alert.initOwner(this.pegarTelaCadastroProduto());
             alert.showAndWait();
             editReferencia.requestFocus();
             return false;
@@ -345,6 +352,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         if (editDescricao.getText().length() > 35) {
             alert.setTitle("AVISO");
             alert.setContentText("Campo descrição deve ser no minimo 35 caracteres.");
+            alert.initOwner(this.pegarTelaCadastroProduto());
             alert.showAndWait();
             editDescricao.requestFocus();
             return false;
@@ -352,6 +360,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         if (this.validarCampoVazio(editDescricao.getText())) {
             alert.setTitle("AVISO");
             alert.setContentText("Campo descrição deve ser informado.");
+            alert.initOwner(this.pegarTelaCadastroProduto());
             alert.showAndWait();
             editDescricao.requestFocus();
             return false;
@@ -359,6 +368,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         if (this.validarCampoVazio(editNcm.getText())) {
             alert.setTitle("AVISO");
             alert.setContentText("Campo Ncm deve ser informado.");
+            alert.initOwner(this.pegarTelaCadastroProduto());
             alert.showAndWait();
             editNcm.requestFocus();
             return false;
@@ -366,7 +376,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         if (editNcm.getText().length() < 8) {
             alert.setTitle("AVISO");
             alert.setContentText("Campo Ncm não pode ter menos que 8 digitos");
-            alert.showAndWait();
+            alert.initOwner(this.pegarTelaCadastroProduto());
             alert.showAndWait();
             editNcm.requestFocus();
             return false;
@@ -374,7 +384,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         if (unidade.getSelectionModel().getSelectedItem() == null) {
             alert.setTitle("AVISO");
             alert.setContentText("Selecione alguma unidade.");
-            alert.showAndWait();
+            alert.initOwner(this.pegarTelaCadastroProduto());
             alert.showAndWait();
             return false;
         }
@@ -383,6 +393,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 if (tributacao.getSelectionModel().getSelectedIndex() != 2 && !editCest.getText().isEmpty()) {
                     alert.setTitle("AVISO");
                     alert.setContentText("Tributação " + tributacao.getSelectionModel().getSelectedItem() + " não pode ter cest");
+                    alert.initOwner(this.pegarTelaCadastroProduto());
                     alert.showAndWait();
                     tributacao.getSelectionModel().select(2);
                     editCest.requestFocus();
@@ -392,6 +403,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             if (editCest.getText() == null || editCest.getText().isEmpty()) {
                 alert.setTitle("AVISO");
                 alert.setContentText("Campo Cest deve ser informado");
+                alert.initOwner(this.pegarTelaCadastroProduto());
                 alert.showAndWait();
                 editCest.requestFocus();
                 return false;
@@ -399,6 +411,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             if (!editCest.getText().isEmpty() && editCest.getText().length() < 7) {
                 alert.setTitle("AVISO");
                 alert.setContentText("Campo Cest não pode ter menos que 7 digitos");
+                alert.initOwner(this.pegarTelaCadastroProduto());
                 alert.showAndWait();
                 editCest.requestFocus();
                 return false;
@@ -437,6 +450,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         if (this.validarCampoVazio(valor)) {
             alert.setTitle("AVISO");
             alert.setContentText("Campo não pode ser Vazio");
+            alert.initOwner(this.pegarTelaCadastroProduto());
             alert.showAndWait();
             textField.requestFocus();
             textField.setText("0,00");
@@ -446,6 +460,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         if (validarCampoMonetarioMaiorQueDozeDigitos(valor)) {
             alert.setTitle("AVISO");
             alert.setContentText("Valor muito grade");
+            alert.initOwner(this.pegarTelaCadastroProduto());
             alert.showAndWait();
             textField.requestFocus();
             textField.selectAll();
@@ -454,6 +469,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         if (this.validarCampoMonetario(valor)) {
             alert.setTitle("AVISO");
             alert.setContentText("Campo só pode receber números");
+            alert.initOwner(this.pegarTelaCadastroProduto());
             alert.showAndWait();
             textField.requestFocus();
             textField.selectAll();
@@ -462,6 +478,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         if (this.validarCampoMonetarioComValorNegativo(valor)) {
             alert.setTitle("AVISO");
             alert.setContentText("Produto não pode ter números negativo");
+            alert.initOwner(this.pegarTelaCadastroProduto());
             alert.showAndWait();
             textField.requestFocus();
             textField.selectAll();
@@ -556,7 +573,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 return;
             }
             if (e.getCode() == KeyCode.F2) {
-                abrirPesquisa();
+                this.abrirPesquisa();
             }
         });
         editDescricao.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
@@ -623,6 +640,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 alert.setAlertType(Alert.AlertType.ERROR);
                 alert.setTitle("Erro");
                 alert.setContentText("Erro ao Cancelar/Ativar Produto.");
+                alert.initOwner(this.pegarTelaCadastroProduto());
                 alert.show();
             }
         });
@@ -744,7 +762,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
     }
 
     private void minimizar() {
-        ((Stage) ancoraPrincipal.getScene().getWindow()).setIconified(true);
+        ((Stage) this.pegarTelaCadastroProduto()).setIconified(true);
     }
 
     private void adicionarEventos() {
@@ -844,51 +862,59 @@ public class FrmAlteracaoPrecoController implements Initializable {
             Scene scene = new Scene(parent);
             Stage stage = new Stage(StageStyle.UNDECORATED);
             stage.setScene(scene);
+            stage.initOwner(this.pegarTelaCadastroProduto());
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
             this.ancoraPrincipal.setEffect(null);
-            if (controller.tabela.getSelectionModel().getSelectedItem() != null) {
-                if (controller.isSelecionouRegistro()) {
-                    referencia = controller.tabela.getSelectionModel().getSelectedItem().getReferencia();
-                    Produto buscarProduto = produtoServico.buscarProduto(referencia);
-                    String descricao = buscarProduto.getDescricao();
-                    Double preco = buscarProduto.getPreco();
-                    Double precoAtacado = buscarProduto.getPrecoAtacado();
-                    Double qtdAtacado = buscarProduto.getQtdAtacado();
-                    Double precoEspecial = buscarProduto.getPrecoEspecial();
-                    codigoBarra = buscarProduto.getCodigoBarra();
-                    editDescricao.setText(descricao);
-                    editReferencia.setText(buscarProduto.getCodigoBarra() == null || buscarProduto.getCodigoBarra().isEmpty() ? referencia : buscarProduto.getCodigoBarra());
-                    editPreco.setText(df.format(preco));
-                    editPrecoAtacado.setText(df.format(precoAtacado));
-                    editQtdAtacado.setText(df.format(qtdAtacado));
-                    editPrecoEspecial.setText(df.format(precoEspecial));
-                    textAplicacaoComposicao.setText(buscarProduto.getAplicacao());
-                    tributacao.getSelectionModel().select(0);
-                    if (buscarProduto.getTributacao().replaceAll("\\D", "").equals("0600")) {
-                        tributacao.getSelectionModel().select(2);
-                    } else if (buscarProduto.getTributacao().replaceAll("\\D", "").equals("0400")) {
-                        tributacao.getSelectionModel().select(1);
-                    }
-                    editNcm.setText(buscarProduto.getNcm());
-                    editCest.setText(buscarProduto.getCest());
-                    editEstoqueInicial.setText(String.valueOf(buscarProduto.getQuantidade().intValue()));
-                    grupo.getSelectionModel().select(new Grupo(buscarProduto.getGrupo()));
-                    subGrupo.getSelectionModel().select(new SubGrupo(buscarProduto.getSubgrupo()));
-                    unidade.getSelectionModel().select(buscarProduto.getUnidade());
-                    inativar.setSelected(buscarProduto.getDataCancelamento() != null);
-                    confirmaPreco.setSelected("S".equals(buscarProduto.getConfirmaPreco()));
-                    editPreco.requestFocus();
-                    editPreco.selectAll();
-                    editEstoqueInicial.setDisable(true);
-                }
+            if (controller.tabela.getSelectionModel().getSelectedItem() == null) {
+                return;
             }
+            if (!controller.isSelecionouRegistro()) {
+                return;
+            }
+            referencia = controller.tabela.getSelectionModel().getSelectedItem().getReferencia();
+            Produto buscarProduto = produtoServico.buscarProduto(referencia);
+            String descricao = buscarProduto.getDescricao();
+            Double preco = buscarProduto.getPreco();
+            Double precoAtacado = buscarProduto.getPrecoAtacado();
+            Double qtdAtacado = buscarProduto.getQtdAtacado();
+            Double precoEspecial = buscarProduto.getPrecoEspecial();
+            codigoBarra = buscarProduto.getCodigoBarra();
+            editDescricao.setText(descricao);
+            editReferencia.setText(buscarProduto.getCodigoBarra() == null || buscarProduto.getCodigoBarra().isEmpty() ? referencia : buscarProduto.getCodigoBarra());
+            editPreco.setText(df.format(preco));
+            editPrecoAtacado.setText(df.format(precoAtacado));
+            editQtdAtacado.setText(df.format(qtdAtacado));
+            editPrecoEspecial.setText(df.format(precoEspecial));
+            textAplicacaoComposicao.setText(buscarProduto.getAplicacao());
+            tributacao.getSelectionModel().select(0);
+            if (buscarProduto.getTributacao().replaceAll("\\D", "").equals("0600")) {
+                tributacao.getSelectionModel().select(2);
+            } else if (buscarProduto.getTributacao().replaceAll("\\D", "").equals("0400")) {
+                tributacao.getSelectionModel().select(1);
+            }
+            editNcm.setText(buscarProduto.getNcm());
+            editCest.setText(buscarProduto.getCest());
+            editEstoqueInicial.setText(String.valueOf(buscarProduto.getQuantidade().intValue()));
+            grupo.getSelectionModel().select(new Grupo(buscarProduto.getGrupo()));
+            subGrupo.getSelectionModel().select(new SubGrupo(buscarProduto.getSubgrupo()));
+            unidade.getSelectionModel().select(buscarProduto.getUnidade());
+            inativar.setSelected(buscarProduto.getDataCancelamento() != null);
+            confirmaPreco.setSelected("S".equals(buscarProduto.getConfirmaPreco()));
+            editPreco.requestFocus();
+            editPreco.selectAll();
+            editEstoqueInicial.setDisable(true);
         } catch (IOException ex) {
             alert.setAlertType(Alert.AlertType.ERROR);
             alert.setTitle("Erro");
             alert.setContentText("Erro ao carregar o arquivo FrmPesquisa.fxml " + ex.getMessage());
+            alert.initOwner(this.pegarTelaCadastroProduto());
             alert.show();
         }
+    }
+
+    private Window pegarTelaCadastroProduto() {
+        return this.ancoraPrincipal.getScene().getWindow();
     }
 
     private void abrirCadastroDeGrupo() {
@@ -902,6 +928,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             Stage stage = new Stage(StageStyle.TRANSPARENT);
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(this.pegarTelaCadastroProduto());
             stage.showAndWait();
             this.ancoraPrincipal.setEffect(null);
             this.listarGrupos();
@@ -910,6 +937,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             alert.setAlertType(Alert.AlertType.ERROR);
             alert.setTitle("Erro");
             alert.setContentText("Erro ao carregar o arquivo FrmGrupo.fxml " + ex.getMessage());
+            alert.initOwner(this.pegarTelaCadastroProduto());
             alert.show();
         }
     }
@@ -925,6 +953,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             Stage stage = new Stage(StageStyle.TRANSPARENT);
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(this.pegarTelaCadastroProduto());
             stage.showAndWait();
             this.ancoraPrincipal.setEffect(null);
             this.listarSubGrupos();
@@ -933,6 +962,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
             alert.setAlertType(Alert.AlertType.ERROR);
             alert.setTitle("Cadastro Rapido");
             alert.setContentText("Erro ao carregar o arquivo FrmGrupo.fxml " + ex.getMessage());
+            alert.initOwner(this.pegarTelaCadastroProduto());
             alert.show();
         }
     }
@@ -947,11 +977,13 @@ public class FrmAlteracaoPrecoController implements Initializable {
             stage.setScene(scene);
             stage.setMaximized(true);
             stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(this.pegarTelaCadastroProduto());
             stage.showAndWait();
         } catch (IOException ex) {
             alert.setAlertType(Alert.AlertType.ERROR);
             alert.setTitle("Cadastro Rapido");
             alert.setContentText("Erro ao carregar o arquivo FrmMovimentoEstoque.fxml " + ex.getMessage());
+            alert.initOwner(this.pegarTelaCadastroProduto());
             alert.show();
         }
     }
@@ -962,11 +994,13 @@ public class FrmAlteracaoPrecoController implements Initializable {
             Stage stage = new Stage(StageStyle.TRANSPARENT);
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(this.pegarTelaCadastroProduto());
             stage.show();
         } catch (IOException ex) {
             alert.setAlertType(Alert.AlertType.ERROR);
             alert.setTitle("Cadastro Rapido");
             alert.setContentText("Erro ao carregar o arquivo FrmRelatorio.fxml " + ex.getMessage());
+            alert.initOwner(this.pegarTelaCadastroProduto());
             alert.show();
         }
     }
