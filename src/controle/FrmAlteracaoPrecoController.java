@@ -510,8 +510,10 @@ public class FrmAlteracaoPrecoController implements Initializable {
             if (!validarCampos()) {
                 return;
             }
-            Double preco = formatarPreco(this.editPreco.getText()), precoAtacado = formatarPreco(this.editPrecoAtacado.getText()), qtdAtacado = formatarPreco(this.editQtdAtacado.getText());
-            Double precoEspecial = formatarPreco(this.editPrecoEspecial.getText());
+            Double preco = this.formatarPreco(this.editPreco.getText());
+            Double precoAtacado = this.formatarPreco(this.editPrecoAtacado.getText());
+            Double qtdAtacado = this.formatarPreco(this.editQtdAtacado.getText());
+            Double precoEspecial = this.formatarPreco(this.editPrecoEspecial.getText());
             this.referencia = this.editReferencia.getText().trim();
             produto.setReferencia(referencia);
             produto.setCodigoBarra(referencia);
