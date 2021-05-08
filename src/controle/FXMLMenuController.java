@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import util.FXMLUtil;
 
 public class FXMLMenuController implements Initializable {
@@ -80,6 +81,7 @@ public class FXMLMenuController implements Initializable {
         try {
             Stage stage = FXMLUtil.abrirFXML(fxml);
             stage.setMaximized(true);
+            stage.initOwner(this.pegarTelaMenu());
             stage.show();
         } catch (IOException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -88,4 +90,9 @@ public class FXMLMenuController implements Initializable {
             alert.show();
         }
     }
+
+    private Window pegarTelaMenu() {
+        return this.ancoraPrincipal.getScene().getWindow();
+    }
+
 }
