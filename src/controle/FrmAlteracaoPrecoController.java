@@ -685,6 +685,8 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 thread.start();
             } else if (e.getCode().equals(KeyCode.ESCAPE)) {
                 sair();
+            } else if (e.getCode().equals(KeyCode.F2)) {
+                this.abrirMovimentacaoDeEstoque();
             }
         });
         btSalvar.setOnAction(evt -> {
@@ -746,7 +748,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
     }
 
     private void adicionarEventos() {
-        this.labelMinimizar.setOnMouseClicked(e -> minimizar());
+        this.labelMinimizar.setOnMouseClicked(e -> this.minimizar());
         this.btRelatorioProduto.setOnAction(evt -> this.abrirTelaDeRelatorio());
         this.editReferencia.setOnAction(e -> this.editDescricao.requestFocus());
         this.editPreco.setOnAction(e -> this.editPrecoAtacado.requestFocus());
