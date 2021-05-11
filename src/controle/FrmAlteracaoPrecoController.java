@@ -185,8 +185,6 @@ public class FrmAlteracaoPrecoController implements Initializable {
         if (produtoNaBaseDaInternet == null) {
             return null;
         }
-        referencia = produtoNaBaseDaInternet.getReferencia();
-        codigoBarra = produtoNaBaseDaInternet.getReferencia();
         Platform.runLater(() -> {
             pesquisarProduto(produtoNaBaseDaInternet);
             editEstoqueInicial.setDisable(true);
@@ -791,7 +789,9 @@ public class FrmAlteracaoPrecoController implements Initializable {
     }
 
     private void pesquisarProduto(Produto produto) {
-        editReferencia.setText(produto.getReferencia());
+        if (!produto.getReferencia().isEmpty()) {
+            editReferencia.setText(produto.getReferencia());
+        }
         editDescricao.setText(produto.getDescricao());
         if (produto.getPreco() != null) {
             editPreco.setText(df.format(produto.getPreco()));

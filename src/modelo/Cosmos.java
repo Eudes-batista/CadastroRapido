@@ -127,7 +127,7 @@ public class Cosmos implements Serializable {
                 }else{
                     descricao=gson.description;
                 }
-                Produto produto = new Produto(gson.gtin, descricao, gson.avg_price, gson.avg_price, 0.0, gson.gtin);
+                Produto produto = new Produto("", descricao, gson.avg_price, gson.avg_price, 0.0, gson.gtin);
                 if(gson.getNcm() != null)
                     produto.setNcm(gson.getNcm().getCode().replaceAll("\\D",""));
                 if(gson.getCest() != null)
