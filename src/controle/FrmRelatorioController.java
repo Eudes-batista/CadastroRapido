@@ -191,9 +191,10 @@ public class FrmRelatorioController implements Initializable {
         this.filtroProduto.setDataFinal(this.dataFinal.getValue() == null ? null : this.dataFinal.getValue().toString());
         this.filtroProduto.setGrupo(this.comboGrupos.getSelectionModel().getSelectedItem().getCodigo());
         this.filtroProduto.setSubGrupo(this.comboSubGrupo.getSelectionModel().getSelectedItem().getCodigo());
-        this.filtroProduto.setTipoDeMovimentacao(this.comboTipoMovimentacao.getSelectionModel().getSelectedItem().getCodigo());
-        TipoMovimento tipoMovimento = this.comboMovimentacao.getSelectionModel().getSelectedItem();
-        this.filtroProduto.setMovimentacao(tipoMovimento != null ? tipoMovimento.getCodigo() : "");
+        TipoMovimentacaoDTO tipoMovimentacao = this.comboTipoMovimentacao.getSelectionModel().getSelectedItem();
+        this.filtroProduto.setTipoDeMovimentacao(tipoMovimentacao != null ? tipoMovimentacao.getCodigo() : "");
+        TipoMovimento movimento = this.comboMovimentacao.getSelectionModel().getSelectedItem();
+        this.filtroProduto.setMovimentacao(movimento != null ? movimento.getCodigo() : "");
         if (this.checkSemTipoMovimentacao.isSelected()) {
             this.filtroProduto.setMovimentacao("");
             this.filtroProduto.setTipoDeMovimentacao("");
