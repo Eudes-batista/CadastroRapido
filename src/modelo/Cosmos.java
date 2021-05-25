@@ -113,6 +113,7 @@ public class Cosmos implements Serializable {
             httpURLConnection.setRequestProperty("Content-Type", "application/json");
             httpURLConnection.setRequestProperty("X-Cosmos-Token", "1PBHjGipdOpCAUE4V912TQ");
             httpURLConnection.setConnectTimeout(2000);
+            httpURLConnection.setReadTimeout(2000);
             String conteudo = "";
             try (BufferedReader br = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()))) {
                 while (br.ready()) {

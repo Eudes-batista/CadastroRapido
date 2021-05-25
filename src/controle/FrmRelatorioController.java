@@ -60,7 +60,10 @@ public class FrmRelatorioController implements Initializable {
     private ComboBox<String> comboEmpresa;
 
     @FXML
-    private ComboBox<TipoMovimento> comboTipoMovimentacao;
+    private ComboBox<String> comboTipoMovimentacao;
+    
+    @FXML
+    private ComboBox<TipoMovimento> comboMovimentacao;
 
     @FXML
     private DatePicker dataInicial;
@@ -96,7 +99,8 @@ public class FrmRelatorioController implements Initializable {
     private SubGrupoService subGrupoService;
 
     private final ObservableList<String> empresas = FXCollections.observableArrayList();
-    private ObservableList<TipoMovimento> tipoMovimentacoes;
+    private ObservableList<TipoMovimento> movimentacoes;
+    private ObservableList<String> tipoMovimentacoes = FXCollections.observableArrayList("Entradas","Saidas");
     private ObservableList<Vendedor> vendedores;
 
     @Override
@@ -120,11 +124,12 @@ public class FrmRelatorioController implements Initializable {
         this.dataFinal.setValue(data);
         this.vendedores = FXCollections.observableArrayList();
         this.listarTipoMovimentacoes();
-        this.comboTipoMovimentacao.setItems(this.tipoMovimentacoes);
-        this.comboTipoMovimentacao.disableProperty().bind(this.checkSemTipoMovimentacao.selectedProperty());
+        this.comboMovimentacao.setItems(this.movimentacoes);
+        this.comboMovimentacao.disableProperty().bind(this.checkSemTipoMovimentacao.selectedProperty());
         this.comboVendedores.disableProperty().bind(this.checkProdutosVendidos.selectedProperty().not());
         this.editNumeroCaixa.disableProperty().bind(this.checkProdutosVendidos.selectedProperty().not());
         this.comboVendedores.setItems(this.vendedores);
+        this.comboTipoMovimentacao.setItems(this.tipoMovimentacoes);
         this.listarGrupos();
         this.listarSubGrupos();
         this.comboGrupos.getSelectionModel().selectFirst();
@@ -132,10 +137,10 @@ public class FrmRelatorioController implements Initializable {
     }
 
     private void listarTipoMovimentacoes() {
-        this.tipoMovimentacoes = FXCollections.observableArrayList();
+        this.movimentacoes = FXCollections.observableArrayList();
         List<TipoMovimento> listaDeTipoMovimentacoes = this.movimentoService.listarTodosTipos();
         listaDeTipoMovimentacoes.add(0, new TipoMovimento("", "Selecione Tipo de movimentação"));
-        this.tipoMovimentacoes.addAll(listaDeTipoMovimentacoes);
+        this.movimentacoes.addAll(listaDeTipoMovimentacoes);
     }
 
     private void sair() {
@@ -182,7 +187,7 @@ public class FrmRelatorioController implements Initializable {
         this.filtroProduto.setDataFinal(this.dataFinal.getValue() == null ? null : this.dataFinal.getValue().toString());
         this.filtroProduto.setGrupo(this.comboGrupos.getSelectionModel().getSelectedItem().getCodigo());
         this.filtroProduto.setSubGrupo(this.comboSubGrupo.getSelectionModel().getSelectedItem().getCodigo());
-        TipoMovimento tipoMovimento = this.comboTipoMovimentacao.getSelectionModel().getSelectedItem();
+        TipoMovimento tipoMovimento = this.comboMovimentacao.getSelectionModel().getSelectedItem();
         if (tipoMovimento != null) {
             this.filtroProduto.setTipoDeMovimentacao(tipoMovimento.getCodigo());
         }

@@ -18,6 +18,7 @@ public class FXMLUtil {
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Cadastro Rapido");
         return stage;
     }
     

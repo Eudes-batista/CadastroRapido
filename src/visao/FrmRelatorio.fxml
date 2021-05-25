@@ -27,8 +27,8 @@
                   <Label layoutX="6.0" layoutY="262.0" prefHeight="21.0" prefWidth="348.0" styleClass="label-titulo" text="Produto" />
                   <Button fx:id="btPesquisar" layoutX="364.0" layoutY="280.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="206.0" styleClass="btpadrao" text="Pesquisar produto" />
                   <CheckBox fx:id="checkTodos" layoutX="448.0" layoutY="152.0" mnemonicParsing="false" text="Todos Produtos" />
-                  <ComboBox fx:id="comboTipoMovimentacao" disable="true" layoutX="5.0" layoutY="439.0" prefHeight="40.0" prefWidth="562.0" promptText="Selecione um tipo de movimentação" styleClass="input-padrao" />
-                  <Label layoutX="6.0" layoutY="416.0" prefHeight="26.0" prefWidth="348.0" styleClass="label-titulo" text="Tipo de movimentação" />
+                  <ComboBox fx:id="comboMovimentacao" disable="true" layoutX="295.0" layoutY="439.0" prefHeight="42.0" prefWidth="286.0" promptText="Selecione uma movimentação" styleClass="input-padrao" />
+                  <Label layoutX="296.0" layoutY="416.0" prefHeight="26.0" prefWidth="270.0" styleClass="label-titulo" text="Movimentação" />
                   <CheckBox fx:id="checkSemTipoMovimentacao" layoutX="6.0" layoutY="387.0" mnemonicParsing="false" selected="true" text="Sem tipo de movimentação" />
                   <CheckBox fx:id="checkProdutosVendidos" layoutX="8.0" layoutY="541.0" mnemonicParsing="false" text="Produtos Vendidos" />
                   <Label layoutX="9.0" layoutY="568.0" prefHeight="21.0" prefWidth="120.0" styleClass="label-titulo" text="Número do caixa" />
@@ -42,6 +42,8 @@
                   <Label layoutX="7.0" layoutY="190.0" prefHeight="26.0" prefWidth="269.0" styleClass="label-titulo" text="Grupo de Produto" />
                   <ComboBox fx:id="comboSubGrupo" layoutX="299.0" layoutY="213.0" prefHeight="40.0" prefWidth="276.0" promptText="Selecione um Grupo" styleClass="input-padrao" />
                   <Label layoutX="300.0" layoutY="190.0" prefHeight="26.0" prefWidth="276.0" styleClass="label-titulo" text="SubGrupo" />
+                  <ComboBox fx:id="comboTipoMovimentacao" disable="true" layoutX="5.0" layoutY="439.0" prefHeight="41.0" prefWidth="270.0" promptText="Selecione um tipo de movimentação" styleClass="input-padrao" />
+                  <Label layoutX="6.0" layoutY="416.0" prefHeight="26.0" prefWidth="270.0" styleClass="label-titulo" text="Tipo de movimentação" />
                </children>
             </AnchorPane>
          </children>
