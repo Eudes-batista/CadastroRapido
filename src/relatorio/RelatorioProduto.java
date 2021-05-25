@@ -171,16 +171,23 @@ public class RelatorioProduto {
                 + "    PRREFERE=MIREFERE\n"
                 + "  )\n"
                 + "WHERE\n"
-                + "  MCCODEMP like '%" + filtroProduto.getEmpresa() + "%' and MIREFERE like '%" + filtroProduto.getProduto() + "%' and MITIPMOV like '%" + filtroProduto.getTipoDeMovimentacao() + "%'"
-                + " AND PRCGRUPO like '%"+filtroProduto.getGrupo()+"%' AND PRSUBGRP like '%"+filtroProduto.getSubGrupo()+"%' ";
-                
+                + "  MCCODEMP like '%" + filtroProduto.getEmpresa() + "%' and MIREFERE like '%" + filtroProduto.getProduto() + "%'"
+                + " AND PRCGRUPO like '%" + filtroProduto.getGrupo() + "%' AND PRSUBGRP like '%" + filtroProduto.getSubGrupo() + "%' ";
+
         if (filtroProduto.getDataInicial() != null) {
             sql += "and MCDATMOV between '" + filtroProduto.getDataInicial() + " 00:00:00' and '" + filtroProduto.getDataFinal() + " 23:59:59'";
+        }
+        if (!filtroProduto.getTipoDeMovimentacao().isEmpty() && filtroProduto.getMovimentacao().isEmpty()) {
+            sql += " AND MITIPMOV like '%" + filtroProduto.getTipoDeMovimentacao() + "%'";
+        }
+        if (!filtroProduto.getMovimentacao().isEmpty()) {
+            sql += " AND MITIPMOV like '%" + filtroProduto.getMovimentacao() + "%'";
         }
         if (!this.conectaBanco.conexao()) {
             return;
         }
         if (!this.conectaBanco.executaSQL(sql)) {
+            this.conectaBanco.desconecta();
             return;
         }
         try {
@@ -199,6 +206,8 @@ public class RelatorioProduto {
             alert.setTitle("CADASTRO RAPIDO");
             alert.setContentText("Erro ao consultar produtos");
             alert.show();
+        } finally {
+            conectaBanco.desconecta();
         }
     }
 

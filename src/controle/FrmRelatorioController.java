@@ -8,8 +8,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -33,6 +31,7 @@ import modelo.TipoMovimento;
 import modelo.Vendedor;
 import modelo.dto.FiltroProduto;
 import modelo.dto.FiltroProdutoVendido;
+import modelo.dto.TipoMovimentacaoDTO;
 import relatorio.RelatorioProduto;
 import servico.GrupoService;
 import servico.MovimentoService;
@@ -60,8 +59,8 @@ public class FrmRelatorioController implements Initializable {
     private ComboBox<String> comboEmpresa;
 
     @FXML
-    private ComboBox<String> comboTipoMovimentacao;
-    
+    private ComboBox<TipoMovimentacaoDTO> comboTipoMovimentacao;
+
     @FXML
     private ComboBox<TipoMovimento> comboMovimentacao;
 
@@ -100,7 +99,11 @@ public class FrmRelatorioController implements Initializable {
 
     private final ObservableList<String> empresas = FXCollections.observableArrayList();
     private ObservableList<TipoMovimento> movimentacoes;
-    private ObservableList<String> tipoMovimentacoes = FXCollections.observableArrayList("Entradas","Saidas");
+    private ObservableList<TipoMovimentacaoDTO> tipoMovimentacoes = FXCollections.observableArrayList(
+            new TipoMovimentacaoDTO("", "Selecione um tipo de movimentação"),
+            new TipoMovimentacaoDTO("E", "Entradas"),
+            new TipoMovimentacaoDTO("S", "Saidas")
+    );
     private ObservableList<Vendedor> vendedores;
 
     @Override
@@ -126,6 +129,7 @@ public class FrmRelatorioController implements Initializable {
         this.listarTipoMovimentacoes();
         this.comboMovimentacao.setItems(this.movimentacoes);
         this.comboMovimentacao.disableProperty().bind(this.checkSemTipoMovimentacao.selectedProperty());
+        this.comboTipoMovimentacao.disableProperty().bind(this.checkSemTipoMovimentacao.selectedProperty());
         this.comboVendedores.disableProperty().bind(this.checkProdutosVendidos.selectedProperty().not());
         this.editNumeroCaixa.disableProperty().bind(this.checkProdutosVendidos.selectedProperty().not());
         this.comboVendedores.setItems(this.vendedores);
@@ -139,7 +143,7 @@ public class FrmRelatorioController implements Initializable {
     private void listarTipoMovimentacoes() {
         this.movimentacoes = FXCollections.observableArrayList();
         List<TipoMovimento> listaDeTipoMovimentacoes = this.movimentoService.listarTodosTipos();
-        listaDeTipoMovimentacoes.add(0, new TipoMovimento("", "Selecione Tipo de movimentação"));
+        listaDeTipoMovimentacoes.add(0, new TipoMovimento("", "Selecione uma movimentação"));
         this.movimentacoes.addAll(listaDeTipoMovimentacoes);
     }
 
@@ -187,11 +191,11 @@ public class FrmRelatorioController implements Initializable {
         this.filtroProduto.setDataFinal(this.dataFinal.getValue() == null ? null : this.dataFinal.getValue().toString());
         this.filtroProduto.setGrupo(this.comboGrupos.getSelectionModel().getSelectedItem().getCodigo());
         this.filtroProduto.setSubGrupo(this.comboSubGrupo.getSelectionModel().getSelectedItem().getCodigo());
+        this.filtroProduto.setTipoDeMovimentacao(this.comboTipoMovimentacao.getSelectionModel().getSelectedItem().getCodigo());
         TipoMovimento tipoMovimento = this.comboMovimentacao.getSelectionModel().getSelectedItem();
-        if (tipoMovimento != null) {
-            this.filtroProduto.setTipoDeMovimentacao(tipoMovimento.getCodigo());
-        }
+        this.filtroProduto.setMovimentacao(tipoMovimento != null ? tipoMovimento.getCodigo() : "");
         if (this.checkSemTipoMovimentacao.isSelected()) {
+            this.filtroProduto.setMovimentacao("");
             this.filtroProduto.setTipoDeMovimentacao("");
         }
         this.relatorioProduto.imprimirEstoque(this.filtroProduto);

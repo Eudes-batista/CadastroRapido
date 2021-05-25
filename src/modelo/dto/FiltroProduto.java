@@ -7,6 +7,7 @@ public class FiltroProduto {
     private String dataFinal;
     private String produto;
     private String tipoDeMovimentacao;
+    private String movimentacao;
     private String grupo;
     private String subGrupo;
 
@@ -79,5 +80,13 @@ public class FiltroProduto {
     @Override
     public String toString() {
         return "FiltroProduto{" + "empresa=" + empresa + ", dataInicial=" + dataInicial + ", dataFinal=" + dataFinal + ", produto=" + produto + ", tipoDeMovimentacao=" + tipoDeMovimentacao + ", grupo=" + grupo + ", subGrupo=" + subGrupo + '}';
+    }
+
+    public String getMovimentacao() {
+        return movimentacao;
+    }
+
+    public void setMovimentacao(String movimentacao) {
+        this.movimentacao = movimentacao;
     }
 }
