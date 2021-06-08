@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -179,13 +180,14 @@ public class FrmMovimentoEstoqueController implements Initializable {
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
-            if (controller.tabela.getSelectionModel().getSelectedItem() != null) {
-                if (controller.isSelecionouRegistro()) {
-                    this.item.setText(controller.tabela.getSelectionModel().getSelectedItem().getReferencia());
-                    this.labelDescricao.setText(controller.tabela.getSelectionModel().getSelectedItem().getDescricao());
-                    this.precoUnitario.setText(String.valueOf(controller.tabela.getSelectionModel().getSelectedItem().getPreco()));
-                    this.precoUnitario.setDisable(true);
-                }
+            if (controller.tabela.getSelectionModel().getSelectedItem() == null) {
+                return;
+            }
+            if (controller.isSelecionouRegistro()) {
+                this.item.setText(controller.tabela.getSelectionModel().getSelectedItem().getReferencia());
+                this.labelDescricao.setText(controller.tabela.getSelectionModel().getSelectedItem().getDescricao());
+                this.precoUnitario.setText(String.valueOf(controller.tabela.getSelectionModel().getSelectedItem().getPreco()));
+                this.precoUnitario.setDisable(true);
             }
         } catch (IOException ex) {
         }
@@ -325,6 +327,14 @@ public class FrmMovimentoEstoqueController implements Initializable {
             if (e.getCode().equals(KeyCode.DOWN)) {
                 if (!itemMovimentos.isEmpty()) {
                     tabelaMovimento.requestFocus();
+                }
+            }
+        });
+        this.item.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue != null && !newValue.equals("")) {
+                    item.setText(newValue.toUpperCase());
                 }
             }
         });
