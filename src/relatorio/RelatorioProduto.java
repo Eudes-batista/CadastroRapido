@@ -41,6 +41,7 @@ public class RelatorioProduto {
         if (filtroProduto.getDataInicial() != null) {
             sql += "and PRULTALT between '" + filtroProduto.getDataInicial() + " 00:00:00' and '" + filtroProduto.getDataFinal() + " 23:59:59' \n";
         }
+        sql += " AND PRCGRUPO like '%" + filtroProduto.getGrupo() + "%' AND PRSUBGRP like '%" + filtroProduto.getSubGrupo() + "%' ";
         sql += "group by\n"
                 + " PRREFERE,PRCODBAR,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA"
                 + " order by PRDESCRI";
