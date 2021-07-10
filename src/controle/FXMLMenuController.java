@@ -37,6 +37,9 @@ public class FXMLMenuController implements Initializable {
 
     @FXML
     private Button btNcm;
+    
+    @FXML
+    private Button btDevolucao;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -47,6 +50,7 @@ public class FXMLMenuController implements Initializable {
         this.btVendedores.setOnAction(evt -> this.abrirTelaDeRelatorioVendedores());
         this.btSair.setOnAction(evt -> this.sair());
         this.btNcm.setOnAction(evt -> this.abrirTelaDeManutencaoNcm());
+        this.btDevolucao.setOnAction(evt -> this.abrirTelaDevolucao());
     }
 
     private void sair() {
@@ -76,7 +80,11 @@ public class FXMLMenuController implements Initializable {
     private void abrirTelaDeManutencaoNcm() {
         this.abrirFXML("FXMLManutencaoNcm");
     }
-
+    
+    private void abrirTelaDevolucao() {
+        this.abrirFXML("FrmDevolucao");
+    }
+    
     private void abrirFXML(String fxml) {
         try {
             Stage stage = FXMLUtil.abrirFXML(fxml);

@@ -22,6 +22,7 @@
             <Button fx:id="btRelatorios" mnemonicParsing="false" prefHeight="44.0" prefWidth="231.0" styleClass="btpadrao" text="Relatórios" />
             <Button fx:id="btVendedores" layoutX="763.0" layoutY="10.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="231.0" styleClass="btpadrao" text="Vendedores" />
             <Button fx:id="btNcm" layoutX="13.0" layoutY="74.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="231.0" styleClass="btpadrao" text="Manutenção NCM" />
+            <Button fx:id="btDevolucao" layoutX="264.0" layoutY="74.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="259.0" styleClass="btpadrao" text="Relatório de Devolução" />
          </children>
          <padding>
             <Insets left="3.0" />
