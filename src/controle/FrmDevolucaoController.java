@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -62,12 +63,18 @@ public class FrmDevolucaoController implements Initializable {
             }
         });
         this.btImprimir.setOnAction(evt -> this.imprimir());
-        this.dataInicial.setOnAction(evt -> this.dataFinal.setValue(this.dataInicial.getValue()));
     }
 
     private void imprimir() {
         String dataInicialSelecionada = this.dataInicial.getValue() != null ? this.dataInicial.getValue().toString() : "";
         String dataFinalSelecionada = this.dataFinal.getValue() != null ? this.dataFinal.getValue().toString() : "";
+        if (dataInicialSelecionada.isEmpty() || dataFinalSelecionada.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("CADASTRO RAPIDO");
+            alert.setContentText("Selecione uma data");
+            alert.show();
+            return;
+        }
         this.filtroDevolucao.setDataInicial(dataInicialSelecionada);
         this.filtroDevolucao.setDataFinal(dataFinalSelecionada);
         this.filtroDevolucao.setVendedora(this.comboVendedor.getSelectionModel().getSelectedItem().getCodigo());
