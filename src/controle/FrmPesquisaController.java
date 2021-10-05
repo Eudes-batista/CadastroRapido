@@ -228,23 +228,7 @@ public class FrmPesquisaController implements Initializable {
 
     private boolean excluirProdutoUnico(Produto produto) {
         ProdutoServico produtoServico = new ProdutoServico();
-        try {
-            produtoServico.excluirProduto(produto.getReferencia());
-            return true;
-        } catch (SQLException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            try {
-                produtoServico.conecta.getConnection().rollback();
-            } catch (SQLException ex1) {
-                alert.setTitle("Erro");
-                alert.setContentText("Erro ao Excluir produto! já existe movimentação");
-                alert.show();
-            }
-            alert.setTitle("Erro");
-            alert.setContentText("Erro ao Excluir produto! já existe movimentação");
-            alert.show();
-        }
-        return false;
+        return produtoServico.excluirProduto(produto.getReferencia());
     }
 
     private boolean opcoes() {

@@ -127,32 +127,26 @@ public class FrmAdicionarGruposController implements Initializable {
             return;
         }
         List<Produto> produtos = this.produtos.stream().filter(produto -> produto.getCheckBox().isSelected()).collect(Collectors.toList());
-        try {
-            String referencias =  produtos.stream().map(produto -> "'"+produto.getReferencia()+"'").collect(Collectors.joining(","));
-            this.produtoServico.atualizarGrupo(referencias, this.comboBoxGrupo.getSelectionModel().getSelectedItem().getCodigo());
+        String referencias = produtos.stream().map(produto -> "'" + produto.getReferencia() + "'").collect(Collectors.joining(","));
+        boolean atualizou = this.produtoServico.atualizarGrupo(referencias, this.comboBoxGrupo.getSelectionModel().getSelectedItem().getCodigo());
+        if (!atualizou) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Cadastro Rapido");
-            alert.setContentText("Produtos Atualizados com sucesso!!");
+            alert.setContentText("Não foi possível atualizar grupo nos produtos.");
             alert.show();
-        } catch (SQLException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Cadastro Rapido");
-            alert.setContentText("Erro ao atualizar grupo no produto.");
-            alert.show();
+            return;
         }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Cadastro Rapido");
+        alert.setContentText("Produtos Atualizados com sucesso!!");
+        alert.show();
+
     }
 
     private void listarGrupos() {
         this.grupos.clear();
-        try {
-            List<Grupo> listaDeGrupos = produtoServico.listarGrupos();
-            this.grupos.addAll(listaDeGrupos);
-        } catch (SQLException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Cadastro Rapido");
-            alert.setContentText("Erro ao pesquisar grupos.");
-            alert.show();
-        }
+        List<Grupo> listaDeGrupos = produtoServico.listarGrupos();
+        this.grupos.addAll(listaDeGrupos);
     }
 
     private void sair() {

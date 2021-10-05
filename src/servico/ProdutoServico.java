@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javafx.scene.control.Alert;
@@ -72,7 +73,7 @@ public class ProdutoServico {
                     sql = "INSERT INTO SCEA07 (EECODEMP,EEREFERE,EEDTTAB1,EEPBRTB1,EEPLQTB1,EEDTTAB2,EEPBRTB2,EEPLQTB2,EEDTTAB3,EEPBRTB3,EEPLQTB3,EET2PVD1,EET3VIG1,EET3PVD1,EET3VIG2,EET3PVD2,EET3VIG3,EET3PVD3)";
                     sql += " VALUES ('" + empresa + "','" + produto.getReferencia() + "','" + data + "'," + produto.getPreco() + "," + produto.getPreco()
                             + ",'" + data + "','" + produto.getPreco() + "'," + produto.getPreco()
-                            + ",'" + data + "'," + produto.getPreco() + "," + produto.getPreco() + "," + produto.getPrecoAtacado() +",'"+data+ "',"+ produto.getPrecoEspecial() + ",'"+data+"',"+produto.getPrecoEspecial()+",'"+data+"',"+produto.getPrecoEspecial()+")";
+                            + ",'" + data + "'," + produto.getPreco() + "," + produto.getPreco() + "," + produto.getPrecoAtacado() + ",'" + data + "'," + produto.getPrecoEspecial() + ",'" + data + "'," + produto.getPrecoEspecial() + ",'" + data + "'," + produto.getPrecoEspecial() + ")";
                     PreparedStatement pst2 = conecta.getConnection().prepareStatement(sql);
                     pst2.execute();
                     conecta.getConnection().commit();
@@ -172,8 +173,11 @@ public class ProdutoServico {
         }
     }
 
-    public void excluirProduto(String refencia) throws SQLException {
-        if (conecta.conexao()) {
+    public boolean excluirProduto(String refencia) {
+        if (!conecta.conexao()) {
+            return false;
+        }
+        try {
             PreparedStatement preparedStatement = conecta.getConnection().prepareStatement("delete from scea09 where rarefere = ?");
             preparedStatement.setString(1, refencia);
             preparedStatement.execute();
@@ -186,53 +190,77 @@ public class ProdutoServico {
             conecta.getConnection().commit();
             preparedStatement.close();
             conecta.desconecta();
+            return true;
+        } catch (SQLException ex) {
+            this.conecta.desconecta();
+            return false;
         }
     }
 
-    public void atualizarGrupo(String referencia, String grupo) throws SQLException {
+    public boolean atualizarGrupo(String referencia, String grupo) {
         if (!conecta.conexao()) {
-            return;
+            return false;
         }
-        try (PreparedStatement preparedStatement = conecta.getConnection().prepareStatement("update scea01 set PRCGRUPO='" + grupo + "',PRSUBGRP='" + grupo + "' where PRREFERE IN(" + referencia + ")")) {
+        try {
+            PreparedStatement preparedStatement = conecta.getConnection().prepareStatement("update scea01 set PRCGRUPO='" + grupo + "',PRSUBGRP='" + grupo + "' where PRREFERE IN(" + referencia + ")");
             preparedStatement.execute();
             conecta.getConnection().commit();
+            preparedStatement.close();
+            conecta.desconecta();
+            return true;
+        } catch (SQLException ex) {
+            conecta.desconecta();
+            return false;
         }
-        conecta.desconecta();
     }
 
-    public List<Grupo> listarGrupos() throws SQLException {
-        if (!conecta.conexao()) {
-            return null;
+    public List<Grupo> listarGrupos() {
+        List<Grupo> grupos = new ArrayList<>();
+        if (!this.conecta.conexao()) {
+            return grupos;
         }
         String sql = "SELECT T51CDGRP as codigo,T51DSGRP as nome FROM LAPT51 ORDER BY T51DSGRP";
-        if (!conecta.executaSQL(sql)) {
-            return null;
+        if (!this.conecta.executaSQL(sql)) {
+            this.conecta.desconecta();
+            return grupos;
         }
-        if (!conecta.getResultSet().first()) {
-            return null;
+        try {
+            if (!this.conecta.getResultSet().first()) {
+                this.conecta.desconecta();
+                return Arrays.asList();
+            }
+            do {
+                grupos.add(new Grupo(this.conecta.getResultSet().getString("codigo"), this.conecta.getResultSet().getString("nome")));
+            } while (this.conecta.getResultSet().next());
+        } catch (SQLException ex) {
+            grupos.clear();
         }
-        List<Grupo> grupos = new ArrayList<>();
-        do {
-            grupos.add(new Grupo(conecta.getResultSet().getString("codigo"), conecta.getResultSet().getString("nome")));
-        } while (conecta.getResultSet().next());
+        this.conecta.desconecta();
         return grupos;
     }
 
-    public List<SubGrupo> listarSubGrupos() throws SQLException {
-        if (!conecta.conexao()) {
-            return null;
+    public List<SubGrupo> listarSubGrupos() {
+        List<SubGrupo> grupos = new ArrayList<>();
+        if (!this.conecta.conexao()) {
+            return grupos;
         }
         String sql = "SELECT T52CDSGR as codigo,T52DSSGR as nome FROM LAPT52 ORDER BY T52DSSGR";
-        if (!conecta.executaSQL(sql)) {
-            return null;
+        if (!this.conecta.executaSQL(sql)) {
+            this.conecta.desconecta();
+            return grupos;
         }
-        if (!conecta.getResultSet().first()) {
-            return null;
+        try {
+            if (!this.conecta.getResultSet().first()) {
+                this.conecta.desconecta();
+                return grupos;
+            }
+            do {
+                grupos.add(new SubGrupo(this.conecta.getResultSet().getString("codigo"), this.conecta.getResultSet().getString("nome")));
+            } while (this.conecta.getResultSet().next());
+        } catch (SQLException ex) {
+            grupos.clear();
         }
-        List<SubGrupo> grupos = new ArrayList<>();
-        do {
-            grupos.add(new SubGrupo(conecta.getResultSet().getString("codigo"), conecta.getResultSet().getString("nome")));
-        } while (conecta.getResultSet().next());
+        this.conecta.desconecta();
         return grupos;
     }
 
@@ -290,6 +318,7 @@ public class ProdutoServico {
                 + "  ,EET3PVD1"
                 + "  ,PRAPLICA";
         if (!conecta.executaSQL(sql)) {
+            this.conecta.desconecta();
             return null;
         }
         try {
@@ -305,9 +334,11 @@ public class ProdutoServico {
                     + "or    RAREFAUX='" + referencia + "' "
                     + "or    RAREFLIM='" + referencia + "' ";
             if (!conecta.executaSQL(sql)) {
+                this.conecta.desconecta();
                 return null;
             }
             if (!conecta.getResultSet().first()) {
+                this.conecta.desconecta();
                 return null;
             }
             Produto produto = buscarProdutoScea01();
@@ -331,10 +362,12 @@ public class ProdutoServico {
         sql = "select PRREFERE,PRDESCRI,PRCODBAR from scea01 "
                 + " where prrefere ='" + pesquisa + "' or PRCODBAR='" + pesquisa + "' or PRDESCRI like '%" + pesquisa + "%'";
         if (!conecta.executaSQL(sql)) {
+            this.conecta.desconecta();
             return this.produtos;
         }
         try {
             if (!conecta.getResultSet().first()) {
+                this.conecta.desconecta();
                 return this.produtos;
             }
             do {
@@ -351,14 +384,20 @@ public class ProdutoServico {
         return this.produtos;
     }
 
-    public void atualizarDataCancelamento(Produto produto) throws SQLException {
-        if (conecta.conexao()) {
+    public void atualizarDataCancelamento(Produto produto) {
+        if (!conecta.conexao()) {
+            return;
+        }
+        try {
             String data = produto.getDataCancelamento() != null ? "'" + produto.getDataCancelamento() + "'" : null;
             String sql = "update scea01 set PRDATCAN=" + data + " where prrefere='" + produto.getReferencia() + "'";
             PreparedStatement pst = conecta.getConnection().prepareStatement(sql);
             pst.execute();
             conecta.getConnection().commit();
             pst.close();
+            this.conecta.desconecta();
+        } catch (SQLException ex) {
+            this.conecta.desconecta();
         }
     }
 
@@ -370,21 +409,26 @@ public class ProdutoServico {
         sb.append("SELECT ").append(" cast(floor((rand()*count(*))*1000) as integer) AS SO_NUMERO ").append(" FROM SCEA01");
         String sql = sb.toString();
         if (!conecta.executaSQL(sql)) {
+            this.conecta.desconecta();
             return "1";
         }
         try {
             if (!conecta.getResultSet().first()) {
+                this.conecta.desconecta();
                 return "1";
             }
             String refencia = conecta.getResultSet().getString("SO_NUMERO");
             if (refencia == null) {
+                this.conecta.desconecta();
                 return "1";
             }
             while (verificarSeExisteReferncia(refencia)) {
                 refencia = String.valueOf(Integer.parseInt(refencia) + 1);
             }
+            this.conecta.desconecta();
             return refencia;
         } catch (SQLException ex) {
+            this.conecta.desconecta();
             return "1";
         }
     }

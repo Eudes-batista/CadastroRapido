@@ -42,7 +42,7 @@ public class RelatorioDevolucao {
         }
         sql += "  dvvended like '%" + filtroDevolucao.getVendedora() + "%' \n"
                 + "group by\n"
-                + "  dvdevolu";
+                + "  dvdevolu,dvcodemp";
         if (!this.conectaBanco.conexao()) {
             return;
         }

@@ -833,23 +833,15 @@ public class FrmAlteracaoPrecoController implements Initializable {
     }
 
     private void listarGrupos() {
-        try {
-            grupos.clear();
-            List<Grupo> listarGrupos = produtoServico.listarGrupos();
-            this.grupos.addAll(listarGrupos == null ? Arrays.asList() : listarGrupos);
-            this.grupo.setItems(grupos);
-        } catch (SQLException ex) {
-        }
+        this.grupos.clear();
+        this.grupos.addAll(this.produtoServico.listarGrupos());
+        this.grupo.setItems(this.grupos);
     }
 
     private void listarSubGrupos() {
-        try {
-            subGrupos.clear();
-            List<SubGrupo> listarSubGrupos = produtoServico.listarSubGrupos();
-            this.subGrupos.addAll(listarSubGrupos == null ? Arrays.asList() : listarSubGrupos);
-            this.subGrupo.setItems(subGrupos);
-        } catch (SQLException ex) {
-        }
+        this.subGrupos.clear();
+        this.subGrupos.addAll(this.produtoServico.listarSubGrupos());
+        this.subGrupo.setItems(this.subGrupos);
     }
 
     private void abrirPesquisa() {
