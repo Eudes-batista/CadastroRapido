@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import modelo.ItemMovimento;
 import modelo.Movimento;
@@ -19,40 +18,35 @@ public class ItemMovimentoService {
     private final ConectaBanco conecta = new ConectaBanco();
 
     public boolean salvar(ItemMovimento itemMovimento) {
-        if (conecta.conexao()) {
+        if (!conecta.conexao()) {
+            return false;
+        }
+        try {
+            itemMovimento.setSeguenciaItem(buscarSequenciaItem(itemMovimento.getMovimento()));
+            String sql = "INSERT INTO SCEA03 (MICODEMP,MITIPMOV,MINUMERO,MINUMITE,MIREFERE,MIDATMOV,MIQUANTI,MIPRUNIT)";
+            sql += " VALUES('" + itemMovimento.getMovimento().getEmpresa()
+                    + "','" + itemMovimento.getMovimento().getTipo()
+                    + "','" + itemMovimento.getMovimento().getDocumento()
+                    + "','" + itemMovimento.getSeguenciaItem()
+                    + "','" + itemMovimento.getProduto()
+                    + "','" + new SimpleDateFormat("yyyy-MM-dd").format(itemMovimento.getMovimento().getDataMovimento())
+                    + "'," + itemMovimento.getQuantidade()
+                    + "," + itemMovimento.getPrecoUnitario() + ")";
+            Statement pst = conecta.getConnection().createStatement();
+            pst.execute(sql);
+            conecta.getConnection().commit();
+            pst.close();
+            movimentarEstoqueAtual(itemMovimento);
+            this.conecta.desconecta();
+            return true;
+        } catch (SQLException ex) {
             try {
-                itemMovimento.setSeguenciaItem(buscarSequenciaItem(itemMovimento.getMovimento()));
-                String sql = "INSERT INTO SCEA03 (MICODEMP,MITIPMOV,MINUMERO,MINUMITE,MIREFERE,MIDATMOV,MIQUANTI,MIPRUNIT)";
-                sql += " VALUES('" + itemMovimento.getMovimento().getEmpresa()
-                        + "','" + itemMovimento.getMovimento().getTipo()
-                        + "','" + itemMovimento.getMovimento().getDocumento()
-                        + "','" + itemMovimento.getSeguenciaItem()
-                        + "','" + itemMovimento.getProduto()
-                        + "','" + new SimpleDateFormat("yyyy-MM-dd").format(itemMovimento.getMovimento().getDataMovimento())
-                        + "'," + itemMovimento.getQuantidade()
-                        + "," + itemMovimento.getPrecoUnitario() + ")";
-                Statement pst = conecta.getConnection().createStatement();
-                pst.execute(sql);
-                conecta.getConnection().commit();
-                pst.close();
-                movimentarEstoqueAtual(itemMovimento);
-                return true;
-            } catch (SQLException ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                try {
-                    conecta.getConnection().rollback();
-                } catch (SQLException ex1) {
-                    alert.setTitle("Erro");
-                    alert.setContentText("Erro ao incluir Movimento. \n" + ex1.getMessage());
-                    alert.show();
-                }
-                alert.setTitle("Erro");
-                alert.setContentText("Erro ao incluir Movimento. \n " + ex.getMessage());
-                alert.show();
+                conecta.getConnection().rollback();
+            } catch (SQLException ex1) {
             }
             conecta.desconecta();
+            return false;
         }
-        return false;
     }
 
     private void movimentarEstoqueAtual(ItemMovimento itemMovimento) throws SQLException {
@@ -79,97 +73,103 @@ public class ItemMovimentoService {
     }
 
     public boolean excluirItem(ItemMovimento itemMovimento) {
-        if (conecta.conexao()) {
-            try {
-                String sql = "delete from SCEA03 where MINUMITE=? and MICODEMP=? and MITIPMOV=? and MINUMERO=?";
-                PreparedStatement pst = conecta.getConnection().prepareStatement(sql);
-                pst.setString(1, itemMovimento.getSeguenciaItem());
-                pst.setString(2, itemMovimento.getMovimento().getEmpresa());
-                pst.setString(3, itemMovimento.getMovimento().getTipo());
-                pst.setString(4, itemMovimento.getMovimento().getDocumento());
-                pst.execute();
-                conecta.getConnection().commit();
-                pst.close();
-                movimentarEstoqueAtual(itemMovimento);
-                return true;
-            } catch (SQLException ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erro");
-                alert.setContentText("Erro ao excluir Item Movimento. \n" + ex.getMessage());
-                alert.show();
-            }
+        if (!conecta.conexao()) {
+            return false;
         }
-        return false;
+        try {
+            String sql = "delete from SCEA03 where MINUMITE=? and MICODEMP=? and MITIPMOV=? and MINUMERO=?";
+            PreparedStatement pst = conecta.getConnection().prepareStatement(sql);
+            pst.setString(1, itemMovimento.getSeguenciaItem());
+            pst.setString(2, itemMovimento.getMovimento().getEmpresa());
+            pst.setString(3, itemMovimento.getMovimento().getTipo());
+            pst.setString(4, itemMovimento.getMovimento().getDocumento());
+            pst.execute();
+            conecta.getConnection().commit();
+            pst.close();
+            movimentarEstoqueAtual(itemMovimento);
+            this.conecta.desconecta();
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
     }
 
     public boolean excluirTodosItens(List<ItemMovimento> itemMovimentos) {
-        if (conecta.conexao()) {
-            try {
-                String sql = "delete from SCEA03 where MICODEMP=? and MITIPMOV=? and MINUMERO=?";
-                PreparedStatement pst = conecta.getConnection().prepareStatement(sql);
-                pst.setString(1, itemMovimentos.get(0).getMovimento().getEmpresa());
-                pst.setString(2, itemMovimentos.get(0).getMovimento().getTipo());
-                pst.setString(3, itemMovimentos.get(0).getMovimento().getDocumento());
-                pst.execute();
-                conecta.getConnection().commit();
-                pst.close();
-                ItemMovimento itemMovimento = itemMovimentos.get(0);
-                itemMovimento.setProduto(itemMovimentos.stream().map(ItemMovimento::getProduto).collect(Collectors.joining(",")));
-                movimentarEstoqueAtual(itemMovimento);
-                return true;
-            } catch (SQLException ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erro");
-                alert.setContentText("Erro ao excluir Item Movimento. \n" + ex.getMessage());
-                alert.show();
-            }
+        if (!conecta.conexao()) {
+            return false;
         }
-        return false;
+        try {
+            String sql = "delete from SCEA03 where MICODEMP=? and MITIPMOV=? and MINUMERO=?";
+            PreparedStatement pst = conecta.getConnection().prepareStatement(sql);
+            pst.setString(1, itemMovimentos.get(0).getMovimento().getEmpresa());
+            pst.setString(2, itemMovimentos.get(0).getMovimento().getTipo());
+            pst.setString(3, itemMovimentos.get(0).getMovimento().getDocumento());
+            pst.execute();
+            conecta.getConnection().commit();
+            pst.close();
+            ItemMovimento itemMovimento = itemMovimentos.get(0);
+            itemMovimento.setProduto(itemMovimentos.stream().map(ItemMovimento::getProduto).collect(Collectors.joining(",")));
+            movimentarEstoqueAtual(itemMovimento);
+            this.conecta.desconecta();
+            return true;
+        } catch (SQLException ex) {
+            this.conecta.desconecta();
+            return false;
+        }
     }
 
-    public List<ItemMovimento> listarMovimento(Movimento movimento) throws SQLException {
-        if (conecta.conexao()) {
-            String sql = "select \n"
-                    + "   MIREFERE as REFERENCIA\n"
-                    + "  ,PRDESCRI as DESCRICAO\n"
-                    + "  ,MIQUANTI as QUANTIDADE\n"
-                    + "  ,EEPLQTB1 as PRECO\n"
-                    + "  ,(MIQUANTI*EEPLQTB1) as TOTAL\n"
-                    + "  ,MINUMITE as ITEM\n"
-                    + "from \n"
-                    + "scea03 \n"
-                    + "  inner join \n"
-                    + "scea07 on(EEREFERE=MIREFERE) \n"
-                    + "  inner join \n"
-                    + "SCEA01 on(PRREFERE=EEREFERE) \n"
-                    + "where\n"
-                    + "    MICODEMP='" + movimento.getEmpresa() + "'\n"
-                    + "AND MITIPMOV='" + movimento.getTipo() + "'  \n"
-                    + "AND MINUMERO='" + movimento.getDocumento() + "'\n"
-                    + "group by\n"
-                    + "   MIREFERE,PRDESCRI,MIQUANTI,EEPLQTB1,MINUMITE";
-            if (conecta.executaSQL(sql)) {
-                List<ItemMovimento> itemMovimentos = new ArrayList<>();
-                if (conecta.getResultSet().first()) {
-                    do {
-                        String refrencia = conecta.getResultSet().getString("REFERENCIA"), descricao = conecta.getResultSet().getString("DESCRICAO"), produto;
-                        produto = refrencia + " - " + descricao;
-                        ItemMovimento itemMovimento = new ItemMovimento();
-                        itemMovimento.setCheckBox(new CheckBox());
-                        itemMovimento.setMovimento(movimento);
-                        itemMovimento.setSeguenciaItem(conecta.getResultSet().getString("ITEM"));
-                        itemMovimento.setProduto(refrencia);
-                        itemMovimento.setDescricao(produto);
-                        itemMovimento.setQuantidade(conecta.getResultSet().getDouble("QUANTIDADE"));
-                        itemMovimento.setPrecoUnitario(conecta.getResultSet().getDouble("PRECO"));
-                        itemMovimento.setPrecoTotal(conecta.getResultSet().getDouble("TOTAL"));
-                        itemMovimentos.add(itemMovimento);
-                    } while (conecta.getResultSet().next());
-                    return itemMovimentos;
-                }
-            }
+    public List<ItemMovimento> listarMovimento(Movimento movimento) {
+        List<ItemMovimento> itemMovimentos = new ArrayList<>();
+        if (!conecta.conexao()) {
+            return itemMovimentos;
         }
-        return null;
+        String sql = "select \n"
+                + "   MIREFERE as REFERENCIA\n"
+                + "  ,PRDESCRI as DESCRICAO\n"
+                + "  ,MIQUANTI as QUANTIDADE\n"
+                + "  ,EEPLQTB1 as PRECO\n"
+                + "  ,(MIQUANTI*EEPLQTB1) as TOTAL\n"
+                + "  ,MINUMITE as ITEM\n"
+                + "from \n"
+                + "scea03 \n"
+                + "  inner join \n"
+                + "scea07 on(EEREFERE=MIREFERE) \n"
+                + "  inner join \n"
+                + "SCEA01 on(PRREFERE=EEREFERE) \n"
+                + "where\n"
+                + "    MICODEMP='" + movimento.getEmpresa() + "'\n"
+                + "AND MITIPMOV='" + movimento.getTipo() + "'  \n"
+                + "AND MINUMERO='" + movimento.getDocumento() + "'\n"
+                + "group by\n"
+                + "   MIREFERE,PRDESCRI,MIQUANTI,EEPLQTB1,MINUMITE";
+        if (!conecta.executaSQL(sql)) {
+            this.conecta.desconecta();
+            return itemMovimentos;
+        }
+        try {
+            if (!conecta.getResultSet().first()) {
+                this.conecta.desconecta();
+                return itemMovimentos;
+            }
+            do {
+                String refrencia = conecta.getResultSet().getString("REFERENCIA"), descricao = conecta.getResultSet().getString("DESCRICAO"), produto;
+                produto = refrencia + " - " + descricao;
+                ItemMovimento itemMovimento = new ItemMovimento();
+                itemMovimento.setCheckBox(new CheckBox());
+                itemMovimento.setMovimento(movimento);
+                itemMovimento.setSeguenciaItem(conecta.getResultSet().getString("ITEM"));
+                itemMovimento.setProduto(refrencia);
+                itemMovimento.setDescricao(produto);
+                itemMovimento.setQuantidade(conecta.getResultSet().getDouble("QUANTIDADE"));
+                itemMovimento.setPrecoUnitario(conecta.getResultSet().getDouble("PRECO"));
+                itemMovimento.setPrecoTotal(conecta.getResultSet().getDouble("TOTAL"));
+                itemMovimentos.add(itemMovimento);
+            } while (conecta.getResultSet().next());
+        } catch (SQLException ex) {
+            itemMovimentos.clear();
+        }
+        this.conecta.desconecta();
+        return itemMovimentos;
     }
 
     private String buscarSequenciaItem(Movimento movimento) throws SQLException {
@@ -184,7 +184,7 @@ public class ItemMovimentoService {
     }
 
     private void atualizarInformacaoProduto(String produto) throws SQLException {
-        try ( PreparedStatement preparedStatement = conecta.getConnection().prepareStatement("update scea01 set PRULTALT=? where PRREFERE=?")) {
+        try (PreparedStatement preparedStatement = conecta.getConnection().prepareStatement("update scea01 set PRULTALT=? where PRREFERE=?")) {
             preparedStatement.setDate(1, new Date(new java.util.Date().getTime()));
             preparedStatement.setString(2, produto);
             preparedStatement.execute();

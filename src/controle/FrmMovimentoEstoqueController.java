@@ -143,15 +143,10 @@ public class FrmMovimentoEstoqueController implements Initializable {
     }
 
     private void listarItemMovimento() {
-        try {
-            this.itemMovimentos.clear();
-            List<ItemMovimento> itemMovimento = this.itemMovimentoService.listarMovimento(movimento);
-            if (itemMovimento != null) {
-                this.itemMovimentos.addAll(itemMovimento);
-            }
-            this.tabelaMovimento.setItems(itemMovimentos);
-        } catch (SQLException ex) {
-        }
+        this.itemMovimentos.clear();
+        List<ItemMovimento> itemMovimento = this.itemMovimentoService.listarMovimento(movimento);
+        this.itemMovimentos.addAll(itemMovimento);
+        this.tabelaMovimento.setItems(itemMovimentos);
     }
 
     private void buscarProduto() {
@@ -459,7 +454,7 @@ public class FrmMovimentoEstoqueController implements Initializable {
                 documento.getText(),
                 observacao.getText(),
                 "EDS", new Date(), new Date());
-        movimento = this.movimentoService.verificarMovimento(m);        
+        movimento = this.movimentoService.verificarMovimento(m);
         if (movimento == null) {
             movimento = null;
             movimento = new Movimento();
