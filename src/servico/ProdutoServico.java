@@ -272,20 +272,27 @@ public class ProdutoServico {
         return this.buscarEmpresa("select LJCODEMP from lapa19 where LJNUMCGC <> '00.000.000/0000-00';");
     }
 
-    private List<String> buscarEmpresa(String sql) throws SQLException {
+    private List<String> buscarEmpresa(String sql) {
+        List<String> empresas = new ArrayList<>();
         if (!conecta.conexao()) {
-            return null;
+            return empresas;
         }
         if (!conecta.executaSQL(sql)) {
-            return null;
+            this.conecta.desconecta();
+            return empresas;
         }
-        if (!conecta.getResultSet().first()) {
-            return null;
+        try {
+            if (!conecta.getResultSet().first()) {
+                this.conecta.desconecta();
+                return empresas;
+            }
+            do {
+                empresas.add(conecta.getResultSet().getString(1));
+            } while (conecta.getResultSet().next());
+        } catch (SQLException ex) {
+            empresas.clear();
         }
-        List<String> empresas = new ArrayList<>();
-        do {
-            empresas.add(conecta.getResultSet().getString(1));
-        } while (conecta.getResultSet().next());
+        this.conecta.desconecta();
         return empresas;
     }
 

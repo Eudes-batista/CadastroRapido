@@ -13,78 +13,76 @@ public class SubGrupoService {
     private final ConectaBanco conecta = new ConectaBanco();
 
     public boolean salvar(SubGrupo subGrupo) {
-        if (this.conecta.conexao()) {
+        if (!this.conecta.conexao()) {
+            return false;
+        }
+        try {
+            String sql = "INSERT INTO LAPT52 (T52CDSGR,T52DSSGR) values(?,?)";
+            PreparedStatement pst = this.conecta.getConnection().prepareStatement(sql);
+            pst.setString(1, subGrupo.getCodigo());
+            pst.setString(2, subGrupo.getNome());
+            pst.executeUpdate();
+            this.conecta.getConnection().commit();
+            pst.close();
+            this.conecta.desconecta();
+            return true;
+        } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
             try {
-                String sql = "INSERT INTO LAPT52 (T52CDSGR,T52DSSGR) values(?,?)";
-                PreparedStatement pst = this.conecta.getConnection().prepareStatement(sql);
-                pst.setString(1, subGrupo.getCodigo());
-                pst.setString(2, subGrupo.getNome());
-                pst.executeUpdate();
-                this.conecta.getConnection().commit();
-                pst.close();
-                return true;
-            } catch (SQLException ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                try {
-                    this.conecta.getConnection().rollback();
-                } catch (SQLException ex1) {
-                    alert.setTitle("Erro");
-                    alert.setContentText("Erro ao incluir SubGrupo");
-                    alert.show();
-                }
+                this.conecta.getConnection().rollback();
+            } catch (SQLException ex1) {
                 alert.setTitle("Erro");
                 alert.setContentText("Erro ao incluir SubGrupo");
                 alert.show();
             }
-            this.conecta.desconecta();
+            alert.setTitle("Erro");
+            alert.setContentText("Erro ao incluir SubGrupo");
+            alert.show();
         }
+        this.conecta.desconecta();
         return false;
     }
 
     public boolean alterar(SubGrupo subGrupo) {
-        if (this.conecta.conexao()) {
+        if (!this.conecta.conexao()) {
+            return false;
+        }
+        try {
+            String sql = "update LAPT52 set T52DSSGR=? where T52CDSGR=?";
+            PreparedStatement pst = this.conecta.getConnection().prepareStatement(sql);
+            pst.setString(1, subGrupo.getNome());
+            pst.setString(2, subGrupo.getCodigo());
+            pst.executeUpdate();
+            this.conecta.getConnection().commit();
+            pst.close();
+            this.conecta.desconecta();
+            return true;
+        } catch (SQLException ex) {
             try {
-                String sql = "update LAPT52 set T52DSSGR=? where T52CDSGR=?";
-                PreparedStatement pst = this.conecta.getConnection().prepareStatement(sql);
-                pst.setString(1, subGrupo.getNome());
-                pst.setString(2, subGrupo.getCodigo());
-                pst.executeUpdate();
-                this.conecta.getConnection().commit();
-                pst.close();
-                return true;
-            } catch (SQLException ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                try {
-                    this.conecta.getConnection().rollback();
-                } catch (SQLException ex1) {
-                    alert.setTitle("Erro");
-                    alert.setContentText("Erro ao alterar SubGrupo");
-                    alert.show();
-                }
-                alert.setTitle("Erro");
-                alert.setContentText("Erro ao alterar SubGrupo");
-                alert.show();
+                this.conecta.getConnection().rollback();
+            } catch (SQLException ex1) {
             }
             this.conecta.desconecta();
+            return false;
         }
-        return false;
     }
 
-    public void excluirMovimento(String grupo) {
-        if (this.conecta.conexao()) {
-            try {
-                String sql = "delete from LAPT52 where T52CDSGR=?";
-                PreparedStatement pst = this.conecta.getConnection().prepareStatement(sql);
-                pst.setString(1, grupo);
-                pst.execute();
-                this.conecta.getConnection().commit();
-                pst.close();
-            } catch (SQLException ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erro");
-                alert.setContentText("Erro ao excluir SubGrupo");
-                alert.show();
-            }
+    public boolean excluirMovimento(String grupo) {
+        if (!this.conecta.conexao()) {
+            return false;
+        }
+        try {
+            String sql = "delete from LAPT52 where T52CDSGR=?";
+            PreparedStatement pst = this.conecta.getConnection().prepareStatement(sql);
+            pst.setString(1, grupo);
+            pst.execute();
+            this.conecta.getConnection().commit();
+            pst.close();
+            this.conecta.desconecta();
+            return true;
+        } catch (SQLException ex) {
+            this.conecta.desconecta();
+            return false;
         }
     }
 

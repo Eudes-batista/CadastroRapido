@@ -252,16 +252,8 @@ public class FrmRelatorioController implements Initializable {
     }
 
     private void listarEmpresa() {
-        try {
-            this.empresas.clear();
-            List<String> listaEmpresa = this.movimentoService.listarEmpresas();
-            this.empresas.addAll(listaEmpresa);
-        } catch (SQLException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Cadastro Rapido");
-            alert.setContentText("Erro ao listar empresa.");
-            alert.show();
-        }
+        this.empresas.clear();
+        this.empresas.addAll(this.movimentoService.listarEmpresas());
     }
 
     private void listarVendedores() {

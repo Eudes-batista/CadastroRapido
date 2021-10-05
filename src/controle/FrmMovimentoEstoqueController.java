@@ -3,7 +3,6 @@ package controle;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -130,23 +129,17 @@ public class FrmMovimentoEstoqueController implements Initializable {
     private String dataAtual;
 
     private void listarEmpresa() {
-        try {
-            this.empresas.clear();
-            this.empresas.addAll(this.movimentoService.listarEmpresas());
-            this.empresa.setItems(empresas);
-            this.empresa.getSelectionModel().select(0);
-        } catch (SQLException ex) {
-        }
+        this.empresas.clear();
+        this.empresas.addAll(this.movimentoService.listarEmpresas());
+        this.empresa.setItems(empresas);
+        this.empresa.getSelectionModel().select(0);
     }
 
     private void listarTipoMovimento() {
-        try {
-            this.tipoMovimentos.clear();
-            this.tipoMovimentos.addAll(this.movimentoService.listarTipos());
-            this.tipo.setItems(this.tipoMovimentos);
-            this.tipo.getSelectionModel().select(0);
-        } catch (SQLException ex) {
-        }
+        this.tipoMovimentos.clear();
+        this.tipoMovimentos.addAll(this.movimentoService.listarTipos());
+        this.tipo.setItems(this.tipoMovimentos);
+        this.tipo.getSelectionModel().select(0);
     }
 
     private void listarItemMovimento() {
@@ -466,24 +459,17 @@ public class FrmMovimentoEstoqueController implements Initializable {
                 documento.getText(),
                 observacao.getText(),
                 "EDS", new Date(), new Date());
-        try {
-            movimento = this.movimentoService.verificarMovimento(m);
-            if (movimento == null) {
-                movimento = null;
-                movimento = new Movimento();
-                this.observacao.requestFocus();
-                return;
-            }
-            listarItemMovimento();
-            desabilitarCampos(true);
-            item.requestFocus();
-            quantidadeItens.setText(String.valueOf(itemMovimentos.size()));
-        } catch (SQLException ex) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("AVISO");
-            alert.setContentText("Erro ao pesquisar movimento");
-            alert.showAndWait();
+        movimento = this.movimentoService.verificarMovimento(m);        
+        if (movimento == null) {
+            movimento = null;
+            movimento = new Movimento();
+            this.observacao.requestFocus();
+            return;
         }
+        listarItemMovimento();
+        desabilitarCampos(true);
+        item.requestFocus();
+        quantidadeItens.setText(String.valueOf(itemMovimentos.size()));
     }
 
     private boolean validacaoCampos() {

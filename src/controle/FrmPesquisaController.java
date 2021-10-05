@@ -1,7 +1,6 @@
 package controle;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Optional;

@@ -4,9 +4,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
@@ -67,24 +64,15 @@ public class FrmPesquisaMovimentosController implements Initializable {
     private TextField documento;
 
     private SimpleDateFormat simpleDateFormat;
-    
+
     public final ObservableList<Movimento> movimentos = FXCollections.observableArrayList();
     private MovimentoService movimentoService;
     private boolean selecionouRegistro = false;
 
     public void pesquisarMovimentacao() {
         movimentos.clear();
-        try {
-            List<Movimento> movimentosPesquisados = this.movimentoService.listarMovimentos(dataMovimentacao.getValue().toString(), documento.getText());
-            if (movimentosPesquisados != null) {
-                this.movimentos.addAll(movimentosPesquisados);
-            }
-        } catch (SQLException ex) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("AVISO");
-            alert.setContentText("Movimento não encontrado.");
-            alert.show();
-        }
+        List<Movimento> movimentosPesquisados = this.movimentoService.listarMovimentos(dataMovimentacao.getValue().toString(), documento.getText());
+        this.movimentos.addAll(movimentosPesquisados);
     }
 
     @FXML
@@ -158,5 +146,5 @@ public class FrmPesquisaMovimentosController implements Initializable {
     public TableView<Movimento> getTabela() {
         return tabela;
     }
-    
+
 }
