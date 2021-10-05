@@ -274,16 +274,12 @@ public class ProdutoServico {
 
     private List<String> buscarEmpresa(String sql) {
         List<String> empresas = new ArrayList<>();
-        if (!conecta.conexao()) {
-            return empresas;
-        }
         if (!conecta.executaSQL(sql)) {
             this.conecta.desconecta();
             return empresas;
         }
         try {
             if (!conecta.getResultSet().first()) {
-                this.conecta.desconecta();
                 return empresas;
             }
             do {
@@ -292,7 +288,6 @@ public class ProdutoServico {
         } catch (SQLException ex) {
             empresas.clear();
         }
-        this.conecta.desconecta();
         return empresas;
     }
 

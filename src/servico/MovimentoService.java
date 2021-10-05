@@ -49,7 +49,7 @@ public class MovimentoService {
             return empresas;
         }
         String sql = "SELECT LDCODEMP FROM LAPA13 WHERE LDUSUARI LIKE '%SUPORTE%'";
-        if (conecta.executaSQL(sql)) {
+        if (!conecta.executaSQL(sql)) {
             this.conecta.desconecta();
             return empresas;
         }
