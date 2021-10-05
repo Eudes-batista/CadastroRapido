@@ -111,7 +111,7 @@ public class ProdutoServico {
     private void alterar(Produto produto) {
         if (conecta.conexao()) {
             try {
-                PreparedStatement pst = conecta.getConnection().prepareStatement("update scea07 set EEPBRTB1=?,EEPLQTB1=?,EEPBRTB2=?,EEPLQTB2=?,EET2PVD1=?,EET3PVD1=?,EET3PVD2=?,EET3PVD3=?  where EEREFERE=?");
+                PreparedStatement pst = conecta.getConnection().prepareStatement("update scea07 set EEPBRTB1=?,EEPLQTB1=?,EEPBRTB2=?,EEPLQTB2=?,EET2PVD1=?,EET3PVD1=?,EET3PVD2=?,EET3PVD3=?,EEDTTAB1=?,EEDTTAB2=?  where EEREFERE=?");
                 pst.setDouble(1, produto.getPreco());
                 pst.setDouble(2, produto.getPreco());
                 pst.setDouble(3, produto.getPreco());
@@ -120,7 +120,10 @@ public class ProdutoServico {
                 pst.setDouble(6, produto.getPrecoEspecial());
                 pst.setDouble(7, produto.getPrecoEspecial());
                 pst.setDouble(8, produto.getPrecoEspecial());
-                pst.setString(9, produto.getReferencia());
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                pst.setDate(9, new java.sql.Date(simpleDateFormat.parse(simpleDateFormat.format(new Date())).getTime()));
+                pst.setDate(10, new java.sql.Date(simpleDateFormat.parse(simpleDateFormat.format(new Date())).getTime()));
+                pst.setString(11, produto.getReferencia());
                 pst.execute();
                 conecta.getConnection().commit();
                 pst.close();
@@ -139,7 +142,7 @@ public class ProdutoServico {
                 pst.setDate(12, new java.sql.Date(new Date().getTime()));
                 pst.setDate(13, null);
                 if (produto.getDataCancelamento() != null) {
-                    pst.setDate(13, new java.sql.Date(new SimpleDateFormat("yyyy-MM-dd").parse(produto.getDataCancelamento()).getTime()));
+                    pst.setDate(13, new java.sql.Date(simpleDateFormat.parse(produto.getDataCancelamento()).getTime()));
                 }
                 pst.setString(14, produto.getConfirmaPreco());
                 pst.setString(15, produto.getAplicacao());
@@ -150,7 +153,7 @@ public class ProdutoServico {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("SUCESSO!!");
                 alert.setContentText("Produto salvo com sucesso.");
-                alert.showAndWait();
+                alert.show();
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 try {
