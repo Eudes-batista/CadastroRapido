@@ -89,14 +89,14 @@ public class RelatorioClientes {
             jasperViewer.setDefaultCloseOperation(JasperViewer.DISPOSE_ON_CLOSE);
             jasperViewer.setResizable(true);
             jasperViewer.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            jasperViewer.setVisible(true);
-            this.conectaBanco.desconecta();
+            jasperViewer.setVisible(true);;
         } catch (JRException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("CADASTRO RAPIDO");
             alert.setContentText("Erro ao consultar clientes");
             alert.show();
         }
+        this.conectaBanco.desconecta();
     }
 
 }

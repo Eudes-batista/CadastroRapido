@@ -49,6 +49,7 @@ public class RelatorioProduto {
             return;
         }
         if (!this.conectaBanco.executaSQL(sql)) {
+            this.conectaBanco.desconecta();
             return;
         }
         try {
@@ -63,12 +64,14 @@ public class RelatorioProduto {
             jasperViewer.setResizable(true);
             jasperViewer.setExtendedState(JFrame.MAXIMIZED_BOTH);
             jasperViewer.setVisible(true);
+
         } catch (JRException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("CADASTRO RAPIDO");
             alert.setContentText("Erro ao consultar produtos");
             alert.show();
         }
+        this.conectaBanco.desconecta();
     }
 
     public void imprimirProdutosVendidos(FiltroProdutoVendido filtroProdutoVendido) {
@@ -101,6 +104,7 @@ public class RelatorioProduto {
             return;
         }
         if (!this.conectaBanco.executaSQL(sql)) {
+            this.conectaBanco.desconecta();
             return;
         }
         try {
@@ -137,6 +141,7 @@ public class RelatorioProduto {
             alert.setContentText(ex.getMessage());
             alert.show();
         }
+        this.conectaBanco.desconecta();
     }
 
     public void imprimirEstoque(FiltroProduto filtroProduto) {

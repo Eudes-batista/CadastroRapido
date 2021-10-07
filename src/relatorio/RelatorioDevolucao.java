@@ -79,6 +79,7 @@ public class RelatorioDevolucao {
             alert.setContentText("Erro ao consultar devolução");
             alert.show();
         }
+        this.conectaBanco.desconecta();
     }
 
 }

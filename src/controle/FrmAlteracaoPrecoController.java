@@ -14,6 +14,7 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.application.Platform;
@@ -676,44 +677,22 @@ public class FrmAlteracaoPrecoController implements Initializable {
 
     private void adicionandoEventosComThread() {
         editReferencia.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
-            if (!newValue) {
-                thread = null;
-                thread = new Thread() {
-                    @Override
-                    public void run() {
-                        Platform.runLater(() -> paneModal.setVisible(true));
-                        referencia();
-                    }
-                };
-                thread.start();
+            if (newValue) {
+                return;
             }
+            CompletableFuture.runAsync(() -> {
+                Platform.runLater(() -> paneModal.setVisible(true));
+                referencia();
+            });
         });
         ancoraPrincipal.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
             if (e.getCode().equals(KeyCode.F1)) {
-                thread = null;
-                thread = new Thread() {
-                    @Override
-                    public void run() {
-                        paneModal.setVisible(true);
-                        salvar();
-                    }
-                };
-                thread.start();
+                this.salvar();
             } else if (e.getCode().equals(KeyCode.ESCAPE)) {
                 sair();
             }
         });
-        btSalvar.setOnAction(evt -> {
-            thread = null;
-            thread = new Thread() {
-                @Override
-                public void run() {
-                    paneModal.setVisible(true);
-                    salvar();
-                }
-            };
-            thread.start();
-        });
+        btSalvar.setOnAction(evt -> this.salvar());
     }
 
     private void iniciarValores() {

@@ -55,10 +55,10 @@ public class RelatorioVendedor {
 
     public void setVendedor(String vendedor) {
         this.vendedor = vendedor;
-    }    
+    }
 
     public void imprimir() {
-        
+
         String sql = "select \n"
                 + "  coalesce(sum(OSVLRORC),0) as total_vendas_brutas\n"
                 + ", (select \n"
@@ -98,7 +98,7 @@ public class RelatorioVendedor {
             ResultSet resultSet = this.conectaBanco.getResultSet();
             JRResultSetDataSource dataSource = new JRResultSetDataSource(resultSet);
             InputStream inputStream = getClass().getResourceAsStream("/relatorio/relatorioTotalVendedores.jasper");
-            Map<String,Object> parametros = new HashMap<>();
+            Map<String, Object> parametros = new HashMap<>();
             parametros.put("periodoSelecionado", this.perido);
             JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parametros, dataSource);
             jasperPrint.setName("Relatorio de Vendedores");
@@ -108,13 +108,13 @@ public class RelatorioVendedor {
             jasperViewer.setResizable(true);
             jasperViewer.setExtendedState(JFrame.MAXIMIZED_BOTH);
             jasperViewer.setVisible(true);
-            this.conectaBanco.desconecta();
         } catch (JRException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("CADASTRO RAPIDO");
             alert.setContentText("Erro ao consultar produtos");
             alert.show();
         }
+        this.conectaBanco.desconecta();
     }
 
 }

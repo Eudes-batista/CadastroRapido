@@ -73,6 +73,7 @@ public class RelatorioCorrentista {
             alert.setContentText("Erro ao consultar correntista");
             alert.show();
         }
+        this.conectaBanco.desconecta();
     }
 
     public void setCliente(String cliente) {
