@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.Objects;
 
 public class Cosmos implements Serializable {
@@ -115,7 +116,7 @@ public class Cosmos implements Serializable {
             httpURLConnection.setConnectTimeout(2000);
             httpURLConnection.setReadTimeout(2000);
             String conteudo = "";
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()))) {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), Charset.forName("UTF-8")))) {
                 while (br.ready()) {
                     conteudo += br.readLine();
                 }
