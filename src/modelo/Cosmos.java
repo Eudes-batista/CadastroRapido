@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.text.Normalizer;
 import java.util.Objects;
 
 public class Cosmos implements Serializable {
@@ -107,7 +108,7 @@ public class Cosmos implements Serializable {
 
     public static Produto buscarProduto(String referencia) {
         try {
-            String url ="https://api.cosmos.bluesoft.com.br/gtins/" + referencia + ".json";
+            String url = "https://api.cosmos.bluesoft.com.br/gtins/" + referencia + ".json";
             URL site = new URL(url);
             HttpURLConnection httpURLConnection = (HttpURLConnection) site.openConnection();
             httpURLConnection.setRequestMethod("GET");
@@ -124,16 +125,18 @@ public class Cosmos implements Serializable {
             Cosmos gson = new Gson().fromJson(conteudo, Cosmos.class);
             if (gson != null) {
                 String descricao;
-                if(gson.description.length()>=35){
+                if (gson.description.length() >= 35) {
                     descricao = gson.description.substring(0, 35);
-                }else{
-                    descricao=gson.description;
+                } else {
+                    descricao = gson.description;
                 }
-                Produto produto = new Produto("", descricao, gson.avg_price, gson.avg_price, 0.0, gson.gtin);
-                if(gson.getNcm() != null)
-                    produto.setNcm(gson.getNcm().getCode().replaceAll("\\D",""));
-                if(gson.getCest() != null)
-                    produto.setCest(gson.getCest().getCode().replaceAll("\\D",""));
+                Produto produto = new Produto("", normalizarDescricao(descricao), gson.avg_price, gson.avg_price, 0.0, gson.gtin);
+                if (gson.getNcm() != null) {
+                    produto.setNcm(gson.getNcm().getCode().replaceAll("\\D", ""));
+                }
+                if (gson.getCest() != null) {
+                    produto.setCest(gson.getCest().getCode().replaceAll("\\D", ""));
+                }
                 produto.setUnidade("UN");
                 produto.setTributacao(produto.getCest() == null ? "0001" : "0600");
                 return produto;
@@ -142,5 +145,9 @@ public class Cosmos implements Serializable {
         } catch (IOException ex) {
         }
         return null;
+    }
+
+    private static String normalizarDescricao(String descricao) {
+        return Normalizer.normalize(descricao, Normalizer.Form.NFD).replaceAll("[\\u0300-\\u036f]", "");
     }
 }

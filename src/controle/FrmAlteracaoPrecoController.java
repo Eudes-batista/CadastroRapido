@@ -11,6 +11,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.text.Normalizer;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -577,7 +578,7 @@ public class FrmAlteracaoPrecoController implements Initializable {
         });
         editDescricao.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             if (newValue.length() <= 35) {
-                editDescricao.setText(newValue.toUpperCase());
+                editDescricao.setText(this.normalizarDescricao(newValue.toUpperCase()));
             } else {
                 editDescricao.setText("");
                 editDescricao.setText(oldValue.toUpperCase());
@@ -973,4 +974,9 @@ public class FrmAlteracaoPrecoController implements Initializable {
             alert.show();
         }
     }
+
+    private String normalizarDescricao(String descricao) {
+        return Normalizer.normalize(descricao, Normalizer.Form.NFD).replaceAll("[\\u0300-\\u036f]", "");
+    }
+
 }
