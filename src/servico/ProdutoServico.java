@@ -272,7 +272,7 @@ public class ProdutoServico {
     }
 
     private List<String> buscarEmpresaEstoque() throws SQLException {
-        return this.buscarEmpresa("select LJCODEMP from lapa19 where LJNUMCGC <> '00.000.000/0000-00';");
+        return this.buscarEmpresa("select first 1 LJCODEMP from lapa19 where LJNUMCGC <> '00.000.000/0000-00';");
     }
 
     private List<String> buscarEmpresa(String sql) {
