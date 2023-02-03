@@ -504,54 +504,48 @@ public class FrmAlteracaoPrecoController implements Initializable {
 
     @FXML
     private void salvar() {
-        Platform.runLater(() -> {
-            if (!validarCampos()) {
-                return;
-            }
-            Double preco = this.formatarPreco(this.editPreco.getText());
-            Double precoAtacado = this.formatarPreco(this.editPrecoAtacado.getText());
-            Double qtdAtacado = this.formatarPreco(this.editQtdAtacado.getText());
-            Double precoEspecial = this.formatarPreco(this.editPrecoEspecial.getText());
-            this.referencia = this.editReferencia.getText().trim();
-            produto.setReferencia(referencia);
-            produto.setCodigoBarra(referencia);
-            if (verificarTemValorCodigoBarra()) {
-                produto.setCodigoBarra(codigoBarra.trim());
-            }
-            this.produto.setDescricao(editDescricao.getText());
-            this.produto.setAplicacao(textAplicacaoComposicao.getText());
-            this.produto.setPreco(preco);
-            this.produto.setPrecoAtacado(precoAtacado);
-            this.produto.setQtdAtacado(qtdAtacado);
-            this.produto.setNcm(editNcm.getText());
-            this.produto.setCest(editCest.getText());
-            this.produto.setTributacao(tributacao.getSelectionModel().getSelectedItem().replaceAll("\\D", ""));
-            this.produto.setUnidade(unidade.getSelectionModel().getSelectedItem());
-            this.produto.setGrupo(this.grupo.getSelectionModel().getSelectedItem().getCodigo());
-            this.produto.setSubgrupo(this.subGrupo.getSelectionModel().getSelectedItem().getCodigo());
-            this.produto.setPrecoEspecial(precoEspecial);
-            String estoque = editEstoqueInicial.getText().replace(",", ".");
-            this.produto.setQuantidade(Double.parseDouble(estoque));
-            String dataCancelamento = null;
-            if (this.inativar.isSelected()) {
-                dataCancelamento = LocalDate.now().toString();
-            }
-            this.produto.setDataCancelamento(dataCancelamento);
-            String seConfirmaPreco = "N";
-            if (this.confirmaPreco.isSelected()) {
-                seConfirmaPreco = "S";
-            }
-            this.produto.setConfirmaPreco(seConfirmaPreco);
-            this.produtoServico.salvar(this.produto);
-            this.editReferencia.requestFocus();
-            this.editReferencia.selectAll();
-            this.codigoBarra = "";
-            this.editEstoqueInicial.setDisable(false);
-        });
-        this.paneModal.setVisible(false);
-        if (this.thread != null) {
-            this.thread.interrupt();
+        if (!validarCampos()) {
+            return;
         }
+        Double preco = this.formatarPreco(this.editPreco.getText());
+        Double precoAtacado = this.formatarPreco(this.editPrecoAtacado.getText());
+        Double qtdAtacado = this.formatarPreco(this.editQtdAtacado.getText());
+        Double precoEspecial = this.formatarPreco(this.editPrecoEspecial.getText());
+        this.referencia = this.editReferencia.getText().trim();
+        produto.setReferencia(referencia);
+        produto.setCodigoBarra(referencia);
+        if (verificarTemValorCodigoBarra()) {
+            produto.setCodigoBarra(codigoBarra.trim());
+        }
+        this.produto.setDescricao(editDescricao.getText());
+        this.produto.setAplicacao(textAplicacaoComposicao.getText());
+        this.produto.setPreco(preco);
+        this.produto.setPrecoAtacado(precoAtacado);
+        this.produto.setQtdAtacado(qtdAtacado);
+        this.produto.setNcm(editNcm.getText());
+        this.produto.setCest(editCest.getText());
+        this.produto.setTributacao(tributacao.getSelectionModel().getSelectedItem().replaceAll("\\D", ""));
+        this.produto.setUnidade(unidade.getSelectionModel().getSelectedItem());
+        this.produto.setGrupo(this.grupo.getSelectionModel().getSelectedItem().getCodigo());
+        this.produto.setSubgrupo(this.subGrupo.getSelectionModel().getSelectedItem().getCodigo());
+        this.produto.setPrecoEspecial(precoEspecial);
+        final String estoque = editEstoqueInicial.getText().replace(",", ".");
+        this.produto.setQuantidade(Double.parseDouble(estoque));
+        String dataCancelamento = null;
+        if (this.inativar.isSelected()) {
+            dataCancelamento = LocalDate.now().toString();
+        }
+        this.produto.setDataCancelamento(dataCancelamento);
+        String seConfirmaPreco = "N";
+        if (this.confirmaPreco.isSelected()) {
+            seConfirmaPreco = "S";
+        }
+        this.produto.setConfirmaPreco(seConfirmaPreco);
+        this.produtoServico.salvar(this.produto);
+        this.editReferencia.requestFocus();
+        this.editReferencia.selectAll();
+        this.codigoBarra = "";
+        this.editEstoqueInicial.setDisable(false);
     }
 
     private boolean verificarTemValorCodigoBarra() {
@@ -664,16 +658,6 @@ public class FrmAlteracaoPrecoController implements Initializable {
             editCest.setDisable(true);
         }
         this.iniciarValores();
-        ancoraPrincipal.setOnMousePressed(evt -> {
-            x = evt.getSceneX();
-            y = evt.getSceneY();
-        });
-
-        ancoraPrincipal.setOnMouseDragged(evt -> {
-            FrmBancoController.stageFrmAlteracao.setX(evt.getScreenX() - x);
-            FrmBancoController.stageFrmAlteracao.setY(evt.getScreenY() - y);
-        });
-
     }
 
     private void adicionandoEventosComThread() {
@@ -686,14 +670,14 @@ public class FrmAlteracaoPrecoController implements Initializable {
                 referencia();
             });
         });
-        ancoraPrincipal.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+        ancoraPrincipal.addEventFilter(KeyEvent.KEY_RELEASED, e -> {
             if (e.getCode().equals(KeyCode.F1)) {
                 this.salvar();
             } else if (e.getCode().equals(KeyCode.ESCAPE)) {
                 sair();
             }
         });
-        btSalvar.setOnAction(evt -> this.salvar());
+        btSalvar.setOnMouseClicked(evt -> this.salvar());
     }
 
     private void iniciarValores() {

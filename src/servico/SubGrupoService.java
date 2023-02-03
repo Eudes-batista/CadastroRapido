@@ -13,7 +13,7 @@ public class SubGrupoService {
     private final ConectaBanco conecta = new ConectaBanco();
 
     public boolean salvar(SubGrupo subGrupo) {
-        if (!this.conecta.conexao()) {
+        if (!this.conecta.conectar()) {
             return false;
         }
         try {
@@ -44,7 +44,7 @@ public class SubGrupoService {
     }
 
     public boolean alterar(SubGrupo subGrupo) {
-        if (!this.conecta.conexao()) {
+        if (!this.conecta.conectar()) {
             return false;
         }
         try {
@@ -68,7 +68,7 @@ public class SubGrupoService {
     }
 
     public boolean excluirMovimento(String grupo) {
-        if (!this.conecta.conexao()) {
+        if (!this.conecta.conectar()) {
             return false;
         }
         try {
@@ -88,7 +88,7 @@ public class SubGrupoService {
 
     public List<SubGrupo> listarSubGrupos(String pesquisa) throws SQLException {
         List<SubGrupo> grupos = new ArrayList<>();
-        if (!this.conecta.conexao()) {
+        if (!this.conecta.conectar()) {
             return grupos;
         }
         String sql = "SELECT T52CDSGR as codigo,T52DSSGR as nome FROM LAPT52 where T52DSSGR like '%" + pesquisa + "%' ORDER BY T52DSSGR";
@@ -109,7 +109,7 @@ public class SubGrupoService {
 
     public SubGrupo buscarSubGrupo(String codigo) {
         String sql;
-        if (!this.conecta.conexao()) {
+        if (!this.conecta.conectar()) {
             return null;
         }
         sql = "SELECT T52CDSGR as codigo,T52DSSGR as nome FROM LAPT52 where T52CDSGR='" + codigo + "'";

@@ -16,7 +16,7 @@ public class VendedorService {
     
     public List<Vendedor> listarVendedores() {
         List<Vendedor> vendedores = new ArrayList<>();
-        if(!this.conectaBanco.conexao()){
+        if(!this.conectaBanco.conectar()){
             return vendedores;
         }
         if(!this.conectaBanco.executaSQL("select RVIDEVEN,RVNOMEVE from SFTA01")){

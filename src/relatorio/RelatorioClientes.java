@@ -68,7 +68,7 @@ public class RelatorioClientes {
                 + "  CDTIPCAR='" + this.formaPagamento + "' "
                 + "AND  OSLIQUID >= '" + this.dataInicial + " 00:00:00' "
                 + "AND  OSLIQUID <= '" + this.dataFinal + " 23:59:59' ";
-        if (!this.conectaBanco.conexao()) {
+        if (!this.conectaBanco.conectar()) {
             return;
         }
         if (!this.conectaBanco.executaSQL(sql)) {

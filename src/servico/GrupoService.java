@@ -13,7 +13,7 @@ public class GrupoService {
     private final ConectaBanco conecta = new ConectaBanco();
 
     public boolean salvar(Grupo grupo) {
-        if (this.conecta.conexao()) {
+        if (this.conecta.conectar()) {
             try {
                 String sql = "INSERT INTO LAPT51 (T51CDGRP,T51DSGRP) values(?,?)";
                 PreparedStatement pst = this.conecta.getConnection().prepareStatement(sql);
@@ -42,7 +42,7 @@ public class GrupoService {
     }
 
     public boolean alterar(Grupo grupo) {
-        if (this.conecta.conexao()) {
+        if (this.conecta.conectar()) {
             try {
                 String sql = "update LAPT51 set T51DSGRP=? where T51CDGRP=?";
                 PreparedStatement pst = this.conecta.getConnection().prepareStatement(sql);
@@ -71,7 +71,7 @@ public class GrupoService {
     }
 
     public void excluirMovimento(String grupo) {
-        if (this.conecta.conexao()) {
+        if (this.conecta.conectar()) {
             try {
                 String sql = "delete from LAPT51 where T51CDGRP=?";
                 PreparedStatement pst = this.conecta.getConnection().prepareStatement(sql);
@@ -90,7 +90,7 @@ public class GrupoService {
 
     public List<Grupo> listarGrupos(String pesquisa) throws SQLException {
         List<Grupo> grupos = new ArrayList<>();
-        if (!this.conecta.conexao()) {
+        if (!this.conecta.conectar()) {
             return grupos;
         }
         String sql = "SELECT T51CDGRP as codigo,T51DSGRP as nome FROM LAPT51 where T51DSGRP like '%" + pesquisa + "%' ORDER BY T51DSGRP";
@@ -111,7 +111,7 @@ public class GrupoService {
 
     public Grupo buscarGrupo(String codigo) {
         String sql;
-        if (!this.conecta.conexao()) {
+        if (!this.conecta.conectar()) {
             return null;
         }
         sql = "SELECT T51CDGRP as codigo,T51DSGRP as nome FROM LAPT51 where T51CDGRP='" + codigo + "'";

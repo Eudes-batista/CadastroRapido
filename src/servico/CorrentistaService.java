@@ -23,7 +23,7 @@ public class CorrentistaService {
     }
 
     public void salvarMovimentacaoCorrentistaRetaguarda(Correntista correntista) throws CorrentistaException {
-        if (!this.conectaBanco.conexao()) {
+        if (!this.conectaBanco.conectar()) {
             throw new CorrentistaException("Não foi possivel se conectar com o servidor");
         }
         String sql = this.criarSqlInsercao(correntista);
@@ -40,7 +40,7 @@ public class CorrentistaService {
     }
 
     public void excluirMovimentacaoCorrentista(String dataInicial, String dataFinal, String cliente) throws CorrentistaException {
-        if (!this.conectaBanco.conexao()) {
+        if (!this.conectaBanco.conectar()) {
             throw new CorrentistaException("Não foi possivel se conectar com o servidor");
         }
         String sql = "delete from crea15 where CRCLIENT='" + cliente + "'";
@@ -60,7 +60,7 @@ public class CorrentistaService {
     }
 
     public void excluirMovimentacao(String dataLancamento, String dataProcesso, String cliente) throws CorrentistaException {
-        if (!this.conectaBanco.conexao()) {
+        if (!this.conectaBanco.conectar()) {
             throw new CorrentistaException("Não foi possivel se conectar com o servidor");
         }
         String sql = "delete from crea15 where CRCLIENT='" + cliente + "'";
@@ -78,7 +78,7 @@ public class CorrentistaService {
     }
 
     public List<Correntista> listarMovimentacaoCorrentista(CorrentistaFiltro correntistaFiltro) throws CorrentistaException {
-        if (!this.conectaBanco.conexao()) {
+        if (!this.conectaBanco.conectar()) {
             throw new CorrentistaException("Não foi possivel se conectar com o servidor");
         }
         String sql = "select CRCLIENT,CRLANCAM,CRPROCES,CRUSUARI,CRTIPMOV,CRHISTOR,COALESCE(CRDEBITO,0) as CRDEBITO,COALESCE(CRCREDIT,0) as CRCREDIT from crea15 where CRCLIENT='" + correntistaFiltro.getCliente() + "' ";

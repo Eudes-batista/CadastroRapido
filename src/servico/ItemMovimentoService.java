@@ -18,7 +18,7 @@ public class ItemMovimentoService {
     private final ConectaBanco conecta = new ConectaBanco();
 
     public boolean salvar(ItemMovimento itemMovimento) {
-        if (!conecta.conexao()) {
+        if (!conecta.conectar()) {
             return false;
         }
         try {
@@ -73,7 +73,7 @@ public class ItemMovimentoService {
     }
 
     public boolean excluirItem(ItemMovimento itemMovimento) {
-        if (!conecta.conexao()) {
+        if (!conecta.conectar()) {
             return false;
         }
         try {
@@ -95,7 +95,7 @@ public class ItemMovimentoService {
     }
 
     public boolean excluirTodosItens(List<ItemMovimento> itemMovimentos) {
-        if (!conecta.conexao()) {
+        if (!conecta.conectar()) {
             return false;
         }
         try {
@@ -120,7 +120,7 @@ public class ItemMovimentoService {
 
     public List<ItemMovimento> listarMovimento(Movimento movimento) {
         List<ItemMovimento> itemMovimentos = new ArrayList<>();
-        if (!conecta.conexao()) {
+        if (!conecta.conectar()) {
             return itemMovimentos;
         }
         String sql = "select \n"

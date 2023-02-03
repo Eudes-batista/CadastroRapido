@@ -87,7 +87,7 @@ public class RelatorioVendedor {
                 + "where \n"
                 + "  OSLIQUID >= '" + this.dataInicial + " 00:00:00' and OSLIQUID <= '" + this.dataFinal + " 23:59:59' and OSVENDED like '%" + this.vendedor + "%'\n"
                 + "group by OSVENDED";
-        if (!this.conectaBanco.conexao()) {
+        if (!this.conectaBanco.conectar()) {
             return;
         }
         if (!this.conectaBanco.executaSQL(sql)) {

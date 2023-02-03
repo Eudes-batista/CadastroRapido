@@ -17,7 +17,7 @@ public class ClienteService {
 
     public List<Cliente> listarClientes(String pesquisa) {
         List<Cliente> clientes = new ArrayList<>();
-        if (!this.conectaBanco.conexao()) {
+        if (!this.conectaBanco.conectar()) {
             return clientes;
         }
         String sql = "select \n"
@@ -55,7 +55,7 @@ public class ClienteService {
 
     public Cliente buscarCliente(String pesquisa) {
         Cliente cliente = null;
-        if (!this.conectaBanco.conexao()) {
+        if (!this.conectaBanco.conectar()) {
             return cliente;
         }
         String sql = "select \n"
@@ -94,7 +94,7 @@ public class ClienteService {
         clientesCorrentistaDTO.setTotalCredito(0.0);
         clientesCorrentistaDTO.setTotalDebito(0.0);
         clientesCorrentistaDTO.setValorReceber(0.0);
-        if (!this.conectaBanco.conexao()) {
+        if (!this.conectaBanco.conectar()) {
             return clientesCorrentistaDTO;
         }
         String sql = "select \n"

@@ -45,7 +45,7 @@ public class RelatorioProduto {
         sql += "group by\n"
                 + " PRREFERE,PRCODBAR,PRDESCRI,EEPBRTB1,EET2PVD1,PRQTDATA"
                 + " order by PRDESCRI";
-        if (!this.conectaBanco.conexao()) {
+        if (!this.conectaBanco.conectar()) {
             return;
         }
         if (!this.conectaBanco.executaSQL(sql)) {
@@ -100,7 +100,7 @@ public class RelatorioProduto {
                 + "  unidade\n"
                 + "order by \n"
                 + "  total_vendido desc";
-        if (!this.conectaBanco.conexao()) {
+        if (!this.conectaBanco.conectar()) {
             return;
         }
         if (!this.conectaBanco.executaSQL(sql)) {
@@ -189,7 +189,7 @@ public class RelatorioProduto {
         if (!filtroProduto.getMovimentacao().isEmpty()) {
             sql += " AND MITIPMOV like '%" + filtroProduto.getMovimentacao() + "%'";
         }
-        if (!this.conectaBanco.conexao()) {
+        if (!this.conectaBanco.conectar()) {
             return;
         }
         if (!this.conectaBanco.executaSQL(sql)) {

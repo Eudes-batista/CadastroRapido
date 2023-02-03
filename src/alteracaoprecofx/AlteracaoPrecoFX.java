@@ -50,7 +50,7 @@ public class AlteracaoPrecoFX extends Application {
             String caminho = conteudos.get(1);
             ConectaBanco conectaBanco = new ConectaBanco();
             conectaBanco.setHost(host).setCaminho(caminho);
-            conectou = conectaBanco.conexao();
+            conectou = conectaBanco.conectar();
             conectaBanco.desconecta();
         } catch (IOException ex) {
             conectou = false;

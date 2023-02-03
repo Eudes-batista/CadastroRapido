@@ -14,7 +14,7 @@ public class PesquisaService {
     private final ObservableList<Produto> produtos = FXCollections.observableArrayList();
 
     public ObservableList<Produto> listarProdutos(String pesquisa) {
-        if (!this.conectaBanco.conexao()) {
+        if (!this.conectaBanco.conectar()) {
             return this.produtos;
         }
         if (!this.conectaBanco.executaSQL(this.montarSql(this.chekcCancelados, pesquisa))) {

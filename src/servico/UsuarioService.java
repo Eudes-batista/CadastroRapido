@@ -14,7 +14,7 @@ public class UsuarioService {
     }
 
     public Usuario buscarUsuario(String nomeDeUsuario, String senha) throws UsuarioException {
-        if (!this.conectaBanco.conexao()) {
+        if (!this.conectaBanco.conectar()) {
             throw new UsuarioException("Não foi possivel se conectar com o banco de dados");
         }
         String sql = "select L2NOMEUS,L2SENHAU,L2GERENT from lapa02 where L2NOMEUS='" + nomeDeUsuario + "' and L2SENHAU='" + senha + "'";

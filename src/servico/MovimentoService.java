@@ -19,7 +19,7 @@ public class MovimentoService {
     private final ConectaBanco conecta = new ConectaBanco();
 
     public boolean salvar(Movimento movimento) {
-        if (!conecta.conexao()) {
+        if (!conecta.conectar()) {
             return false;
         }
         try {
@@ -45,7 +45,7 @@ public class MovimentoService {
 
     public List<String> listarEmpresas() {
         List<String> empresas = new ArrayList<>();
-        if (!conecta.conexao()) {
+        if (!conecta.conectar()) {
             return empresas;
         }
         String sql = "SELECT LDCODEMP FROM LAPA13 WHERE LDUSUARI LIKE '%SUPORTE%'";
@@ -70,7 +70,7 @@ public class MovimentoService {
 
     public List<TipoMovimento> listarTipos() {
         List<TipoMovimento> tipoMovimentos = new ArrayList<>();
-        if (!conecta.conexao()) {
+        if (!conecta.conectar()) {
             return tipoMovimentos;
         }
         String sql = "select T62TPMOV,T62DESCR from LAPT62 where T62TPMOV in('ENAQ','SNAQ','ENTP','ENDP') order by T62TPMOV";
@@ -95,7 +95,7 @@ public class MovimentoService {
 
     public List<TipoMovimento> listarTodosTipos() {
         List<TipoMovimento> tipoMovimentos = new ArrayList<>();
-        if (!conecta.conexao()) {
+        if (!conecta.conectar()) {
             return tipoMovimentos;
         }
         String sql = "select T62TPMOV,T62DESCR from LAPT62 order by T62TPMOV";
@@ -120,7 +120,7 @@ public class MovimentoService {
 
     public List<Movimento> listarMovimentos(String data, String documento) {
         Set<MovimentoDTO> movimentos = new HashSet<>();
-        if (!conecta.conexao()) {
+        if (!conecta.conectar()) {
             return movimentos.stream().collect(Collectors.toList());
         }
         String sql = "select MCCODEMP as empresa,MCTIPMOV as tipo,MCNUMERO as documento,MCDATMOV as data,MCHISTOR as observacao from SCEA02 where MCNUMERO like '%" + documento + "%' and MCDATMOV BETWEEN '" + data + " 00:00:00' and '" + data + " 23:59:59' group by MCCODEMP,MCTIPMOV,MCNUMERO,MCDATMOV,MCHISTOR order by MCNUMERO";
@@ -150,7 +150,7 @@ public class MovimentoService {
     }
 
     public void excluirMovimento(Movimento movimento) {
-        if (!conecta.conexao()) {
+        if (!conecta.conectar()) {
             return;
         }
         try {
@@ -169,7 +169,7 @@ public class MovimentoService {
     }
 
     public Movimento verificarMovimento(Movimento movimento) {
-        if (!conecta.conexao()) {
+        if (!conecta.conectar()) {
             return null;
         }
         String sql = "select MCCODEMP,MCTIPMOV,MCNUMERO,MCDATMOV,MCHISTOR,MCIDENTI,MCDATALT from SCEA02 where MCCODEMP='" + movimento.getEmpresa() + "' and MCTIPMOV='" + movimento.getTipo() + "' and MCNUMERO='" + movimento.getDocumento() + "' ";

@@ -16,7 +16,7 @@ public class FormaPagamentoService {
 
     public List<String> listarFormasPagamento() {
         List<String> formasPagamento = new ArrayList<>();
-        if (!this.conectaBanco.conexao()) {
+        if (!this.conectaBanco.conectar()) {
             return formasPagamento;
         }
         String sql = "select CDTIPCAR from sosa09 group by CDTIPCAR ";

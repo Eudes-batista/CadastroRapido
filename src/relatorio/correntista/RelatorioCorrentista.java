@@ -30,7 +30,7 @@ public class RelatorioCorrentista {
         if (!correntistaFiltro.getDataInicial().isEmpty()) {
             sql += "and CRLANCAM between '" + correntistaFiltro.getDataInicial() + "' and '" + correntistaFiltro.getDataFinal() + "'";
         }
-        if (!this.conectaBanco.conexao()) {
+        if (!this.conectaBanco.conectar()) {
             return;
         }
         if (!this.conectaBanco.executaSQL(sql)) {

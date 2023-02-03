@@ -27,7 +27,7 @@ public class ConectaBanco {
         this.BuscarCaminho();
     }
 
-    public boolean conexao() {
+    public boolean conectar() {
         String path = "jdbc:firebirdsql://" + this.host + ":3050/" + this.caminho;
         try {
             Class.forName(driver);

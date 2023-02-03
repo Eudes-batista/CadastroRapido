@@ -16,7 +16,7 @@ public class ManutencaoNcmService {
     }
 
     public void atualizarNcm(String ncmExpirado, String ncmNovo) throws SQLException {
-        if (!this.conectaBanco.conexao()) {
+        if (!this.conectaBanco.conectar()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setContentText("Não foi possivel se conectar com o banco de dados.");
